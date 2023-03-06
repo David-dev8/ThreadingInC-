@@ -127,6 +127,7 @@
     <Compile Include="DataAccess\Database\DatabaseEcosystemReader.cs" />
     <Compile Include="DataAccess\Database\DatabaseSimulationReader.cs" />
     <Compile Include="DataAccess\Database\DatabaseSimulationWriter.cs" />
+    <Compile Include="DataAccess\Database\TestDatabase.cs" />
     <Compile Include="DataAccess\IEcosystemReader.cs" />
     <Compile Include="DataAccess\ISimulationReader.cs" />
     <Compile Include="DataAccess\ISimulationWriter.cs" />
@@ -234,9 +235,15 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite">
+      <Version>7.0.3</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.14</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="lifethreadeningdata.db" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
