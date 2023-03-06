@@ -119,10 +119,71 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\Algorithmic\RandomWeatherManager.cs" />
+    <Compile Include="DataAccess\Database\DatabaseCustomSpeciesReader.cs" />
+    <Compile Include="DataAccess\Database\DatabaseCustomSpeciesWriter.cs" />
+    <Compile Include="DataAccess\Database\DatabaseEcosystemReader.cs" />
+    <Compile Include="DataAccess\Database\DatabaseSimulationReader.cs" />
+    <Compile Include="DataAccess\Database\DatabaseSimulationWriter.cs" />
+    <Compile Include="DataAccess\IEcosystemReader.cs" />
+    <Compile Include="DataAccess\ISimulationReader.cs" />
+    <Compile Include="DataAccess\ISimulationWriter.cs" />
+    <Compile Include="DataAccess\IWeatherManager.cs" />
+    <Compile Include="DataAccess\JSON\JSONWorldStateReader.cs" />
+    <Compile Include="DataAccess\JSON\JSONWorldStateWriter.cs" />
+    <Compile Include="DataAccess\ICustomSpeciesReader.cs" />
+    <Compile Include="DataAccess\ICustomSpeciesWriter.cs" />
+    <Compile Include="DataAccess\IWorldStateReader.cs" />
+    <Compile Include="DataAccess\IWorldStateWriter.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Animal.cs" />
+    <Compile Include="Models\Behaviour\Behaviour.cs" />
+    <Compile Include="Models\BreedFactory.cs" />
+    <Compile Include="Models\Diet.cs" />
+    <Compile Include="Models\Ecosystem.cs" />
+    <Compile Include="Models\DatabaseSimulationElementFactory.cs" />
+    <Compile Include="Models\Incentive.cs" />
+    <Compile Include="Models\ISimulationElementFactory.cs" />
+    <Compile Include="Models\Mutation.cs" />
+    <Compile Include="Models\MutationManager.cs" />
+    <Compile Include="Models\MutationType.cs" />
+    <Compile Include="Models\Obstruction.cs" />
+    <Compile Include="Models\Sex.cs" />
+    <Compile Include="Models\SimulationElement.cs" />
+    <Compile Include="Models\GridWorld.cs" />
+    <Compile Include="Models\Location.cs" />
+    <Compile Include="Models\MutationAnalyzer.cs" />
+    <Compile Include="Models\PopulationAnalyzer.cs" />
+    <Compile Include="Models\Simulation.cs" />
+    <Compile Include="Models\Species.cs" />
+    <Compile Include="Models\StatisticInfo.cs" />
+    <Compile Include="Models\Statistics.cs" />
+    <Compile Include="Models\Vegetation.cs" />
+    <Compile Include="Models\Weather.cs" />
+    <Compile Include="Models\World.cs" />
+    <Compile Include="ViewModels\SimulationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CustomSpeciesViewModel.cs" />
+    <Compile Include="ViewModels\EcosystemSelectViewModel.cs" />
+    <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="ViewModels\SimulationDataViewModel.cs" />
+    <Compile Include="Views\CustomSpeciesView.xaml.cs">
+      <DependentUpon>CustomSpeciesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EcosystemSelectView.xaml.cs">
+      <DependentUpon>EcosystemSelectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HomeView.xaml.cs">
+      <DependentUpon>HomeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SimulationDataView.xaml.cs">
+      <DependentUpon>SimulationDataView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SimulationView.xaml.cs">
+      <DependentUpon>SimulationView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -148,12 +209,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\CustomSpeciesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EcosystemSelectView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HomeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SimulationDataView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SimulationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.14</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
