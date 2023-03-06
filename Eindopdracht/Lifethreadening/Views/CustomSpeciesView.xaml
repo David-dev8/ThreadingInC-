@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="Lifethreadening.Views.CustomAnimalsView"
+    x:Class="Lifethreadening.Views.CustomSpeciesView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Lifethreadening.Views"
