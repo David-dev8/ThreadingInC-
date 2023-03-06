@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
-    public class SimulationElement
+    public abstract class SimulationElement
     {
+        public Location Location { get; set; }
+
+        public SimulationElement(Location location) 
+        { 
+            this.Location = location;
+        }
+
+        public abstract bool live();
     }
 }

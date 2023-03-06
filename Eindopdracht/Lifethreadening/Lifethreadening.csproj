@@ -141,7 +141,8 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Animal.cs" />
-    <Compile Include="Models\Behaviour\Behaviour.cs" />
+    <Compile Include="Models\Behaviours\Behaviour.cs" />
+    <Compile Include="Models\Behaviours\CompositeBehaviour.cs" />
     <Compile Include="Models\BreedFactory.cs" />
     <Compile Include="Models\Diet.cs" />
     <Compile Include="Models\Ecosystem.cs" />

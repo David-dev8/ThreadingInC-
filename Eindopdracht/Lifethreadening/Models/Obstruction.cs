@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
-    public class Obstruction: SimulationElement
+    public class Obstruction : SimulationElement
     {
+        public Obstruction(Location location) : base(location)
+        {
+        }
+
+        public override bool live()
+        {
+            return true;
+        }
     }
 }
