@@ -5,10 +5,29 @@
     xmlns:local="using:Lifethreadening.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"    
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <DataTemplate x:Key="ImageTemplate">
+            <Image Source="{Binding}" Stretch="UniformToFill" Width="200" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </DataTemplate>
+    </Page.Resources>
     <Grid>
-
+        <TextBlock Text="{Binding test}"></TextBlock>
+        <controls:Carousel 
+            InvertPositive="True" ItemDepth="300"
+            ItemMargin="0" ItemRotationX="0"
+            ItemRotationY="45" ItemRotationZ="0"
+            Orientation="Horizontal" 
+            ItemsSource="{Binding Images}"
+            SelectedItem="{Binding SelectedImage}"
+            ItemTemplate="{StaticResource ImageTemplate}"
+            Margin="316,293,383,292">
+            <controls:Carousel.EasingFunction>
+                <CubicEase EasingMode="EaseOut" />
+            </controls:Carousel.EasingFunction>
+        </controls:Carousel>
     </Grid>
 </Page>
