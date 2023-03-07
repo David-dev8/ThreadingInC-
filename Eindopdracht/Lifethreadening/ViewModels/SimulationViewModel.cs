@@ -11,6 +11,14 @@ namespace Lifethreadening.ViewModels
     public class SimulationViewModel : BaseViewModel
     {
         public Simulation Simulation { get; set; }
+        public Animal SelectedAnimal { get; set; }
+        public bool HasSelectedAnimal
+        {
+            get
+            {
+                return SelectedAnimal != null;
+            }
+        }
 
         public SimulationViewModel(NavigationService navigationService, Simulation simulation) : base(navigationService)
         {

@@ -4,25 +4,198 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Lifethreadening.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:fa="using:FontAwesome.UWP"
+    xmlns:customcontrols="using:Lifethreadening.Views.CustomControls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
-        <ResourceDictionary Source="../ResourceDictionaries/MainResources.xaml" />
+        <ResourceDictionary Source="../ResourceDictionaries/SimulationViewResources.xaml" />
     </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition />
             <ColumnDefinition Width="320" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="1" Background="{StaticResource PrimaryBackgroundBrush}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="4*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="3*" />
+                <RowDefinition Height="14*" />
+                <RowDefinition Height="6*" />
+                <RowDefinition Height="10*" />
             </Grid.RowDefinitions>
-            <StackPanel>
+            <StackPanel Grid.Row="0">
+                <StackPanel Style="{StaticResource SectionHeading}" Spacing="10">
+                    <fa:FontAwesome Icon="InfoCircle" Foreground="{StaticResource SecondaryBrush}" />
+                    <TextBlock Foreground="{StaticResource SecondaryBrush}" VerticalAlignment="Center" Style="{StaticResource SectionTitle}">Currently looking at</TextBlock>
+                </StackPanel>
                 
+                <StackPanel Padding="20,20">
+                    <Grid Visibility="{Binding HasSelectedAnimal, Converter={StaticResource InverseVisibilityConverter}}">
+                        <TextBlock TextWrapping="WrapWholeWords">
+                            No animal selected.
+                            <LineBreak />
+                            Select an animal within the simulation to view its details.
+                        </TextBlock>
+                    </Grid>
+                    <StackPanel Visibility="{Binding HasSelectedAnimal, Converter={StaticResource VisibilityConverter}}">
+                        <StackPanel Margin="0,0,0,5">
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Style="{StaticResource Title}">Fox Harold</TextBlock>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="5">
+                                    <TextBlock>Age: 13 years</TextBlock>
+                                    <fa:FontAwesome Icon="Mars" Foreground="#0071B0" />
+                                </StackPanel>
+                            </Grid>
+                            <Grid Margin="0,0,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0">HP</TextBlock>
+                                <ProgressBar Grid.Column="1" Foreground="#D64040" Value="50" />
+                            </Grid>
+                            <Grid Margin="0,0,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0">Energy</TextBlock>
+                                <ProgressBar Grid.Column="1" Foreground="#CFB428" Value="50" />
+                            </Grid>
+                            <Grid Margin="0,0,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" VerticalAlignment="Center">Genetics</TextBlock>
+                                <customcontrols:IconButton Grid.Column="1" Icon="Search" Text="Inspect" />
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource Subtitle}" Margin="0,0,0,10">Species</TextBlock>
+                            <Grid Margin="0,0,0,10" ColumnSpacing="6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Image Source="/Assets/fox.png" />
+                                <TextBlock Grid.Column="1" Width="Auto" TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" MaxLines="2" ToolTipService.ToolTip="No way" Text="Foxes, or reynards are well known for what actually?">
+                                </TextBlock>
+                            </Grid>
+                            <StackPanel>
+                                <Grid Margin="0,0,0,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0">Scientific name</TextBlock>
+                                    <TextBlock Grid.Column="1">Vulpes vulpes</TextBlock>
+                                </Grid>
+                                <Grid Margin="0,0,0,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0">Age (avg/max)</TextBlock>
+                                    <TextBlock Grid.Column="1">12 years/20 years</TextBlock>
+                                </Grid>
+                                <Grid Margin="0,0,0,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0">Breed size</TextBlock>
+                                    <TextBlock Grid.Column="1">8-12 children</TextBlock>
+                                </Grid>
+                                <Grid Margin="0,0,0,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0">Diet type</TextBlock>
+                                    <TextBlock Grid.Column="1">Omnivore</TextBlock>
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="1">
+                <StackPanel Style="{StaticResource SectionHeading}" Spacing="10">
+                    <fa:FontAwesome Icon="Cloud" Foreground="White" />
+                    <TextBlock Foreground="White" VerticalAlignment="Center" FontWeight="Bold" FontSize="16">Weather conditions</TextBlock>
+                </StackPanel>
+                <Grid Padding="20" RowSpacing="20" DataContext="{Binding Simulation.World.Weather}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Spacing="10">
+                        <Image Source="/Assets/sun.png" Width="30" VerticalAlignment="Center" />
+                        <TextBlock VerticalAlignment="Center" Text="{Binding Humidity, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0} °C'}" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Spacing="10">
+                        <Image Source="/Assets/wind.png" Width="30" VerticalAlignment="Center" />
+                        <TextBlock VerticalAlignment="Center" Text="{Binding WindSpeed, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0} km/h'}" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Spacing="10">
+                        <Image Source="/Assets/water.png" Width="30" VerticalAlignment="Center" />
+                        <TextBlock VerticalAlignment="Center" Text="{Binding RainFall, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0} mm/h'}" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+            <StackPanel Grid.Row="2">
+                <StackPanel Style="{StaticResource SectionHeading}" Spacing="10">
+                    <fa:FontAwesome Icon="PlayCircle" Foreground="White" />
+                    <TextBlock Foreground="White" VerticalAlignment="Center" FontWeight="Bold" FontSize="16">Simulation</TextBlock>
+                </StackPanel>
+                <StackPanel Padding="20">
+                    <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
+                        <Image Source="/Assets/calendar.png" Width="30" VerticalAlignment="Center" />
+                        <TextBlock VerticalAlignment="Center" Text="{Binding Simulation.World.Date, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:MMMM, d (yyyy)}'}" />
+                    </StackPanel>
+                    <StackPanel Margin="0,0,0,5">
+                        <Grid Margin="0,0,0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0">Simulation speed</TextBlock>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="{Binding Simulation.SimulationSpeed, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:dd} days/step'}" />
+                                <Slider Minimum="1" Maximum="14" Value="{Binding Simulation.SimulationSpeed, Converter={StaticResource TimeSpanToAmountOfDaysConverter}, Mode=TwoWay}" />
+                            </StackPanel>
+                        </Grid>
+                        <Grid Margin="0,0,0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0">Score</TextBlock>
+                            <TextBlock Grid.Column="1" Text="{Binding Simulation.Score}" />
+                        </Grid>
+                        <Grid Margin="0,0,0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0">Ecosystem</TextBlock>
+                            <TextBlock Grid.Column="1" Text="{Binding Simulation.World.Ecosystem.Name}" />
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel Margin="0,0,0,5" Orientation="Horizontal" Spacing="10">
+                        <customcontrols:IconButton Grid.Column="1" Icon="Pause" Text="Pause" />
+                        <customcontrols:IconButton Grid.Column="1" Icon="SignOut" Text="Quit" />
+                    </StackPanel>
+                </StackPanel>
             </StackPanel>
         </Grid>
     </Grid>

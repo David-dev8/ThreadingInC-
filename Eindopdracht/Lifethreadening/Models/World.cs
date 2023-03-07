@@ -13,6 +13,13 @@ namespace Lifethreadening.Models
 
         public DateTime Date { get; set; } = DateTime.Now.Date;
         public Ecosystem Ecosystem { get; set; }
+        public Weather Weather
+        {
+            get
+            {
+                return _weatherManager.GetCurrent();
+            }
+        }
 
         public IEnumerable<SimulationElement> SimulationElements
         {

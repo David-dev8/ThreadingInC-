@@ -1,16 +1,34 @@
-﻿using System;
+﻿using Lifethreadening.Base;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
-    public class Simulation
+    public class Simulation: Observable
     {
+        private TimeSpan _simulationSpeed = new TimeSpan(1, 0, 0, 0);
+
         public string Name { get; set; }
         public int Score { get; set; }
         public World World { get; set; }
+        public TimeSpan SimulationSpeed
+        {
+            get
+            {
+                return _simulationSpeed;
+            }
+            set
+            {
+                _simulationSpeed = value;
+                SetTimer();
+                NotifyPropertyChanged();
+            }
+        }
+
 
         public Simulation(string name, World world) 
         { 
@@ -18,11 +36,11 @@ namespace Lifethreadening.Models
             World = world;
         }
 
-        public void step()
+        public void Step()
         {
         }
 
-        private bool isGameOver()
+        private bool IsGameOver()
         {
             return GetAnimals().Any();
         }
@@ -30,6 +48,11 @@ namespace Lifethreadening.Models
         private IEnumerable<Animal> GetAnimals()
         {
             return Enumerable.Empty<Animal>();
+        }
+
+        private void SetTimer()
+        {
+            
         }
     }
 }
