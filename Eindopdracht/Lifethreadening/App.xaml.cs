@@ -1,5 +1,7 @@
 ﻿using Lifethreadening.Base;
+using Lifethreadening.DataAccess;
 using Lifethreadening.DataAccess.Database;
+using Lifethreadening.Models;
 using Lifethreadening.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -33,8 +35,6 @@ namespace Lifethreadening
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-
-            new TestDatabase().InitializeDatabase();
         }
 
         /// <summary>

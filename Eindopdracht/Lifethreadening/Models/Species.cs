@@ -8,5 +8,7 @@ namespace Lifethreadening.Models
 {
     public class Species
     {
+        public string Name { get; set; }
+        public string Image { get; set; }
     }
 }
