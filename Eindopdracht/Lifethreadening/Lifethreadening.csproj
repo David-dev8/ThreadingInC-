@@ -124,11 +124,13 @@
     <Compile Include="Converters\ConverterGroup.cs" />
     <Compile Include="Converters\TimeSpanToAmountOfDaysConverter.cs" />
     <Compile Include="DataAccess\Algorithmic\RandomWeatherManager.cs" />
+    <Compile Include="DataAccess\Database\DatabaseConnectionManager.cs" />
     <Compile Include="DataAccess\Database\DatabaseCustomSpeciesReader.cs" />
     <Compile Include="DataAccess\Database\DatabaseCustomSpeciesWriter.cs" />
     <Compile Include="DataAccess\Database\DatabaseEcosystemReader.cs" />
     <Compile Include="DataAccess\Database\DatabaseSimulationReader.cs" />
     <Compile Include="DataAccess\Database\DatabaseSimulationWriter.cs" />
+    <Compile Include="DataAccess\Database\DatabaseHelper.cs" />
     <Compile Include="DataAccess\IEcosystemReader.cs" />
     <Compile Include="DataAccess\ISimulationReader.cs" />
     <Compile Include="DataAccess\ISimulationWriter.cs" />
@@ -259,6 +261,9 @@
   <ItemGroup>
     <PackageReference Include="FontAwesome.WPF">
       <Version>4.7.0.9</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Data.Sqlite">
+      <Version>7.0.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.14</Version>

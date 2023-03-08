@@ -1,5 +1,7 @@
 ﻿using Lifethreadening.Base;
 using Lifethreadening.DataAccess.Algorithmic;
+using Lifethreadening.DataAccess;
+using Lifethreadening.DataAccess.Database;
 using Lifethreadening.Models;
 using Lifethreadening.ViewModels;
 using System;
