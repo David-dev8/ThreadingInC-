@@ -84,12 +84,10 @@ namespace Lifethreadening.DataAccess.Database
                     command.Parameters.AddRange(commandParameters.ToArray());
                     using (var reader = command.ExecuteReader())
                     {
-                        // TODO Linq werkt niet
                         while (reader.Read())
                         {
                             collection.Add(objectBuilder(reader));
                         }
-                        //reader.Select(entity => objectBuilder(entity)).ToList();
                     }
                 }
             }
@@ -110,12 +108,10 @@ namespace Lifethreadening.DataAccess.Database
                     command.Parameters.AddRange(commandParameters.ToArray());
                     using (var reader = await command.ExecuteReaderAsync())
                     {
-                        // TODO Linq werkt niet
                         while (reader.Read())
                         {
                             collection.Add(objectBuilder(reader));
                         }
-                        //reader.Select(entity => objectBuilder(entity)).ToList();
                     }
                 }
             }
