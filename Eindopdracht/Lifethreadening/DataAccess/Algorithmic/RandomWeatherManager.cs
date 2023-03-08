@@ -1,4 +1,5 @@
-﻿using Lifethreadening.Models;
+﻿using Lifethreadening.ExtensionMethods;
+using Lifethreadening.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,6 @@ namespace Lifethreadening.DataAccess.Algorithmic
         private const double WIND_SPEED_DEVIATION_RANGE = 1;
         private const double RAIN_FALL_DEVIATION_RANGE = 1;
 
-        private Random random = new Random();
         private IList<Weather> _weatherHistory = new List<Weather>()
         {
             new Weather(HUMIDITY_INITIAL, WIND_SPEED_INITIAL, RAIN_FALL_INITIAL)
@@ -37,6 +37,7 @@ namespace Lifethreadening.DataAccess.Algorithmic
         {
             Weather current = GetCurrent();
             return new Weather(
+                current.Humidity.Deviate()
                 Deviate(current.Humidity, HUMIDITY_DEVIATION_RANGE),
                 Deviate(current.WindSpeed, WIND_SPEED_DEVIATION_RANGE),
                 Deviate(current.RainFall, RAIN_FALL_DEVIATION_RANGE)
@@ -45,7 +46,7 @@ namespace Lifethreadening.DataAccess.Algorithmic
 
         private double Deviate(double start, double deviationRange)
         {
-            return start + (random.NextDouble() - 0.5) * deviationRange;
+            
         }
     }
 }

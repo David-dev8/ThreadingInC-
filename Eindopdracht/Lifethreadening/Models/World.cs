@@ -11,7 +11,6 @@ namespace Lifethreadening.Models
     public abstract class World: Observable
     {
         private readonly IWeatherManager _weatherManager;
-
         private DateTime _date;
 
         public DateTime Date
@@ -69,7 +68,11 @@ namespace Lifethreadening.Models
         {
             foreach(SimulationElement simulationElement in SimulationElements)
             {
-                simulationElement.live();
+                simulationElement.Plan(CreateContext());
+            }
+            foreach(SimulationElement simulationElement in SimulationElements)
+            {
+                simulationElement.Act();
             }
             Date = Date.Add(StepSize);
         }
@@ -77,5 +80,10 @@ namespace Lifethreadening.Models
         public abstract void createWorld();
 
         public abstract IEnumerable<Location> GetLocations();
+
+        private WorldContext CreateContext()
+        {
+            return new WorldContext(Weather, Date);
+        }
     }
 }

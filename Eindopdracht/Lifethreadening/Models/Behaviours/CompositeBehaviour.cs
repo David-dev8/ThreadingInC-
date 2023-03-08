@@ -25,16 +25,6 @@ namespace Lifethreadening.Models.Behaviours
             return GetMostAppealing(incentives);
         }
 
-        public override Incentive act()
-        {
-            IList<Incentive> incentives = new List<Incentive>();
-            foreach(Behaviour behaviour in Behaviours)
-            {
-                incentives.Add(behaviour.act());
-            }
-            return GetMostAppealing(incentives);
-        }
-
         private Incentive GetMostAppealing(IEnumerable<Incentive> incentives)
         {
             if(!incentives.Any())

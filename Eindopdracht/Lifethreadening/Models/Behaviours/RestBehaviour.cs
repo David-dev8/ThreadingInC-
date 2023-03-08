@@ -12,11 +12,6 @@ namespace Lifethreadening.Models.Behaviours
         {
         }
 
-        public override Incentive act()
-        {
-            throw new NotImplementedException();
-        }
-
         public override Incentive guide()
         {
             throw new NotImplementedException();

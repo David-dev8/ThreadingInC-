@@ -141,6 +141,7 @@
     <Compile Include="DataAccess\ICustomSpeciesWriter.cs" />
     <Compile Include="DataAccess\IWorldStateReader.cs" />
     <Compile Include="DataAccess\IWorldStateWriter.cs" />
+    <Compile Include="ExtensionMethods\Numbers.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -171,6 +172,7 @@
     <Compile Include="Models\Vegetation.cs" />
     <Compile Include="Models\Weather.cs" />
     <Compile Include="Models\World.cs" />
+    <Compile Include="Models\WorldContext.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\SimulationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
