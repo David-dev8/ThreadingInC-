@@ -147,6 +147,7 @@
     <Compile Include="Models\Animal.cs" />
     <Compile Include="Models\Behaviours\Behaviour.cs" />
     <Compile Include="Models\Behaviours\CompositeBehaviour.cs" />
+    <Compile Include="Models\Behaviours\RestBehaviour.cs" />
     <Compile Include="Models\BreedFactory.cs" />
     <Compile Include="Models\Diet.cs" />
     <Compile Include="Models\Ecosystem.cs" />
@@ -180,6 +181,9 @@
     <Compile Include="Views\CustomControls\IconButton.xaml.cs">
       <DependentUpon>IconButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CustomControls\WorldView.xaml.cs">
+      <DependentUpon>WorldView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CustomSpeciesView.xaml.cs">
       <DependentUpon>CustomSpeciesView.xaml</DependentUpon>
     </Compile>
@@ -207,6 +211,7 @@
     <Content Include="Assets\sun.png" />
     <Content Include="Assets\water.png" />
     <Content Include="Assets\wind.png" />
+    <Content Include="Assets\worldBackground.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -234,6 +239,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CustomControls\IconButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CustomControls\WorldView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

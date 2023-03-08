@@ -50,13 +50,12 @@ namespace Lifethreadening.Models
         public Behaviour Behaviour { get; set; }
         public IList<Mutation> Mutations { get; set; } = new List<Mutation>();
 
-        public Animal(Location location, Sex sex, Species species, Behaviour behaviour) : base(location)
+        public Animal(Location location, Sex sex, Species species) : base(location)
         {
             Hp = MAX_HP;
             Energy = MAX_ENERGY;
             Sex = sex;
             Species = species;
-            Behaviour = behaviour;
         }
 
         private void move()

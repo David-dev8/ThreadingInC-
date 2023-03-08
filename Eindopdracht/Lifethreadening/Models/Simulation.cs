@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Windows.UI.Composition;
 
 namespace Lifethreadening.Models
 {
     public class Simulation: Observable
     {
+        private Timer _timer;
         private TimeSpan _simulationSpeed = new TimeSpan(1, 0, 0, 0);
 
         public string Name { get; set; }
@@ -34,10 +37,12 @@ namespace Lifethreadening.Models
         { 
             Name = name;
             World = world;
+            _timer = new Timer((_) => Step(), null, Timeout.Infinite, Timeout.Infinite);
         }
 
         public void Step()
         {
+            World.Step();
         }
 
         private bool IsGameOver()
@@ -53,6 +58,11 @@ namespace Lifethreadening.Models
         private void SetTimer()
         {
             
+        }
+
+        public void Start()
+        {
+            _timer.Change(1000, 10000);
         }
     }
 }
