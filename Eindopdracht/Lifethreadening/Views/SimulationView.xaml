@@ -27,231 +27,22 @@
             <StackPanel>
                 <Button x:Name="GeneInspectorOpen" Click="GeneInspectorOpen_Click">🧬 Open gene inspector 🧬</Button>
             </StackPanel>
-        </Grid>
-        
-        
-        <!--gene view popup-->
-        <Popup Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="0" Grid.Column="0" x:Name="geneticsView" LightDismissOverlayMode="On" IsLightDismissEnabled="True" >
-            <Frame Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource SecondaryBackgroundBrush}" BorderThickness="10" Width="1125" Height="500">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
-                        <ColumnDefinition Width="5*"></ColumnDefinition>
-                        <ColumnDefinition Width="3*"></ColumnDefinition>
-                        <ColumnDefinition Width="13*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="2*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="2*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="3*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    
-                    <!--Text on the left-->
-                    <TextBlock x:Name="animalName" FontSize="{StaticResource FontsizeGenetics}" FontWeight="Bold" Grid.Row="1" Grid.Column="1"> Rattlesnake </TextBlock> <!--text Needs to be bound to the animals species-->
-                    <TextBlock x:Name="animalAge" FontSize="{StaticResource FontsizeGenetics}"  Grid.Row="2" Grid.Column="1"> Age: 14 years </TextBlock> <!--text needs to be bound to animals age-->
-                    
-                    <TextBlock x:Name="animalStats" FontSize="{StaticResource FontsizeGenetics}" FontWeight="Bold" Grid.Row="4" Grid.Column="1"> Statistics </TextBlock>
-                    <TextBlock x:Name="statSpeed" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="5" Grid.Column="1"> Speed </TextBlock>
-                    <TextBlock x:Name="statWeight" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="6" Grid.Column="1"> Weight </TextBlock>
-                    <TextBlock x:Name="statSize" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="7" Grid.Column="1"> Size </TextBlock>
-                    <TextBlock x:Name="statAgression" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="8" Grid.Column="1"> Agression </TextBlock>
-                    <TextBlock x:Name="statDetectionRange" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="9" Grid.Column="1"> Detection range </TextBlock>
-                    <TextBlock x:Name="statResilience" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="10" Grid.Column="1"> Resilience </TextBlock>
-                    <TextBlock x:Name="statInteligence" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="11" Grid.Column="1"> Inteligence </TextBlock>
-                    <TextBlock x:Name="statSelfDefence" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="12" Grid.Column="1"> Self defence </TextBlock>
-                    <TextBlock x:Name="statMetabolicRate" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="13" Grid.Column="1"> Metabolic rate </TextBlock>
-                    
-                    <!--Progress bars-->
-                    <!--LET OP de waardes in de tweede ofset moeten altijd hetzelfde zijn als in de eerste anders krijg je een gradient-->
-                    <Rectangle Grid.Row="5" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
-                                <GradientStop Color="Red" Offset="0.5" x:Name="speedBarColor"></GradientStop> <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
-                                <GradientStop Color="White" Offset="0.5" x:Name="speedBarEmpty"></GradientStop>  <!--ofset needs to be bound to (stat value / statmax)-->
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="6" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
-                                <GradientStop Color="Red" Offset="0.5" x:Name="weightBarColor"></GradientStop> <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
-                                <GradientStop Color="White" Offset="0.5" x:Name="weightBarEmpty"></GradientStop> <!--ofset needs to be bound to (stat value / statmax)-->
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="7" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
-                                <GradientStop Color="Red" Offset="0.5" x:Name="sizeBarColor"></GradientStop> <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
-                                <GradientStop Color="White" Offset="0.5" x:Name="sizeBarEmpty"></GradientStop> <!--ofset needs to be bound to (stat value / statmax)-->
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="8" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
-                                <GradientStop Color="Red" Offset="0.5" x:Name="agressionBarColor"></GradientStop> <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
-                                <GradientStop Color="White" Offset="0.5" x:Name="agressionBarEmpty"></GradientStop> <!--ofset needs to be bound to (stat value / statmax)-->
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="9" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
-                                <GradientStop Color="Red" Offset="0.5" x:Name="DetectionRangeBarColor"></GradientStop> <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
-                                <GradientStop Color="White" Offset="0.5" x:Name="DetectionRangeBarEmpty"></GradientStop> <!--ofset needs to be bound to (stat value / statmax)-->
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="10" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
-                                <GradientStop Color="Red" Offset="0.5" x:Name="ResilienceBarColor"></GradientStop> <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
-                                <GradientStop Color="White" Offset="0.5" x:Name="ResilienceBarEmpty"></GradientStop> <!--ofset needs to be bound to (stat value / statmax)-->
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="11" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
-                                <GradientStop Color="Red" Offset="0.5" x:Name="InteligenceBarColor"></GradientStop> <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
-                                <GradientStop Color="White" Offset="0.5" x:Name="InteligenceBarEmpty"></GradientStop> <!--ofset needs to be bound to (stat value / statmax)-->
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="12" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
-                                <GradientStop Color="Red" Offset="0.5" x:Name="SelfDefenceBarColor"></GradientStop> <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
-                                <GradientStop Color="White" Offset="0.5" x:Name="SelfDefenceBarEmpty"></GradientStop> <!--ofset needs to be bound to (stat value / statmax)-->
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="13" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
-                                <GradientStop Color="Red" Offset="0.5" x:Name="MetabolicRateBarColor"></GradientStop> <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
-                                <GradientStop Color="White" Offset="0.5" x:Name="MetabolicRateBarEmpty"></GradientStop> <!--ofset needs to be bound to (stat value / statmax)-->
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    
-                    <!--mutationscroller-->
-                    <ListView Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="15" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemsSource="{x:Bind mutationsTester}">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate>
-                                            <ContentPresenter/>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Height="1155">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="5*"></RowDefinition>
-                                        <RowDefinition Height="5*"></RowDefinition>
-                                        <RowDefinition Height="15*"></RowDefinition>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                        <ColumnDefinition Width="12*"></ColumnDefinition>
-                                        <ColumnDefinition Width="10*"></ColumnDefinition>
-                                        <ColumnDefinition Width="5"></ColumnDefinition>
-                                        <ColumnDefinition Width="15"></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Grid Background="{StaticResource ternaryBackgroundBrush}" Grid.Column="1" Grid.Row="1" Width="320" Height="200">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*"></RowDefinition>
-                                            <RowDefinition Height="2*"></RowDefinition>
-                                            <RowDefinition Height="3*"></RowDefinition>
-                                            <RowDefinition Height="1*"></RowDefinition>
-                                            <RowDefinition Height="3*"></RowDefinition>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"></ColumnDefinition>
-                                            <ColumnDefinition Width="29*"></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        
-                                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{StaticResource FontsizeGenetics}">
-                                            <Run Text="{Binding mutationDate.Day}"></Run><!--Moet gebonden worden op current date - mutationdate-->
-                                            <Run Text=" days ago"></Run>
-                                        </TextBlock>
-                                        <TextBlock Grid.Row="2" Grid.Column="1" FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Left" Width="290">
-                                            <Run Text="{Binding type}"></Run>
-                                            <Run Text="In gene HTTC, allel"></Run>
-                                            <Run Text="{Binding allel}"></Run>
-                                            <Run Text=", A > C, protein"></Run>
-                                            <Run Text="{Binding proteinBefore}"></Run>
-                                            <Run Text="transformed into"></Run>
-                                            <Run Text="{Binding proteinAfter}"></Run>
-                                        </TextBlock>
-                                        <TextBlock Grid.Row="3" Grid.Column="1" FontSize="14">
-                                            <Run Text="Resulted in change of:"></Run>
-                                        </TextBlock>
-                                        <ItemsControl Grid.Row="4" Grid.Column="1" ItemsSource="{Binding affected}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock FontSize="14">
-                                                        <Run Text="    • "></Run>
-                                                        <Run Text="{Binding Key}"></Run>
-                                                        <Run Text="("></Run>
-                                                        <Run Text="{Binding Value.value, Converter={StaticResource intFormat}, ConverterParameter='+0;-#' }"></Run>
-                                                        <Run Text=")"></Run>
-                                                    </TextBlock>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </Grid>
-                                    <Image Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="-10" Width="400" Source="../Assets/DNA.png"/>
-                                    <Image Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="-10, -780, 0, 0" Width="400" Source="../Assets/DNA.png"/>
-                                    <Image Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="-10, 760, 0, 0"  Width="400" Source="../Assets/DNA.png"/>
-                                    <Line Grid.Column="2" Grid.Row="1" X1="-1" Y1="100" X2="100" Y2="100" Stroke="Black" StrokeThickness="5"></Line>
-                                    <Line Grid.Column="2" Grid.Row="1" X1="100" Y1="100" X2="175" Y2="-5" Stroke="Black" StrokeThickness="5"></Line>
-                                    
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Grid>
-            </Frame>
-        </Popup>
-        
             <StackPanel Grid.Row="0">
                 <StackPanel Style="{StaticResource SectionHeading}" Spacing="10">
                     <fa:FontAwesome Icon="InfoCircle" Foreground="{StaticResource SecondaryBrush}" />
                     <TextBlock Foreground="{StaticResource SecondaryBrush}" VerticalAlignment="Center" Style="{StaticResource SectionTitle}">Currently looking at</TextBlock>
                 </StackPanel>
-                
+
                 <StackPanel Padding="20,20">
                     <Grid Visibility="{Binding HasSelectedAnimal, Converter={StaticResource InverseVisibilityConverter}}">
                         <TextBlock TextWrapping="WrapWholeWords">
-                            No animal selected.
-                            <LineBreak />
-                            Select an animal within the simulation to view its details.
+                                No animal selected.
+                                <LineBreak />
+                                Select an animal within the simulation to view its details.
                         </TextBlock>
                     </Grid>
-                    <StackPanel Visibility="{Binding HasSelectedAnimal, Converter={StaticResource VisibilityConverter}}">
+                    <StackPanel>
+                        <!--Visibility="{Binding HasSelectedAnimal, Converter={StaticResource VisibilityConverter}}">-->
                         <StackPanel Margin="0,0,0,5">
                             <Grid Margin="0,0,0,10">
                                 <Grid.ColumnDefinitions>
@@ -412,5 +203,235 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
+
+
+        <!--gene view popup-->
+        <Popup Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="0" Grid.Column="0" x:Name="geneticsView" LightDismissOverlayMode="On" IsLightDismissEnabled="True" >
+            <Frame Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource SecondaryBackgroundBrush}" BorderThickness="10" Width="1125" Height="500">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="5*"></ColumnDefinition>
+                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                        <ColumnDefinition Width="13*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="3*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <!--Text on the left-->
+                    <TextBlock x:Name="animalName" FontSize="{StaticResource FontsizeGenetics}" FontWeight="Bold" Grid.Row="1" Grid.Column="1"> Rattlesnake</TextBlock>
+                    <!--text Needs to be bound to the animals species-->
+                    <TextBlock x:Name="animalAge" FontSize="{StaticResource FontsizeGenetics}"  Grid.Row="2" Grid.Column="1"> Age: 14 years</TextBlock>
+                    <!--text needs to be bound to animals age-->
+
+                    <TextBlock x:Name="animalStats" FontSize="{StaticResource FontsizeGenetics}" FontWeight="Bold" Grid.Row="4" Grid.Column="1"> Statistics</TextBlock>
+                    <TextBlock x:Name="statSpeed" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="5" Grid.Column="1"> Speed</TextBlock>
+                    <TextBlock x:Name="statWeight" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="6" Grid.Column="1"> Weight</TextBlock>
+                    <TextBlock x:Name="statSize" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="7" Grid.Column="1"> Size</TextBlock>
+                    <TextBlock x:Name="statAgression" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="8" Grid.Column="1"> Agression</TextBlock>
+                    <TextBlock x:Name="statDetectionRange" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="9" Grid.Column="1"> Detection range</TextBlock>
+                    <TextBlock x:Name="statResilience" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="10" Grid.Column="1"> Resilience</TextBlock>
+                    <TextBlock x:Name="statInteligence" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="11" Grid.Column="1"> Inteligence</TextBlock>
+                    <TextBlock x:Name="statSelfDefence" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="12" Grid.Column="1"> Self defence</TextBlock>
+                    <TextBlock x:Name="statMetabolicRate" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="13" Grid.Column="1"> Metabolic rate</TextBlock>
+
+                    <!--Progress bars-->
+                    <!--LET OP de waardes in de tweede ofset moeten altijd hetzelfde zijn als in de eerste anders krijg je een gradient-->
+                    <Rectangle Grid.Row="5" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                                <GradientStop Color="Red" Offset="0.5" x:Name="speedBarColor"></GradientStop>
+                                <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
+                                <GradientStop Color="White" Offset="0.5" x:Name="speedBarEmpty"></GradientStop>
+                                <!--ofset needs to be bound to (stat value / statmax)-->
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle Grid.Row="6" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                                <GradientStop Color="Red" Offset="0.5" x:Name="weightBarColor"></GradientStop>
+                                <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
+                                <GradientStop Color="White" Offset="0.5" x:Name="weightBarEmpty"></GradientStop>
+                                <!--ofset needs to be bound to (stat value / statmax)-->
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle Grid.Row="7" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                                <GradientStop Color="Red" Offset="0.5" x:Name="sizeBarColor"></GradientStop>
+                                <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
+                                <GradientStop Color="White" Offset="0.5" x:Name="sizeBarEmpty"></GradientStop>
+                                <!--ofset needs to be bound to (stat value / statmax)-->
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle Grid.Row="8" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                                <GradientStop Color="Red" Offset="0.5" x:Name="agressionBarColor"></GradientStop>
+                                <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
+                                <GradientStop Color="White" Offset="0.5" x:Name="agressionBarEmpty"></GradientStop>
+                                <!--ofset needs to be bound to (stat value / statmax)-->
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle Grid.Row="9" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                                <GradientStop Color="Red" Offset="0.5" x:Name="DetectionRangeBarColor"></GradientStop>
+                                <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
+                                <GradientStop Color="White" Offset="0.5" x:Name="DetectionRangeBarEmpty"></GradientStop>
+                                <!--ofset needs to be bound to (stat value / statmax)-->
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle Grid.Row="10" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                                <GradientStop Color="Red" Offset="0.5" x:Name="ResilienceBarColor"></GradientStop>
+                                <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
+                                <GradientStop Color="White" Offset="0.5" x:Name="ResilienceBarEmpty"></GradientStop>
+                                <!--ofset needs to be bound to (stat value / statmax)-->
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle Grid.Row="11" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                                <GradientStop Color="Red" Offset="0.5" x:Name="InteligenceBarColor"></GradientStop>
+                                <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
+                                <GradientStop Color="White" Offset="0.5" x:Name="InteligenceBarEmpty"></GradientStop>
+                                <!--ofset needs to be bound to (stat value / statmax)-->
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle Grid.Row="12" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                                <GradientStop Color="Red" Offset="0.5" x:Name="SelfDefenceBarColor"></GradientStop>
+                                <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
+                                <GradientStop Color="White" Offset="0.5" x:Name="SelfDefenceBarEmpty"></GradientStop>
+                                <!--ofset needs to be bound to (stat value / statmax)-->
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle Grid.Row="13" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                                <GradientStop Color="Red" Offset="0.5" x:Name="MetabolicRateBarColor"></GradientStop>
+                                <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
+                                <GradientStop Color="White" Offset="0.5" x:Name="MetabolicRateBarEmpty"></GradientStop>
+                                <!--ofset needs to be bound to (stat value / statmax)-->
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+
+                    <!--mutationscroller-->
+                    <ListView Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="15" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemsSource="{x:Bind mutationsTester}">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <ContentPresenter/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Height="1155">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="5*"></RowDefinition>
+                                        <RowDefinition Height="5*"></RowDefinition>
+                                        <RowDefinition Height="15*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="12*"></ColumnDefinition>
+                                        <ColumnDefinition Width="10*"></ColumnDefinition>
+                                        <ColumnDefinition Width="5"></ColumnDefinition>
+                                        <ColumnDefinition Width="15"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Background="{StaticResource ternaryBackgroundBrush}" Grid.Column="1" Grid.Row="1" Width="320" Height="200">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"></RowDefinition>
+                                            <RowDefinition Height="2*"></RowDefinition>
+                                            <RowDefinition Height="3*"></RowDefinition>
+                                            <RowDefinition Height="1*"></RowDefinition>
+                                            <RowDefinition Height="3*"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="29*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{StaticResource FontsizeGenetics}">
+                                            <Run Text="{Binding mutationDate.Day}"></Run><!--Moet gebonden worden op current date - mutationdate-->
+                                            <Run Text=" days ago"></Run>
+                                        </TextBlock>
+                                        <TextBlock Grid.Row="2" Grid.Column="1" FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Left" Width="290">
+                                            <Run Text="{Binding type}"></Run>
+                                            <Run Text="In gene HTTC, allel"></Run>
+                                            <Run Text="{Binding allel}"></Run>
+                                            <Run Text=", A > C, protein"></Run>
+                                            <Run Text="{Binding proteinBefore}"></Run>
+                                            <Run Text="transformed into"></Run>
+                                            <Run Text="{Binding proteinAfter}"></Run>
+                                        </TextBlock>
+                                        <TextBlock Grid.Row="3" Grid.Column="1" FontSize="14">
+                                            <Run Text="Resulted in change of:"></Run>
+                                        </TextBlock>
+                                        <ItemsControl Grid.Row="4" Grid.Column="1" ItemsSource="{Binding affected}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock FontSize="14">
+                                                        <Run Text="    • "></Run>
+                                                        <Run Text="{Binding Key}"></Run>
+                                                        <Run Text="("></Run>
+                                                        <Run Text="{Binding Value.value, Converter={StaticResource intFormat}, ConverterParameter='+0;-#' }"></Run>
+                                                        <Run Text=")"></Run>
+                                                    </TextBlock>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Grid>
+                                    <Image Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="-10" Width="400" Source="../Assets/DNA.png"/>
+                                    <Image Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="-10, -780, 0, 0" Width="400" Source="../Assets/DNA.png"/>
+                                    <Image Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="-10, 760, 0, 0"  Width="400" Source="../Assets/DNA.png"/>
+                                    <Line Grid.Column="2" Grid.Row="1" X1="-1" Y1="100" X2="100" Y2="100" Stroke="Black" StrokeThickness="5"></Line>
+                                    <Line Grid.Column="2" Grid.Row="1" X1="100" Y1="100" X2="175" Y2="-5" Stroke="Black" StrokeThickness="5"></Line>
+
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Frame>
+        </Popup>
+
+        
     </Grid>
 </Page>

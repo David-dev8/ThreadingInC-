@@ -12,7 +12,7 @@
     <SolidColorBrush x:Key="PrimaryBrush" Color="Black" />
     <SolidColorBrush x:Key="SecondaryBrush" Color="White" />
     <x:Double x:Key="FontsizeGenetics" >18</x:Double>
-    <converters:IntFormatConverter x:Key="intFormat"></converters:IntFormatConverter>
+    <customConverters:IntFormatConverter x:Key="intFormat"></customConverters:IntFormatConverter>
     <SolidColorBrush x:Key="TertiaryBrush" Color="#333333" />
     <SolidColorBrush x:Key="AccentBrush" Color="#D9D9D9" />
     <Style x:Key="SectionHeading" TargetType="StackPanel">

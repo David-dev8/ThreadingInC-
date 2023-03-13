@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
 
-namespace Lifethreadening.converters
+namespace Lifethreadening.Converters
 {
     public class IntFormatConverter : IValueConverter
     {
