@@ -50,37 +50,23 @@ namespace Lifethreadening.Models
         public Behaviour Behaviour { get; set; }
         public IList<Mutation> Mutations { get; set; } = new List<Mutation>();
 
-        public Animal(Location location, Sex sex, Species species, Behaviour behaviour) : base(location)
+        public Animal(Sex sex, Species species, Statistics statistics)
         {
             Hp = MAX_HP;
             Energy = MAX_ENERGY;
             Sex = sex;
             Species = species;
-            Behaviour = behaviour;
+            Statistics = statistics;
         }
 
-        private void move()
+        protected override Action GetNextAction(WorldContext context)
         {
-            ProcessIncentive(Behaviour.guide());
+            Incentive incentive = Behaviour.guide();
+            return incentive.Motivation > 0 ? incentive.Action : null;
         }
 
-        private void act()
+        public override bool StillExistsPhysically()
         {
-            ProcessIncentive(Behaviour.act());
-        }
-
-        private void ProcessIncentive(Incentive incentive)
-        { 
-            if(incentive.Motivation > 0)
-            {
-                incentive.execute();
-            }
-        }
-
-        public override bool live()
-        {
-            move();
-            act();
             return Hp > 0;
         }
     }

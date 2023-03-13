@@ -15,7 +15,6 @@ namespace Lifethreadening.Models.Behaviours
             Animal = animal;
         }
 
-        public abstract Incentive act();
         public abstract Incentive guide();
     }
 }

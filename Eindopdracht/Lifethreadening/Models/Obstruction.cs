@@ -8,13 +8,14 @@ namespace Lifethreadening.Models
 {
     public class Obstruction : SimulationElement
     {
-        public Obstruction(Location location) : base(location)
-        {
-        }
-
-        public override bool live()
+        public override bool StillExistsPhysically()
         {
             return true;
+        }
+
+        protected override Action GetNextAction(WorldContext context)
+        {
+            return null;
         }
     }
 }

@@ -9,23 +9,24 @@ namespace Lifethreadening.Models
 {
     public class GridWorld : World
     {
-        private int _height;
-        private int _width;
+        public int Height { get; set; }
+        public int Width { get; set; }
         private Location[][] locations;
 
         public GridWorld(Ecosystem ecosystem, IWeatherManager weatherManager, int width = 10, int height = 10) : base(ecosystem, weatherManager)
         {
-            _width = width;
-            _height = height;
+            Width = width;
+            Height = height;
+            createWorld();
         }
 
         public override void createWorld()
         {
-            locations = new Location[_height][];
-            for (int i = 0; i < _height; i++)
+            locations = new Location[Height][];
+            for (int i = 0; i < Height; i++)
             {
-                var row = new Location[_width];
-                for (int j = 0; j < _width; j++)
+                var row = new Location[Width];
+                for (int j = 0; j < Width; j++)
                 {
                     row[j] = new Location();
                 }
@@ -36,9 +37,9 @@ namespace Lifethreadening.Models
 
         private void RegisterNeighbours()
         {
-            for (int i = 0; i < _height; i++)
+            for (int i = 0; i < Height; i++)
             {
-                for (int j = 0; j < _width; j++)
+                for (int j = 0; j < Width; j++)
                 {
                     locations[i][j].Neighbours.Add(locations[i][j]);
                     locations[i][j].Neighbours.Add(locations[i][j]);

@@ -1,4 +1,5 @@
-﻿using Lifethreadening.DataAccess;
+﻿using Lifethreadening.Base;
+using Lifethreadening.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +8,41 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
-    public abstract class World
+    public abstract class World: Observable
     {
         private readonly IWeatherManager _weatherManager;
+        private DateTime _date;
 
-        public DateTime Date { get; set; } = DateTime.Now.Date;
+        public DateTime Date
+        {
+            get 
+            { 
+                return _date; 
+            }
+            set 
+            { 
+                _date = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public TimeSpan StepSize { get; } = new TimeSpan(1, 0, 0, 0);
+
         public Ecosystem Ecosystem { get; set; }
+        public Weather Weather
+        {
+            get
+            {
+                return _weatherManager.GetCurrent();
+            }
+        }
+        public IEnumerable<Location> Locations
+        {
+            get
+            {
+                return GetLocations();
+            }
+        }
 
         public IEnumerable<SimulationElement> SimulationElements
         {
@@ -31,11 +61,29 @@ namespace Lifethreadening.Models
         {
             Ecosystem = ecosystem;
             _weatherManager = weatherManager;
-            createWorld();
+            Date = DateTime.Now;
+        }
+
+        public void Step()
+        {
+            foreach(SimulationElement simulationElement in SimulationElements)
+            {
+                simulationElement.Plan(CreateContext());
+            }
+            foreach(SimulationElement simulationElement in SimulationElements)
+            {
+                simulationElement.Act();
+            }
+            Date = Date.Add(StepSize);
         }
 
         public abstract void createWorld();
 
         public abstract IEnumerable<Location> GetLocations();
+
+        private WorldContext CreateContext()
+        {
+            return new WorldContext(Weather, Date);
+        }
     }
 }

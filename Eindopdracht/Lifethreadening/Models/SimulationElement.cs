@@ -9,12 +9,23 @@ namespace Lifethreadening.Models
     public abstract class SimulationElement
     {
         public Location Location { get; set; }
+        protected Action PlannedAction { get; set; }
 
-        public SimulationElement(Location location) 
-        { 
-            this.Location = location;
+        public void Plan(WorldContext context)
+        {
+            PlannedAction = GetNextAction(context);
         }
 
-        public abstract bool live();
+        public void Act()
+        {
+            if(PlannedAction != null)
+            {
+                PlannedAction();
+                PlannedAction = null;
+            }
+        }
+
+        protected abstract Action GetNextAction(WorldContext context);
+        public abstract bool StillExistsPhysically();
     }
 }

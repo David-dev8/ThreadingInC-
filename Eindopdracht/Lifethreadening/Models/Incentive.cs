@@ -8,18 +8,14 @@ namespace Lifethreadening.Models
 {
     public class Incentive
     {
-        private readonly Action _action;
+        public Action Action { get; set; }
 
         public int Motivation { get; set; }
 
-        public Incentive(Action action)
+        public Incentive(Action action, int motivation = 0)
         {
-            _action = action;
-        }
-
-        public void execute()
-        {
-            _action();
+            Action = action;
+            Motivation = motivation;
         }
     }
 }
