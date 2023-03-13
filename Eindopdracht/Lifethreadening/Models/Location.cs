@@ -16,7 +16,7 @@ namespace Lifethreadening.Models
         {
             if(new Random().Next(0, 10) == 0)
             {
-                SimulationElements.Add(new Animal(this, Sex.MALE, new Species()));
+                SimulationElements.Add(new Animal(Sex.MALE, new Species(), new Statistics()));
             }
         }
 

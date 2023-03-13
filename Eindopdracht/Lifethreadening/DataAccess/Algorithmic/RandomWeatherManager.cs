@@ -37,16 +37,10 @@ namespace Lifethreadening.DataAccess.Algorithmic
         {
             Weather current = GetCurrent();
             return new Weather(
-                current.Humidity.Deviate()
-                Deviate(current.Humidity, HUMIDITY_DEVIATION_RANGE),
-                Deviate(current.WindSpeed, WIND_SPEED_DEVIATION_RANGE),
-                Deviate(current.RainFall, RAIN_FALL_DEVIATION_RANGE)
+                current.Humidity.Deviate(HUMIDITY_DEVIATION_RANGE),
+                current.Humidity.Deviate(WIND_SPEED_DEVIATION_RANGE),
+                current.Humidity.Deviate(RAIN_FALL_DEVIATION_RANGE)
             );
-        }
-
-        private double Deviate(double start, double deviationRange)
-        {
-            
         }
     }
 }
