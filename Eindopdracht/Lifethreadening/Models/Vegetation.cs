@@ -10,7 +10,13 @@ namespace Lifethreadening.Models
     {
         private int _standardGrowth;
         private int _maxNutrition;
-        private int _currentNutrition;
+        private int _currentNutrition = 20;
+
+        public Vegetation(string image, int standardGrowth, int maxNutrition)
+        {
+            _standardGrowth = standardGrowth;
+            _maxNutrition = maxNutrition;
+        }
 
         private void Grow(int growth)
         {
@@ -28,6 +34,11 @@ namespace Lifethreadening.Models
         protected override Action GetNextAction(WorldContext context)
         {
             return () => Grow((int)(_standardGrowth * context.Weather.RainFall + context.Weather.Humidity));
+        }
+
+        public override int GetNutritionalValue()
+        {
+            return _currentNutrition;
         }
     }
 }

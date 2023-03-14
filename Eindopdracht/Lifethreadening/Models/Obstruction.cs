@@ -8,6 +8,15 @@ namespace Lifethreadening.Models
 {
     public class Obstruction : SimulationElement
     {
+        public Obstruction(string image)
+        { 
+        }
+
+        public override int GetNutritionalValue()
+        {
+            return 0;
+        }
+
         public override bool StillExistsPhysically()
         {
             return true;

@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.DataAccess
 {
-    public interface ICustomSpeciesReader
+    public interface ISpeciesReader
     {
         IEnumerable<Species> ReadAll();
+        IEnumerable<Species> ReadByEcosystem(int ecosystemId);
     }
 }

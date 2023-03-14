@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,8 @@ namespace Lifethreadening.Models
 {
     public class Statistics
     {
+        // TODO werkt dit?
+        [Range(0, 100)]
         public int Weight { get; set; }
         public int Size { get; set; }
         public int Speed { get; set; }

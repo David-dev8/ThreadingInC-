@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
-    public class BreedFactory
+    public interface IBreedFactory
     {
+        IEnumerable<Animal> CreateAnimals(Animal father, Animal mother);
     }
 }

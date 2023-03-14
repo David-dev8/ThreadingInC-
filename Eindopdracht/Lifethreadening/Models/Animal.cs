@@ -12,8 +12,8 @@ namespace Lifethreadening.Models
         private const int MAX_HP = 100;
         private const int MAX_ENERGY = 100;
 
-        private int _hp = 0;
-        private int _energy = 0;
+        private int _hp;
+        private int _energy;
 
         public int Hp
         {
@@ -23,10 +23,7 @@ namespace Lifethreadening.Models
             }
             set
             {
-                if(value <= MAX_HP)
-                {
-                    _hp = value;
-                }
+                _hp = value <= MAX_HP ? value : MAX_HP;
             }
         }
         public int Energy
@@ -37,10 +34,7 @@ namespace Lifethreadening.Models
             }
             set
             {
-                if(value <= MAX_ENERGY)
-                {
-                    _energy = value;
-                }
+                _energy = value <= MAX_ENERGY ? value : MAX_ENERGY;
             }
         }
         public int Age { get; set; } = 0;
@@ -61,13 +55,30 @@ namespace Lifethreadening.Models
 
         protected override Action GetNextAction(WorldContext context)
         {
-            Incentive incentive = Behaviour.guide();
-            return incentive.Motivation > 0 ? incentive.Action : null;
+            if(Behaviour != null)
+            {
+                Incentive incentive = Behaviour.guide();
+                if(incentive.Motivation > 0)
+                {
+                    return incentive.Action;
+                }
+            }
+            return null;
         }
 
         public override bool StillExistsPhysically()
         {
             return Hp > 0;
+        }
+
+        public override int GetNutritionalValue()
+        {
+            return (int)(Math.Sqrt(Statistics.Weight) * Math.Sqrt(Statistics.Size));
+        }
+
+        public void MoveAlong(Path path)
+        {
+
         }
     }
 }

@@ -8,17 +8,21 @@ namespace Lifethreadening.Models.Behaviours
 {
     public class CompositeBehaviour: Behaviour
     {
-        public IList<Behaviour> Behaviours { get; set; } = new List<Behaviour>();
+        private IList<Behaviour> _behaviours = new List<Behaviour>();
 
-        public CompositeBehaviour(Animal animal, IList<Behaviour> behaviours): base(animal)
+        public CompositeBehaviour(Animal animal): base(animal)
         {
-            Behaviours = behaviours;
+        }
+
+        public void Add(Behaviour behaviour)
+        {
+            _behaviours.Add(behaviour);
         }
 
         public override Incentive guide()
         {
             IList<Incentive> incentives = new List<Incentive>();
-            foreach(Behaviour behaviour in Behaviours)
+            foreach(Behaviour behaviour in _behaviours)
             {
                 incentives.Add(behaviour.guide());
             }
@@ -31,7 +35,7 @@ namespace Lifethreadening.Models.Behaviours
             {
                 return null;
             }
-            var maxIncentive = incentives.First();
+            var maxIncentive = incentives.FirstOrDefault();
             foreach(Incentive incentive in incentives)
             {
                 if(incentive.Motivation > maxIncentive.Motivation)

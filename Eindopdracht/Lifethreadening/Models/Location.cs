@@ -19,21 +19,5 @@ namespace Lifethreadening.Models
                 SimulationElements.Add(new Animal(Sex.MALE, new Species(), new Statistics()));
             }
         }
-
-        public IEnumerable<Location> GetAdjacent(int range)
-        {
-            ISet<Location> adjacentLocations = new HashSet<Location>() { this };
-            for(int i = 0; i < range; i++)
-            {
-                foreach(Location location in adjacentLocations)
-                {
-                    foreach(Location newAdjacentLocation in location.Neighbours)
-                    {
-                        adjacentLocations.Add(newAdjacentLocation);
-                    }
-                }
-            }
-            return adjacentLocations;
-        }
     }
 }
