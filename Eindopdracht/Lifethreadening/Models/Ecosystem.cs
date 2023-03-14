@@ -8,5 +8,10 @@ namespace Lifethreadening.Models
 {
     public class Ecosystem
     {
+        public string Name { get; set; }
+
+        public Ecosystem(string name)        {
+            Name = name;
+        }
     }
 }

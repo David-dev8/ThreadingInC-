@@ -1,4 +1,8 @@
 ﻿using Lifethreadening.Base;
+using Lifethreadening.DataAccess.Algorithmic;
+using Lifethreadening.DataAccess;
+using Lifethreadening.DataAccess.Database;
+using Lifethreadening.Models;
 using Lifethreadening.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -71,6 +75,7 @@ namespace Lifethreadening
                     var navigationService = new NavigationService(rootFrame);
                     var ecosystemSelectViewModel = new EcosystemSelectViewModel(navigationService);
                     navigationService.CurrentViewModel = ecosystemSelectViewModel;
+
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
