@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,21 @@ namespace Lifethreadening.Models
         {
             CurrentLocation = currentLocation;
             PreviousPath = previousPath;
+        }
+
+        public Location GetLocationAt(int index)
+        {
+            if(index < 0 || index > Length)
+            {
+                return null;
+            }
+
+            Path path = this;
+            for(int i = 0; i < Length - index; i++)
+            {
+                path = path.PreviousPath;
+            }
+            return path.CurrentLocation;
         }
     }
 }

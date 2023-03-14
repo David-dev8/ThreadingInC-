@@ -75,10 +75,5 @@ namespace Lifethreadening.Models
         {
             return (int)(Math.Sqrt(Statistics.Weight) * Math.Sqrt(Statistics.Size));
         }
-
-        public void MoveAlong(Path path)
-        {
-
-        }
     }
 }
