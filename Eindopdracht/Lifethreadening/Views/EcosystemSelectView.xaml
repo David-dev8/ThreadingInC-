@@ -11,11 +11,15 @@
 
     <Page.Resources>
         <DataTemplate x:Key="ImageTemplate">
-            <Image Source="{Binding}" Stretch="UniformToFill" Width="200" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <StackPanel>
+                <TextBlock Text="{Binding Text}" Margin="0,5,0,0" HorizontalAlignment="Center"/>
+                <Image Source="{Binding Url}" Stretch="UniformToFill" Width="200" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
         </DataTemplate>
     </Page.Resources>
-    <Grid>
-        <TextBlock Text="{Binding test}"></TextBlock>
+    
+    <Grid Background="#A1A1A1">
+        <TextBlock Text="Eco Select Screen" FontSize="50" HorizontalAlignment="Center"></TextBlock>
         <controls:Carousel 
             InvertPositive="True" ItemDepth="300"
             ItemMargin="0" ItemRotationX="0"
@@ -24,7 +28,7 @@
             ItemsSource="{Binding Images}"
             SelectedItem="{Binding SelectedImage}"
             ItemTemplate="{StaticResource ImageTemplate}"
-            Margin="316,293,383,292">
+            Margin="0,151,0,151">
             <controls:Carousel.EasingFunction>
                 <CubicEase EasingMode="EaseOut" />
             </controls:Carousel.EasingFunction>

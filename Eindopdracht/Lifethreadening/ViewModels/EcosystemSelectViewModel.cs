@@ -8,11 +8,17 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.ViewModels
 {
+    public class ImageInfo
+    {
+        public string Url { get; set; }
+        public string Text { get; set; }
+    }
     public class EcosystemSelectViewModel : BaseViewModel
     {
-        private ObservableCollection<string> _images;
-        private string _selectedImage;
-        public ObservableCollection<string> Images
+        private ObservableCollection<ImageInfo> _images;
+        private ImageInfo _selectedImage;
+
+        public ObservableCollection<ImageInfo> Images
         {
             get { return _images; }
             set
@@ -24,8 +30,7 @@ namespace Lifethreadening.ViewModels
                 }
             }
         }
-
-        public string SelectedImage
+        public ImageInfo SelectedImage
         {
             get { return _selectedImage; }
             set
@@ -40,16 +45,15 @@ namespace Lifethreadening.ViewModels
         public EcosystemSelectViewModel(NavigationService navigationService) : base(navigationService)
         {
             // Initialize the images collection with some URLs
-            Images = new ObservableCollection<string>()
+            Images = new ObservableCollection<ImageInfo>()
         {
-            "https://placeimg.com/380/230/animals",
-            "https://placeimg.com/380/230/tech",
-            "https://placeimg.com/380/230/nature"
+                new ImageInfo() { Url = "https://placeimg.com/380/230/animals", Text = "Jurrasic era" },
+                new ImageInfo() { Url = "https://placeimg.com/380/230/tech", Text = "Antartica" },
+                new ImageInfo() { Url = "https://placeimg.com/380/230/nature", Text = "Skull island" },
         };
 
             // Set the selected image to the first image URL in the collection
             SelectedImage = Images[0];
         }
-
     }
 }
