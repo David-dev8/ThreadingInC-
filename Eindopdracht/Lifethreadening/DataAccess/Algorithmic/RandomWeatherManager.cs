@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Lifethreadening.ExtensionMethods;
+using Lifethreadening.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,39 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.DataAccess.Algorithmic
 {
-    public class RandomWeatherManager
+    public class RandomWeatherManager : IWeatherManager
     {
+        private const double HUMIDITY_INITIAL = 50;
+        private const double WIND_SPEED_INITIAL = 20;
+        private const double RAIN_FALL_INITIAL = 0;
+        private const double HUMIDITY_DEVIATION_RANGE = 0.5;
+        private const double WIND_SPEED_DEVIATION_RANGE = 1;
+        private const double RAIN_FALL_DEVIATION_RANGE = 1;
+
+        private IList<Weather> _weatherHistory = new List<Weather>()
+        {
+            new Weather(HUMIDITY_INITIAL, WIND_SPEED_INITIAL, RAIN_FALL_INITIAL)
+        };
+
+        public Weather GetCurrent()
+        {
+            return _weatherHistory[_weatherHistory.Count - 1];
+        }
+
+        public void Update()
+        {
+            Weather newWeather = CreateNewWeather();
+            _weatherHistory.Add(newWeather);
+        }
+
+        private Weather CreateNewWeather()
+        {
+            Weather current = GetCurrent();
+            return new Weather(
+                current.Humidity.Deviate(HUMIDITY_DEVIATION_RANGE),
+                current.Humidity.Deviate(WIND_SPEED_DEVIATION_RANGE),
+                current.Humidity.Deviate(RAIN_FALL_DEVIATION_RANGE)
+            );
+        }
     }
 }

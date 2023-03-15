@@ -6,7 +6,26 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
-    public class SimulationElement
+    public abstract class SimulationElement
     {
+        public Location Location { get; set; }
+        protected Action PlannedAction { get; set; }
+
+        public void Plan(WorldContext context)
+        {
+            PlannedAction = GetNextAction(context);
+        }
+
+        public void Act()
+        {
+            if(PlannedAction != null)
+            {
+                PlannedAction();
+                PlannedAction = null;
+            }
+        }
+
+        protected abstract Action GetNextAction(WorldContext context);
+        public abstract bool StillExistsPhysically();
     }
 }

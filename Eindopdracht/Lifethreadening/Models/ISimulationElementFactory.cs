@@ -8,5 +8,9 @@ namespace Lifethreadening.Models
 {
     public interface ISimulationElementFactory
     {
+        SimulationElement CreateRandomElement(Ecosystem ecosystem);
+        Animal CreateAnimal(Ecosystem ecosystem);
+        Vegetation CreateVegetation(Ecosystem ecosystem);
+        Obstruction CreateObstruction(Ecosystem ecosystem);
     }
 }

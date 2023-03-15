@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
-    public class Obstruction: SimulationElement
+    public class Obstruction : SimulationElement
     {
+        public override bool StillExistsPhysically()
+        {
+            return true;
+        }
+
+        protected override Action GetNextAction(WorldContext context)
+        {
+            return null;
+        }
     }
 }
