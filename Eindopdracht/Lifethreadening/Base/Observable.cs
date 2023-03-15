@@ -19,7 +19,7 @@ namespace Lifethreadening.Base
 
         protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            OnPropertyChanged(propertyName);
         }
     }
 }
