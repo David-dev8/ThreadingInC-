@@ -9,9 +9,11 @@ namespace Lifethreadening.Models
     public class Ecosystem
     {
         public string Name { get; set; }
+        public string Image { get; set; }
 
-        public Ecosystem(string name)        {
+        public Ecosystem(string name, string image)        {
             Name = name;
+            Image = image;
         }
     }
 }

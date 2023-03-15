@@ -12,8 +12,8 @@
     <Page.Resources>
         <DataTemplate x:Key="ImageTemplate">
             <StackPanel>
-                <TextBlock Text="{Binding Text}" Margin="0,5,0,0" HorizontalAlignment="Center"/>
-                <Image Source="{Binding Url}" Stretch="UniformToFill" Width="200" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Name}" Margin="0,5,0,0" HorizontalAlignment="Center"/>
+                <Image Source="{Binding Image}" Stretch="UniformToFill" Width="200" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
         </DataTemplate>
     </Page.Resources>
