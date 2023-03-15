@@ -14,6 +14,7 @@ namespace Lifethreadening.Models
     {
         private Timer _timer;
         private TimeSpan _simulationSpeed = new TimeSpan(1, 0, 0, 0);
+        private PopulationAnalyzer _populationManager;
 
         public string Name { get; set; }
         public int Score { get; set; }
@@ -38,11 +39,26 @@ namespace Lifethreadening.Models
             Name = name;
             World = world;
             _timer = new Timer((_) => Step(), null, Timeout.Infinite, Timeout.Infinite);
+            _populationManager= new PopulationAnalyzer();
         }
 
         public void Step()
         {
             World.Step();
+            _populationManager.RegisterAnimals(getAllAnimals(World.SimulationElements), World.Date);
+        }
+
+        private IEnumerable<Animal> getAllAnimals(IEnumerable<SimulationElement> elements)
+        {
+            IList<Animal> animals = new List<Animal>();
+            foreach(SimulationElement element in elements)
+            {
+                if(element is Animal)
+                {
+                    animals.Add((Animal) element);
+                }
+            }
+            return animals;
         }
 
         private bool IsGameOver()
