@@ -1,4 +1,5 @@
 ﻿using Lifethreadening.Base;
+using Lifethreadening.Models.Behaviours;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +13,11 @@ namespace Lifethreadening.Models
 {
     public class Simulation: Observable
     {
-        private Timer _timer;
+        private const double INITIAL_SPAWN_CHANCE = 0.20;
+        private Random _random = new Random();
+        private Timer _stepTimer;
+        private ISimulationElementFactory _elementFactory;
+        private bool _stopped = true;
         private TimeSpan _simulationSpeed = new TimeSpan(1, 0, 0, 0);
 
         public string Name { get; set; }
@@ -37,7 +42,9 @@ namespace Lifethreadening.Models
         { 
             Name = name;
             World = world;
-            _timer = new Timer((_) => Step(), null, Timeout.Infinite, Timeout.Infinite);
+            _stepTimer = new Timer((_) => Step(), null, Timeout.Infinite, Timeout.Infinite);
+            _elementFactory = new DatabaseSimulationElementFactory(new RegularBehaviourBuilder());
+            Populate();
         }
 
         public void Step()
@@ -62,7 +69,27 @@ namespace Lifethreadening.Models
 
         public void Start()
         {
-            _timer.Change(1000, 10000);
+            _stepTimer.Change(3000, 700);
+        }
+
+        public void Stop()
+        {
+            _stepTimer.Change(Timeout.Infinite, Timeout.Infinite);
+        }
+
+        private void Populate()
+        {
+            foreach(Location location in World.GetLocations())
+            {
+                if(_random.NextDouble() < INITIAL_SPAWN_CHANCE)
+                {
+                    SimulationElement element = _elementFactory.CreateRandomElement(World.Ecosystem);
+                    if(element != null)
+                    {
+                        location.AddSimulationElement(element);
+                    }
+                }
+            }
         }
     }
 }

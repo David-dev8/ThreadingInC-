@@ -17,6 +17,11 @@ namespace Lifethreadening.Models
             return 0;
         }
 
+        public override int DepleteNutritionalValue()
+        {
+            return GetNutritionalValue();
+        }
+
         public override bool StillExistsPhysically()
         {
             return true;

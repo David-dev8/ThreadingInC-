@@ -11,18 +11,18 @@ namespace Lifethreadening.Models
     {
         public int Height { get; set; }
         public int Width { get; set; }
-        private Location[][] locations;
+        private Location[][] _locations;
 
-        public GridWorld(Ecosystem ecosystem, IWeatherManager weatherManager, int width = 10, int height = 10) : base(ecosystem, weatherManager)
+        public GridWorld(Ecosystem ecosystem, IWeatherManager weatherManager, int width = 25, int height = 25) : base(ecosystem, weatherManager)
         {
             Width = width;
             Height = height;
-            createWorld();
+            CreateWorld();
         }
 
-        public override void createWorld()
+        public override void CreateWorld()
         {
-            locations = new Location[Height][];
+            _locations = new Location[Height][];
             for (int i = 0; i < Height; i++)
             {
                 var row = new Location[Width];
@@ -30,7 +30,7 @@ namespace Lifethreadening.Models
                 {
                     row[j] = new Location();
                 }
-                locations[i] = row;
+                _locations[i] = row;
             }
             RegisterNeighbours();
         }
@@ -41,18 +41,27 @@ namespace Lifethreadening.Models
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    locations[i][j].Neighbours.Add(locations[i][j]);
-                    locations[i][j].Neighbours.Add(locations[i][j]);
-                    locations[i][j].Neighbours.Add(locations[i][j]);
-                    locations[i][j].Neighbours.Add(locations[i][j]);
+                    RegisterNeighbour(_locations[i][j], i + 1, j);
+                    RegisterNeighbour(_locations[i][j], i - 1, j);
+                    RegisterNeighbour(_locations[i][j], i, j + 1);
+                    RegisterNeighbour(_locations[i][j], i, j - 1);
                 }
+            }
+        }
+
+        private void RegisterNeighbour(Location location, int row, int column)
+        {
+            Location neighbour = _locations.ElementAtOrDefault(row)?.ElementAtOrDefault(column);
+            if(neighbour != null)
+            {
+                location.Neighbours.Add(neighbour);
             }
         }
 
         public override IEnumerable<Location> GetLocations()
         {
-            ISet<Location> allLocations = new HashSet<Location>();
-            foreach(Location[] row in locations)
+            IList<Location> allLocations = new List<Location>();
+            foreach(Location[] row in _locations)
             {
                 foreach(Location location in row)
                 {

@@ -1,4 +1,5 @@
-﻿using Lifethreadening.Models;
+﻿using Lifethreadening.ExtensionMethods;
+using Lifethreadening.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -41,16 +42,25 @@ namespace Lifethreadening.DataAccess.Database
             {
                 new SqlParameter("@ecosystemId", ecosystemId),
             };
-            return _database.Read(createSpecies, query, CommandType.Text);
+            return _database.Read(createSpecies, query, CommandType.Text, parameters);
         }
 
         private Species createSpecies(SqlDataReader dataReader)
         {
-            return new Species()
-            {
-                Name = dataReader["name"].ToString(),
-                Image = dataReader["image"].ToString()
-            };
+            return new Species(
+                dataReader.GetInt32("id"),
+                dataReader.GetString("image"),
+                null,
+                null,
+                0,
+                0,
+                0,
+                0,
+                Diet.HERBIVORE,
+                new Statistics()
+                {
+                }
+            );
         }
     }
 }

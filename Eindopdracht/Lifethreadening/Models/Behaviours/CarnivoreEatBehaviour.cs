@@ -8,7 +8,7 @@ namespace Lifethreadening.Models.Behaviours
 {
     public class CarnivoreEatBehaviour : EatBehaviour
     {
-        private const double HP_INCREASE_BY_NUTRITION_FACTOR = 1 / 3;
+        private const int MINIMUM_DAMAGE = 1;
 
         public CarnivoreEatBehaviour(Animal animal) : base(animal)
         {
@@ -18,7 +18,7 @@ namespace Lifethreadening.Models.Behaviours
         public override Incentive guide()
         {
             IDictionary<Animal, double> targets = new Dictionary<Animal, double>();
-            IDictionary<Location, Path> locations = DetectSurroundings(); // TODO cache?
+            IDictionary<Location, Path> locations = Animal.DetectSurroundings(); // TODO cache?
             foreach(KeyValuePair<Location, Path> location in locations)
             {
                 // The closer we are, the higher the priority
@@ -47,7 +47,7 @@ namespace Lifethreadening.Models.Behaviours
                 return new Incentive(() =>
                 {
                     // Move towards the animal and try to attack it
-                    MoveAlong(locations[mostRelevantTarget.Location]);
+                    Animal.MoveAlong(locations[mostRelevantTarget.Location]);
                     Attack(mostRelevantTarget);
                 }, GetMotivation());
             }
@@ -55,31 +55,25 @@ namespace Lifethreadening.Models.Behaviours
             return null;
         }
 
-        private void Attack(Animal animal)
+        private void Attack(Animal otherAnimal)
         {
             // Is the animal in range? Decrease its hp
-            if(AreLocationsCloseEnough(Animal.Location, animal.Location))
+            if(CanReach(otherAnimal.Location))
             {
-                animal.Hp -= GetDamageToDealTo(animal);
-
-                // Did it die? If so, the acting animal consumes its nutritional value towards our energy and partially towards hp
-                if(!animal.StillExistsPhysically())
-                {
-                    int nutrition = animal.GetNutritionalValue();
-                    Animal.Hp += (int)(nutrition * HP_INCREASE_BY_NUTRITION_FACTOR);
-                    Animal.Energy += nutrition;
-                }
+                otherAnimal.Hp -= GetDamageToDealTo(otherAnimal);
+                // Try to consume
+                Consume(otherAnimal);
             }
         }
 
-        private int GetDamageToDealTo(Animal animal)
+        private int GetDamageToDealTo(Animal otherAnimal)
         {
-            return 0;
+            return Math.Min(Animal.Statistics.Aggresion - otherAnimal.Statistics.SelfDefence, MINIMUM_DAMAGE);
         }
 
         private int GetMotivation()
         {
-            return Animal.Energy;
+            return (int)(Animal.Statistics.Aggresion + 1 / Math.Sqrt(Animal.Energy)); // TODO
         }
     }
 }

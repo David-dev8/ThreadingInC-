@@ -23,7 +23,7 @@ namespace Lifethreadening.ViewModels
         public SimulationViewModel(NavigationService navigationService, Simulation simulation) : base(navigationService)
         {
             Simulation = simulation;
-            //Simulation.Start();
+            Simulation.Start();
         }
     }
 }

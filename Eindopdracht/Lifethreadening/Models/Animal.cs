@@ -4,11 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Text;
 
 namespace Lifethreadening.Models
 {
     public class Animal: SimulationElement
     {
+        // Locations per detection point
+        private const int DETECTION_FACTOR = 10;
+
         private const int MAX_HP = 100;
         private const int MAX_ENERGY = 100;
 
@@ -58,7 +62,7 @@ namespace Lifethreadening.Models
             if(Behaviour != null)
             {
                 Incentive incentive = Behaviour.guide();
-                if(incentive.Motivation > 0)
+                if(incentive != null && incentive.Motivation > 0)
                 {
                     return incentive.Action;
                 }
@@ -74,6 +78,50 @@ namespace Lifethreadening.Models
         public override int GetNutritionalValue()
         {
             return (int)(Math.Sqrt(Statistics.Weight) * Math.Sqrt(Statistics.Size));
+        }
+
+        public override int DepleteNutritionalValue()
+        {
+            if(StillExistsPhysically())
+            {
+                // Cannot get nutrition from a living animal
+                return 0;
+            }
+            int nutrition = GetNutritionalValue();
+            Statistics.Size = 0;
+            Statistics.Weight = 0;
+            return nutrition;
+        }
+
+        public void MoveAlong(Path path)
+        {
+            Location.RemoveSimulationElement(this);
+            path.GetLocationAt(Math.Min(GetMaxMovementMagntitude(), path.Length)).AddSimulationElement(this);
+        }
+
+        private int GetMaxMovementMagntitude()
+        {
+            return 1;
+        }
+
+        public IDictionary<Location, Path> DetectSurroundings()
+        {
+            IDictionary<Location, Path> possiblePaths = new Dictionary<Location, Path>() { { Location, new Path(Location) } };
+            int range = (int)Math.Ceiling((double)Statistics.Detection / DETECTION_FACTOR);
+            for(int i = 0; i < range; i++)
+            {
+                foreach(Path path in possiblePaths.Values)
+                {
+                    foreach(Location newAdjacentLocation in path.CurrentLocation.Neighbours)
+                    {
+                        if(!possiblePaths.ContainsKey(newAdjacentLocation))
+                        {
+                            possiblePaths.Add(newAdjacentLocation, new Path(newAdjacentLocation, path));
+                        }
+                    }
+                }
+            }
+            return possiblePaths;
         }
     }
 }

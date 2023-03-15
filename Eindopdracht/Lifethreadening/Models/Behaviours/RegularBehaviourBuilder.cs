@@ -42,7 +42,7 @@ namespace Lifethreadening.Models.Behaviours
         {
             if(_hasAnimal)
             {
-                Add(new BreedBehaviour(_animal, breedFactory));
+                //Add(new BreedBehaviour(_animal, breedFactory));
             }
             return this;
         }
@@ -74,7 +74,7 @@ namespace Lifethreadening.Models.Behaviours
         {
             if(_hasAnimal)
             {
-                Add(new EvadeBehaviour(_animal));
+                //Add(new EvadeBehaviour(_animal));
             }
             return this;
         }
@@ -83,7 +83,7 @@ namespace Lifethreadening.Models.Behaviours
         {
             if(_hasAnimal)
             {
-                Add(new RestBehaviour(_animal));
+                //Add(new RestBehaviour(_animal));
             }
             return this;
         }
@@ -92,18 +92,20 @@ namespace Lifethreadening.Models.Behaviours
         {
             if(_hasAnimal)
             {
+                Add(new WanderBehaviour(_animal));
+
                 if(_random.NextDouble() < traumaChance)
                 {
                     // Has trauma, so panic
-                    Add(new PanicWanderBehaviour(_animal));
-                } 
+                    //Add(new PanicWanderBehaviour(_animal));
+                }
                 else if(!isNative)
                 {
-                    Add(new CuriousWanderBehaviour(_animal));
+                    //Add(new CuriousWanderBehaviour(_animal));
                 }
                 else
                 {
-                    Add(new WanderBehaviour(_animal));
+                    //Add(new WanderBehaviour(_animal));
                 }
             }
             return this;
@@ -144,6 +146,8 @@ namespace Lifethreadening.Models.Behaviours
         public IBehaviourBuilder ForAnimal(Animal animal)
         {
             _animal = animal;
+            _tree.Clear();
+            OpenComposite();
             return this;
         }
     }

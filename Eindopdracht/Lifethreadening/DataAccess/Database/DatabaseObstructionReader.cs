@@ -25,8 +25,8 @@ namespace Lifethreadening.DataAccess.Database
                 SELECT *
                 FROM Obstruction
                 WHERE id IN (
-	                SELECT obstruction
-	                FROM EcosystemVegetation
+	                SELECT obstructionId
+	                FROM EcosystemObstruction
 	                WHERE ecosystemId = @ecosystemId
                 )
             ";
@@ -34,7 +34,7 @@ namespace Lifethreadening.DataAccess.Database
             {
                 new SqlParameter("@ecosystemId", ecosystemId),
             };
-            return _database.Read(CreateObstruction, query, CommandType.Text);
+            return _database.Read(CreateObstruction, query, CommandType.Text, parameters);
         }
 
         private Obstruction CreateObstruction(SqlDataReader dataReader)

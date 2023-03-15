@@ -17,7 +17,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="320" />
         </Grid.ColumnDefinitions>
-        <customcontrols:WorldView Grid.Column="0" World="{Binding Simulation.World}" />
+        <customcontrols:WorldView Grid.Column="0" World="{Binding Simulation.World, Mode=OneWay}" />
         <Grid Grid.Column="1" Background="{StaticResource PrimaryBackgroundBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="14*" />

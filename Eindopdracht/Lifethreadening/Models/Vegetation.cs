@@ -8,6 +8,8 @@ namespace Lifethreadening.Models
 {
     public class Vegetation : SimulationElement
     {
+        private const int MAX_NUTRITION_RELEASED_PER_DEPLETION = 10;
+
         private int _standardGrowth;
         private int _maxNutrition;
         private int _currentNutrition = 20;
@@ -38,6 +40,13 @@ namespace Lifethreadening.Models
 
         public override int GetNutritionalValue()
         {
+            return Math.Min(_currentNutrition, MAX_NUTRITION_RELEASED_PER_DEPLETION);
+        }
+
+        public override int DepleteNutritionalValue()
+        {
+            int nutrition = GetNutritionalValue();
+            _currentNutrition -= nutrition;
             return _currentNutrition;
         }
     }

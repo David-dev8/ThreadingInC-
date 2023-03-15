@@ -33,15 +33,15 @@ namespace Lifethreadening.Models
         {
             double randomNumber = _random.NextDouble();
             double total = 0;
-            if((total += ANIMAL_CHANCE) < randomNumber)
+            if(randomNumber < (total += ANIMAL_CHANCE))
             {
                 return CreateAnimal(ecosystem);
             }
-            else if((total += VEGETATION_CHANCE) < randomNumber)
+            else if(randomNumber < (total += VEGETATION_CHANCE))
             {
                 return CreateVegetation(ecosystem);
             }
-            else if((total += OBSTRUCTION_CHANCE) < randomNumber)
+            else if(randomNumber < (total += OBSTRUCTION_CHANCE))
             {
                 return CreateObstruction(ecosystem);
             }
@@ -51,7 +51,7 @@ namespace Lifethreadening.Models
         public Animal CreateAnimal(Ecosystem ecosystem)
         {
             ISpeciesReader speciesReader = new DatabaseSpeciesReader();
-            Species species = speciesReader.ReadByEcosystem(0).GetRandom();
+            Species species = speciesReader.ReadByEcosystem(ecosystem.Id).GetRandom();
 
             Animal newAnimal = new Animal(EnumHelpers.GetRandom<Sex>(), species, GenerateStatisticsFromBase(species.BaseStatistics));
             newAnimal.Behaviour = _behaviourBuilder
@@ -68,13 +68,13 @@ namespace Lifethreadening.Models
         public Obstruction CreateObstruction(Ecosystem ecosystem)
         {
             IObstructionReader obstructionReader = new DatabaseObstructionReader();
-            return obstructionReader.ReadByEcosystem(0).GetRandom();
+            return obstructionReader.ReadByEcosystem(ecosystem.Id).GetRandom();
         }
 
         public Vegetation CreateVegetation(Ecosystem ecosystem)
         {
             IVegetationReader vegetationReader = new DatabaseVegetationReader();
-            return vegetationReader.ReadByEcosystem(0).GetRandom();
+            return vegetationReader.ReadByEcosystem(ecosystem.Id).GetRandom();
         }
 
         public Statistics GenerateStatisticsFromBase(Statistics baseStatistics)

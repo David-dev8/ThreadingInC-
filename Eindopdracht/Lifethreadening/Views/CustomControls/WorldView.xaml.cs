@@ -25,8 +25,10 @@ namespace Lifethreadening.Views.CustomControls
 
         public World World
         {
-            get { return (World)GetValue(WorldProperty); }
-            set { SetValue(WorldProperty, value); }
+            get { 
+                return (World)GetValue(WorldProperty); }
+            set { 
+                SetValue(WorldProperty, value); }
         }
 
         public GridWorld GridWorld

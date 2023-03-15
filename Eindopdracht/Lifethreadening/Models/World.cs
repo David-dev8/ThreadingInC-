@@ -11,6 +11,7 @@ namespace Lifethreadening.Models
     public abstract class World: Observable
     {
         private readonly IWeatherManager _weatherManager;
+
         private DateTime _date;
 
         public DateTime Date
@@ -22,7 +23,6 @@ namespace Lifethreadening.Models
             set 
             { 
                 _date = value;
-                NotifyPropertyChanged();
             }
         }
 
@@ -74,10 +74,12 @@ namespace Lifethreadening.Models
             {
                 simulationElement.Act();
             }
+            _weatherManager.Update();
             Date = Date.Add(StepSize);
+            OnPropertyChanged(nameof(Locations));
         }
 
-        public abstract void createWorld();
+        public abstract void CreateWorld();
 
         public abstract IEnumerable<Location> GetLocations();
 

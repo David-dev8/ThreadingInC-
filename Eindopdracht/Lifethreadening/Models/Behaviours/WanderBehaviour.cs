@@ -14,7 +14,11 @@ namespace Lifethreadening.Models.Behaviours
 
         public override Incentive guide()
         {
-            throw new NotImplementedException();
+            // There is a target
+            return new Incentive(() =>
+            {
+                Animal.MoveAlong(new Path(Animal.Location.Neighbours.First()));
+            }, 20);
         }
     }
 }

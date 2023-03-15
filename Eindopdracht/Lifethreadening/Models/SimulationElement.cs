@@ -28,5 +28,6 @@ namespace Lifethreadening.Models
         protected abstract Action GetNextAction(WorldContext context);
         public abstract bool StillExistsPhysically();
         public abstract int GetNutritionalValue();
+        public abstract int DepleteNutritionalValue();
     }
 }

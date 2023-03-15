@@ -34,7 +34,7 @@ namespace Lifethreadening.DataAccess.Database
             {
                 new SqlParameter("@ecosystemId", ecosystemId),
             };
-            return _database.Read(CreateVegetation, query, CommandType.Text);
+            return _database.Read(CreateVegetation, query, CommandType.Text, parameters);
         }
 
         private Vegetation CreateVegetation(SqlDataReader dataReader)

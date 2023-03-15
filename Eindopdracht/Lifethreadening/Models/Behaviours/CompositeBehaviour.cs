@@ -24,7 +24,11 @@ namespace Lifethreadening.Models.Behaviours
             IList<Incentive> incentives = new List<Incentive>();
             foreach(Behaviour behaviour in _behaviours)
             {
-                incentives.Add(behaviour.guide());
+                Incentive incentive = behaviour.guide();
+                if(incentive != null)
+                {
+                    incentives.Add(incentive);
+                }
             }
             return GetMostAppealing(incentives);
         }
