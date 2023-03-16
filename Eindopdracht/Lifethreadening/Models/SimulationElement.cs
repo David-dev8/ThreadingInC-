@@ -9,7 +9,13 @@ namespace Lifethreadening.Models
     public abstract class SimulationElement
     {
         public Location Location { get; set; }
+        public int Priority { get; private set; }
         protected Action PlannedAction { get; set; }
+
+        public SimulationElement(int priority)
+        {
+            Priority = priority;
+        }
 
         public void Plan(WorldContext context)
         {

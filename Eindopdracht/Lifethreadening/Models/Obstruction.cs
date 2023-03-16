@@ -8,7 +8,9 @@ namespace Lifethreadening.Models
 {
     public class Obstruction : SimulationElement
     {
-        public Obstruction(string image)
+        private const int DEFAULT_PRIORITY = 3;
+
+        public Obstruction(string image): base(DEFAULT_PRIORITY)
         { 
         }
 

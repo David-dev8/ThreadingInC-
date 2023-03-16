@@ -10,9 +10,9 @@ namespace Lifethreadening.Models
 {
     public class Animal: SimulationElement
     {
+        private const int DEFAULT_PRIORITY = 1;
         // Locations per detection point
         private const int DETECTION_FACTOR = 10;
-
         private const int MAX_HP = 100;
         private const int MAX_ENERGY = 100;
 
@@ -48,7 +48,7 @@ namespace Lifethreadening.Models
         public Behaviour Behaviour { get; set; }
         public IList<Mutation> Mutations { get; set; } = new List<Mutation>();
 
-        public Animal(Sex sex, Species species, Statistics statistics)
+        public Animal(Sex sex, Species species, Statistics statistics): base(DEFAULT_PRIORITY)
         {
             Hp = MAX_HP;
             Energy = MAX_ENERGY;

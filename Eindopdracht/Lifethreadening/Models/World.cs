@@ -75,8 +75,8 @@ namespace Lifethreadening.Models
             {
                 simulationElement.Act();
             }
-            Date = Date.Add(StepSize);
             _weatherManager.Update();
+            Date = Date.Add(StepSize);
             OnPropertyChanged(nameof(Weather));
             OnPropertyChanged(nameof(Locations));
         }

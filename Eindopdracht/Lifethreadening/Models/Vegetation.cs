@@ -8,13 +8,14 @@ namespace Lifethreadening.Models
 {
     public class Vegetation : SimulationElement
     {
+        private const int DEFAULT_PRIORITY = 2;
         private const int MAX_NUTRITION_RELEASED_PER_DEPLETION = 10;
 
         private int _standardGrowth;
         private int _maxNutrition;
         private int _currentNutrition = 20;
 
-        public Vegetation(string image, int standardGrowth, int maxNutrition)
+        public Vegetation(string image, int standardGrowth, int maxNutrition): base(DEFAULT_PRIORITY)
         {
             _standardGrowth = standardGrowth;
             _maxNutrition = maxNutrition;

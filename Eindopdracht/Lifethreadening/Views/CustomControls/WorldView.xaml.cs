@@ -27,18 +27,18 @@ namespace Lifethreadening.Views.CustomControls
     public sealed partial class WorldView : UserControl
     {
         public static readonly DependencyProperty WorldProperty =
-            DependencyProperty.Register("World", typeof(World), typeof(WorldView), new PropertyMetadata(null, new PropertyChangedCallback(InitializeRedraw)));
+            DependencyProperty.Register("World", typeof(GridWorld), typeof(WorldView), new PropertyMetadata(null, new PropertyChangedCallback(InitializeRedraw)));
 
         public static readonly DependencyProperty SelectedSimulationElementProperty =
             DependencyProperty.Register("SelectedSimulationElement", typeof(SimulationElement), typeof(WorldView), new PropertyMetadata(null));
 
-        public static BitmapImage img = new BitmapImage(new Uri("ms-appx:///Assets/fox.png")); // TODO dynamic
+        private static BitmapImage img = new BitmapImage(new Uri("ms-appx:///Assets/fox.png")); // TODO dynamic
 
-        public World World
+        public GridWorld World
         {
             get 
             { 
-                return (World)GetValue(WorldProperty); 
+                return (GridWorld)GetValue(WorldProperty); 
             }
             set 
             { 
@@ -58,15 +58,15 @@ namespace Lifethreadening.Views.CustomControls
             }
         }
 
-        public Location[][] Locations
+        private Location[][] Locations
         {
             get
             {
-                return ((GridWorld)World).Grid;
+                return World.Grid;
             }
         }
 
-        public double CellWidth
+        private double CellWidth
         {
             get
             {
@@ -74,7 +74,7 @@ namespace Lifethreadening.Views.CustomControls
             }
         }
 
-        public double CellHeight
+        private double CellHeight
         {
             get
             {
@@ -87,29 +87,13 @@ namespace Lifethreadening.Views.CustomControls
             this.InitializeComponent();
         }
 
-        protected override void OnPointerPressed(PointerRoutedEventArgs e)
-        {
-            base.OnPointerPressed(e);
-            Point point = e.GetCurrentPoint(this).Position;
-
-            double cellWidth = CellWidth;
-            double cellHeight = CellHeight;
-            
-            int column = (int)(point.X / cellWidth);
-            int row = (int)(point.Y / cellHeight);
-            Location location = Locations[row][column];
-            SimulationElement simulationElement = GetOnTop(location);
-            SelectedSimulationElement = simulationElement;
-        }
-
         private static void InitializeRedraw(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WorldView worldView = (WorldView)d;
-            worldView.T();
-            worldView.Draw();
+            worldView.RedrawWhenChanged();
         }
 
-        private void T()
+        private void RedrawWhenChanged()
         {
             World.PropertyChanged += World_PropertyChanged;
         }
@@ -122,47 +106,68 @@ namespace Lifethreadening.Views.CustomControls
             }
         }
 
+        protected override void OnPointerPressed(PointerRoutedEventArgs e)
+        {
+            base.OnPointerPressed(e);
+            SelectedSimulationElement = GetSimulationElementAt(e.GetCurrentPoint(this).Position);
+        }
+
+        private SimulationElement GetSimulationElementAt(Point point)
+        {
+            int column = (int)(point.X / CellWidth);
+            int row = (int)(point.Y / CellHeight);
+            return GetOnTop(Locations[row][column]);
+        }
+
         private void Draw()
         {
-            double cellWidth = CellWidth;
-            double cellHeight = CellHeight;
-
-            Space.Children.Clear();
-
-            Location[][] locations = Locations;
-            for(int i = 0; i < locations.Length; i++)
+            Clear();
+            for(int i = 0; i < Locations.Length; i++)
             {
-                Location[] row = locations[i];
+                Location[] row = Locations[i];
                 for(int j = 0; j < row.Length; j++)
                 {
                     Location location = row[j];
-                    SimulationElement simulationElement = GetOnTop(location);
-                    if(simulationElement != null)
-                    {
-                        Image image = new Image()
-                        {
-                            Source = img,
-                            Height = cellHeight,
-                            Width = cellWidth,
-                            Margin = new Thickness()
-                            {
-                                Top = cellHeight * i,
-                                Left = cellWidth * j,
-                                Bottom = 0,
-                                Right = 0
-                            },
-                            VerticalAlignment = VerticalAlignment.Top,
-                            HorizontalAlignment = HorizontalAlignment.Left,
-                        };
-                        Space.Children.Add(image);
-                    }
+                    ShowAt(location, i, j);
                 }
             }
+        }
+
+        private void ShowAt(Location location, int row, int column)
+        {
+            SimulationElement simulationElement = GetOnTop(location);
+            if(simulationElement != null)
+            {
+                FrameworkElement representation = GetRepresentation(simulationElement);
+                representation.Margin = new Thickness()
+                {
+                    Top = CellHeight * row,
+                    Left = CellWidth * column,
+                };
+                Space.Children.Add(representation);
+            }
+        }
+
+        private FrameworkElement GetRepresentation(SimulationElement simulationElement)
+        {
+            return new Image()
+            {
+                Source = img,
+                VerticalAlignment = VerticalAlignment.Top,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Height = CellHeight,
+                Width = CellWidth
+            };
         }
 
         private SimulationElement GetOnTop(Location location)
         {
             return location.SimulationElements.FirstOrDefault();
+        }
+
+        private void Clear()
+        {
+            Space.Children.Clear();
         }
     }
 }

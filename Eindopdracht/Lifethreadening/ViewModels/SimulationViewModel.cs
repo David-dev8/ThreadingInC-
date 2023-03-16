@@ -25,7 +25,6 @@ namespace Lifethreadening.ViewModels
                 NotifyPropertyChanged();
             }
         }
-
         public SimulationElement SelectedSimulationElement
         {
             get
@@ -35,13 +34,6 @@ namespace Lifethreadening.ViewModels
             set
             {
                 SelectedAnimal = value as Animal;
-            }
-        }
-        public bool HasSelectedAnimal
-        {
-            get
-            {
-                return SelectedAnimal != null;
             }
         }
         public GridWorld GridWorld

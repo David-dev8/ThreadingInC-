@@ -9,20 +9,28 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
-    public class Location: Observable
+    public class Location : Observable
     {
+        private IList<SimulationElement> _simulationElements = new List<SimulationElement>();
+
         public IList<Location> Neighbours { get; set; } = new List<Location>();
-        public IList<SimulationElement> SimulationElements { get; set; } = new List<SimulationElement>();
+        public IEnumerable<SimulationElement> SimulationElements
+        {
+            get
+            {
+                return _simulationElements.OrderBy(element => element.Priority);
+            }
+        }
 
         public void AddSimulationElement(SimulationElement simulationElement)
         {
-            SimulationElements.Add(simulationElement);
+            _simulationElements.Add(simulationElement);
             simulationElement.Location = this;
         }
 
         public void RemoveSimulationElement(SimulationElement simulationElement)
         {
-            SimulationElements.Remove(simulationElement);
+            _simulationElements.Remove(simulationElement);
             simulationElement.Location = null;
         }
     }
