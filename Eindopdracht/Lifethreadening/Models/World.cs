@@ -23,6 +23,7 @@ namespace Lifethreadening.Models
             set 
             { 
                 _date = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -64,7 +65,7 @@ namespace Lifethreadening.Models
             Date = DateTime.Now;
         }
 
-        public void Step()
+        public virtual void Step()
         {
             foreach(SimulationElement simulationElement in SimulationElements)
             {
@@ -74,8 +75,9 @@ namespace Lifethreadening.Models
             {
                 simulationElement.Act();
             }
-            _weatherManager.Update();
             Date = Date.Add(StepSize);
+            _weatherManager.Update();
+            OnPropertyChanged(nameof(Weather));
             OnPropertyChanged(nameof(Locations));
         }
 

@@ -19,6 +19,13 @@ namespace Lifethreadening.ViewModels
                 return SelectedAnimal != null;
             }
         }
+        public GridWorld GridWorld
+        {
+            get
+            {
+                return (GridWorld)Simulation.World;
+            }
+        }
 
         public SimulationViewModel(NavigationService navigationService, Simulation simulation) : base(navigationService)
         {

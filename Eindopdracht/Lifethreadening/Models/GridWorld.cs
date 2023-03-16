@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Composition;
+using Windows.UI.Xaml.Controls;
 
 namespace Lifethreadening.Models
 {
@@ -11,7 +13,7 @@ namespace Lifethreadening.Models
     {
         public int Height { get; set; }
         public int Width { get; set; }
-        private Location[][] _locations;
+        public Location[][] Grid { get; set; }
 
         public GridWorld(Ecosystem ecosystem, IWeatherManager weatherManager, int width = 25, int height = 25) : base(ecosystem, weatherManager)
         {
@@ -22,7 +24,7 @@ namespace Lifethreadening.Models
 
         public override void CreateWorld()
         {
-            _locations = new Location[Height][];
+            Grid = new Location[Height][];
             for (int i = 0; i < Height; i++)
             {
                 var row = new Location[Width];
@@ -30,7 +32,7 @@ namespace Lifethreadening.Models
                 {
                     row[j] = new Location();
                 }
-                _locations[i] = row;
+                Grid[i] = row;
             }
             RegisterNeighbours();
         }
@@ -41,17 +43,17 @@ namespace Lifethreadening.Models
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    RegisterNeighbour(_locations[i][j], i + 1, j);
-                    RegisterNeighbour(_locations[i][j], i - 1, j);
-                    RegisterNeighbour(_locations[i][j], i, j + 1);
-                    RegisterNeighbour(_locations[i][j], i, j - 1);
+                    RegisterNeighbour(Grid[i][j], i + 1, j);
+                    RegisterNeighbour(Grid[i][j], i - 1, j);
+                    RegisterNeighbour(Grid[i][j], i, j + 1);
+                    RegisterNeighbour(Grid[i][j], i, j - 1);
                 }
             }
         }
 
         private void RegisterNeighbour(Location location, int row, int column)
         {
-            Location neighbour = _locations.ElementAtOrDefault(row)?.ElementAtOrDefault(column);
+            Location neighbour = Grid.ElementAtOrDefault(row)?.ElementAtOrDefault(column);
             if(neighbour != null)
             {
                 location.Neighbours.Add(neighbour);
@@ -61,7 +63,7 @@ namespace Lifethreadening.Models
         public override IEnumerable<Location> GetLocations()
         {
             IList<Location> allLocations = new List<Location>();
-            foreach(Location[] row in _locations)
+            foreach(Location[] row in Grid)
             {
                 foreach(Location location in row)
                 {
@@ -69,6 +71,12 @@ namespace Lifethreadening.Models
                 }
             }
             return allLocations;
+        }
+
+        public override void Step()
+        {
+            base.Step();
+            OnPropertyChanged(nameof(Grid));
         }
     }
 }

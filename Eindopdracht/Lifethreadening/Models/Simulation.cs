@@ -50,6 +50,7 @@ namespace Lifethreadening.Models
         public void Step()
         {
             World.Step();
+            OnPropertyChanged(nameof(World));
         }
 
         private bool IsGameOver()
@@ -69,7 +70,7 @@ namespace Lifethreadening.Models
 
         public void Start()
         {
-            _stepTimer.Change(3000, 700);
+            _stepTimer.Change(3000, 100);
         }
 
         public void Stop()
