@@ -10,8 +10,33 @@ namespace Lifethreadening.ViewModels
 {
     public class SimulationViewModel : BaseViewModel
     {
+        private Animal _selectedAnimal;
+
         public Simulation Simulation { get; set; }
-        public Animal SelectedAnimal { get; set; }
+        public Animal SelectedAnimal 
+        { 
+            get
+            {
+                return _selectedAnimal;
+            }
+            set
+            {
+                _selectedAnimal = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public SimulationElement SelectedSimulationElement
+        {
+            get
+            {
+                return SelectedAnimal;
+            }
+            set
+            {
+                SelectedAnimal = value as Animal;
+            }
+        }
         public bool HasSelectedAnimal
         {
             get

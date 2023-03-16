@@ -70,7 +70,7 @@ namespace Lifethreadening.Models
 
         public void Start()
         {
-            _stepTimer.Change(3000, 100);
+            _stepTimer.Change(3000, 100000);
         }
 
         public void Stop()

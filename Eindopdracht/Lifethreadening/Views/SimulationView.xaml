@@ -17,7 +17,8 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="320" />
         </Grid.ColumnDefinitions>
-        <customcontrols:WorldView Grid.Column="0" World="{Binding GridWorld, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" />
+        <customcontrols:WorldView Grid.Column="0" World="{Binding GridWorld, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedSimulationElement="{Binding SelectedSimulationElement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <Grid Grid.Column="1" Background="{StaticResource PrimaryBackgroundBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="14*" />
@@ -34,15 +35,14 @@
                 </StackPanel>
 
                 <StackPanel Padding="20,20">
-                    <Grid Visibility="{Binding HasSelectedAnimal, Converter={StaticResource InverseVisibilityConverter}}">
+                    <Grid Visibility="{Binding SelectedAnimal, Converter={StaticResource NullVisibilityConverter}}">
                         <TextBlock TextWrapping="WrapWholeWords">
                                 No animal selected.
                                 <LineBreak />
                                 Select an animal within the simulation to view its details.
                         </TextBlock>
                     </Grid>
-                    <StackPanel>
-                        <!--Visibility="{Binding HasSelectedAnimal, Converter={StaticResource VisibilityConverter}}">-->
+                    <StackPanel Visibility="{Binding SelectedAnimal, Converter={StaticResource NullVisibilityConverter}}">
                         <StackPanel Margin="0,0,0,5">
                             <Grid Margin="0,0,0,10">
                                 <Grid.ColumnDefinitions>
@@ -204,8 +204,6 @@
             </StackPanel>
         </Grid>
 
-
-        <!--gene view popup-->
         <Popup Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="0" Grid.Column="0" x:Name="geneticsView" LightDismissOverlayMode="On" IsLightDismissEnabled="True" >
             <Frame Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource SecondaryBackgroundBrush}" BorderThickness="10" Width="1125" Height="500">
                 <Grid>
@@ -431,7 +429,5 @@
                 </Grid>
             </Frame>
         </Popup>
-
-        
     </Grid>
 </Page>

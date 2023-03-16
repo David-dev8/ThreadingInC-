@@ -9,6 +9,7 @@ using Windows.Devices.PointOfService;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
+using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -27,7 +28,10 @@ namespace Lifethreadening.Views.CustomControls
     {
         public static readonly DependencyProperty WorldProperty =
             DependencyProperty.Register("World", typeof(World), typeof(WorldView), new PropertyMetadata(null, new PropertyChangedCallback(InitializeRedraw)));
-        
+
+        public static readonly DependencyProperty SelectedSimulationElementProperty =
+            DependencyProperty.Register("SelectedSimulationElement", typeof(SimulationElement), typeof(WorldView), new PropertyMetadata(null));
+
         public static BitmapImage img = new BitmapImage(new Uri("ms-appx:///Assets/fox.png")); // TODO dynamic
 
         public World World
@@ -39,6 +43,18 @@ namespace Lifethreadening.Views.CustomControls
             set 
             { 
                 SetValue(WorldProperty, value); 
+            }
+        }
+
+        public SimulationElement SelectedSimulationElement
+        {
+            get
+            {
+                return (SimulationElement)GetValue(SelectedSimulationElementProperty);
+            }
+            set
+            {
+                SetValue(SelectedSimulationElementProperty, value);
             }
         }
 
@@ -69,6 +85,21 @@ namespace Lifethreadening.Views.CustomControls
         public WorldView()
         {
             this.InitializeComponent();
+        }
+
+        protected override void OnPointerPressed(PointerRoutedEventArgs e)
+        {
+            base.OnPointerPressed(e);
+            Point point = e.GetCurrentPoint(this).Position;
+
+            double cellWidth = CellWidth;
+            double cellHeight = CellHeight;
+            
+            int column = (int)(point.X / cellWidth);
+            int row = (int)(point.Y / cellHeight);
+            Location location = Locations[row][column];
+            SimulationElement simulationElement = GetOnTop(location);
+            SelectedSimulationElement = simulationElement;
         }
 
         private static void InitializeRedraw(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -108,7 +139,8 @@ namespace Lifethreadening.Views.CustomControls
                     SimulationElement simulationElement = GetOnTop(location);
                     if(simulationElement != null)
                     {
-                        Space.Children.Add(new Image() {
+                        Image image = new Image()
+                        {
                             Source = img,
                             Height = cellHeight,
                             Width = cellWidth,
@@ -119,9 +151,10 @@ namespace Lifethreadening.Views.CustomControls
                                 Bottom = 0,
                                 Right = 0
                             },
-                            VerticalAlignment = VerticalAlignment.Top, 
+                            VerticalAlignment = VerticalAlignment.Top,
                             HorizontalAlignment = HorizontalAlignment.Left,
-                        });
+                        };
+                        Space.Children.Add(image);
                     }
                 }
             }

@@ -37,4 +37,5 @@
         <converters:BoolToVisibilityConverter />
     </customConverters:ConverterGroup>
     <converters:StringFormatConverter x:Key="StringFormatter"/>
+    <customConverters:NullToVisibilityConverter x:Key="NullVisibilityConverter"/>
 </ResourceDictionary>
