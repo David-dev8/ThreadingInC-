@@ -8,6 +8,6 @@ namespace Lifethreadening.Models
 {
     public interface IBreedFactory
     {
-        IEnumerable<Animal> CreateAnimals(Animal father, Animal mother);
+        IEnumerable<Animal> CreateAnimals(Animal father, Animal mother, WorldContextService contextService);
     }
 }

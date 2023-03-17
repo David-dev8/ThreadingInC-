@@ -8,55 +8,20 @@ namespace Lifethreadening.Models.Behaviours
 {
     public class CarnivoreEatBehaviour : EatBehaviour
     {
-        private const int MINIMUM_DAMAGE = 1;
+        private const int MINIMUM_DAMAGE = 10;
 
         public CarnivoreEatBehaviour(Animal animal) : base(animal)
         {
         }
 
-        // Get the animal that is the most attractive and eat it if it is in range
         public override Incentive guide()
         {
-            IDictionary<Animal, double> targets = new Dictionary<Animal, double>();
-            IDictionary<Location, Path> locations = Animal.DetectSurroundings(); // TODO cache?
-            foreach(KeyValuePair<Location, Path> location in locations)
-            {
-                // The closer we are, the higher the priority
-                double distanceFactor = 1 / Math.Sqrt(location.Value.Length);
-                foreach(SimulationElement element in location.Key.SimulationElements)
-                {
-                    if(element is Animal animal)
-                    {
-                        targets.Add(animal, element.GetNutritionalValue() * distanceFactor);
-                    }
-                }
-            }
-
-            Animal mostRelevantTarget = targets.Keys.FirstOrDefault();
-            foreach(KeyValuePair<Animal, double> target in targets)
-            {
-                if(target.Value > targets[mostRelevantTarget])
-                {
-                    mostRelevantTarget = target.Key;
-                }
-            }
-
-            if(mostRelevantTarget != null)
-            {
-                // There is a target
-                return new Incentive(() =>
-                {
-                    // Move towards the animal and try to attack it
-                    Animal.MoveAlong(locations[mostRelevantTarget.Location]);
-                    Attack(mostRelevantTarget);
-                }, GetMotivation());
-            }
-
-            return null;
+            return guide((simulationElement) => simulationElement is Animal);
         }
 
-        private void Attack(Animal otherAnimal)
+        protected override void Inflict(SimulationElement target)
         {
+            Animal otherAnimal = (Animal)target;
             // Is the animal in range? Decrease its hp
             if(CanReach(otherAnimal.Location))
             {
@@ -68,12 +33,13 @@ namespace Lifethreadening.Models.Behaviours
 
         private int GetDamageToDealTo(Animal otherAnimal)
         {
-            return Math.Min(Animal.Statistics.Aggresion - otherAnimal.Statistics.SelfDefence, MINIMUM_DAMAGE);
+            return Math.Max(Animal.Statistics.Aggresion - otherAnimal.Statistics.SelfDefence, MINIMUM_DAMAGE);
         }
 
-        private int GetMotivation()
+        protected override int GetMotivation()
         {
-            return (int)(Animal.Statistics.Aggresion + 1 / Math.Sqrt(Animal.Energy)); // TODO
+            int h = GetHunger();
+            return (int)(Animal.Statistics.Aggresion / 100.0 * 0.7 * h); // TODO
         }
     }
 }

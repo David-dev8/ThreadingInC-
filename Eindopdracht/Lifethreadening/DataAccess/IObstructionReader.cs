@@ -9,6 +9,6 @@ namespace Lifethreadening.DataAccess
 {
     public interface IObstructionReader
     {
-        IEnumerable<Obstruction> ReadByEcosystem(int ecosystemId);
+        IEnumerable<Obstruction> ReadByEcosystem(int ecosystemId, WorldContextService contextService);
     }
 }

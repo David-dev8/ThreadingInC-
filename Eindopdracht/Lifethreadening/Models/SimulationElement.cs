@@ -11,18 +11,20 @@ namespace Lifethreadening.Models
         public Location Location { get; set; }
         public int Priority { get; private set; }
         protected Action PlannedAction { get; set; }
+        protected WorldContextService ContextService { get; set; }
 
-        public SimulationElement(int priority)
+        public SimulationElement(int priority, WorldContextService contextService)
         {
             Priority = priority;
+            ContextService = contextService;
         }
 
-        public void Plan(WorldContext context)
+        public void Plan()
         {
-            PlannedAction = GetNextAction(context);
+            PlannedAction = GetNextAction();
         }
 
-        public void Act()
+        public virtual void Act()
         {
             if(PlannedAction != null)
             {
@@ -31,7 +33,7 @@ namespace Lifethreadening.Models
             }
         }
 
-        protected abstract Action GetNextAction(WorldContext context);
+        protected abstract Action GetNextAction();
         public abstract bool StillExistsPhysically();
         public abstract int GetNutritionalValue();
         public abstract int DepleteNutritionalValue();

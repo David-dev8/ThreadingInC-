@@ -9,6 +9,6 @@ namespace Lifethreadening.DataAccess
 {
     public interface IVegetationReader
     {
-        IEnumerable<Vegetation> ReadByEcosystem(int ecosystemId);
+        IEnumerable<Vegetation> ReadByEcosystem(int ecosystemId, WorldContextService contextService); // TODO id is technisch gezien onnodig
     }
 }

@@ -19,7 +19,7 @@ namespace Lifethreadening.DataAccess.Database
             _database = new DatabaseHelper<Vegetation>();
         }
 
-        public IEnumerable<Vegetation> ReadByEcosystem(int ecosystemId)
+        public IEnumerable<Vegetation> ReadByEcosystem(int ecosystemId, WorldContextService contextService)
         {
             string query = @"
                 SELECT *
@@ -34,15 +34,16 @@ namespace Lifethreadening.DataAccess.Database
             {
                 new SqlParameter("@ecosystemId", ecosystemId),
             };
-            return _database.Read(CreateVegetation, query, CommandType.Text, parameters);
+            return _database.Read((dataReader) => CreateVegetation(dataReader, contextService), query, CommandType.Text, parameters);
         }
 
-        private Vegetation CreateVegetation(SqlDataReader dataReader)
+        private Vegetation CreateVegetation(SqlDataReader dataReader, WorldContextService contextService)
         {
             return new Vegetation(
                 dataReader.GetString("image"),
                 dataReader.GetInt32("growth"),
-                dataReader.GetInt32("maxNutrition"));
+                dataReader.GetInt32("maxNutrition"),
+                contextService);
         }
     }
 }

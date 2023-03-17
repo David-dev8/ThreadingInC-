@@ -10,6 +10,7 @@ namespace Lifethreadening.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public string ScientificName { get; set; }
         public string Image { get; set; }
         public int AverageAge { get; set; }
@@ -19,10 +20,11 @@ namespace Lifethreadening.Models
         public Diet Diet { get; set; }
         public Statistics BaseStatistics { get; set; }
 
-        public Species(int id, string name, string scientificName, string image, int averageAge, int maxAge, int maxBreedSize, int minBreedSize, Diet diet, Statistics baseStatistics)
+        public Species(int id, string name, string description, string scientificName, string image, int averageAge, int maxAge, int maxBreedSize, int minBreedSize, Diet diet, Statistics baseStatistics)
         {
             Id = id;
             Name = name;
+            Description = description;
             ScientificName = scientificName;
             Image = image;
             AverageAge = averageAge;

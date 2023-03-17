@@ -28,8 +28,8 @@ namespace Lifethreadening.Models
         }
 
         public TimeSpan StepSize { get; } = new TimeSpan(1, 0, 0, 0);
-
         public Ecosystem Ecosystem { get; set; }
+
         public Weather Weather
         {
             get
@@ -37,6 +37,7 @@ namespace Lifethreadening.Models
                 return _weatherManager.GetCurrent();
             }
         }
+
         public IEnumerable<Location> Locations
         {
             get
@@ -69,11 +70,15 @@ namespace Lifethreadening.Models
         {
             foreach(SimulationElement simulationElement in SimulationElements)
             {
-                simulationElement.Plan(CreateContext());
+                simulationElement.Plan();
             }
             foreach(SimulationElement simulationElement in SimulationElements)
             {
                 simulationElement.Act();
+            }
+            foreach(Location location in Locations)
+            {
+                location.RemoveNonExistingSimulationElements();
             }
             _weatherManager.Update();
             Date = Date.Add(StepSize);
@@ -84,10 +89,5 @@ namespace Lifethreadening.Models
         public abstract void CreateWorld();
 
         public abstract IEnumerable<Location> GetLocations();
-
-        private WorldContext CreateContext()
-        {
-            return new WorldContext(Weather, Date);
-        }
     }
 }

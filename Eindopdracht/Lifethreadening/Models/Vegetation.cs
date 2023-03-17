@@ -15,7 +15,7 @@ namespace Lifethreadening.Models
         private int _maxNutrition;
         private int _currentNutrition = 20;
 
-        public Vegetation(string image, int standardGrowth, int maxNutrition): base(DEFAULT_PRIORITY)
+        public Vegetation(string image, int standardGrowth, int maxNutrition, WorldContextService service): base(DEFAULT_PRIORITY, service)
         {
             _standardGrowth = standardGrowth;
             _maxNutrition = maxNutrition;
@@ -29,14 +29,20 @@ namespace Lifethreadening.Models
             }
         }
 
+        private void Grow(Weather weather)
+        {
+            Grow((int)(_standardGrowth * weather.RainFall + weather.Humidity));
+        }
+
         public override bool StillExistsPhysically()
         {
             return _currentNutrition > 0;
         }
 
-        protected override Action GetNextAction(WorldContext context)
+        protected override Action GetNextAction()
         {
-            return () => Grow((int)(_standardGrowth * context.Weather.RainFall + context.Weather.Humidity));
+            Weather weather = ContextService.GetContext().Weather;
+            return () => Grow(weather);
         }
 
         public override int GetNutritionalValue()

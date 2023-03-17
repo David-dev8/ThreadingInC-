@@ -23,7 +23,7 @@ namespace Lifethreadening.Models
             _behaviourBuilder = behaviourBuilder;
         }
 
-        public IEnumerable<Animal> CreateAnimals(Animal father, Animal mother)
+        public IEnumerable<Animal> CreateAnimals(Animal father, Animal mother, WorldContextService contextService)
         {
             if(CanBreed(father, mother))
             {
@@ -32,17 +32,17 @@ namespace Lifethreadening.Models
                 IList<Animal> children = new List<Animal>();
                 for(int i = 0; i < amountOfChildren; i++)
                 {
-                    children.Add(CreateAnimal(father, mother));
+                    children.Add(CreateAnimal(father, mother, contextService));
                 }
                 return children;
             }
             return Enumerable.Empty<Animal>();
         }
 
-        private Animal CreateAnimal(Animal father, Animal mother)
+        private Animal CreateAnimal(Animal father, Animal mother, WorldContextService contextService)
         {
             Species species = father.Species;
-            Animal newAnimal = new Animal(EnumHelpers.GetRandom<Sex>(), species, MergeStatistics(species, father.Statistics, mother.Statistics));
+            Animal newAnimal = new Animal(EnumHelpers.GetRandom<Sex>(), species, MergeStatistics(species, father.Statistics, mother.Statistics), contextService);
             newAnimal.Behaviour = _behaviourBuilder
                 .ForAnimal(newAnimal)
                 .AddEat(species.Diet)

@@ -29,31 +29,31 @@ namespace Lifethreadening.Models
             _breedFactory = new EvenlyDistributedParentsBreedFactory(_behaviourBuilder);
         }
 
-        public SimulationElement CreateRandomElement(Ecosystem ecosystem)
+        public SimulationElement CreateRandomElement(WorldContextService contextService)
         {
             double randomNumber = _random.NextDouble();
             double total = 0;
             if(randomNumber < (total += ANIMAL_CHANCE))
             {
-                return CreateAnimal(ecosystem);
+                return CreateAnimal(contextService);
             }
             else if(randomNumber < (total += VEGETATION_CHANCE))
             {
-                return CreateVegetation(ecosystem);
+                return CreateVegetation(contextService);
             }
             else if(randomNumber < (total += OBSTRUCTION_CHANCE))
             {
-                return CreateObstruction(ecosystem);
+                return CreateObstruction(contextService);
             }
             return null;
         }
 
-        public Animal CreateAnimal(Ecosystem ecosystem)
+        public Animal CreateAnimal(WorldContextService contextService)
         {
             ISpeciesReader speciesReader = new DatabaseSpeciesReader();
-            Species species = speciesReader.ReadByEcosystem(ecosystem.Id).GetRandom();
+            Species species = speciesReader.ReadByEcosystem(contextService.GetContext().Ecosystem.Id).GetRandom();
 
-            Animal newAnimal = new Animal(EnumHelpers.GetRandom<Sex>(), species, GenerateStatisticsFromBase(species.BaseStatistics));
+            Animal newAnimal = new Animal(EnumHelpers.GetRandom<Sex>(), species, GenerateStatisticsFromBase(species.BaseStatistics), contextService);
             newAnimal.Behaviour = _behaviourBuilder
                 .ForAnimal(newAnimal)
                 .AddEat(species.Diet)
@@ -65,16 +65,16 @@ namespace Lifethreadening.Models
             return newAnimal;
         }
 
-        public Obstruction CreateObstruction(Ecosystem ecosystem)
+        public Obstruction CreateObstruction(WorldContextService contextService)
         {
             IObstructionReader obstructionReader = new DatabaseObstructionReader();
-            return obstructionReader.ReadByEcosystem(ecosystem.Id).GetRandom();
+            return obstructionReader.ReadByEcosystem(contextService.GetContext().Ecosystem.Id, contextService).GetRandom();
         }
 
-        public Vegetation CreateVegetation(Ecosystem ecosystem)
+        public Vegetation CreateVegetation(WorldContextService contextService)
         {
             IVegetationReader vegetationReader = new DatabaseVegetationReader();
-            return vegetationReader.ReadByEcosystem(ecosystem.Id).GetRandom();
+            return vegetationReader.ReadByEcosystem(contextService.GetContext().Ecosystem.Id, contextService).GetRandom();
         }
 
         public Statistics GenerateStatisticsFromBase(Statistics baseStatistics)

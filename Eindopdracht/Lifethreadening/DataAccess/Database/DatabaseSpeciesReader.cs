@@ -13,6 +13,12 @@ namespace Lifethreadening.DataAccess.Database
 {
     public class DatabaseSpeciesReader : ISpeciesReader
     {
+        private static readonly IDictionary<string, Diet> dietDatabaseMapping = new Dictionary<string, Diet>()
+        {
+            { "Herbivore", Diet.HERBIVORE },
+            { "Carnivore", Diet.CARNIVORE },
+            { "Omnivore", Diet.HERBIVORE }
+        };
         private static readonly string DATABASE_TABLE_NAME = "Species";
         private DatabaseHelper<Species> _database;
 
@@ -24,7 +30,7 @@ namespace Lifethreadening.DataAccess.Database
         public IEnumerable<Species> ReadAll()
         {
             string query = "SELECT * FROM " + DATABASE_TABLE_NAME;
-            return _database.Read(createSpecies, query, CommandType.Text);
+            return _database.Read(CreateSpecies, query, CommandType.Text);
         }
 
         public IEnumerable<Species> ReadByEcosystem(int ecosystemId)
@@ -42,23 +48,33 @@ namespace Lifethreadening.DataAccess.Database
             {
                 new SqlParameter("@ecosystemId", ecosystemId),
             };
-            return _database.Read(createSpecies, query, CommandType.Text, parameters);
+            return _database.Read(CreateSpecies, query, CommandType.Text, parameters);
         }
 
-        private Species createSpecies(SqlDataReader dataReader)
+        private Species CreateSpecies(SqlDataReader dataReader)
         {
             return new Species(
                 dataReader.GetInt32("id"),
+                dataReader.GetString("name"),
+                dataReader.GetString("description"),
+                dataReader.GetString("scientificName"),
                 dataReader.GetString("image"),
-                null,
-                null,
-                0,
-                0,
-                0,
-                0,
-                Diet.HERBIVORE,
+                dataReader.GetInt32("averageAge"),
+                dataReader.GetInt32("maxAge"),
+                dataReader.GetInt32("maxBreedSize"),
+                dataReader.GetInt32("minBreedSize"),
+                dietDatabaseMapping[dataReader.GetString("diet")],
                 new Statistics()
                 {
+                    Aggresion = dataReader.GetInt32("aggression"),
+                    Detection = dataReader.GetInt32("detection"),
+                    SelfDefence = dataReader.GetInt32("selfDefence"),
+                    Intelligence = dataReader.GetInt32("intelligence"),
+                    MetabolicRate = dataReader.GetInt32("metabolicRate"),
+                    Resilience = dataReader.GetInt32("resilience"),
+                    Size = dataReader.GetInt32("size"),
+                    Weight = dataReader.GetInt32("weight"),
+                    Speed = dataReader.GetInt32("speed")
                 }
             );
         }

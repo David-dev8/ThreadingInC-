@@ -122,9 +122,13 @@
     <Compile Include="Base\AsyncRelayCommand.cs" />
     <Compile Include="Base\NavigationService.cs" />
     <Compile Include="Base\Observable.cs" />
+    <Compile Include="Converters\EnumToStringConverter.cs" />
     <Compile Include="Converters\IntFormatConverter.cs" />
     <Compile Include="Converters\ConverterGroup.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
+    <Compile Include="Converters\AmountToSingularOrPluralConverter.cs" />
+    <Compile Include="Converters\SexToBrushConverter.cs" />
+    <Compile Include="Converters\SexToIconConverter.cs" />
     <Compile Include="Converters\TimeSpanToAmountOfDaysConverter.cs" />
     <Compile Include="Base\RelayCommand.cs" />
     <Compile Include="DataAccess\Algorithmic\RandomWeatherManager.cs" />
@@ -153,6 +157,7 @@
     <Compile Include="ExtensionMethods\NumbersExtensions.cs" />
     <Compile Include="ExtensionMethods\DatabaseExtensions.cs" />
     <Compile Include="ExtensionMethods\RandomExtensions.cs" />
+    <Compile Include="ExtensionMethods\StringExtensions.cs" />
     <Compile Include="Helpers\EnumHelpers.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -170,6 +175,7 @@
     <Compile Include="Models\Behaviours\RestBehaviour.cs" />
     <Compile Include="Models\Behaviours\HerbivoreEatBehaviour.cs" />
     <Compile Include="Models\Behaviours\WanderBehaviour.cs" />
+    <Compile Include="Models\WorldContextService.cs" />
     <Compile Include="Models\EvenlyDistributedParentsBreedFactory.cs" />
     <Compile Include="Models\IBreedFactory.cs" />
     <Compile Include="Models\Diet.cs" />

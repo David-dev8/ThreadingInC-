@@ -44,87 +44,107 @@
                         </TextBlock>
                     </Grid>
                     <StackPanel Visibility="{Binding SelectedAnimal, Converter={StaticResource NullVisibilityConverter}}">
-                        <StackPanel Margin="0,0,0,5">
-                            <Grid Margin="0,0,0,10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Style="{StaticResource Title}">Fox Harold</TextBlock>
-                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="5">
-                                    <TextBlock>Age: 13 years</TextBlock>
-                                    <fa:FontAwesome Icon="Mars" Foreground="#0071B0" />
+                        <StackPanel DataContext="{Binding SelectedAnimal}">
+                            <StackPanel Margin="0,0,0,5">
+                                <Grid Margin="0,0,0,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Style="{StaticResource Title}">
+                                    <Run Text="{Binding Species.Name}" />
+                                    <Run Text="Harold" />
+                                    </TextBlock>
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="5">
+                                        <TextBlock>
+                                            Age:
+                                            <Run Text="{Binding Age}" />
+                                            <Run Text="{Binding Age, Converter={StaticResource AmountToSingularOrPluralConverter}, ConverterParameter='year'}" />
+                                        </TextBlock>
+                                        <fa:FontAwesome Icon="{Binding Sex, Converter={StaticResource SexToIconConverter}}" 
+                                                        Foreground="{Binding Sex, Converter={StaticResource SexToBrushConverter}}" />
+                                    </StackPanel>
+                                </Grid>
+                                <Grid Margin="0,0,0,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0">HP</TextBlock>
+                                    <ProgressBar Grid.Column="1" Foreground="#D64040" Value="{Binding Hp}" />
+                                </Grid>
+                                <Grid Margin="0,0,0,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0">Energy</TextBlock>
+                                    <ProgressBar Grid.Column="1" Foreground="#CFB428" Value="{Binding Energy}" />
+                                </Grid>
+                                <Grid Margin="0,0,0,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" VerticalAlignment="Center">Genetics</TextBlock>
+                                    <customcontrols:IconButton Grid.Column="1" Icon="Search" Text="Inspect" />
+                                </Grid>
+                            </StackPanel>
+                            <StackPanel DataContext="{Binding Species}">
+                                <TextBlock Style="{StaticResource Subtitle}" Margin="0,0,0,10">Species</TextBlock>
+                                <Grid Margin="0,0,0,10" ColumnSpacing="6">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="/Assets/fox.png" />
+                                    <TextBlock Grid.Column="1" Width="Auto" TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" MaxLines="2" 
+                                               ToolTipService.ToolTip="{Binding Description}" Text="{Binding Description}">
+                                    </TextBlock>
+                                </Grid>
+                                <StackPanel>
+                                    <Grid Margin="0,0,0,5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0">Scientific name</TextBlock>
+                                        <TextBlock Grid.Column="1" Text="{Binding ScientificName}" />
+                                    </Grid>
+                                    <Grid Margin="0,0,0,5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0">Age (avg/max)</TextBlock>
+                                        <TextBlock Grid.Column="1">
+                                            <Run Text="{Binding AverageAge, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0} years'}" />
+                                            /
+                                            <Run Text="{Binding MaxAge, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0} years'}" />
+                                        </TextBlock>
+                                    </Grid>
+                                    <Grid Margin="0,0,0,5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0">Breed size</TextBlock>
+                                        <TextBlock Grid.Column="1">
+                                            <Run Text="{Binding MinBreedSize}" />
+                                            -
+                                            <Run Text="{Binding MaxBreedSize}" />
+                                            children
+                                        </TextBlock>
+                                    </Grid>
+                                    <Grid Margin="0,0,0,5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0">Diet type</TextBlock>
+                                        <TextBlock Grid.Column="1" Text="{Binding Diet, Converter={StaticResource EnumToStringConverter}}" />
+                                    </Grid>
                                 </StackPanel>
-                            </Grid>
-                            <Grid Margin="0,0,0,5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0">HP</TextBlock>
-                                <ProgressBar Grid.Column="1" Foreground="#D64040" Value="50" />
-                            </Grid>
-                            <Grid Margin="0,0,0,5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0">Energy</TextBlock>
-                                <ProgressBar Grid.Column="1" Foreground="#CFB428" Value="50" />
-                            </Grid>
-                            <Grid Margin="0,0,0,5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" VerticalAlignment="Center">Genetics</TextBlock>
-                                <customcontrols:IconButton Grid.Column="1" Icon="Search" Text="Inspect" />
-                            </Grid>
-                        </StackPanel>
-                        <StackPanel>
-                            <TextBlock Style="{StaticResource Subtitle}" Margin="0,0,0,10">Species</TextBlock>
-                            <Grid Margin="0,0,0,10" ColumnSpacing="6">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="30" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Image Source="/Assets/fox.png" />
-                                <TextBlock Grid.Column="1" Width="Auto" TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" MaxLines="2" ToolTipService.ToolTip="No way" Text="Foxes, or reynards are well known for what actually?">
-                                </TextBlock>
-                            </Grid>
-                            <StackPanel>
-                                <Grid Margin="0,0,0,5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0">Scientific name</TextBlock>
-                                    <TextBlock Grid.Column="1">Vulpes vulpes</TextBlock>
-                                </Grid>
-                                <Grid Margin="0,0,0,5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0">Age (avg/max)</TextBlock>
-                                    <TextBlock Grid.Column="1">12 years/20 years</TextBlock>
-                                </Grid>
-                                <Grid Margin="0,0,0,5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0">Breed size</TextBlock>
-                                    <TextBlock Grid.Column="1">8-12 children</TextBlock>
-                                </Grid>
-                                <Grid Margin="0,0,0,5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0">Diet type</TextBlock>
-                                    <TextBlock Grid.Column="1">Omnivore</TextBlock>
-                                </Grid>
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
@@ -238,7 +258,7 @@
                     <!--Text on the left-->
                     <TextBlock x:Name="animalName" FontSize="{StaticResource FontsizeGenetics}" FontWeight="Bold" Grid.Row="1" Grid.Column="1"> Rattlesnake</TextBlock>
                     <!--text Needs to be bound to the animals species-->
-                    <TextBlock x:Name="animalAge" FontSize="{StaticResource FontsizeGenetics}"  Grid.Row="2" Grid.Column="1"> Age: 14 years</TextBlock>
+                    <TextBlock x:Name="animalAge" FontSize="{StaticResource FontsizeGenetics}"  Grid.Row="2" Grid.Column="1" Text="Age: 14 years"/>
                     <!--text needs to be bound to animals age-->
 
                     <TextBlock x:Name="animalStats" FontSize="{StaticResource FontsizeGenetics}" FontWeight="Bold" Grid.Row="4" Grid.Column="1"> Statistics</TextBlock>

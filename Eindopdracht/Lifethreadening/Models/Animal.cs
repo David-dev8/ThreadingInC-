@@ -41,23 +41,38 @@ namespace Lifethreadening.Models
                 _energy = value <= MAX_ENERGY ? value : MAX_ENERGY;
             }
         }
-        public int Age { get; set; } = 0;
+        public DateTime DateOfBirth { get; set; }
+        public int Age 
+        { 
+            get
+            {
+                DateTime currentDate = ContextService.GetContext().Date;
+                int age = currentDate.Year - DateOfBirth.Year;
+                // Correct for a leap year
+                if(DateOfBirth.Date > currentDate.AddYears(-age))
+                {
+                    age--;
+                }
+                return age;
+            }
+        }
         public Sex Sex { get; set; }
         public Species Species { get; set; }
         public Statistics Statistics { get; set; }
         public Behaviour Behaviour { get; set; }
         public IList<Mutation> Mutations { get; set; } = new List<Mutation>();
 
-        public Animal(Sex sex, Species species, Statistics statistics): base(DEFAULT_PRIORITY)
+        public Animal(Sex sex, Species species, Statistics statistics, WorldContextService contextService) : base(DEFAULT_PRIORITY, contextService)
         {
             Hp = MAX_HP;
             Energy = MAX_ENERGY;
             Sex = sex;
             Species = species;
             Statistics = statistics;
+            DateOfBirth = contextService.GetContext().Date;
         }
 
-        protected override Action GetNextAction(WorldContext context)
+        protected override Action GetNextAction()
         {
             if(Behaviour != null)
             {
@@ -68,6 +83,20 @@ namespace Lifethreadening.Models
                 }
             }
             return null;
+        }
+
+        public override void Act()
+        {
+            base.Act();
+
+            Energy--;
+            // Decrease HP
+            int age = Age;
+            if(age > Species.MaxAge) // TODO do something with max age
+            {
+                Hp = 0;
+                Energy = 0;
+            }
         }
 
         public override bool StillExistsPhysically()
@@ -95,8 +124,11 @@ namespace Lifethreadening.Models
 
         public void MoveAlong(Path path)
         {
-            Location.RemoveSimulationElement(this);
-            path.GetLocationAt(Math.Min(GetMaxMovementMagntitude(), path.Length)).AddSimulationElement(this);
+            if(path.Length > 0)
+            {
+                Location.RemoveSimulationElement(this);
+                path.GetLocationAt(Math.Min(GetMaxMovementMagntitude(), path.Length)).AddSimulationElement(this);
+            }
         }
 
         private int GetMaxMovementMagntitude()
@@ -106,11 +138,16 @@ namespace Lifethreadening.Models
 
         public IDictionary<Location, Path> DetectSurroundings()
         {
-            IDictionary<Location, Path> possiblePaths = new Dictionary<Location, Path>() { { Location, new Path(Location) } };
             int range = (int)Math.Ceiling((double)Statistics.Detection / DETECTION_FACTOR);
+            return DetectSurroundings(range);
+        }
+
+        public IDictionary<Location, Path> DetectSurroundings(int range)
+        {
+            IDictionary<Location, Path> possiblePaths = new Dictionary<Location, Path>() { { Location, new Path(Location) } };
             for(int i = 0; i < range; i++)
             {
-                foreach(Path path in possiblePaths.Values)
+                foreach(Path path in possiblePaths.Values.ToList())
                 {
                     foreach(Location newAdjacentLocation in path.CurrentLocation.Neighbours)
                     {

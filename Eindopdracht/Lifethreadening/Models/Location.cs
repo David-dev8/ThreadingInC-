@@ -33,5 +33,17 @@ namespace Lifethreadening.Models
             _simulationElements.Remove(simulationElement);
             simulationElement.Location = null;
         }
+
+        public void RemoveNonExistingSimulationElements()
+        {
+            for(int i = _simulationElements.Count - 1; i >= 0; i--)
+            {
+                SimulationElement simulationElement = _simulationElements[i];
+                if(!_simulationElements[i].StillExistsPhysically())
+                {
+                    RemoveSimulationElement(simulationElement);
+                }
+            }
+        }
     }
 }

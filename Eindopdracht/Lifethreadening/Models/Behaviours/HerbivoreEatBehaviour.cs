@@ -8,53 +8,20 @@ namespace Lifethreadening.Models.Behaviours
 {
     public class HerbivoreEatBehaviour : EatBehaviour
     {
+        private const double HUNGER_MOTIVATION_FACTOR = 1 / 2;
+
         public HerbivoreEatBehaviour(Animal animal) : base(animal)
         {
         }
 
         public override Incentive guide()
         {
-            IDictionary<Vegetation, double> targets = new Dictionary<Vegetation, double>();
-            IDictionary<Location, Path> locations = Animal.DetectSurroundings(); // TODO cache?
-            foreach(KeyValuePair<Location, Path> location in locations)
-            {
-                // The closer we are, the higher the priority
-                double distanceFactor = 1 / Math.Sqrt(location.Value.Length);
-                foreach(SimulationElement element in location.Key.SimulationElements)
-                {
-                    if(element is Vegetation animal)
-                    {
-                        targets.Add(animal, element.GetNutritionalValue() * distanceFactor);
-                    }
-                }
-            }
-
-            Vegetation mostRelevantTarget = targets.Keys.FirstOrDefault();
-            foreach(KeyValuePair<Vegetation, double> target in targets)
-            {
-                if(target.Value > targets[mostRelevantTarget])
-                {
-                    mostRelevantTarget = target.Key;
-                }
-            }
-
-            if(mostRelevantTarget != null)
-            {
-                // There is a target
-                return new Incentive(() =>
-                {
-                    // Move towards the animal and try to attack it
-                    Animal.MoveAlong(locations[mostRelevantTarget.Location]);
-                    Attack(mostRelevantTarget);
-                }, GetMotivation());
-            }
-
-            return null;
+            return guide((simulationElement) => simulationElement is Vegetation);
         }
 
-        private void Attack(Vegetation vegetation)
+        protected override void Inflict(SimulationElement target)
         {
-            // Is the animal in range? Decrease its hp
+            Vegetation vegetation = (Vegetation)target;
             if(CanReach(vegetation.Location))
             {
                 // Try to consume
@@ -62,9 +29,9 @@ namespace Lifethreadening.Models.Behaviours
             }
         }
 
-        private int GetMotivation()
+        protected override int GetMotivation()
         {
-            return (int)(1 / Math.Sqrt(Animal.Energy));
+            return (int)(HUNGER_MOTIVATION_FACTOR * GetHunger());
         }
     }
 }

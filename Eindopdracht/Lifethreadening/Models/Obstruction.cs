@@ -10,7 +10,7 @@ namespace Lifethreadening.Models
     {
         private const int DEFAULT_PRIORITY = 3;
 
-        public Obstruction(string image): base(DEFAULT_PRIORITY)
+        public Obstruction(string image, WorldContextService contextService): base(DEFAULT_PRIORITY, contextService)
         { 
         }
 
@@ -29,7 +29,7 @@ namespace Lifethreadening.Models
             return true;
         }
 
-        protected override Action GetNextAction(WorldContext context)
+        protected override Action GetNextAction()
         {
             return null;
         }

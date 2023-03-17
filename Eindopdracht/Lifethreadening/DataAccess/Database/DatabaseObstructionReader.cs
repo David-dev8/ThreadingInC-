@@ -19,7 +19,7 @@ namespace Lifethreadening.DataAccess.Database
             _database = new DatabaseHelper<Obstruction>();
         }
 
-        public IEnumerable<Obstruction> ReadByEcosystem(int ecosystemId)
+        public IEnumerable<Obstruction> ReadByEcosystem(int ecosystemId, WorldContextService contextService)
         {
             string query = @"
                 SELECT *
@@ -34,13 +34,14 @@ namespace Lifethreadening.DataAccess.Database
             {
                 new SqlParameter("@ecosystemId", ecosystemId),
             };
-            return _database.Read(CreateObstruction, query, CommandType.Text, parameters);
+            return _database.Read((dataReader) => CreateObstruction(dataReader, contextService), query, CommandType.Text, parameters);
         }
 
-        private Obstruction CreateObstruction(SqlDataReader dataReader)
+        private Obstruction CreateObstruction(SqlDataReader dataReader, WorldContextService service)
         {
             return new Obstruction(
-                dataReader.GetString("image")
+                dataReader.GetString("image"),
+                service
             );
         }
     }

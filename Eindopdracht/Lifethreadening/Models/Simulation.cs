@@ -17,6 +17,7 @@ namespace Lifethreadening.Models
         private Random _random = new Random();
         private Timer _stepTimer;
         private ISimulationElementFactory _elementFactory;
+        private WorldContextService _worldContextService;
         private bool _stopped = true;
         private TimeSpan _simulationSpeed = new TimeSpan(1, 0, 0, 0);
 
@@ -44,6 +45,7 @@ namespace Lifethreadening.Models
             World = world;
             _stepTimer = new Timer((_) => Step(), null, Timeout.Infinite, Timeout.Infinite);
             _elementFactory = new DatabaseSimulationElementFactory(new RegularBehaviourBuilder());
+            _worldContextService = new WorldContextService(World);
             Populate();
         }
 
@@ -70,7 +72,7 @@ namespace Lifethreadening.Models
 
         public void Start()
         {
-            _stepTimer.Change(3000, 1000);
+            _stepTimer.Change(2000, 1000);
         }
 
         public void Stop()
@@ -84,7 +86,7 @@ namespace Lifethreadening.Models
             {
                 if(_random.NextDouble() < INITIAL_SPAWN_CHANCE)
                 {
-                    SimulationElement element = _elementFactory.CreateRandomElement(World.Ecosystem);
+                    SimulationElement element = _elementFactory.CreateRandomElement(_worldContextService);
                     if(element != null)
                     {
                         location.AddSimulationElement(element);
