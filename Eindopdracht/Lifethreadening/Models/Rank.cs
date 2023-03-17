@@ -10,5 +10,11 @@ namespace Lifethreadening.Models
     {
         public Species Species { get; set; }
         public double Average { get; set; }
+
+        public Rank(Species species, double average)
+        {
+            Species = species;
+            Average = average;
+        }   
     }
 }

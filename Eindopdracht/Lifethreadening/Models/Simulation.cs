@@ -14,11 +14,12 @@ namespace Lifethreadening.Models
     {
         private Timer _timer;
         private TimeSpan _simulationSpeed = new TimeSpan(1, 0, 0, 0);
-        private PopulationAnalyzer _populationManager;
 
         public string Name { get; set; }
         public int Score { get; set; }
         public World World { get; set; }
+        public PopulationAnalyzer PopulationManager { get; set; }
+        public MutationAnalyzer MutationManager { get; set; }
         public TimeSpan SimulationSpeed
         {
             get
@@ -39,13 +40,17 @@ namespace Lifethreadening.Models
             Name = name;
             World = world;
             _timer = new Timer((_) => Step(), null, Timeout.Infinite, Timeout.Infinite);
-            _populationManager= new PopulationAnalyzer();
+            PopulationManager= new PopulationAnalyzer();
+            MutationManager= new MutationAnalyzer();
         }
 
         public void Step()
         {
             World.Step();
-            _populationManager.RegisterAnimals(getAllAnimals(World.SimulationElements), World.Date);
+
+            IEnumerable<Animal> animals = getAllAnimals(World.SimulationElements);
+            PopulationManager.RegisterAnimals(animals, World.Date);
+            MutationManager.RegisterMutations(animals);
         }
 
         private IEnumerable<Animal> getAllAnimals(IEnumerable<SimulationElement> elements)

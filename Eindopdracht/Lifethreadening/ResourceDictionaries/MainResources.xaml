@@ -37,4 +37,7 @@
         <converters:BoolToVisibilityConverter />
     </customConverters:ConverterGroup>
     <converters:StringFormatConverter x:Key="StringFormatter"/>
+
+    <!--andere resource-->
+    <customConverters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
 </ResourceDictionary>
