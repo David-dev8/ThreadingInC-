@@ -83,7 +83,7 @@ namespace Lifethreadening.Models.Behaviours
         {
             if(_hasAnimal)
             {
-                //Add(new RestBehaviour(_animal));
+                Add(new RestBehaviour(_animal));
             }
             return this;
         }
@@ -96,7 +96,7 @@ namespace Lifethreadening.Models.Behaviours
 
                 if(_random.NextDouble() < traumaChance)
                 {
-                    // Has trauma, so panic
+                    // Has trauma, so inclined to panic
                     //Add(new PanicWanderBehaviour(_animal));
                 }
                 else if(!isNative)

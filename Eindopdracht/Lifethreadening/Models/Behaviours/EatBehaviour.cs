@@ -8,7 +8,7 @@ namespace Lifethreadening.Models.Behaviours
 {
     public abstract class EatBehaviour : Behaviour
     {
-        private const double HP_INCREASE_BY_NUTRITION_FACTOR = 1 / 3;
+        private const double HP_INCREASE_BY_NUTRITION_FACTOR = 1.0 / 3.0;
 
         public EatBehaviour(Animal animal) : base(animal)
         {
@@ -17,8 +17,8 @@ namespace Lifethreadening.Models.Behaviours
         protected void Consume(SimulationElement element)
         {
             int nutrition = element.DepleteNutritionalValue();
-            Animal.Hp += (int)(nutrition * HP_INCREASE_BY_NUTRITION_FACTOR);
-            Animal.Energy += nutrition;
+            Animal.AddHp((int)(nutrition * HP_INCREASE_BY_NUTRITION_FACTOR));
+            Animal.AddEnergy(nutrition);
         }
 
         private IDictionary<SimulationElement, double> FindTargets(IDictionary<Location, Path> locations, Func<SimulationElement, bool> filter)
@@ -73,7 +73,7 @@ namespace Lifethreadening.Models.Behaviours
 
         protected int GetHunger()
         {
-            return Math.Max(0, 100 - Animal.Energy);
+            return Math.Max(0, (int)((((100 - Animal.Hp) * 1.0 / 3.0) + 100 - Animal.Energy) / (1.0 + 1.0 / 3.0)));
         }
 
         protected abstract void Inflict(SimulationElement target);

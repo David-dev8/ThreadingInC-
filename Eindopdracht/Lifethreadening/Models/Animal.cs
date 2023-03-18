@@ -10,11 +10,17 @@ namespace Lifethreadening.Models
 {
     public class Animal: SimulationElement
     {
+        private object _hpLocker = new object(); // TODO
+        private object _energyLocker = new object();
+
+        private Random _random = new Random();
+
         private const int DEFAULT_PRIORITY = 1;
         // Locations per detection point
         private const int DETECTION_FACTOR = 10;
         private const int MAX_HP = 100;
         private const int MAX_ENERGY = 100;
+        private const int HP_LOSS_FOR_NATURAL_AGING_FACTOR = 3;
 
         private int _hp;
         private int _energy;
@@ -25,7 +31,7 @@ namespace Lifethreadening.Models
             {
                 return _hp;
             }
-            set
+            private set
             {
                 _hp = value <= MAX_HP ? value : MAX_HP;
             }
@@ -36,7 +42,7 @@ namespace Lifethreadening.Models
             {
                 return _energy;
             }
-            set
+            private set
             {
                 _energy = value <= MAX_ENERGY ? value : MAX_ENERGY;
             }
@@ -89,10 +95,17 @@ namespace Lifethreadening.Models
         {
             base.Act();
 
-            Energy--;
-            // Decrease HP
+            AddEnergy(-1);
+            // The older the animal is, the more hp it loses to natural causes and the more likely it is to die
             int age = Age;
-            if(age > Species.MaxAge) // TODO do something with max age
+            int ageDifferenceFromAverage = age - Species.AverageAge;
+            double ageDifferenceProportinalToMaxAge = ageDifferenceFromAverage / Species.MaxAge;
+            if(ageDifferenceFromAverage > 0)
+            {
+                int hpToLose = _random.Next(0, (int)(ageDifferenceProportinalToMaxAge * HP_LOSS_FOR_NATURAL_AGING_FACTOR));
+                AddHp(hpToLose);
+            }
+            if(age > Species.MaxAge)
             {
                 Hp = 0;
                 Energy = 0;
@@ -127,7 +140,8 @@ namespace Lifethreadening.Models
             if(path.Length > 0)
             {
                 Location.RemoveSimulationElement(this);
-                path.GetLocationAt(Math.Min(GetMaxMovementMagntitude(), path.Length)).AddSimulationElement(this);
+                Location = path.GetLocationAt(Math.Min(GetMaxMovementMagntitude(), path.Length));
+                Location.AddSimulationElement(this);
             }
         }
 
@@ -159,6 +173,22 @@ namespace Lifethreadening.Models
                 }
             }
             return possiblePaths;
+        }
+
+        public void AddHp(int hpToAdd)
+        {
+            lock(_hpLocker)
+            {
+                Hp += hpToAdd;
+            }
+        }
+
+        public void AddEnergy(int energyToAdd)
+        {
+            lock(_energyLocker)
+            {
+                Energy += energyToAdd;
+            }
         }
     }
 }

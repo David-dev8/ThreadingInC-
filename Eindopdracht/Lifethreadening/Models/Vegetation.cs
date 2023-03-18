@@ -8,6 +8,8 @@ namespace Lifethreadening.Models
 {
     public class Vegetation : SimulationElement
     {
+        private object _nutritionLocker = new object();
+
         private const int DEFAULT_PRIORITY = 2;
         private const int MAX_NUTRITION_RELEASED_PER_DEPLETION = 10;
 
@@ -23,9 +25,12 @@ namespace Lifethreadening.Models
 
         private void Grow(int growth)
         {
-            if(_currentNutrition + growth <= _maxNutrition)
+            lock(_nutritionLocker)
             {
-                _currentNutrition += growth;
+                if(_currentNutrition + growth <= _maxNutrition)
+                {
+                    _currentNutrition += growth;
+                }
             }
         }
 
@@ -52,9 +57,20 @@ namespace Lifethreadening.Models
 
         public override int DepleteNutritionalValue()
         {
-            int nutrition = GetNutritionalValue();
-            _currentNutrition -= nutrition;
+            lock(_nutritionLocker)
+            {
+                int nutrition = GetNutritionalValue();
+                _currentNutrition -= nutrition;
+            }
             return _currentNutrition;
+        }
+
+        public void AddNutrition(int nutrition)
+        {
+            lock(_nutritionLocker)
+            {
+                _currentNutrition += nutrition;
+            }
         }
     }
 }

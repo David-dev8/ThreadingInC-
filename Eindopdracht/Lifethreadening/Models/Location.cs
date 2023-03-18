@@ -2,6 +2,7 @@
 using Lifethreadening.Models.Behaviours;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,8 @@ namespace Lifethreadening.Models
 {
     public class Location : Observable
     {
+        // There is no native concurrent list in C#
+        private object _simulationElementsLocker = new object();
         private IList<SimulationElement> _simulationElements = new List<SimulationElement>();
 
         public IList<Location> Neighbours { get; set; } = new List<Location>();
@@ -18,20 +21,30 @@ namespace Lifethreadening.Models
         {
             get
             {
-                return _simulationElements.OrderBy(element => element.Priority);
+                IEnumerable<SimulationElement> elements;
+                // Make a snapshot
+                lock(_simulationElementsLocker)
+                {
+                    elements = _simulationElements.ToList().OrderBy(element => element.Priority);
+                }
+                return _simulationElements;
             }
         }
 
         public void AddSimulationElement(SimulationElement simulationElement)
         {
-            _simulationElements.Add(simulationElement);
-            simulationElement.Location = this;
+            lock(_simulationElementsLocker)
+            {
+                _simulationElements.Add(simulationElement);
+            }
         }
 
         public void RemoveSimulationElement(SimulationElement simulationElement)
         {
-            _simulationElements.Remove(simulationElement);
-            simulationElement.Location = null;
+            lock(_simulationElements)
+            {
+                _simulationElements.Remove(simulationElement);
+            }
         }
 
         public void RemoveNonExistingSimulationElements()

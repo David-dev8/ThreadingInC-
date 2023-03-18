@@ -8,7 +8,7 @@ namespace Lifethreadening.Models.Behaviours
 {
     public class CarnivoreEatBehaviour : EatBehaviour
     {
-        private const int MINIMUM_DAMAGE = 10;
+        private const int MINIMUM_DAMAGE = 1;
 
         public CarnivoreEatBehaviour(Animal animal) : base(animal)
         {
@@ -25,7 +25,7 @@ namespace Lifethreadening.Models.Behaviours
             // Is the animal in range? Decrease its hp
             if(CanReach(otherAnimal.Location))
             {
-                otherAnimal.Hp -= GetDamageToDealTo(otherAnimal);
+                otherAnimal.AddHp(-GetDamageToDealTo(otherAnimal));
                 // Try to consume
                 Consume(otherAnimal);
             }

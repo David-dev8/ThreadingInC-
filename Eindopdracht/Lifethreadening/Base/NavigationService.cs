@@ -30,6 +30,7 @@ namespace Lifethreadening.Base
             }
             set
             {
+                _currentViewModel?.Dispose();
                 _currentViewModel = value;
                 _frame.Navigate(viewMapping[_currentViewModel.GetType()]);
                 _frame.DataContext = _currentViewModel;

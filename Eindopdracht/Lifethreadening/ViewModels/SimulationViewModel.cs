@@ -47,7 +47,27 @@ namespace Lifethreadening.ViewModels
         public SimulationViewModel(NavigationService navigationService, Simulation simulation) : base(navigationService)
         {
             Simulation = simulation;
+            Simulation.PropertyChanged += Simulation_PropertyChanged;
             Simulation.Start();
+        }
+
+        private void Simulation_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == nameof(Simulation.IsGameOver))
+            {
+                NavigateToSimulationData();
+            }
+        }
+
+        private void NavigateToSimulationData()
+        {
+            _navigationService.CurrentViewModel = new SimulationDataViewModel(_navigationService);
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            Simulation.Dispose();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lifethreadening.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.ViewModels
 {
-    public class SimulationDataViewModel
+    public class SimulationDataViewModel : BaseViewModel
     {
+        public SimulationDataViewModel(NavigationService navigationService) : base(navigationService)
+        {
+        }
     }
 }
