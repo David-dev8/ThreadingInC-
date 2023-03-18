@@ -15,12 +15,17 @@ namespace Lifethreadening.Models
 
         public PopulationAnalyzer()
         {
-            SpeciesCount = new Dictionary<DateTime, IDictionary<Species, int>>();
-            SpeciesCount.Add(DateTime.Now, new Dictionary<Species, int>());
-            SpeciesCount.Add(DateTime.Now.AddDays(1), new Dictionary<Species, int>());
+            SpeciesCount = new Dictionary<DateTime, IDictionary<Species, int>>
+            {
+                { DateTime.Now, new Dictionary<Species, int>() },
+                { DateTime.Now.AddYears(1), new Dictionary<Species, int>() },
+                { DateTime.Now.AddYears(2), new Dictionary<Species, int>() },
+                { DateTime.Now.AddYears(3), new Dictionary<Species, int>() }
+            };
             SpeciesCount.First().Value.Add(new Species() { Name = "Koe", Id= 111 }, 1);
-            SpeciesCount.Last().Value.Add(new Species() { Name = "Koe", Id = 111 }, 10);
-            SpeciesCount.Last().Value.Add(new Species() { Name = "Varken", Id = 555 }, 5);
+            SpeciesCount.ElementAt(1).Value.Add(new Species() { Name = "Koe", Id = 111 }, 1);
+            SpeciesCount.ElementAt(2).Value.Add(new Species() { Name = "Koe", Id = 111 }, 10);
+            SpeciesCount.ElementAt(2).Value.Add(new Species() { Name = "Varken", Id = 555 }, 5);
             GetSpeciesCountPerSpecies();
         }
 
@@ -58,12 +63,13 @@ namespace Lifethreadening.Models
             return SpeciesCount.ToDictionary(speciesCount => speciesCount.Key, speciesCount => CalculateShannonWeaverIndex(speciesCount.Value));
         }
 
+        // TODO moet het niet keer -1?
         private double CalculateShannonWeaverIndex(IDictionary<Species, int> populations)
         {
             int amountOfAnimals = populations.Values.Sum();
             return populations
-                .Select(population => population.Value / amountOfAnimals)
-                .Sum(relativePresence => relativePresence * Math.Log(relativePresence));
+                .Select(population => (double) population.Value / amountOfAnimals)
+                .Sum(relativePresence => relativePresence * Math.Log(relativePresence)) * -1;
         }
 
         // TODO: Plinq en opdelen??

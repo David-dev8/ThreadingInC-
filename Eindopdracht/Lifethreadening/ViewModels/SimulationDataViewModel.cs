@@ -12,11 +12,20 @@ namespace Lifethreadening.ViewModels
     {
         public Simulation Simulation { get; set; }
 
-        public IDictionary<StatisticInfo, int> PieChartData
+        public IDictionary<StatisticInfo, int> AffectedStatistics
         {
             get
             {
                 return Simulation.MutationManager.Analyze();
+            }
+        }
+
+        public IDictionary<DateTime, double> ShannonWeaverIndices
+        {
+            get
+            {
+                var t = Simulation.PopulationManager.GetShannonWeaverData();
+                return t;
             }
         }
 
