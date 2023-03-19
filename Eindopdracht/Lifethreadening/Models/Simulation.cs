@@ -29,6 +29,7 @@ namespace Lifethreadening.Models
         private Timer _stepTimer;
         private Timer _spawnTimer;
         private Timer _disasterTimer;
+        private Timer _mutationTimer;
         private Timer _saveTimer;
 
         private static readonly TimeSpan _saveInterval = new TimeSpan(0, 5, 0);
@@ -112,10 +113,10 @@ namespace Lifethreadening.Models
 
         private void LetPotentialDisasterOccur()
         {
-            if(_random.NextDouble() < DISASTER_CHANCE)
-            {
-                _disasterFactory.GetDisaster().
-            }
+            //if(_random.NextDouble() < DISASTER_CHANCE)
+            //{
+            //    _disasterFactory.GetDisaster().
+            //}
         }
 
         private void Save()

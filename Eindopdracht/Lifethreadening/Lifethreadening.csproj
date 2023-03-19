@@ -132,6 +132,9 @@
     <Compile Include="Converters\TimeSpanToAmountOfDaysConverter.cs" />
     <Compile Include="Base\RelayCommand.cs" />
     <Compile Include="DataAccess\Algorithmic\RandomWeatherManager.cs" />
+    <Compile Include="DataAccess\API\APICaller.cs" />
+    <Compile Include="DataAccess\API\APIGeneReader.cs" />
+    <Compile Include="DataAccess\API\APIHelper.cs" />
     <Compile Include="DataAccess\Database\DatabaseConnectionManager.cs" />
     <Compile Include="DataAccess\Database\DatabaseObstructionReader.cs" />
     <Compile Include="DataAccess\Database\DatabaseSpeciesReader.cs" />
@@ -142,6 +145,7 @@
     <Compile Include="DataAccess\Database\DatabaseHelper.cs" />
     <Compile Include="DataAccess\Database\DatabaseVegetationReader.cs" />
     <Compile Include="DataAccess\IEcosystemReader.cs" />
+    <Compile Include="DataAccess\IGeneReader.cs" />
     <Compile Include="DataAccess\IObstructionReader.cs" />
     <Compile Include="DataAccess\ISimulationReader.cs" />
     <Compile Include="DataAccess\ISimulationWriter.cs" />
@@ -321,7 +325,11 @@
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
       <Version>7.1.3</Version>
     </PackageReference>
+    <PackageReference Include="System.Text.Json">
+      <Version>7.0.2</Version>
+    </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
