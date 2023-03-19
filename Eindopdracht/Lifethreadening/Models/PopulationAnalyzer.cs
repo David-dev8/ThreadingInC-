@@ -11,7 +11,7 @@ namespace Lifethreadening.Models
     // Plinq voor de algemen loop door elke data shannon te berekenen
     public class PopulationAnalyzer
     {
-        public IDictionary<DateTime, IDictionary<Species, int>> SpeciesCount { get; private set; }
+        public IDictionary<DateTime, IDictionary<Species, int>> SpeciesCount { get; private set; } // TODO private field maken
 
         public PopulationAnalyzer()
         {
@@ -22,7 +22,7 @@ namespace Lifethreadening.Models
                 { DateTime.Now.AddYears(2), new Dictionary<Species, int>() },
                 { DateTime.Now.AddYears(3), new Dictionary<Species, int>() }
             };
-            SpeciesCount.First().Value.Add(new Species() { Name = "Koe", Id= 111 }, 1);
+            SpeciesCount.First().Value.Add(new Species() { Name = "Koe", Id = 111 }, 1);
             SpeciesCount.ElementAt(1).Value.Add(new Species() { Name = "Koe", Id = 111 }, 1);
             SpeciesCount.ElementAt(2).Value.Add(new Species() { Name = "Koe", Id = 111 }, 10);
             SpeciesCount.ElementAt(2).Value.Add(new Species() { Name = "Varken", Id = 555 }, 5);
@@ -39,7 +39,7 @@ namespace Lifethreadening.Models
             IDictionary<Species, int> amountOfSpecies = SpeciesCount[currentDate];
             foreach (Animal animal in animals)
             {
-                if(amountOfSpecies.ContainsKey(animal.Species))
+                if (amountOfSpecies.ContainsKey(animal.Species))
                 {
                     amountOfSpecies[animal.Species]++;
                 }
@@ -60,22 +60,21 @@ namespace Lifethreadening.Models
         // TODO plinq
         public IDictionary<DateTime, double> GetShannonWeaverData()
         {
-            return SpeciesCount.ToDictionary(speciesCount => speciesCount.Key, speciesCount => CalculateShannonWeaverIndex(speciesCount.Value));
+            return GetSpeciesCountWithMissingDates().ToDictionary(speciesCount => speciesCount.Key, speciesCount => CalculateShannonWeaverIndex(speciesCount.Value));
         }
 
-        // TODO moet het niet keer -1?
         private double CalculateShannonWeaverIndex(IDictionary<Species, int> populations)
         {
             int amountOfAnimals = populations.Values.Sum();
             return populations
-                .Select(population => (double) population.Value / amountOfAnimals)
-                .Sum(relativePresence => relativePresence * Math.Log(relativePresence)) * -1;
+                .Select(population => amountOfAnimals > 0 ? ((double)population.Value / amountOfAnimals) : 0)
+                .Sum(relativePresence => relativePresence > 0 ? ((relativePresence * Math.Log(relativePresence)) * -1) : 0);
         }
 
         // TODO: Plinq en opdelen??
-        private IDictionary<Species, IDictionary<DateTime, int>> GetSpeciesCountPerSpecies()
+        public IDictionary<Species, IDictionary<DateTime, int>> GetSpeciesCountPerSpecies()
         {
-            return SpeciesCount.SelectMany(speciesCount => speciesCount.Value, (SpeciesCount, amountPerDate) => new { Date = SpeciesCount.Key, Species = amountPerDate.Key, Quantity = amountPerDate.Value })
+            return GetSpeciesCountWithMissingDates().SelectMany(speciesCount => speciesCount.Value, (SpeciesCount, amountPerDate) => new { Date = SpeciesCount.Key, Species = amountPerDate.Key, Quantity = amountPerDate.Value })
                 .Aggregate(new Dictionary<Species, IDictionary<DateTime, int>>(), (seed, value) => {
                     if (!seed.ContainsKey(value.Species))
                     {
@@ -84,6 +83,22 @@ namespace Lifethreadening.Models
                     seed[value.Species].Add(value.Date, value.Quantity);
                     return seed;
                 });
+        }
+
+        private IDictionary<DateTime, IDictionary<Species, int>> GetSpeciesCountWithMissingDates()
+        {
+            IEnumerable<Species> species = SpeciesCount.SelectMany(speciesCount => {
+                var b = speciesCount.Value.Keys;
+                return b;
+            }).Distinct();
+            var st = SpeciesCount.Select(s =>
+            {
+                IDictionary<Species, int> t = species.Select(sp => {
+                    return new { Key = sp, Value = s.Value.ContainsKey(sp) ? s.Value[sp] : 0 };
+                }).ToDictionary(b => b.Key, b => b.Value);
+                return new { Key = s.Key, Value = t }; // TODO: join????
+            }).ToDictionary(b => b.Key, b => b.Value);
+            return st;
         }
     }
 }

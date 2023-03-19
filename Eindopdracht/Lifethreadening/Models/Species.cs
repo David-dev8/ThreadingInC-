@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
-    public class Species
+    public class Species : NamedEntity
     {
         public int Id { get; set; }
-        public string Name { get; set; }
         public string ScientificName { get; set; }
         public string Image { get; set; }        
         public int AverageAge { get; set; }

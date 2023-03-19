@@ -20,12 +20,19 @@ namespace Lifethreadening.ViewModels
             }
         }
 
+        public IDictionary<Species, IDictionary<DateTime, int>> SpeciesCount
+        {
+            get
+            {
+                return Simulation.PopulationManager.GetSpeciesCountPerSpecies();
+            }
+        }
+
         public IDictionary<DateTime, double> ShannonWeaverIndices
         {
             get
             {
-                var t = Simulation.PopulationManager.GetShannonWeaverData();
-                return t;
+                return Simulation.PopulationManager.GetShannonWeaverData();
             }
         }
 
