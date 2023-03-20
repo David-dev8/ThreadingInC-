@@ -36,7 +36,7 @@ namespace Lifethreadening.Models
 
         private void Grow(Weather weather)
         {
-            Grow((int)(_standardGrowth * weather.RainFall + weather.Humidity));
+            Grow((int)(_standardGrowth * weather.RainFall + weather.Temperature));
         }
 
         public override bool StillExistsPhysically()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -34,6 +35,23 @@ namespace Lifethreadening.Models
                 Intelligence = Intelligence,
                 SelfDefence = SelfDefence,
                 MetabolicRate = MetabolicRate
+            };
+        }
+
+        public IDictionary<string, StatisticInfo> GetData()
+        {
+            // TODO
+            return new Dictionary<string, StatisticInfo>
+            {
+                {"speed", new StatisticInfo("speed", ColorHelper.ToColor("#ffffff"), Speed) },
+                {"weight", new StatisticInfo("weight", ColorHelper.ToColor("#ffffff"), Weight) },
+                {"size", new StatisticInfo("size", ColorHelper.ToColor("#ffffff"), Size) },
+                {"aggresion", new StatisticInfo("aggresion", ColorHelper.ToColor("#ffffff"), Aggresion) },
+                {"detection", new StatisticInfo("detection", ColorHelper.ToColor("#ffffff"), Detection) },
+                {"resilience", new StatisticInfo("resilience", ColorHelper.ToColor("#ffffff"), Resilience) },
+                {"intelligence", new StatisticInfo("intelligence", ColorHelper.ToColor("#ffffff"), Intelligence) },
+                {"selfDefence", new StatisticInfo("selfDefence", ColorHelper.ToColor("#ffffff"), SelfDefence) },
+                {"metabolicRate", new StatisticInfo("metabolicRate", ColorHelper.ToColor("#ffffff"), MetabolicRate) }
             };
         }
     }

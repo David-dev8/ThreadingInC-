@@ -14,16 +14,18 @@ using Windows.UI.Composition;
 namespace Lifethreadening.Models
 {
     // TODO dispose timers
+    // TODO lock mutations
     public class Simulation: Observable, IDisposable
     {
-        private const int _amountOfDisasters = 0;
-        private Disaster _currentDisaster; // TODO make it bindable
+        private int _amountOfDisasters = 0;
+        private Disaster _mostRecentDisaster; // TODO make it bindable
         private const double INITIAL_SPAWN_CHANCE = 0.20;
-        private const double DISASTER_CHANCE = 0.05;
+        private const double DISASTER_CHANCE = 1;
         private Random _random = new Random();
         private ISimulationElementFactory _elementFactory;
         private WorldContextService _worldContextService;
         private IDisasterFactory _disasterFactory;
+        private IMutationFactory _mutationFactory;
         private bool _stopped = true;
 
         private Timer _stepTimer;
@@ -34,8 +36,11 @@ namespace Lifethreadening.Models
 
         private static readonly TimeSpan _saveInterval = new TimeSpan(0, 5, 0);
 
-        // One step
-        private int secondsForOneDay = 7000;
+        // For in game things
+        private static readonly TimeSpan _distasterInterval = new TimeSpan(50, 0, 0, 0); // TODO static conventions
+        private static readonly TimeSpan _stepInterval = new TimeSpan(1, 0, 0, 0); // TODO static conventions
+
+
         private TimeSpan _simulationSpeed = new TimeSpan(1, 0, 0, 0);
 
         public string Name { get; set; }
@@ -69,7 +74,18 @@ namespace Lifethreadening.Models
             }
         }
 
-
+        public Disaster MostRecentDisaster
+        {
+            get
+            {
+                return _mostRecentDisaster;
+            }
+            set
+            {
+                _mostRecentDisaster = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         public Simulation(string name, World world) 
         { 
@@ -77,6 +93,7 @@ namespace Lifethreadening.Models
             World = world;
             _elementFactory = new DatabaseSimulationElementFactory(new RegularBehaviourBuilder());
             _disasterFactory = new RegularDisasterFactory();
+            _mutationFactory = new RandomMutationFactory();
             _worldContextService = new WorldContextService(World);
             SetUpTimers();
             Populate();
@@ -84,6 +101,7 @@ namespace Lifethreadening.Models
 
         private TimerCallback Run(Action action)
         {
+            // TODO werkt niet met async
             return (state) =>
             {
                 if(!_stopped)
@@ -95,14 +113,11 @@ namespace Lifethreadening.Models
 
         private void Step()
         {
-            if(!_stopped)
+            World.Step();
+            if(!GetAnimals().Any())
             {
-                World.Step();
-                if(!GetAnimals().Any())
-                {
-                    Stop();
-                    IsGameOver = true;
-                }
+                Stop();
+                IsGameOver = true;
             }
         }
 
@@ -113,10 +128,19 @@ namespace Lifethreadening.Models
 
         private void LetPotentialDisasterOccur()
         {
-            //if(_random.NextDouble() < DISASTER_CHANCE)
-            //{
-            //    _disasterFactory.GetDisaster().
-            //}
+            if(_random.NextDouble() < DISASTER_CHANCE)
+            {
+                MostRecentDisaster = _disasterFactory.CreateDisaster(_worldContextService);
+                _amountOfDisasters++;
+                //disaster.Strike(World.SimulationElements);
+            }
+        }
+
+        private async void Mutate()
+        {
+            Mutation mutation = await _mutationFactory.CreateMutation();
+            mutation.Affect(GetAnimals().GetRandom()); // TODO lock the mutations?
+            // TODO async
         }
 
         private void Save()
@@ -129,6 +153,7 @@ namespace Lifethreadening.Models
             _stepTimer = new Timer(Run(Step), null, Timeout.Infinite, Timeout.Infinite);
             _spawnTimer = new Timer(Run(Spawn), null, Timeout.Infinite, Timeout.Infinite);
             _disasterTimer = new Timer(Run(LetPotentialDisasterOccur), null, Timeout.Infinite, Timeout.Infinite);
+            _mutationTimer = new Timer((_) => Mutate(), null, Timeout.Infinite, Timeout.Infinite);
             _saveTimer = new Timer(Run(Save), null, _saveInterval, _saveInterval);
         }
 
@@ -143,8 +168,17 @@ namespace Lifethreadening.Models
             //_spawnTimer.Change(2000, secondsForOneDay);
             //_spawnTimer.Change(2000, secondsForOneDay);
             // TODO
-            int seconds = secondsForOneDay / _simulationSpeed.Days;
-            _stepTimer.Change(seconds, seconds); // TODO Changing while 
+            
+            ChangeTimer(_stepTimer, 1000 * _stepInterval.Divide(_simulationSpeed)); // TODO Changing while 
+            ChangeTimer(_disasterTimer, 1000 * _distasterInterval.Divide(_simulationSpeed)); // TODO take into account already running timer
+            
+            // TODO Does timer run even when changing its period?
+        }
+
+        private void ChangeTimer(Timer timer, double milliseconds)
+        {
+            int roundedMilliSeconds = (int)milliseconds;
+            timer.Change(roundedMilliSeconds, roundedMilliSeconds);
         }
 
         public void Stop()
@@ -153,6 +187,7 @@ namespace Lifethreadening.Models
             _stepTimer.Change(Timeout.Infinite, Timeout.Infinite);
             _spawnTimer.Change(Timeout.Infinite, Timeout.Infinite);
             _disasterTimer.Change(Timeout.Infinite, Timeout.Infinite);
+            _mutationTimer.Change(Timeout.Infinite, Timeout.Infinite);
             _saveTimer.Change(Timeout.Infinite, Timeout.Infinite);
         }
 

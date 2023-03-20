@@ -1,5 +1,6 @@
 ﻿using Lifethreadening.Base;
 using Lifethreadening.DataAccess.API;
+using Lifethreadening.DataAccess.API.Genes;
 using Lifethreadening.Models;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,7 @@ namespace Lifethreadening.ViewModels
             Simulation = simulation;
             Simulation.PropertyChanged += Simulation_PropertyChanged;
 
+            Simulation.Start();
 
             var s = new APIGeneReader();
             var b = s.GetRandomGene();

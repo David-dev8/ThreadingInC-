@@ -90,7 +90,20 @@ namespace Lifethreadening.Views.CustomControls
         private static void InitializeRedraw(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WorldView worldView = (WorldView)d;
-            worldView.Draw();
+            worldView.RedrawWhenChanged();
+        }
+
+        private void RedrawWhenChanged()
+        {
+            World.PropertyChanged += World_PropertyChanged;
+        }
+
+        private void World_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == nameof(World.Locations))
+            {
+                Draw();
+            }
         }
 
         protected override void OnPointerPressed(PointerRoutedEventArgs e)

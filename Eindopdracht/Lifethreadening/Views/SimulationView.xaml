@@ -153,9 +153,9 @@
             <StackPanel Grid.Row="1">
                 <StackPanel Style="{StaticResource SectionHeading}" Spacing="10">
                     <fa:FontAwesome Icon="Cloud" Foreground="White" />
-                    <TextBlock Foreground="White" VerticalAlignment="Center" FontWeight="Bold" FontSize="16">Weather conditions</TextBlock>
+                    <TextBlock Foreground="White" VerticalAlignment="Center" FontWeight="Bold" FontSize="16">Environment</TextBlock>
                 </StackPanel>
-                <Grid Padding="20" RowSpacing="20" DataContext="{Binding Simulation.World.Weather}">
+                <Grid Padding="20" RowSpacing="20" DataContext="{Binding Simulation}">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
@@ -166,15 +166,23 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Spacing="10">
                         <Image Source="/Assets/sun.png" Width="30" VerticalAlignment="Center" />
-                        <TextBlock VerticalAlignment="Center" Text="{Binding Humidity, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0} °C'}" />
+                        <TextBlock VerticalAlignment="Center" Text="{Binding World.Weather.Temperature, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:0.0} °C'}" />
                     </StackPanel>
                     <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Spacing="10">
                         <Image Source="/Assets/wind.png" Width="30" VerticalAlignment="Center" />
-                        <TextBlock VerticalAlignment="Center" Text="{Binding WindSpeed, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0} km/h'}" />
+                        <TextBlock VerticalAlignment="Center" Text="{Binding World.Weather.WindSpeed, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:0.0} km/h'}" />
                     </StackPanel>
                     <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Spacing="10">
                         <Image Source="/Assets/water.png" Width="30" VerticalAlignment="Center" />
-                        <TextBlock VerticalAlignment="Center" Text="{Binding RainFall, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0} mm/h'}" />
+                        <TextBlock VerticalAlignment="Center" Text="{Binding World.Weather.RainFall, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:0.00} mm/h'}" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                        <Image Source="/Assets/disaster.png" Width="30" Margin="0,0,10,0" VerticalAlignment="Center" />
+                        <TextBlock Visibility="{Binding MostRecentDisaster, Converter={StaticResource NullVisibilityConverter}}" 
+                                   VerticalAlignment="Center" Text="{Binding MostRecentDisaster.Description}" 
+                                   ToolTipService.ToolTip="{Binding MostRecentDisaster.LongDescription}" />
+                        <TextBlock Visibility="{Binding MostRecentDisaster, Converter={StaticResource InverseNullVisibilityConverter}}" 
+                                   VerticalAlignment="Center" Text="None" />
                     </StackPanel>
                 </Grid>
             </StackPanel>
@@ -197,7 +205,7 @@
                             <TextBlock Grid.Column="0">Simulation speed</TextBlock>
                             <StackPanel Grid.Column="1">
                                 <TextBlock Text="{Binding Simulation.SimulationSpeed, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:dd} days/step'}" />
-                                <Slider Minimum="1" Maximum="14" Value="{Binding Simulation.SimulationSpeed, Converter={StaticResource TimeSpanToAmountOfDaysConverter}, Mode=TwoWay}" />
+                                <Slider Minimum="1" Maximum="7" Value="{Binding Simulation.SimulationSpeed, Converter={StaticResource TimeSpanToAmountOfDaysConverter}, Mode=TwoWay}" />
                             </StackPanel>
                         </Grid>
                         <Grid Margin="0,0,0,5">

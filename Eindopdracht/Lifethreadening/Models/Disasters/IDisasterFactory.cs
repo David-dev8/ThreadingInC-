@@ -8,6 +8,6 @@ namespace Lifethreadening.Models.Disasters
 {
     public interface IDisasterFactory
     {
-        Disaster GetDisaster();
+        Disaster CreateDisaster(WorldContextService worldContextService);
     }
 }

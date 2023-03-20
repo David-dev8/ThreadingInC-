@@ -9,7 +9,7 @@ namespace Lifethreadening.Models.Disasters
 {
     public class FloodingDisaster : Disaster
     {
-        private Random _random = new Random();
+        private const string DESCRIPTION = "Flooding";
         private const int MIN_TOTAL_WAVE_PUSHES = 5000;
         private const int MAX_TOTAL_WAVE_PUSHES = 1000000;
         private const int MAX_WAVE_STRENGH = 200000;
@@ -17,15 +17,26 @@ namespace Lifethreadening.Models.Disasters
         private const int MAX_STRENGTH_TO_ADD = 13;
         private const int MINIMUM_ORDER_OF_MAGNITUDE_TO_DEAL_DAMAGE = 2;
 
+        private Random _random = new Random();
+        private int _totalPushes;
+
+        public FloodingDisaster(WorldContextService contextService) : base(DESCRIPTION, contextService)
+        {
+            _totalPushes = _random.Next(MIN_TOTAL_WAVE_PUSHES, MAX_TOTAL_WAVE_PUSHES);
+        }
+
+        public override string GetLongDescription()
+        {
+            return $"FloodingDisaster. Initated at: {DateInitiated:d}. Runoff flooding: {CalculateRunOff():0.00} cubic metre flow per hour.";
+        }
+
         public override void Strike(IEnumerable<SimulationElement> simulationElements)
         {
             // Waves accumulate in strength
             // They are released
             // The higher the wave, the more chance for the flood gates to open
-            int totalPushes = _random.Next(MIN_TOTAL_WAVE_PUSHES, MAX_TOTAL_WAVE_PUSHES);
-
             int currentWaveStrength = 0;
-            for(int i = 0; i < totalPushes; i++)
+            for(int i = 0; i < _totalPushes; i++)
             {
                 // The push adds random strength to the current wave
                 currentWaveStrength += _random.Next(MIN_STRENGTH_TO_ADD, MAX_STRENGTH_TO_ADD);
@@ -58,6 +69,11 @@ namespace Lifethreadening.Models.Disasters
             {
                 vegetation.AddNutrition(-damage);
             }
+        }
+
+        private double CalculateRunOff()
+        {
+            return Math.Sqrt(_totalPushes);
         }
     }
 }
