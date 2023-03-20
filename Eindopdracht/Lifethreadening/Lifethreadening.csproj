@@ -119,11 +119,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Base\AsyncRelayCommand.cs" />
     <Compile Include="Base\NavigationService.cs" />
     <Compile Include="Base\Observable.cs" />
     <Compile Include="Converters\IntFormatConverter.cs" />
     <Compile Include="Converters\ConverterGroup.cs" />
     <Compile Include="Converters\TimeSpanToAmountOfDaysConverter.cs" />
+    <Compile Include="Base\RelayCommand.cs" />
     <Compile Include="DataAccess\Algorithmic\RandomWeatherManager.cs" />
     <Compile Include="DataAccess\Database\DatabaseConnectionManager.cs" />
     <Compile Include="DataAccess\Database\DatabaseCustomSpeciesReader.cs" />
