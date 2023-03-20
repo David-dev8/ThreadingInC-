@@ -22,6 +22,10 @@
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Padding" Value="10" />
     </Style>
+    <Style x:Key="SectionHeadingGrid" TargetType="Grid">
+        <Setter Property="Background" Value="{StaticResource SecondaryBackgroundBrush}" />
+        <Setter Property="Padding" Value="10" />
+    </Style>
     <Style x:Key="SectionTitle" TargetType="TextBlock">
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="FontSize" Value="16" />
@@ -33,6 +37,7 @@
         <Setter Property="FontWeight" Value="SemiBold" />
     </Style>
     <Style x:Key="DateAxisLineChart" TargetType="charts:DateTimeAxisLabel">
+        <Setter Property="FontSize" Value="12" />
         <Setter Property="StringFormat" Value="{}{0:dd-MM-yyyy}" />
         <Setter Property="RenderTransformOrigin" Value="0.75,2"/>
         <Setter Property="RenderTransform">

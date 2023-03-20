@@ -9,15 +9,11 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
-    xmlns:chartingprimitives="using:WinRTXamlToolkit.Controls.DataVisualization.Charting.Primitives"
-    xmlns:dataVis="using:WinRTXamlToolkit.Controls.DataVisualization" xmlns:converters="using:Lifethreadening.Converters">
+    xmlns:converters="using:Lifethreadening.Converters"
+    xmlns:dataVisual="using:WinRTXamlToolkit.Controls.DataVisualization">
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <converters:ConverterGroup x:Key="RandomColorConverter">
-                <converters:RandomColorConverter />
-                <converters:ColorToBrushConverter />
-            </converters:ConverterGroup>
             <Style x:Key="DataPointStyle" TargetType="charts:LineDataPoint">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -28,16 +24,55 @@
             </Style>
             <ControlTemplate x:Key="LineSeriesTemplate" TargetType="charts:LineSeries">
                 <Canvas x:Name="PlotArea">
-                    <Polyline x:Name="polyline" Points="{TemplateBinding Points}" Stroke="{Binding Simulation, Converter={StaticResource RandomColorConverter}}" Style="{TemplateBinding PolylineStyle}" />
+                    <Polyline x:Name="polyline" Points="{TemplateBinding Points}" Stroke="{TemplateBinding FocusVisualSecondaryBrush}" 
+                              Style="{TemplateBinding PolylineStyle}" />
                 </Canvas>
             </ControlTemplate>
+            <Style x:Key="legend" TargetType="charts:LegendItem">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="charts:LegendItem">
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Height="6" Width="6" Margin="0,3,5,0" Fill="{TemplateBinding Background}" />
+                                <dataVisual:Title Content="{TemplateBinding Content}"/>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
-        <charts:Chart x:Name="lineChart">
+    <Grid Background="CadetBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="0.25*" />
+        </Grid.RowDefinitions>
+        <charts:Chart x:Name="lineChart" Background="CadetBlue" Padding="20,0">
             <charts:Chart.Axes>
                 <charts:DateTimeAxis Orientation="X" Location="Bottom" AxisLabelStyle="{StaticResource DateAxisLineChart}" />
             </charts:Chart.Axes>
+            <charts:Chart.LegendStyle>
+                <Style TargetType="dataVisual:Legend">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="dataVisual:Legend">
+                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                                        BorderThickness="{TemplateBinding BorderThickness}" Padding="2">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="7*" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <ScrollViewer VerticalScrollBarVisibility="Auto" BorderThickness="0" IsTabStop="False">
+                                            <ItemsPresenter x:Name="Items" Margin="10,0,10,10" />
+                                        </ScrollViewer>
+                                    </Grid>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </charts:Chart.LegendStyle>
         </charts:Chart>
     </Grid>
 </UserControl>

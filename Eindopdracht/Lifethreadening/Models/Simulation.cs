@@ -50,7 +50,7 @@ namespace Lifethreadening.Models
 
             IEnumerable<Animal> animals = getAllAnimals(World.SimulationElements);
             PopulationManager.RegisterAnimals(animals, World.Date);
-            MutationManager.RegisterMutations(animals);
+            MutationManager.RegisterMutations(animals); // TODO moet het registreren voor of na een stap?
         }
 
         private IEnumerable<Animal> getAllAnimals(IEnumerable<SimulationElement> elements)
