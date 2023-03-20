@@ -11,6 +11,7 @@
     <SolidColorBrush x:Key="ternaryBackgroundBrush" Color="#D9D9D9"></SolidColorBrush>
     <SolidColorBrush x:Key="PrimaryBrush" Color="Black" />
     <SolidColorBrush x:Key="SecondaryBrush" Color="White" />
+    
     <x:Double x:Key="FontsizeGenetics" >18</x:Double>
     <customConverters:IntFormatConverter x:Key="intFormat"></customConverters:IntFormatConverter>
     <SolidColorBrush x:Key="TertiaryBrush" Color="#333333" />
@@ -24,6 +25,25 @@
     <Style x:Key="SectionTitle" TargetType="TextBlock">
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="FontSize" Value="16" />
+    </Style>
+    <Style x:Key="TraitTitle" TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="22" />
+    </Style>
+    <Style x:Key="minusStat" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="50" />
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style x:Key="plusStat" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="50" />
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style x:Key="StatDisp" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="50" />
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
     <Style x:Key="Title" TargetType="TextBlock">
         <Setter Property="FontWeight" Value="Bold" />

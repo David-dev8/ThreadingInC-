@@ -33,5 +33,17 @@ namespace Lifethreadening.Models
                 MetabolicRate = MetabolicRate
             };
         }
+
+        public Statistics() {
+            Weight = 0;
+            Size = 0;
+            Speed = 0;
+            Aggresion = 0;
+            Detection = 0;
+            Resilience = 0;
+            Intelligence = 0;
+            SelfDefence = 0;
+            MetabolicRate = 0;
+        }
     }
 }
