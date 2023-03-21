@@ -17,13 +17,15 @@ namespace Lifethreadening.Models
 
         private Random _random = new Random();
         private readonly IBehaviourBuilder _behaviourBuilder;
+        private readonly INameReader _nameReader;
 
-        public EvenlyDistributedParentsBreedFactory(IBehaviourBuilder behaviourBuilder)
+        public EvenlyDistributedParentsBreedFactory(IBehaviourBuilder behaviourBuilder, INameReader nameReader)
         {
             _behaviourBuilder = behaviourBuilder;
+            _nameReader = nameReader;
         }
 
-        public IEnumerable<Animal> CreateAnimals(Animal father, Animal mother, WorldContextService contextService)
+        public async Task<IEnumerable<Animal>> CreateAnimals(Animal father, Animal mother, WorldContextService contextService)
         {
             if(CanBreed(father, mother))
             {
@@ -32,17 +34,20 @@ namespace Lifethreadening.Models
                 IList<Animal> children = new List<Animal>();
                 for(int i = 0; i < amountOfChildren; i++)
                 {
-                    children.Add(CreateAnimal(father, mother, contextService));
+                    Animal animal = await CreateAnimal(father, mother, contextService);
+                    children.Add(animal);
                 }
                 return children;
             }
             return Enumerable.Empty<Animal>();
         }
 
-        private Animal CreateAnimal(Animal father, Animal mother, WorldContextService contextService)
+        private async Task<Animal> CreateAnimal(Animal father, Animal mother, WorldContextService contextService)
         {
             Species species = father.Species;
-            Animal newAnimal = new Animal(EnumHelpers.GetRandom<Sex>(), species, MergeStatistics(species, father.Statistics, mother.Statistics), contextService);
+            Sex sex = EnumHelpers.GetRandom<Sex>();
+            string name = await _nameReader.GetName(sex);
+            Animal newAnimal = new Animal(name, sex, species, MergeStatistics(species, father.Statistics, mother.Statistics), contextService);
             newAnimal.Behaviour = _behaviourBuilder
                 .ForAnimal(newAnimal)
                 .AddEat(species.Diet)

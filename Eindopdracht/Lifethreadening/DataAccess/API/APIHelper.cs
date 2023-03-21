@@ -22,21 +22,17 @@ namespace Lifethreadening.DataAccess.API
             PropertyNameCaseInsensitive = true,
         };
 
-        public APIHelper()
+        public async Task<APIResult<T>> Fetch<T>(string endpoint, IDictionary<string, object> queryParameters = null, string[] headersToRetrieve = null)
         {
+            return await GetFromAPI<T>(endpoint, queryParameters, headersToRetrieve);
         }
 
-        public async Task<APIResult<T>> Fetch<T>(string endpoint, string[] headersToRetrieve = null, IDictionary<string, object> queryParameters = null)
+        public async Task<APIResult<T>> Fetch<T>(string endpoint, int id, IDictionary<string, object> queryParameters = null, string[] headersToRetrieve = null)
         {
-            return await GetFromAPI<T>(endpoint, headersToRetrieve, queryParameters);
+            return await GetFromAPI<T>(endpoint + "/" + id, queryParameters, headersToRetrieve);
         }
 
-        public async Task<APIResult<T>> Fetch<T>(string endpoint, int id, string[] headersToRetrieve = null, IDictionary<string, object> queryParameters = null)
-        {
-            return await GetFromAPI<T>(endpoint + "/" + id, headersToRetrieve, queryParameters);
-        }
-
-        private async Task<APIResult<T>> GetFromAPI<T>(string endpoint, IEnumerable<string> headersToRetrieve = null, IDictionary<string, object> queryParameters = null)
+        private async Task<APIResult<T>> GetFromAPI<T>(string endpoint, IDictionary<string, object> queryParameters = null, IEnumerable<string> headersToRetrieve = null)
         {
             if(headersToRetrieve == null)
             {

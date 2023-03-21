@@ -8,6 +8,7 @@ using Windows.Devices.Enumeration;
 using Windows.Devices.PointOfService;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
@@ -32,7 +33,7 @@ namespace Lifethreadening.Views.CustomControls
         public static readonly DependencyProperty SelectedSimulationElementProperty =
             DependencyProperty.Register("SelectedSimulationElement", typeof(SimulationElement), typeof(WorldView), new PropertyMetadata(null));
 
-        private static BitmapImage img = new BitmapImage(new Uri("ms-appx:///Assets/fox.png")); // TODO dynamic
+        private IDictionary<string, BitmapImage> elementImages = new Dictionary<string, BitmapImage>();
 
         public GridWorld World
         {
@@ -150,9 +151,16 @@ namespace Lifethreadening.Views.CustomControls
 
         private FrameworkElement GetRepresentation(SimulationElement simulationElement)
         {
+            if(!elementImages.ContainsKey(simulationElement.Image))
+            {
+                var newImage = new BitmapImage(new Uri(new Uri("ms-appdata:///local/UserUploads/"), simulationElement.Image));                
+                elementImages.Add(simulationElement.Image, newImage);
+            }
+            BitmapImage image = elementImages[simulationElement.Image];
+            
             return new Image()
             {
-                Source = img,
+                Source = image,
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Height = CellHeight,

@@ -10,7 +10,7 @@ namespace Lifethreadening.Models
     {
         private const int DEFAULT_PRIORITY = 3;
 
-        public Obstruction(string image, WorldContextService contextService): base(DEFAULT_PRIORITY, contextService)
+        public Obstruction(string image, WorldContextService contextService): base(DEFAULT_PRIORITY, image, contextService)
         { 
         }
 

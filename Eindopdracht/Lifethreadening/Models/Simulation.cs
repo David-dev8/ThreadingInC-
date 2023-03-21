@@ -1,4 +1,5 @@
 ﻿using Lifethreadening.Base;
+using Lifethreadening.DataAccess.API.Names;
 using Lifethreadening.ExtensionMethods;
 using Lifethreadening.Models.Behaviours;
 using Lifethreadening.Models.Disasters;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Security.Cryptography.Core;
 using Windows.UI.Composition;
 
 namespace Lifethreadening.Models
@@ -19,7 +21,7 @@ namespace Lifethreadening.Models
     {
         private int _amountOfDisasters = 0;
         private Disaster _mostRecentDisaster; // TODO make it bindable
-        private const double INITIAL_SPAWN_CHANCE = 0.20;
+        private const double INITIAL_SPAWN_CHANCE = 0.10;
         private const double DISASTER_CHANCE = 1;
         private Random _random = new Random();
         private ISimulationElementFactory _elementFactory;
@@ -91,12 +93,11 @@ namespace Lifethreadening.Models
         { 
             Name = name;
             World = world;
-            _elementFactory = new DatabaseSimulationElementFactory(new RegularBehaviourBuilder());
+            _elementFactory = new DatabaseSimulationElementFactory(new RegularBehaviourBuilder(), new APINameReader());
             _disasterFactory = new RegularDisasterFactory();
             _mutationFactory = new RandomMutationFactory();
             _worldContextService = new WorldContextService(World);
             SetUpTimers();
-            Populate();
         }
 
         private TimerCallback Run(Action action)
@@ -121,9 +122,10 @@ namespace Lifethreadening.Models
             }
         }
 
-        private void Spawn()
+        private async Task Spawn()
         {
-            World.GetLocations().GetRandom().AddSimulationElement(_elementFactory.CreateRandomElement(_worldContextService));
+            SimulationElement element = await _elementFactory.CreateRandomElement(_worldContextService);
+            World.GetLocations().GetRandom().AddSimulationElement(element);
         }
 
         private void LetPotentialDisasterOccur()
@@ -151,16 +153,17 @@ namespace Lifethreadening.Models
         private void SetUpTimers()
         {
             _stepTimer = new Timer(Run(Step), null, Timeout.Infinite, Timeout.Infinite);
-            _spawnTimer = new Timer(Run(Spawn), null, Timeout.Infinite, Timeout.Infinite);
+            _spawnTimer = new Timer((_) => Spawn(), null, Timeout.Infinite, Timeout.Infinite);
             _disasterTimer = new Timer(Run(LetPotentialDisasterOccur), null, Timeout.Infinite, Timeout.Infinite);
             _mutationTimer = new Timer((_) => Mutate(), null, Timeout.Infinite, Timeout.Infinite);
             _saveTimer = new Timer(Run(Save), null, _saveInterval, _saveInterval);
         }
 
-        public void Start()
+        public async Task Start()
         {
+            await Populate();
             _stopped = false;
-            SetTimerIntervals();
+            SetTimerIntervals(); // TODO resume?
         }
 
         private void SetTimerIntervals()
@@ -204,18 +207,18 @@ namespace Lifethreadening.Models
             return animals;
         }
 
-        private void Populate()
+        private async Task Populate()
         {
             foreach(Location location in World.GetLocations())
             {
                 if(_random.NextDouble() < INITIAL_SPAWN_CHANCE)
                 {
-                    SimulationElement element = _elementFactory.CreateRandomElement(_worldContextService);
+                    SimulationElement element = await _elementFactory.CreateRandomElement(_worldContextService);
                     if(element != null)
                     {
                         location.AddSimulationElement(element);
                         element.Location = location;
-                    }
+                    } // TODO Because this call is not awaited
                 }
             }
         }

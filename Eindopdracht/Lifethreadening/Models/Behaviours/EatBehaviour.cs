@@ -30,7 +30,7 @@ namespace Lifethreadening.Models.Behaviours
                 double distanceFactor = 1 / Math.Sqrt(location.Value.Length);
                 foreach(SimulationElement element in location.Key.SimulationElements)
                 {
-                    if(filter(element))
+                    if(element != Animal && filter(element))
                     {
                         targets.Add(element, element.GetNutritionalValue() * distanceFactor);
                     }
@@ -59,11 +59,12 @@ namespace Lifethreadening.Models.Behaviours
 
             if(mostRelevantTarget != null)
             {
+                Path pathToFollow = locations[mostRelevantTarget.Location];
                 // There is a target
                 return new Incentive(() =>
                 {
                     // Move towards the element and try to attack it
-                    Animal.MoveAlong(locations[mostRelevantTarget.Location]);
+                    Animal.MoveAlong(pathToFollow);
                     Inflict(mostRelevantTarget);
                 }, GetMotivation());
             }

@@ -8,8 +8,8 @@ namespace Lifethreadening.Models
 {
     public interface ISimulationElementFactory
     {
-        SimulationElement CreateRandomElement(WorldContextService contextService);
-        Animal CreateAnimal(WorldContextService contextService);
+        Task<SimulationElement> CreateRandomElement(WorldContextService contextService);
+        Task<Animal> CreateAnimal(WorldContextService contextService);
         Vegetation CreateVegetation(WorldContextService contextService);
         Obstruction CreateObstruction(WorldContextService contextService);
     }

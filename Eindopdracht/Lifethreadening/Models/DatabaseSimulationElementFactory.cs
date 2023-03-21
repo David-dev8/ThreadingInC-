@@ -14,46 +14,48 @@ namespace Lifethreadening.Models
 {
     public class DatabaseSimulationElementFactory : ISimulationElementFactory
     {
-        private const double ANIMAL_CHANCE = 0.50;
+        private const double ANIMAL_CHANCE = 0.10;
         private const double VEGETATION_CHANCE = 0.35;
-        private const double OBSTRUCTION_CHANCE = 0.15;
         private const int STATISTICS_DEVIATION = 5;
 
         private readonly IBehaviourBuilder _behaviourBuilder;
         private readonly IBreedFactory _breedFactory;
+        private readonly INameReader _nameReader;
         private Random _random = new Random();
 
-        public DatabaseSimulationElementFactory(IBehaviourBuilder behaviourBuilder)
+        public DatabaseSimulationElementFactory(IBehaviourBuilder behaviourBuilder, INameReader nameReader)
         {
             _behaviourBuilder = behaviourBuilder;
-            _breedFactory = new EvenlyDistributedParentsBreedFactory(_behaviourBuilder);
+            _breedFactory = new EvenlyDistributedParentsBreedFactory(_behaviourBuilder, nameReader);
+            _nameReader = nameReader;
         }
 
-        public SimulationElement CreateRandomElement(WorldContextService contextService)
+        public async Task<SimulationElement> CreateRandomElement(WorldContextService contextService)
         {
             double randomNumber = _random.NextDouble();
             double total = 0;
             if(randomNumber < (total += ANIMAL_CHANCE))
             {
-                return CreateAnimal(contextService);
+                return await CreateAnimal(contextService);
             }
             else if(randomNumber < (total += VEGETATION_CHANCE))
             {
                 return CreateVegetation(contextService);
             }
-            else if(randomNumber < (total += OBSTRUCTION_CHANCE))
+            else
             {
                 return CreateObstruction(contextService);
             }
-            return null;
         }
 
-        public Animal CreateAnimal(WorldContextService contextService)
+        public async Task<Animal> CreateAnimal(WorldContextService contextService)
         {
             ISpeciesReader speciesReader = new DatabaseSpeciesReader();
             Species species = speciesReader.ReadByEcosystem(contextService.GetContext().Ecosystem.Id).GetRandom();
 
-            Animal newAnimal = new Animal(EnumHelpers.GetRandom<Sex>(), species, GenerateStatisticsFromBase(species.BaseStatistics), contextService);
+            Sex sex = EnumHelpers.GetRandom<Sex>();
+            string name = await _nameReader.GetName(sex);
+            Animal newAnimal = new Animal(name, sex, species, GenerateStatisticsFromBase(species.BaseStatistics), contextService);
             newAnimal.Behaviour = _behaviourBuilder
                 .ForAnimal(newAnimal)
                 .AddEat(species.Diet)

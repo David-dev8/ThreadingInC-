@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Devices.Sensors;
 using Windows.UI.Text;
 
 namespace Lifethreadening.Models
@@ -24,6 +25,7 @@ namespace Lifethreadening.Models
 
         private int _hp;
         private int _energy;
+        private Species _species;
 
         public int Hp
         {
@@ -47,6 +49,7 @@ namespace Lifethreadening.Models
                 _energy = value <= MAX_ENERGY ? value : MAX_ENERGY;
             }
         }
+        public string Name { get; set; }
         public DateTime DateOfBirth { get; set; }
         public int Age 
         { 
@@ -63,13 +66,25 @@ namespace Lifethreadening.Models
             }
         }
         public Sex Sex { get; set; }
-        public Species Species { get; set; }
+        public Species Species
+        {
+            get 
+            { 
+                return _species; 
+            }
+            set 
+            { 
+                _species = value;
+                Image = _species.Image;
+            }
+        }
         public Statistics Statistics { get; set; }
         public Behaviour Behaviour { get; set; }
         public IList<Mutation> Mutations { get; set; } = new List<Mutation>();
 
-        public Animal(Sex sex, Species species, Statistics statistics, WorldContextService contextService) : base(DEFAULT_PRIORITY, contextService)
+        public Animal(string name, Sex sex, Species species, Statistics statistics, WorldContextService contextService) : base(DEFAULT_PRIORITY, species.Image, contextService)
         {
+            Name = name;
             Hp = MAX_HP;
             Energy = MAX_ENERGY;
             Sex = sex;
@@ -96,6 +111,14 @@ namespace Lifethreadening.Models
             base.Act();
 
             AddEnergy(-1);
+
+            // If the animal has too much energy, it will gradually lose hp
+            int hpToLoseDueToEnergy = -(Math.Max(0, 90 - Energy) / 3);
+            if(hpToLoseDueToEnergy > 0)
+            {
+                AddHp(-hpToLoseDueToEnergy); // TODO combine with below
+            }
+
             // The older the animal is, the more hp it loses to natural causes and the more likely it is to die
             int age = Age;
             int ageDifferenceFromAverage = age - Species.AverageAge;

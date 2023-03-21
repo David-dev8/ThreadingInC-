@@ -141,6 +141,7 @@
     <Compile Include="DataAccess\API\Genes\Protein.cs" />
     <Compile Include="DataAccess\API\Genes\ProteinName.cs" />
     <Compile Include="DataAccess\API\Genes\UniProtResult.cs" />
+    <Compile Include="DataAccess\API\Names\APINameReader.cs" />
     <Compile Include="DataAccess\Database\DatabaseConnectionManager.cs" />
     <Compile Include="DataAccess\Database\DatabaseObstructionReader.cs" />
     <Compile Include="DataAccess\Database\DatabaseSpeciesReader.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="DataAccess\Database\DatabaseVegetationReader.cs" />
     <Compile Include="DataAccess\IEcosystemReader.cs" />
     <Compile Include="DataAccess\IGeneReader.cs" />
+    <Compile Include="DataAccess\INameReader.cs" />
     <Compile Include="DataAccess\IObstructionReader.cs" />
     <Compile Include="DataAccess\ISimulationReader.cs" />
     <Compile Include="DataAccess\ISimulationWriter.cs" />

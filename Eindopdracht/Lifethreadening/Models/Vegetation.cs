@@ -17,7 +17,7 @@ namespace Lifethreadening.Models
         private int _maxNutrition;
         private int _currentNutrition = 20;
 
-        public Vegetation(string image, int standardGrowth, int maxNutrition, WorldContextService service): base(DEFAULT_PRIORITY, service)
+        public Vegetation(string image, int standardGrowth, int maxNutrition, WorldContextService service): base(DEFAULT_PRIORITY, image, service)
         {
             _standardGrowth = standardGrowth;
             _maxNutrition = maxNutrition;

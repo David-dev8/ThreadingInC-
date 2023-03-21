@@ -3,6 +3,7 @@ using Lifethreadening.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,24 @@ namespace Lifethreadening.ExtensionMethods
         public static T GetRandom<T>(this IEnumerable<T> elements)
         {
             return elements.ElementAt(_random.Next(elements.Count())); 
+        }
+
+        public static IEnumerable<T> DequeueMultiple<T>(this Queue<T> stack, int amount)
+        {
+            IList<T> dequeuedElements = new List<T>();
+            for(int i = 0; i < amount; i++)
+            {
+                dequeuedElements.Add(stack.Dequeue());
+            }
+            return dequeuedElements;
+        }
+
+        public static void EnqueueMultiple<T>(this Queue<T> stack, IEnumerable<T> elements)
+        {
+            foreach(T element in elements)
+            {
+                stack.Enqueue(element);
+            }
         }
     }
 }

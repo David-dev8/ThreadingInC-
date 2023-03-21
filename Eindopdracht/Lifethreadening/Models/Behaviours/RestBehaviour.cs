@@ -8,7 +8,7 @@ namespace Lifethreadening.Models.Behaviours
 {
     public class RestBehaviour : Behaviour
     {
-        private const int ENERGY_GAINED_FOR_RESTING = 2;
+        private const int ENERGY_GAINED_FOR_RESTING = 1;
 
         public RestBehaviour(Animal animal) : base(animal)
         {
@@ -24,7 +24,7 @@ namespace Lifethreadening.Models.Behaviours
 
         private int GetMotivation()
         {
-            return (int)(1 / 3 * (100 - Animal.Energy));
+            return (int)(1 / 5 * (100 - Animal.Energy));
         }
     }
 }

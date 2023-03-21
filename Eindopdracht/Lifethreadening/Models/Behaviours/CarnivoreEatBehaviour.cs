@@ -38,8 +38,9 @@ namespace Lifethreadening.Models.Behaviours
 
         protected override int GetMotivation()
         {
-            int h = GetHunger();
-            return (int)(Animal.Statistics.Aggresion / 100.0 * 0.7 * h); // TODO
+            int hunger = GetHunger();
+            int motiva = (int)(Animal.Statistics.Aggresion / 50.0 * hunger);
+            return motiva; // TODO
         }
     }
 }

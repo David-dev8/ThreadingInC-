@@ -10,12 +10,14 @@ namespace Lifethreadening.Models
     {
         public Location Location { get; set; }
         public int Priority { get; private set; }
+        public string Image { get; set; }
         protected Action PlannedAction { get; set; }
         protected WorldContextService ContextService { get; set; }
 
-        public SimulationElement(int priority, WorldContextService contextService)
+        public SimulationElement(int priority, string image, WorldContextService contextService)
         {
             Priority = priority;
+            Image = image;
             ContextService = contextService;
         }
 

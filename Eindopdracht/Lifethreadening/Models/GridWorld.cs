@@ -43,10 +43,14 @@ namespace Lifethreadening.Models
             {
                 for (int j = 0; j < _width; j++)
                 {
-                    RegisterNeighbour(Grid[i][j], i + 1, j);
+                    RegisterNeighbour(Grid[i][j], i - 1, j - 1);
                     RegisterNeighbour(Grid[i][j], i - 1, j);
-                    RegisterNeighbour(Grid[i][j], i, j + 1);
+                    RegisterNeighbour(Grid[i][j], i - 1, j + 1);
                     RegisterNeighbour(Grid[i][j], i, j - 1);
+                    RegisterNeighbour(Grid[i][j], i, j + 1);
+                    RegisterNeighbour(Grid[i][j], i + 1, j - 1);
+                    RegisterNeighbour(Grid[i][j], i + 1, j);
+                    RegisterNeighbour(Grid[i][j], i + 1, j + 1);
                 }
             }
         }
