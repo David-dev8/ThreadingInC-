@@ -8,8 +8,10 @@ using System.Xml.Linq;
 
 namespace Lifethreadening.Models
 {
-    public class Species: Observable
+    public class Species: NamedEntity
     {
+        public int Id { get; set; }
+
         private string _name;
         public string Name {
             get { 
@@ -101,6 +103,22 @@ namespace Lifethreadening.Models
             BreedSize = breedSize;
             Diet = diet;
             BaseStatistics = baseStatistics;
+        }
+        
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            Species other = (Species)obj;
+            return Id == other.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
         }
     }
 }

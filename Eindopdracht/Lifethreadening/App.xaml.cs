@@ -74,6 +74,7 @@ namespace Lifethreadening
                     // parameter
                     var navigationService = new NavigationService(rootFrame);
                     navigationService.CurrentViewModel = new CustomSpeciesViewModel(navigationService);
+
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
