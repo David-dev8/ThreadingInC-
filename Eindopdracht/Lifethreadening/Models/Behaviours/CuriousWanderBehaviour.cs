@@ -14,11 +14,6 @@ namespace Lifethreadening.Models.Behaviours
         {
         }
 
-        public override Incentive guide()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override int GetMotivation()
         {
             return (int)(MOTIVATION_FACTOR * Animal.Statistics.MetabolicRate);

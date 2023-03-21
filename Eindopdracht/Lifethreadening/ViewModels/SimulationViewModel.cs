@@ -1,6 +1,5 @@
 ﻿using Lifethreadening.Base;
 using Lifethreadening.DataAccess.API;
-using Lifethreadening.DataAccess.API.Genes;
 using Lifethreadening.Models;
 using System;
 using System.Collections.Generic;

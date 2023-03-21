@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lifethreadening.DataAccess.API.Genes
+namespace Lifethreadening.DataAccess.API.GeneDTOs
 {
     public class UniProtResult<T>
     {

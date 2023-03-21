@@ -1,4 +1,5 @@
-﻿using Lifethreadening.ExtensionMethods;
+﻿using Lifethreadening.DataAccess.API.GeneDTOs;
+using Lifethreadening.ExtensionMethods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,16 +7,15 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Lifethreadening.DataAccess.API.Genes
+namespace Lifethreadening.DataAccess.API
 {
+    // TODO initialize? backup?
     public class APIGeneReader : APICaller, IGeneReader
     {
         private const string GENE_API_BASE_URL = "https://rest.uniprot.org/uniprotkb/";
         private const string API_QUERY = "(organism_id%3A9606)";
         private static readonly string[] FIELDS_TO_SELECT = new string[] { "protein_name", "gene_names", "sequence" };
 
-
-        // Store some genes to return to reduce the amount of API calls
         private Queue<GenomeDetails> _cache = new Queue<GenomeDetails>();
         // For pagination
         private string _nextPage;

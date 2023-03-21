@@ -63,7 +63,7 @@ namespace Lifethreadening.Models.Behaviours
                 // There is a target
                 return new Incentive(() =>
                 {
-                    // Move towards the element and try to attack it
+                    // Move towards the element and try to eat it
                     Animal.MoveAlong(pathToFollow);
                     Inflict(mostRelevantTarget);
                 }, GetMotivation());

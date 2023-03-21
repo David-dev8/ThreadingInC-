@@ -35,7 +35,7 @@ namespace Lifethreadening.Models
             }
             private set
             {
-                _hp = value <= MAX_HP ? value : MAX_HP;
+                _hp = Math.Min(Math.Max(0, value), MAX_HP);
             }
         }
         public int Energy
@@ -46,7 +46,7 @@ namespace Lifethreadening.Models
             }
             private set
             {
-                _energy = value <= MAX_ENERGY ? value : MAX_ENERGY;
+                _energy = Math.Min(Math.Max(0, value), MAX_ENERGY);
             }
         }
         public string Name { get; set; }
@@ -110,14 +110,16 @@ namespace Lifethreadening.Models
         {
             base.Act();
 
-            AddEnergy(-1);
+            // TODO AddEnergy(-1);
 
-            // If the animal has too much energy, it will gradually lose hp
-            int hpToLoseDueToEnergy = -(Math.Max(0, 90 - Energy) / 3);
+            // If the animal has not much energy left, it will gradually lose hp
+            int hpToLoseDueToEnergy = (10 - Energy) / 3; // TODO constant
             if(hpToLoseDueToEnergy > 0)
             {
                 AddHp(-hpToLoseDueToEnergy); // TODO combine with below
             }
+            
+            
 
             // The older the animal is, the more hp it loses to natural causes and the more likely it is to die
             int age = Age;
@@ -160,11 +162,12 @@ namespace Lifethreadening.Models
 
         public void MoveAlong(Path path)
         {
-            if(path.Length > 0)
+            if(path != null && path.Length > 0)
             {
                 Location.RemoveSimulationElement(this);
                 Location = path.GetLocationAt(Math.Min(GetMaxMovementMagntitude(), path.Length));
                 Location.AddSimulationElement(this);
+                // TODO levert dit problemen op met saven omdat het niet gelockt is?
             }
         }
 
@@ -188,7 +191,7 @@ namespace Lifethreadening.Models
                 {
                     foreach(Location newAdjacentLocation in path.CurrentLocation.Neighbours)
                     {
-                        if(!possiblePaths.ContainsKey(newAdjacentLocation))
+                        if(!newAdjacentLocation.IsObstructed && !possiblePaths.ContainsKey(newAdjacentLocation))
                         {
                             possiblePaths.Add(newAdjacentLocation, new Path(newAdjacentLocation, path));
                         }

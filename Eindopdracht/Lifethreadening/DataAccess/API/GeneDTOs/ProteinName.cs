@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lifethreadening.DataAccess.API.Genes
+namespace Lifethreadening.DataAccess.API.GeneDTOs
 {
-    public class Description
+    public class ProteinName
     {
-        public string Value { get; set; }
+        public Description FullName { get; set; }
     }
 }

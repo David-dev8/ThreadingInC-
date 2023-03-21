@@ -30,13 +30,13 @@ namespace Lifethreadening.Models
             _nameReader = nameReader;
         }
 
-        public async Task<SimulationElement> CreateRandomElement(WorldContextService contextService)
+        public SimulationElement CreateRandomElement(WorldContextService contextService)
         {
             double randomNumber = _random.NextDouble();
             double total = 0;
             if(randomNumber < (total += ANIMAL_CHANCE))
             {
-                return await CreateAnimal(contextService);
+                return CreateAnimal(contextService);
             }
             else if(randomNumber < (total += VEGETATION_CHANCE))
             {
@@ -48,13 +48,13 @@ namespace Lifethreadening.Models
             }
         }
 
-        public async Task<Animal> CreateAnimal(WorldContextService contextService)
+        public Animal CreateAnimal(WorldContextService contextService)
         {
             ISpeciesReader speciesReader = new DatabaseSpeciesReader();
             Species species = speciesReader.ReadByEcosystem(contextService.GetContext().Ecosystem.Id).GetRandom();
 
             Sex sex = EnumHelpers.GetRandom<Sex>();
-            string name = await _nameReader.GetName(sex);
+            string name = _nameReader.GetName(sex);
             Animal newAnimal = new Animal(name, sex, species, GenerateStatisticsFromBase(species.BaseStatistics), contextService);
             newAnimal.Behaviour = _behaviourBuilder
                 .ForAnimal(newAnimal)

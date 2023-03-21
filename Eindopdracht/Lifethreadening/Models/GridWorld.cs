@@ -15,7 +15,7 @@ namespace Lifethreadening.Models
         private int _width;
         public Location[][] Grid { get; private set; }
 
-        public GridWorld(Ecosystem ecosystem, IWeatherManager weatherManager, int width = 30, int height = 30) : base(ecosystem, weatherManager)
+        public GridWorld(Ecosystem ecosystem, IWeatherManager weatherManager, int width = 50, int height = 50) : base(ecosystem, weatherManager)
         {
             _height = width;
             _width = height;

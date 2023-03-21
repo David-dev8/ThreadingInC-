@@ -1,5 +1,5 @@
 ﻿using Lifethreadening.DataAccess;
-using Lifethreadening.DataAccess.API.Genes;
+using Lifethreadening.DataAccess.API;
 using Lifethreadening.Helpers;
 using System;
 using System.Collections.Generic;

@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
     public abstract class SimulationElement
     {
-        public Location Location { get; set; }
         public int Priority { get; private set; }
         public string Image { get; set; }
+        [JsonIgnore]
+        public Location Location { get; set; }
         protected Action PlannedAction { get; set; }
-        protected WorldContextService ContextService { get; set; }
+        public WorldContextService ContextService { get; set; }
 
         public SimulationElement(int priority, string image, WorldContextService contextService)
         {

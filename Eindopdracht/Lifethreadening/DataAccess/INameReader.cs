@@ -9,6 +9,6 @@ namespace Lifethreadening.DataAccess
 {
     public interface INameReader
     {
-        Task<string> GetName(Sex sex);
+        string GetName(Sex sex);
     }
 }

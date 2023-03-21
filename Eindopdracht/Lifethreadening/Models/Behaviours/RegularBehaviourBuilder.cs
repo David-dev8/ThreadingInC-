@@ -92,20 +92,20 @@ namespace Lifethreadening.Models.Behaviours
         {
             if(_hasAnimal)
             {
-                //Add(new WanderBehaviour(_animal));
+                Add(new WanderBehaviour(_animal));
 
                 if(_random.NextDouble() < traumaChance)
                 {
                     // Has trauma, so inclined to panic
-                    //Add(new PanicWanderBehaviour(_animal));
+                    Add(new PanicWanderBehaviour(_animal));
                 }
                 else if(!isNative)
                 {
-                    //Add(new CuriousWanderBehaviour(_animal));
+                    Add(new CuriousWanderBehaviour(_animal));
                 }
                 else
                 {
-                    //Add(new WanderBehaviour(_animal));
+                    Add(new WanderBehaviour(_animal));
                 }
             }
             return this;

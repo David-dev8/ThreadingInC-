@@ -15,7 +15,8 @@ namespace Lifethreadening.ExtensionMethods
 
         public static T GetRandom<T>(this IEnumerable<T> elements)
         {
-            return elements.ElementAt(_random.Next(elements.Count())); 
+            int count = elements.Count();
+            return count > 0 ? elements.ElementAt(_random.Next(elements.Count())) : default(T); 
         }
 
         public static IEnumerable<T> DequeueMultiple<T>(this Queue<T> stack, int amount)

@@ -8,7 +8,7 @@ namespace Lifethreadening.Models.Behaviours
 {
     public class CarnivoreEatBehaviour : EatBehaviour
     {
-        private const int MINIMUM_DAMAGE = 0;
+        private const int MINIMUM_DAMAGE = 0; // TODO
 
         public CarnivoreEatBehaviour(Animal animal) : base(animal)
         {

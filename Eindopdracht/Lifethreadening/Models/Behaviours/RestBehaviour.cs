@@ -8,7 +8,7 @@ namespace Lifethreadening.Models.Behaviours
 {
     public class RestBehaviour : Behaviour
     {
-        private const int ENERGY_GAINED_FOR_RESTING = 1;
+        private const int RESILIENCE_PER_ENERGY_GAINED_FOR_RESTING = 30;
 
         public RestBehaviour(Animal animal) : base(animal)
         {
@@ -16,15 +16,16 @@ namespace Lifethreadening.Models.Behaviours
 
         public override Incentive guide()
         {
+            int energyGainedForResting = Animal.Statistics.Resilience / RESILIENCE_PER_ENERGY_GAINED_FOR_RESTING;
             return new Incentive(() =>
             {
-                Animal.AddEnergy(ENERGY_GAINED_FOR_RESTING); // TODO do we even rest?
+                Animal.AddEnergy(energyGainedForResting); // TODO do we even rest?
             }, GetMotivation());
         }
 
         private int GetMotivation()
         {
-            return (int)(1 / 5 * (100 - Animal.Energy));
+            return (int)(1.0 / 5.0 * (100 - Animal.Energy));
         }
     }
 }

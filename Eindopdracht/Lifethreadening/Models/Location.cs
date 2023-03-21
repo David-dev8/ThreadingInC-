@@ -6,6 +6,7 @@ using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
@@ -25,9 +26,17 @@ namespace Lifethreadening.Models
                 // Make a snapshot
                 lock(_simulationElementsLocker)
                 {
-                    elements = _simulationElements.ToList().OrderBy(element => element.Priority);
+                    elements = _simulationElements.OrderBy(element => element.Priority).ToList();
                 }
-                return _simulationElements;
+                return elements;
+            }
+        }
+
+        public bool IsObstructed
+        {
+            get
+            {
+                return SimulationElements.Any(s => s is Obstruction);
             }
         }
 
@@ -41,7 +50,7 @@ namespace Lifethreadening.Models
 
         public void RemoveSimulationElement(SimulationElement simulationElement)
         {
-            lock(_simulationElements)
+            lock(_simulationElementsLocker)
             {
                 _simulationElements.Remove(simulationElement);
             }
@@ -49,12 +58,15 @@ namespace Lifethreadening.Models
 
         public void RemoveNonExistingSimulationElements()
         {
-            for(int i = _simulationElements.Count - 1; i >= 0; i--)
+            lock(_simulationElementsLocker)
             {
-                SimulationElement simulationElement = _simulationElements[i];
-                if(!_simulationElements[i].StillExistsPhysically())
+                for(int i = _simulationElements.Count - 1; i >= 0; i--)
                 {
-                    RemoveSimulationElement(simulationElement);
+                    SimulationElement simulationElement = _simulationElements[i];
+                    if(!_simulationElements[i].StillExistsPhysically())
+                    {
+                        _simulationElements.Remove(simulationElement);
+                    }
                 }
             }
         }

@@ -1,5 +1,8 @@
 ﻿using Lifethreadening.Base;
-using Lifethreadening.DataAccess.API.Names;
+using Lifethreadening.DataAccess;
+using Lifethreadening.DataAccess.API;
+using Lifethreadening.DataAccess.Database;
+using Lifethreadening.DataAccess.JSON;
 using Lifethreadening.ExtensionMethods;
 using Lifethreadening.Models.Behaviours;
 using Lifethreadening.Models.Disasters;
@@ -19,6 +22,8 @@ namespace Lifethreadening.Models
     // TODO lock mutations
     public class Simulation: Observable, IDisposable
     {
+        private string gameName = "first";
+
         private int _amountOfDisasters = 0;
         private Disaster _mostRecentDisaster; // TODO make it bindable
         private const double INITIAL_SPAWN_CHANCE = 0.10;
@@ -28,6 +33,8 @@ namespace Lifethreadening.Models
         private WorldContextService _worldContextService;
         private IDisasterFactory _disasterFactory;
         private IMutationFactory _mutationFactory;
+        private IWorldStateWriter _worldStateWriter;
+        private ISimulationWriter _simulationWriter;
         private bool _stopped = true;
 
         private Timer _stepTimer;
@@ -36,7 +43,7 @@ namespace Lifethreadening.Models
         private Timer _mutationTimer;
         private Timer _saveTimer;
 
-        private static readonly TimeSpan _saveInterval = new TimeSpan(0, 5, 0);
+        private static readonly TimeSpan _saveInterval = new TimeSpan(0, 0, 10);
 
         // For in game things
         private static readonly TimeSpan _distasterInterval = new TimeSpan(50, 0, 0, 0); // TODO static conventions
@@ -93,10 +100,11 @@ namespace Lifethreadening.Models
         { 
             Name = name;
             World = world;
-            _elementFactory = new DatabaseSimulationElementFactory(new RegularBehaviourBuilder(), new APINameReader());
             _disasterFactory = new RegularDisasterFactory();
             _mutationFactory = new RandomMutationFactory();
             _worldContextService = new WorldContextService(World);
+            _worldStateWriter = new JSONWorldStateWriter();
+            _simulationWriter = new DatabaseSimulationWriter();
             SetUpTimers();
         }
 
@@ -122,9 +130,9 @@ namespace Lifethreadening.Models
             }
         }
 
-        private async Task Spawn()
+        private void Spawn()
         {
-            SimulationElement element = await _elementFactory.CreateRandomElement(_worldContextService);
+            SimulationElement element = _elementFactory.CreateRandomElement(_worldContextService);
             World.GetLocations().GetRandom().AddSimulationElement(element);
         }
 
@@ -145,9 +153,10 @@ namespace Lifethreadening.Models
             // TODO async
         }
 
-        private void Save()
+        private async Task Save()
         {
-
+            string location = await _worldStateWriter.Write(gameName, World);
+            await _simulationWriter.Write(location, this);
         }
 
         private void SetUpTimers()
@@ -156,12 +165,15 @@ namespace Lifethreadening.Models
             _spawnTimer = new Timer((_) => Spawn(), null, Timeout.Infinite, Timeout.Infinite);
             _disasterTimer = new Timer(Run(LetPotentialDisasterOccur), null, Timeout.Infinite, Timeout.Infinite);
             _mutationTimer = new Timer((_) => Mutate(), null, Timeout.Infinite, Timeout.Infinite);
-            _saveTimer = new Timer(Run(Save), null, _saveInterval, _saveInterval);
+            _saveTimer = new Timer((_) => Save(), null, _saveInterval, _saveInterval);
         }
 
         public async Task Start()
         {
-            await Populate();
+            var nameReader = new APINameReader();
+            await nameReader.Initialize();
+            _elementFactory = new DatabaseSimulationElementFactory(new RegularBehaviourBuilder(), nameReader);
+            Populate();
             _stopped = false;
             SetTimerIntervals(); // TODO resume?
         }
@@ -207,13 +219,13 @@ namespace Lifethreadening.Models
             return animals;
         }
 
-        private async Task Populate()
+        private void Populate()
         {
             foreach(Location location in World.GetLocations())
             {
                 if(_random.NextDouble() < INITIAL_SPAWN_CHANCE)
                 {
-                    SimulationElement element = await _elementFactory.CreateRandomElement(_worldContextService);
+                    SimulationElement element = _elementFactory.CreateRandomElement(_worldContextService);
                     if(element != null)
                     {
                         location.AddSimulationElement(element);

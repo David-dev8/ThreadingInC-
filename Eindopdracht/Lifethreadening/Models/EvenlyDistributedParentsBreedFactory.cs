@@ -25,7 +25,7 @@ namespace Lifethreadening.Models
             _nameReader = nameReader;
         }
 
-        public async Task<IEnumerable<Animal>> CreateAnimals(Animal father, Animal mother, WorldContextService contextService)
+        public IEnumerable<Animal> CreateAnimals(Animal father, Animal mother, WorldContextService contextService)
         {
             if(CanBreed(father, mother))
             {
@@ -34,7 +34,7 @@ namespace Lifethreadening.Models
                 IList<Animal> children = new List<Animal>();
                 for(int i = 0; i < amountOfChildren; i++)
                 {
-                    Animal animal = await CreateAnimal(father, mother, contextService);
+                    Animal animal = CreateAnimal(father, mother, contextService);
                     children.Add(animal);
                 }
                 return children;
@@ -42,11 +42,11 @@ namespace Lifethreadening.Models
             return Enumerable.Empty<Animal>();
         }
 
-        private async Task<Animal> CreateAnimal(Animal father, Animal mother, WorldContextService contextService)
+        private Animal CreateAnimal(Animal father, Animal mother, WorldContextService contextService)
         {
             Species species = father.Species;
             Sex sex = EnumHelpers.GetRandom<Sex>();
-            string name = await _nameReader.GetName(sex);
+            string name = _nameReader.GetName(sex);
             Animal newAnimal = new Animal(name, sex, species, MergeStatistics(species, father.Statistics, mother.Statistics), contextService);
             newAnimal.Behaviour = _behaviourBuilder
                 .ForAnimal(newAnimal)

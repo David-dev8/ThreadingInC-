@@ -151,21 +151,24 @@ namespace Lifethreadening.Views.CustomControls
 
         private FrameworkElement GetRepresentation(SimulationElement simulationElement)
         {
-            if(!elementImages.ContainsKey(simulationElement.Image))
-            {
-                var newImage = new BitmapImage(new Uri(new Uri("ms-appdata:///local/UserUploads/"), simulationElement.Image));                
-                elementImages.Add(simulationElement.Image, newImage);
-            }
-            BitmapImage image = elementImages[simulationElement.Image];
-            
             return new Image()
             {
-                Source = image,
+                Source = GetImage(simulationElement.Image),
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Height = CellHeight,
                 Width = CellWidth
             };
+        }
+
+        private BitmapImage GetImage(string imageName)
+        {
+            if(!elementImages.ContainsKey(imageName))
+            {
+                var newImage = new BitmapImage(new Uri(new Uri("ms-appdata:///local/UserUploads/"), imageName));
+                elementImages.Add(imageName, newImage);
+            }
+            return elementImages[imageName];
         }
 
         private SimulationElement GetOnTop(Location location)
