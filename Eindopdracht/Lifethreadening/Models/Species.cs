@@ -10,9 +10,36 @@ namespace Lifethreadening.Models
 {
     public class Species: Observable
     {
-        public string Name { get; set; }
-        public string ScientificName { get; set; }
-        public string Image { get; set; }
+        private string _name;
+        public string Name {
+            get { 
+             return _name;
+            } set { 
+                _name = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _scientificName;
+        public string ScientificName {
+            get {
+                return _scientificName;
+            } set { 
+                _scientificName = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _image;
+        public string Image {
+            get { 
+                return _image;
+            }
+            set {
+                _image = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private int _AverageAge;
         public int AverageAge {
@@ -39,7 +66,17 @@ namespace Lifethreadening.Models
             } 
         }
 
-        public Diet Diet { get; set; }
+        private Diet _diet;
+        public Diet Diet {
+            get {
+                return _diet;
+            } set { 
+                _diet = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
         public Statistics BaseStatistics { get; set; }
 
         public Species()

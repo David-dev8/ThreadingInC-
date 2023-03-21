@@ -25,7 +25,6 @@ namespace Lifethreadening.Views
         public CustomSpeciesView()
         {
             this.InitializeComponent();
-            IconForAnimal.InkPresenter.InputDeviceTypes = Windows.UI.Core.CoreInputDeviceTypes.Mouse;
         }
     }
 }

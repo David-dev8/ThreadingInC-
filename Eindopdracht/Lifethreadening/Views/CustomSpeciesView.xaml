@@ -35,7 +35,7 @@
         <!--#endregion-->
 
         <TextBlock Text="Aantal punten over" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" Style="{StaticResource TraitTitle}"></TextBlock>
-        <TextBlock Text="{Binding pointsLeft}" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" Margin="25" FontSize="40"></TextBlock> <!--Bind dit op de punten die over zijn op dit moment-->
+        <TextBlock Text="{Binding PointsLeft}" Foreground="{Binding PointsColor}" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" Margin="25" FontSize="40"></TextBlock> <!--Bind dit op de punten die over zijn op dit moment-->
 
         <!--#region testkleuren -->
         <StackPanel Background="Red" Opacity="0.3" Grid.Column="0" Grid.Row="0" Grid.RowSpan="7"></StackPanel>
@@ -54,105 +54,93 @@
 
         <!--#region statBlocks -->
         <!--#region StatTitles -->
-        <TextBlock Text="Speed" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource TraitTitle}"></TextBlock>
-        <TextBlock Text="Weight" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource TraitTitle}"></TextBlock>
-        <TextBlock Text="Size" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource TraitTitle}"></TextBlock>
-        <TextBlock Text="Agression" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource TraitTitle}"></TextBlock>
-        <TextBlock Text="Detection" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource TraitTitle}"></TextBlock>
-        <TextBlock Text="Resilience" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource TraitTitle}"></TextBlock>
-        <TextBlock Text="Inteligence" Grid.Row="2" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource TraitTitle}"></TextBlock>
-        <TextBlock Text="Self-defence" Grid.Row="3" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource TraitTitle}"></TextBlock>
-        <TextBlock Text="Metabolic rate" Grid.Row="4" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource TraitTitle}"></TextBlock>
+        <TextBlock Text="Speed" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TraitTitle}"></TextBlock>
+        <TextBlock Text="Weight" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TraitTitle}"></TextBlock>
+        <TextBlock Text="Size" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TraitTitle}"></TextBlock>
+        <TextBlock Text="Agression" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TraitTitle}"></TextBlock>
+        <TextBlock Text="Detection" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TraitTitle}"></TextBlock>
+        <TextBlock Text="Resilience" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TraitTitle}"></TextBlock>
+        <TextBlock Text="Inteligence" Grid.Row="2" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TraitTitle}"></TextBlock>
+        <TextBlock Text="Self-defence" Grid.Row="3" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TraitTitle}"></TextBlock>
+        <TextBlock Text="Metabolic rate" Grid.Row="4" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TraitTitle}"></TextBlock>
         <!--#endregion-->
 
         <!--#region speedStat -->
-        <TextBlock Text="+" Grid.Row="1" Grid.Column="1" Style="{StaticResource plusStat}" ></TextBlock>
-        <TextBlock Text="-" Grid.Row="1" Grid.Column="1" Style="{StaticResource minusStat}"></TextBlock>
-        <TextBlock Text="0" Grid.Row="1" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
-        <!--Bind dit op de stat-->
+        <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource StatDisp}" Text="{Binding creatingSpecies.BaseStatistics.Speed}"></TextBlock>
+        <Slider Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Speed, Mode=TwoWay}"></Slider>
         <!--#endregion-->
 
         <!--#region weightStat -->
-        <TextBlock Text="+" Grid.Row="2" Grid.Column="1" Style="{StaticResource plusStat}"></TextBlock>
-        <TextBlock Text="-" Grid.Row="2" Grid.Column="1" Style="{StaticResource minusStat}"></TextBlock>
-        <TextBlock Text="0" Grid.Row="2" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
-        <!--Bind dit op de stat-->
+        <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Weight}" Grid.Row="2" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
+        <Slider Grid.Row="2" Grid.Column="1" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Weight, Mode=TwoWay}"></Slider>
         <!--#endregion-->
 
         <!--#region sizeStat -->
-        <TextBlock Text="+" Grid.Row="3" Grid.Column="1" Style="{StaticResource plusStat}"></TextBlock>
-        <TextBlock Text="-" Grid.Row="3" Grid.Column="1" Style="{StaticResource minusStat}"></TextBlock>
-        <TextBlock Text="0" Grid.Row="3" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
-        <!--Bind dit op de stat-->
+        <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Size}" Grid.Row="3" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
+        <Slider Grid.Row="3" Grid.Column="1" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Size, Mode=TwoWay}"></Slider>
         <!--#endregion-->
 
         <!--#region agressionStat -->
-        <TextBlock Text="+" Grid.Row="4" Grid.Column="1" Style="{StaticResource plusStat}"></TextBlock>
-        <TextBlock Text="-" Grid.Row="4" Grid.Column="1" Style="{StaticResource minusStat}"></TextBlock>
-        <TextBlock Text="0" Grid.Row="4" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
-        <!--Bind dit op de stat-->
+        <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Aggresion}" Grid.Row="4" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
+        <Slider Grid.Row="4" Grid.Column="1" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Aggresion, Mode=TwoWay}"></Slider>
         <!--#endregion-->
 
         <!--#region detectionStat -->
-        <TextBlock Text="+" Grid.Row="5" Grid.Column="1" Style="{StaticResource plusStat}"></TextBlock>
-        <TextBlock Text="-" Grid.Row="5" Grid.Column="1" Style="{StaticResource minusStat}"></TextBlock>
-        <TextBlock Text="0" Grid.Row="5" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
-        <!--Bind dit op de stat-->
+        <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Detection}" Grid.Row="5" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
+        <Slider Grid.Row="5" Grid.Column="1" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Detection, Mode=TwoWay}"></Slider>
         <!--#endregion-->
 
         <!--#region resStat -->
-        <TextBlock Text="+" Grid.Row="1" Grid.Column="5" Style="{StaticResource plusStat}"></TextBlock>
-        <TextBlock Text="-" Grid.Row="1" Grid.Column="5" Style="{StaticResource minusStat}"></TextBlock>
-        <TextBlock Text="0" Grid.Row="1" Grid.Column="5" Style="{StaticResource StatDisp}"></TextBlock>
-        <!--Bind dit op de stat-->
+        <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Resilience}" Grid.Row="1" Grid.Column="5" Style="{StaticResource StatDisp}"></TextBlock>
+        <Slider Grid.Row="1" Grid.Column="5" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Resilience, Mode=TwoWay}"></Slider>
+
         <!--#endregion-->
 
         <!--#region intStat -->
-        <TextBlock Text="+" Grid.Row="2" Grid.Column="5" Style="{StaticResource plusStat}"></TextBlock>
-        <TextBlock Text="-" Grid.Row="2" Grid.Column="5" Style="{StaticResource minusStat}"></TextBlock>
-        <TextBlock Text="0" Grid.Row="2" Grid.Column="5" Style="{StaticResource StatDisp}"></TextBlock>
-        <!--Bind dit op de stat-->
+        <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Intelligence}" Grid.Row="2" Grid.Column="5" Style="{StaticResource StatDisp}"></TextBlock>
+        <Slider Grid.Row="2" Grid.Column="5" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Intelligence, Mode=TwoWay}"></Slider>
+
         <!--#endregion-->
 
         <!--#region defenceStat -->
-        <TextBlock Text="+" Grid.Row="3" Grid.Column="5" Style="{StaticResource plusStat}"></TextBlock>
-        <TextBlock Text="-" Grid.Row="3" Grid.Column="5" Style="{StaticResource minusStat}"></TextBlock>
-        <TextBlock Text="0" Grid.Row="3" Grid.Column="5" Style="{StaticResource StatDisp}"></TextBlock>
-        <!--Bind dit op de stat-->
+        <TextBlock Text="{Binding creatingSpecies.BaseStatistics.SelfDefence}" Grid.Row="3" Grid.Column="5" Style="{StaticResource StatDisp}"></TextBlock>
+        <Slider Grid.Row="3" Grid.Column="5" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.SelfDefence, Mode=TwoWay}"></Slider>
+
         <!--#endregion-->
 
         <!--#region metabolicStat -->
-        <TextBlock Text="+" Grid.Row="4" Grid.Column="5" Style="{StaticResource plusStat}"></TextBlock>
-        <TextBlock Text="-" Grid.Row="4" Grid.Column="5" Style="{StaticResource minusStat}"></TextBlock>
-        <TextBlock Text="0" Grid.Row="4" Grid.Column="5" Style="{StaticResource StatDisp}"></TextBlock>
-        <!--Bind dit op de stat-->
+        <TextBlock Text="{Binding creatingSpecies.BaseStatistics.MetabolicRate}" Grid.Row="4" Grid.Column="5" Style="{StaticResource StatDisp}"></TextBlock>
+        <Slider Grid.Row="4" Grid.Column="5" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.MetabolicRate, Mode=TwoWay}"></Slider>
+
         <!--#endregion-->
         <!--#endregion-->
 
-        <TextBox BorderThickness="0, 0, 0, 2" Background="Transparent" Grid.Column="3" Grid.Row="1" VerticalAlignment="Bottom" Margin="10, 0, 10, 0" PlaceholderText="Name ✏" HorizontalAlignment="Center" Width="225" TextAlignment="Center" FontSize="18"></TextBox>
+        <!--#region MiddleContent -->
+        <TextBox BorderThickness="0, 0, 0, 2" Background="Transparent" Grid.Column="3" Grid.Row="1" VerticalAlignment="Bottom" PlaceholderText="Name ✏" HorizontalAlignment="Left" Width="225" TextAlignment="Center" FontSize="18" Text="{Binding creatingSpecies.Name, Mode=TwoWay}"></TextBox>
+        <TextBox BorderThickness="0, 0, 0, 2" Background="Transparent" Grid.Column="3" Grid.Row="1" VerticalAlignment="Bottom" PlaceholderText="Scientific name ✏" HorizontalAlignment="Right" Width="225" TextAlignment="Center" FontSize="18" Text="{Binding creatingSpecies.ScientificName, Mode=TwoWay}"></TextBox>
 
-        <StackPanel Margin="50, -150, 50, 50" Grid.Row="3" Grid.Column="3" BorderThickness="5" BorderBrush="Black">
+        <StackPanel Background="White" BackgroundSizing="OuterBorderEdge" Margin="50, -150, 50, 0" Grid.Row="3" Grid.Column="3" BorderThickness="5" BorderBrush="Black"></StackPanel>
 
-            <Button Command="{Binding OpenImagePicker}"></Button>
-            
-        </StackPanel>
+        <Button Command="{Binding OpenImagePicker}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, -150, 0, 0" Grid.Row="3" Grid.Column="3">...Upload photo...</Button>
+        <Image Source="{Binding creatingSpecies.Image}" MaxHeight="300" MaxWidth="300" Margin="0, -150, 0, 0" Grid.Row="3" Grid.Column="3"></Image>
 
-        <TextBlock Grid.Column="3" Grid.Row="4" VerticalAlignment="top" Margin="10, 10, 10, 0" Text="Diet:" Style="{StaticResource TraitTitle}"></TextBlock>
-        <ComboBox BorderThickness="0, 0, 0, 2" Background="Transparent" Grid.Column="3" Grid.Row="4" VerticalAlignment="top" Margin="200, 0, 10, 0" PlaceholderText="Select a value" HorizontalAlignment="Center" Width="225" FontSize="18" >
+        <TextBlock Grid.Column="3" Grid.Row="4" VerticalAlignment="top" Margin="10, 20, 10, 0" Text="Diet:" Style="{StaticResource TraitTitle}"></TextBlock>
+        <ComboBox BorderThickness="0, 0, 0, 2" Background="Transparent" Grid.Column="3" Grid.Row="4" VerticalAlignment="top" Margin="200, 10, 10, 0" PlaceholderText="Select a value" HorizontalAlignment="Center" Width="225" FontSize="18" SelectedValue="{Binding creatingSpecies.Diet}">
             <ComboBoxItem x:Name="Herb">Herbivoor</ComboBoxItem>
             <ComboBoxItem x:Name="Carn">Carnivoor</ComboBoxItem>
             <ComboBoxItem x:Name="Omni">Omnivoor</ComboBoxItem>
         </ComboBox>
 
-        <TextBlock Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Margin="10, 30, 10, 0" Text="Average lifespan:" Style="{StaticResource TraitTitle}"></TextBlock>
-        <Slider Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Margin="200, 50, 10, 0" Maximum="120" Width="250" Value="{Binding creatingSpecies.AverageAge, Mode=TwoWay}"></Slider>
-        <TextBlock Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Margin="350, 5, 10, 0" Text="{Binding creatingSpecies.AverageAge}" Style="{StaticResource TraitTitle}"></TextBlock>
+        <TextBlock Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Margin="10, 40, 10, 0" Text="Average lifespan:" Style="{StaticResource TraitTitle}"></TextBlock>
+        <Slider Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Margin="200, 60, 10, 0" Maximum="120" Width="250" Value="{Binding creatingSpecies.AverageAge, Mode=TwoWay}"></Slider>
+        <TextBlock Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Margin="350, 15, 10, 0" Text="{Binding creatingSpecies.AverageAge}" Style="{StaticResource TraitTitle}"></TextBlock>
 
-        <TextBlock Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="10, -15, 10, 0" Text="Breed size:" Style="{StaticResource TraitTitle}"></TextBlock>
-        <Slider Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="200, 0, 10, 0" Maximum="10" Width="250" Value="{Binding creatingSpecies.BreedSize, Mode=TwoWay}"></Slider>
-        <TextBlock Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="350, -20, 10, 0" Text="{Binding creatingSpecies.BreedSize}" Style="{StaticResource TraitTitle}"></TextBlock>
+        <TextBlock Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="10, -5, 10, 0" Text="Breed size:" Style="{StaticResource TraitTitle}"></TextBlock>
+        <Slider Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="200, 0, 20, 0" Maximum="10" Width="250" Value="{Binding creatingSpecies.BreedSize, Mode=TwoWay}"></Slider>
+        <TextBlock Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="350, -10, 10, 0" Text="{Binding creatingSpecies.BreedSize}" Style="{StaticResource TraitTitle}"></TextBlock>
 
         <Button Grid.Column="3" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="28">Create species</Button>
+        <!--#endregion-->
     </Grid>
 
 </Page>
