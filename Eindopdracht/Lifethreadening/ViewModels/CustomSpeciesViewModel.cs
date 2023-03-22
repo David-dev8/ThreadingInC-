@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage.Pickers;
 using Windows.Storage;
-using System.Drawing;
+using Windows.UI;
+using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace Lifethreadening.ViewModels
 {
@@ -19,16 +20,6 @@ namespace Lifethreadening.ViewModels
         public readonly int MAX_POINTS = 350;
 
         public ICommand OpenImagePicker { get; set; }
-
-        private Color _pointsColor;
-        public Color PointsColor {
-            get {
-                return _pointsColor;    
-            } set { 
-                _pointsColor = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         private int _pointsLeft;
         public int PointsLeft {
@@ -51,7 +42,6 @@ namespace Lifethreadening.ViewModels
             creatingSpecies.BaseStatistics.PropertyChanged += BaseStatistics_PropertyChanged; 
 
             PointsLeft = MAX_POINTS - creatingSpecies.BaseStatistics.GetSumOfStats();
-            PointsColor = Color.Green;
             
             OpenImagePicker = new AsyncRelayCommand(OpenFilePicker);
         }
@@ -59,18 +49,6 @@ namespace Lifethreadening.ViewModels
         private void BaseStatistics_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             PointsLeft = MAX_POINTS - creatingSpecies.BaseStatistics.GetSumOfStats(); //TODO GetSumOfStats verwerken
-            if (PointsLeft > 0)
-            {
-                PointsColor = Color.Green;
-            }
-            else if (PointsLeft == 0)
-            {
-                PointsColor = Color.Black;
-            }
-            else
-            {
-                PointsColor = Color.Red;
-            }
         }
 
         private async Task OpenFilePicker()

@@ -125,6 +125,7 @@
     <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Converters\IntFormatConverter.cs" />
     <Compile Include="Converters\ConverterGroup.cs" />
+    <Compile Include="Converters\IntPositivityToColorConverter.cs" />
     <Compile Include="Converters\TimeSpanToAmountOfDaysConverter.cs" />
     <Compile Include="Base\RelayCommand.cs" />
     <Compile Include="DataAccess\Algorithmic\RandomWeatherManager.cs" />

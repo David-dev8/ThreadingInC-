@@ -35,6 +35,10 @@
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="FontSize" Value="22" />
     </Style>
+    <Style x:Key="BlockHeader" TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="30" />
+    </Style>
     <Style x:Key="minusStat" TargetType="TextBlock">
         <Setter Property="FontSize" Value="50" />
         <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -79,4 +83,8 @@
     </customConverters:ConverterGroup>
     <converters:StringFormatConverter x:Key="StringFormatter"/>
     <customConverters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+    <customConverters:ConverterGroup x:Key="IntPositivityToColorBrushConverter">
+        <customConverters:IntPositivityToColorConverter  />
+        <customConverters:ColorToBrushConverter />
+    </customConverters:ConverterGroup>
 </ResourceDictionary>
