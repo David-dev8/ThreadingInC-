@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
+    // TODO constructor
     public class Species : NamedEntity
     {
         public int Id { get; set; }

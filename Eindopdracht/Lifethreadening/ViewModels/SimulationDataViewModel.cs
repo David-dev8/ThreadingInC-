@@ -36,6 +36,14 @@ namespace Lifethreadening.ViewModels
             }
         }
 
+        public IEnumerable<Rank> DominatingSpecies
+        {
+            get
+            {
+                return Simulation.PopulationManager.GetDominatingSpecies().Take(3);
+            }
+        }
+
         public SimulationDataViewModel(NavigationService navigationService, Simulation simulation) : base(navigationService)
         {
             Simulation = simulation;

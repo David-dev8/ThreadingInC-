@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:dataVisual="using:WinRTXamlToolkit.Controls.DataVisualization"
     xmlns:customcontrols="using:Lifethreadening.Views.CustomControls"
+    xmlns:customConverters="using:Lifethreadening.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -15,6 +16,11 @@
         <Style TargetType="charts:Chart">
             <Setter Property="Padding" Value="20,0" />
         </Style>
+        <customConverters:PositionToScaleConverter x:Key="PositionToScaleConverter" />
+        <customConverters:ConverterGroup x:Key="ScaledIndexConverter">
+            <customConverters:IndexConverter />
+            <customConverters:PositionToScaleConverter />
+        </customConverters:ConverterGroup>
     </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -76,6 +82,57 @@
                 </charts:Chart>
             </Grid>
         </Grid>
+
+        <Grid Grid.Row="3" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="100*" />
+            </Grid.RowDefinitions>
+            <Grid Style="{StaticResource SectionHeadingGrid}">
+                <TextBlock Foreground="{StaticResource SecondaryBrush}" HorizontalAlignment="Stretch" TextAlignment="Center" Style="{StaticResource SectionTitle}">Most dominating species</TextBlock>
+            </Grid>
+
+            <StackPanel Grid.Row="1" Background="Red" />
+
+            <ListView Grid.Row="2" ItemsSource="{Binding DominatingSpecies}" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="6.4*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0" Background="Brown" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Image MaxHeight="{Binding Converter={StaticResource PositionToScaleConverter}, ConverterParameter=60}" 
+                                       Source="{Binding Species.Image}"  />
+                            </Grid>
+                            <StackPanel Background="AliceBlue" Grid.Column="1">
+                                <TextBlock Text="{Binding Converter={StaticResource ScaledIndexConverter}}" />
+                                <TextBlock Text="{Binding Species.Name}" />
+                                <TextBlock Text="{Binding Average}" />
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                    
+
+                </ListView.ItemTemplate>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Height" Value="60" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </Grid>
+        
+        
+        
+        
+        
+        
+        
+        
 
         <Grid Grid.Column="3" Grid.Row="3">
             <Grid.RowDefinitions>
