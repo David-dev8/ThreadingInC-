@@ -9,6 +9,7 @@
     xmlns:dataVisual="using:WinRTXamlToolkit.Controls.DataVisualization"
     xmlns:customcontrols="using:Lifethreadening.Views.CustomControls"
     xmlns:customConverters="using:Lifethreadening.Converters"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -16,11 +17,16 @@
         <Style TargetType="charts:Chart">
             <Setter Property="Padding" Value="20,0" />
         </Style>
-        <customConverters:PositionToScaleConverter x:Key="PositionToScaleConverter" />
-        <customConverters:ConverterGroup x:Key="ScaledIndexConverter">
+        <customConverters:ConverterGroup x:Key="PositionToScaleConverter">
             <customConverters:IndexConverter />
             <customConverters:PositionToScaleConverter />
         </customConverters:ConverterGroup>
+        <customConverters:ConverterGroup x:Key="PositionToDescriptionConverter">
+            <customConverters:IndexConverter />
+            <customConverters:PositionToDescriptionConverter />
+            <converters:StringFormatConverter />
+        </customConverters:ConverterGroup>
+        <customConverters:IndexConverter x:Key="IndexConverter" />
     </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -103,14 +109,19 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="6.4*" />
                             </Grid.ColumnDefinitions>
-                            <Grid Grid.Column="0" Background="Brown" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Grid Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Image MaxHeight="{Binding Converter={StaticResource PositionToScaleConverter}, ConverterParameter=60}" 
-                                       Source="{Binding Species.Image}"  />
+                                       Source="{Binding Species.Image}" Opacity="{Binding Converter={StaticResource PositionToScaleConverter}, ConverterParameter=1}" />
                             </Grid>
                             <StackPanel Background="AliceBlue" Grid.Column="1">
-                                <TextBlock Text="{Binding Converter={StaticResource ScaledIndexConverter}}" />
-                                <TextBlock Text="{Binding Species.Name}" />
-                                <TextBlock Text="{Binding Average}" />
+                                <StackPanel Orientation="Horizontal" >
+                                    <TextBlock FontSize="{Binding Converter={StaticResource PositionToScaleConverter}, ConverterParameter=18}"
+                                               FontWeight="SemiBold">
+                                        #<Run Text="{Binding Converter={StaticResource IndexConverter}}" /> |
+                                        <Run Text="{Binding Species.Name}" />
+                                    </TextBlock>
+                                </StackPanel>
+                                <TextBlock Text="{Binding Converter={StaticResource PositionToDescriptionConverter}}" />
                             </StackPanel>
                         </Grid>
                     </DataTemplate>
