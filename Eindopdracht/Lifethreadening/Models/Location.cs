@@ -1,39 +1,74 @@
-﻿using Lifethreadening.Models.Behaviours;
+﻿using Lifethreadening.Base;
+using Lifethreadening.Models.Behaviours;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
-    public class Location
+    public class Location : Observable
     {
-        public IList<Location> Neighbours { get; set; } = new List<Location>();
-        public IList<SimulationElement> SimulationElements { get; set; } = new List<SimulationElement>();
+        // There is no native concurrent list in C#
+        private object _simulationElementsLocker = new object();
+        private IList<SimulationElement> _simulationElements = new List<SimulationElement>();
 
-        public Location()
+        public IList<Location> Neighbours { get; set; } = new List<Location>();
+        public IEnumerable<SimulationElement> SimulationElements
         {
-            if(new Random().Next(0, 10) == 0)
+            get
             {
-                SimulationElements.Add(new Animal(Sex.MALE, new Species(), new Statistics()));
+                IEnumerable<SimulationElement> elements;
+                // Make a snapshot
+                lock(_simulationElementsLocker)
+                {
+                    elements = _simulationElements.OrderBy(element => element.Priority).ToList();
+                }
+                return elements;
             }
         }
 
-        public IEnumerable<Location> GetAdjacent(int range)
+        public bool IsObstructed
         {
-            ISet<Location> adjacentLocations = new HashSet<Location>() { this };
-            for(int i = 0; i < range; i++)
+            get
             {
-                foreach(Location location in adjacentLocations)
+                return SimulationElements.Any(s => s is Obstruction);
+            }
+        }
+
+        public void AddSimulationElement(SimulationElement simulationElement)
+        {
+            lock(_simulationElementsLocker)
+            {
+                _simulationElements.Add(simulationElement);
+            }
+        }
+
+        public void RemoveSimulationElement(SimulationElement simulationElement)
+        {
+            lock(_simulationElementsLocker)
+            {
+                _simulationElements.Remove(simulationElement);
+            }
+        }
+
+        public void RemoveNonExistingSimulationElements()
+        {
+            lock(_simulationElementsLocker)
+            {
+                for(int i = _simulationElements.Count - 1; i >= 0; i--)
                 {
-                    foreach(Location newAdjacentLocation in location.Neighbours)
+                    SimulationElement simulationElement = _simulationElements[i];
+                    if(!_simulationElements[i].StillExistsPhysically())
                     {
-                        adjacentLocations.Add(newAdjacentLocation);
+                        _simulationElements.Remove(simulationElement);
                     }
                 }
             }
-            return adjacentLocations;
         }
     }
 }

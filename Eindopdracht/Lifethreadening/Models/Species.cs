@@ -12,6 +12,7 @@ namespace Lifethreadening.Models
     {
         public int Id { get; set; }
 
+
         private string _name;
         public string Name {
             get { 
@@ -92,6 +93,27 @@ namespace Lifethreadening.Models
             Diet = Diet.HERBIVORE;
             BaseStatistics = new Statistics();
         }
+        
+        public string Description { get; set; }
+        public int MaxBreedSize { get; set; }
+        public int MinBreedSize { get; set; }
+
+        public Species(int id, string name, string description, string scientificName, string image, int averageAge, int maxAge, int maxBreedSize, int minBreedSize, Diet diet, Statistics baseStatistics)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+
+            ScientificName = scientificName;
+            Image = image;
+            AverageAge = averageAge;
+            MaxAge = maxAge;
+            MaxBreedSize = maxBreedSize;
+            MinBreedSize = minBreedSize;
+            Diet = diet;
+            BaseStatistics = baseStatistics;
+        }
+
 
         public Species(string name, string scientificName, string image, int averageAge, int maxAge, int breedSize, Diet diet, Statistics baseStatistics)
         {
@@ -104,11 +126,11 @@ namespace Lifethreadening.Models
             Diet = diet;
             BaseStatistics = baseStatistics;
         }
-        
+
         public override bool Equals(object obj)
         {
-            if (obj == null || GetType() != obj.GetType())
-            {
+            if(obj == null || GetType() != obj.GetType())
+            { 
                 return false;
             }
 

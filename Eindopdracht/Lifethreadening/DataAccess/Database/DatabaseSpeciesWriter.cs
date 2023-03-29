@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.DataAccess.Database
 {
-    public class DatabaseCustomSpeciesWriter : ICustomSpeciesWriter
+    public class DatabaseSpeciesWriter : ISpeciesWriter
     {
         private static readonly string DATABASE_TABLE_NAME = "Species";
         private DatabaseHelper<Species> _database;
 
-        public DatabaseCustomSpeciesWriter()
+        public DatabaseSpeciesWriter()
         {
             _database = new DatabaseHelper<Species>();
         }

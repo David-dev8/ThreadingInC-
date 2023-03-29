@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Lifethreadening.ViewModels
 {
 
-    public class BaseViewModel : Observable
+    public class BaseViewModel : Observable, IDisposable
     {
         protected NavigationService _navigationService;
 

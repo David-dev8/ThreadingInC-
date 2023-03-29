@@ -10,16 +10,16 @@ namespace Lifethreadening.DataAccess.Algorithmic
 {
     public class RandomWeatherManager : IWeatherManager
     {
-        private const double HUMIDITY_INITIAL = 50;
-        private const double WIND_SPEED_INITIAL = 20;
+        private const double TEMPERATURE_INITIAL = 15;
+        private const double WIND_SPEED_INITIAL = 40;
         private const double RAIN_FALL_INITIAL = 0;
-        private const double HUMIDITY_DEVIATION_RANGE = 0.5;
-        private const double WIND_SPEED_DEVIATION_RANGE = 1;
-        private const double RAIN_FALL_DEVIATION_RANGE = 1;
+        private const double TEMPERATURE_DEVIATION_RANGE = 1.25;
+        private const double WIND_SPEED_DEVIATION_RANGE = 2.5;
+        private const double RAIN_FALL_DEVIATION_RANGE = 0.5;
 
         private IList<Weather> _weatherHistory = new List<Weather>()
         {
-            new Weather(HUMIDITY_INITIAL, WIND_SPEED_INITIAL, RAIN_FALL_INITIAL)
+            new Weather(TEMPERATURE_INITIAL, WIND_SPEED_INITIAL, RAIN_FALL_INITIAL)
         };
 
         public Weather GetCurrent()
@@ -37,9 +37,9 @@ namespace Lifethreadening.DataAccess.Algorithmic
         {
             Weather current = GetCurrent();
             return new Weather(
-                current.Humidity.Deviate(HUMIDITY_DEVIATION_RANGE),
-                current.Humidity.Deviate(WIND_SPEED_DEVIATION_RANGE),
-                current.Humidity.Deviate(RAIN_FALL_DEVIATION_RANGE)
+                current.Temperature.Deviate(TEMPERATURE_DEVIATION_RANGE),
+                current.WindSpeed.Deviate(WIND_SPEED_DEVIATION_RANGE),
+                Math.Max(0, current.RainFall.Deviate(RAIN_FALL_DEVIATION_RANGE))
             );
         }
     }

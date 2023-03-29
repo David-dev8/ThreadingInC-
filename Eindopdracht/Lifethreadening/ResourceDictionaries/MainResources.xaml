@@ -81,6 +81,15 @@
         <converters:BoolNegationConverter />
         <converters:BoolToVisibilityConverter />
     </customConverters:ConverterGroup>
+    <customConverters:ConverterGroup x:Key="NullVisibilityConverter">
+        <customConverters:NullToBooleanConverter />
+        <converters:BoolToVisibilityConverter />
+    </customConverters:ConverterGroup>
+    <customConverters:ConverterGroup x:Key="InverseNullVisibilityConverter">
+        <customConverters:NullToBooleanConverter />
+        <converters:BoolNegationConverter />
+        <converters:BoolToVisibilityConverter />
+    </customConverters:ConverterGroup>
     <converters:StringFormatConverter x:Key="StringFormatter"/>
     <customConverters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
     <customConverters:ConverterGroup x:Key="IntPositivityToColorBrushConverter">

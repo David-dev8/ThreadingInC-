@@ -8,11 +8,13 @@ namespace Lifethreadening.Models
 {
     public class WorldContext
     {
+        public Ecosystem Ecosystem { get; set; }
         public Weather Weather { get; set; }
         public DateTime Date { get; set; }
 
-        public WorldContext(Weather weather, DateTime date)
+        public WorldContext(Ecosystem ecosystem, Weather weather, DateTime date)
         {
+            Ecosystem = ecosystem;
             Weather = weather;
             Date = date;
         }

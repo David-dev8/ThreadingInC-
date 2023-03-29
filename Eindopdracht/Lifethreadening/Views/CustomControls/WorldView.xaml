@@ -8,37 +8,14 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
-    x:Name="CurrentWorldView"
-    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters" >
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters">
     <UserControl.Resources>
         <converters:CollectionVisibilityConverter x:Key="CollectionSizeToVisibilityConverter" />
     </UserControl.Resources>
-    <Grid x:Name="Grid">
+    <Grid>
         <Grid.Background>
             <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/worldBackground.png" />
         </Grid.Background>
-        <GridView ItemsSource="{Binding World.Locations, ElementName=CurrentWorldView}" Margin="0" Padding="0">
-            <GridView.ItemContainerStyle>
-                <Style TargetType="GridViewItem">
-                    <Setter Property="Padding" Value="0"/>
-                    <Setter Property="Margin" Value="0"/>
-                    <Setter Property="BorderThickness" Value="0"/>
-                </Style>
-            </GridView.ItemContainerStyle>
-            <GridView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Height="{Binding CellHeight, ElementName=CurrentWorldView}" Width="{Binding CellWidth, ElementName=CurrentWorldView}">
-                        <StackPanel Visibility="{Binding SimulationElements, Converter={StaticResource CollectionSizeToVisibilityConverter}}">
-                            <TextBlock>Hi</TextBlock>
-                        </StackPanel>
-                    </StackPanel>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-            <GridView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="{Binding GridWorld.Width, ElementName=CurrentWorldView}"/>
-                </ItemsPanelTemplate>
-            </GridView.ItemsPanel>
-        </GridView>
+        <Grid x:Name="Space" />
     </Grid>
 </UserControl>
