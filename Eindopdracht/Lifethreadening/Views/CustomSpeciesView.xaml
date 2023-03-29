@@ -160,8 +160,40 @@
         <Slider Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="200, 0, 20, 0" Maximum="10" Width="250" Value="{Binding creatingSpecies.BreedSize, Mode=TwoWay}"></Slider>
         <TextBlock Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="350, -10, 10, 0" Text="{Binding creatingSpecies.BreedSize}" Style="{StaticResource TraitTitle}"></TextBlock>
 
-        <customControls:IconButton Grid.Column="3" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="28" Text="Create species"></customControls:IconButton>
+        <customControls:IconButton Command="{Binding SaveSpiecies}" Grid.Column="3" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="28" Text="Create species"></customControls:IconButton>
         <!--#endregion-->
+         
+        <!--#region ErrorPopup -->
+        <Popup Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2" IsOpen="{Binding HasErrors}" IsLightDismissEnabled="True" LightDismissOverlayMode="On" HorizontalAlignment="Center" VerticalAlignment="Center" >
+            <Border BorderThickness="2" BorderBrush="{StaticResource TertiaryBrush}">
+                <Grid Background="{StaticResource PrimaryBackgroundBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" Height="300">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource BaseTextBlockStyle}">There seem to be some errors with the data</TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0, 35, 0, 0">Please fix the folowing errors to save this spiecies</TextBlock>
+
+                    <ItemsControl ItemsSource="{Binding Errors}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock VerticalAlignment="Center" Margin="75, 0, 0, 0" Text="{Binding}"></TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    
+                </Grid>
+            </Border>
+        </Popup>
+        <!--#endregion-->
+
     </Grid>
 
 </Page>

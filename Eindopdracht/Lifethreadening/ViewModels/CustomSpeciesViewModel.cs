@@ -12,6 +12,7 @@ using Windows.Storage.Pickers;
 using Windows.Storage;
 using Windows.UI;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Windows.UI.Xaml;
 
 namespace Lifethreadening.ViewModels
 {
@@ -20,21 +21,52 @@ namespace Lifethreadening.ViewModels
         public readonly int MAX_POINTS = 350;
 
         public ICommand OpenImagePicker { get; set; }
+        public ICommand SaveSpiecies { get; set; }
+
+        private List<string> _errors;
+        public List<string> Errors
+        {
+            get 
+            {
+                return _errors;
+            }
+            set 
+            {
+                _errors = value; 
+                NotifyPropertyChanged();
+            }
+        }
+
+
+        private bool _hasErrors = false;
+        public bool HasErrors 
+        {
+            get 
+            {
+                return _hasErrors;
+            }
+            set 
+            {
+                _hasErrors = value; 
+                NotifyPropertyChanged();
+            }
+        }
 
         private int _pointsLeft;
-        public int PointsLeft {
-            get { 
+        public int PointsLeft 
+        {
+            get 
+            { 
                 return _pointsLeft;
-            } set { 
+            } 
+            set 
+            { 
                 _pointsLeft = value;
                 NotifyPropertyChanged();
             } 
         }
 
-
         public Species creatingSpecies { get; set; }
-
-
 
         public CustomSpeciesViewModel(NavigationService navigationService) : base(navigationService)
         {
@@ -44,11 +76,36 @@ namespace Lifethreadening.ViewModels
             PointsLeft = MAX_POINTS - creatingSpecies.BaseStatistics.GetSumOfStats();
             
             OpenImagePicker = new AsyncRelayCommand(OpenFilePicker);
+            SaveSpiecies = new RelayCommand(CreateSpiecies);
         }
 
         private void BaseStatistics_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             PointsLeft = MAX_POINTS - creatingSpecies.BaseStatistics.GetSumOfStats(); //TODO GetSumOfStats verwerken
+        }
+
+        private void CreateSpiecies()
+        {
+
+            List<string> valid = creatingSpecies.CheckIfValid();
+
+            if (PointsLeft < 0)
+            {
+                valid.Add("* The points may not be negative");
+            }
+
+            HasErrors = valid.Count > 0;
+            Errors = valid;
+
+            if (valid.Count == 0) 
+            {
+                creatingSpecies.MinBreedSize = (int)Math.Ceiling(creatingSpecies.BreedSize / 2d);
+                creatingSpecies.MaxBreedSize = (int)Math.Ceiling(creatingSpecies.BreedSize * 1.5d);
+                creatingSpecies.MaxAge = (int)Math.Ceiling(creatingSpecies.AverageAge * 1.25d);
+
+                //TODO Save custom spiecies to DB
+            }
+
         }
 
         private async Task OpenFilePicker()

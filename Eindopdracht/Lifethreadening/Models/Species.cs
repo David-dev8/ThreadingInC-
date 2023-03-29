@@ -142,5 +142,36 @@ namespace Lifethreadening.Models
         {
             return Id.GetHashCode();
         }
+
+        public List<string> CheckIfValid()
+        {
+            List<string> valid = new List<string>();
+
+            if (Name == "")
+            {
+                valid.Add("* The spiecies is missing a name");
+            }
+            if (ScientificName == "")
+            {
+                valid.Add("* The spiecies is missing a scientific name");
+            }
+            if (Diet == null)
+            {
+                valid.Add("* The spiecies is missing a diet");
+            }
+            if (AverageAge == 0)
+            {
+                valid.Add("* The spiecies needs to have a lifespan greater than 0");
+            }
+            if(BreedSize == 0)
+            {
+                valid.Add("* The spiecies needs to have a breedsize greater than 0");
+            }
+            if (Image == "")
+            {
+                valid.Add("* The spiecies is missing an image");
+            }
+            return valid;
+        }
     }
 }
