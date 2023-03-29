@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.Threading.Tasks;
 
 namespace Lifethreadening
 {
@@ -78,6 +79,18 @@ namespace Lifethreadening
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+
+
+
+
+
+
+            Task.Run(async () =>
+            {
+                var s = new Simulation("Initial", new GridWorld(new Ecosystem(2, "Amazone"), new RandomWeatherManager()));
+                var t = new DatabaseSimulationWriter();
+                await t.Write("filename.txt", s);
+            });
         }
 
         /// <summary>

@@ -53,6 +53,7 @@ namespace Lifethreadening.Models
 
         private TimeSpan _simulationSpeed = new TimeSpan(1, 0, 0, 0);
 
+        public int Id { get; private set; }
         public int AmountOfDisasters { get; set; }
         public string Name { get; set; }
         public int Score { get; set; }
@@ -112,10 +113,11 @@ namespace Lifethreadening.Models
             }
         }
 
-        public Simulation(string name, World world) 
+        public Simulation(string name, World world, int id) 
         { 
             Name = name;
             World = world;
+            Id = id;
             Stopped = false;
 
             PopulationManager = new PopulationAnalyzer();

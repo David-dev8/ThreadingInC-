@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.DataAccess.Database
 {
-    public class DatabaseSpeciesWriter : ISpeciesWriter
+    public class DatabaseSpeciesWriter : ISpeciesWriter // TODO alle constante db namen moeten weg en gwn in de query genoemd worden
     {
         private static readonly string DATABASE_TABLE_NAME = "Species";
         private DatabaseHelper<Species> _database;
