@@ -104,7 +104,7 @@ namespace Lifethreadening.Models
             World = world;
 
             PopulationManager = new PopulationAnalyzer();
-            MutationManager = new MutationAnalyzer()
+            MutationManager = new MutationAnalyzer();
 
             _disasterFactory = new RegularDisasterFactory();
             _mutationFactory = new RandomMutationFactory();

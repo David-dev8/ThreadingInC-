@@ -11,27 +11,7 @@ namespace Lifethreadening.Models
     // Plinq voor de algemen loop door elke data shannon te berekenen
     public class PopulationAnalyzer
     {
-        public IDictionary<DateTime, IDictionary<Species, int>> SpeciesCount { get; private set; } // TODO private field maken
-
-        public PopulationAnalyzer()
-        {
-            SpeciesCount = new Dictionary<DateTime, IDictionary<Species, int>>
-            {
-                { DateTime.Now, new Dictionary<Species, int>() },
-                { DateTime.Now.AddYears(1), new Dictionary<Species, int>() },
-                { DateTime.Now.AddYears(2), new Dictionary<Species, int>() },
-                { DateTime.Now.AddYears(3), new Dictionary<Species, int>() }
-            };
-            SpeciesCount.First().Value.Add(new Species() { Name = "Koea", Id = 111 }, 1);
-            SpeciesCount.First().Value.Add(new Species() { Name = "Koeb", Id = 112 }, 1);
-            SpeciesCount.First().Value.Add(new Species() { Name = "Koec", Id = 113 }, 1);
-            SpeciesCount.First().Value.Add(new Species() { Name = "Koed", Id = 114 }, 1);
-            SpeciesCount.First().Value.Add(new Species() { Name = "Koee", Id = 115 }, 1);
-            SpeciesCount.ElementAt(1).Value.Add(new Species() { Name = "Koe", Id = 111 }, 1);
-            SpeciesCount.ElementAt(2).Value.Add(new Species() { Name = "Koe", Id = 111 }, 10);
-            SpeciesCount.ElementAt(2).Value.Add(new Species() { Name = "Varken", Id = 555 }, 5);
-            GetSpeciesCountPerSpecies();
-        }
+        public IDictionary<DateTime, IDictionary<Species, int>> SpeciesCount { get; private set; } = new Dictionary<DateTime, IDictionary<Species, int>>(); // TODO private field maken
 
         public void RegisterAnimals(IEnumerable<Animal> animals, DateTime currentDate)
         {
