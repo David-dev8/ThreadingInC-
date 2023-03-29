@@ -111,8 +111,6 @@
                             </StackPanel>
                         </Grid>
                     </DataTemplate>
-                    
-
                 </ListView.ItemTemplate>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
@@ -122,14 +120,6 @@
                 </ListView.ItemContainerStyle>
             </ListView>
         </Grid>
-        
-        
-        
-        
-        
-        
-        
-        
 
         <Grid Grid.Column="3" Grid.Row="3">
             <Grid.RowDefinitions>
@@ -142,7 +132,7 @@
             </Grid>
             <charts:Chart Grid.Row="2" Background="{StaticResource GraphBackgroundBrush}">
                 <charts:PieSeries ItemsSource="{Binding AffectedStatistics}" IndependentValueBinding="{Binding Key.Name}"
-                                  DependentValueBinding="{Binding Value}" IsSelectionEnabled="True">
+                                  DependentValueBinding="{Binding Value}" IsSelectionEnabled="True" >
                     <charts:PieSeries.LegendItemStyle>
                         <Style TargetType="charts:LegendItem">
                             <Setter Property="Template">
@@ -250,37 +240,41 @@
                 </charts:Chart.LegendStyle>
             </charts:Chart>
         </Grid>
-        <Grid Grid.Column="5" Grid.Row="1" Margin="40, 7" DataContext="{Binding Simulation}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+        <Grid Grid.Column="5" Grid.Row="1" Margin="40, 7">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="2*" />
+                <RowDefinition Height="5*" />
+                <RowDefinition Height="3*" />
             </Grid.RowDefinitions>
-
             <TextBlock Text="Summary" FontSize="20" FontWeight="Bold" VerticalAlignment="Center" />
-            <TextBlock Grid.Row="1" Text="Score" VerticalAlignment="Center" />
-            <TextBlock Grid.Row="2" Text="Ecosystem" VerticalAlignment="Center" />
-            <TextBlock Grid.Row="3" Text="Date started" VerticalAlignment="Center" />
-            <TextBlock Grid.Row="4" Text="Date ended" VerticalAlignment="Center" />
-            <TextBlock Grid.Row="5" Text="Number of mutations" VerticalAlignment="Center" />
-            <TextBlock Grid.Row="6" Text="Number of disasters" VerticalAlignment="Center" />
-            
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Score}" VerticalAlignment="Center" />
-            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding World.Ecosystem.Name}" VerticalAlignment="Center" />
-            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding World.StartTime}" VerticalAlignment="Center" />
-            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding World.EndTime}" VerticalAlignment="Center" />
-            <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding MutationManager}" VerticalAlignment="Center" />
-            <TextBlock Grid.Row="6" Grid.Column="1" Text="Number of disasters" VerticalAlignment="Center" />
+            <Grid Grid.Row="1" DataContext="{Binding Simulation}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.2*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Score" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="1" Text="Ecosystem" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="2" Text="Date started" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="3" Text="Date ended" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="4" Text="Number of mutations" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="5" Text="Number of disasters" VerticalAlignment="Center" />
+
+                <TextBlock Grid.Column="1" Text="{Binding Score}" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding World.Ecosystem.Name}" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding World.StartDate, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:MMMM, d (yyyy)}'}" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding World.CurrentDate, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:MMMM, d (yyyy)}'}" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding MutationManager.TotalAmounntOfMutations}" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding AmountOfDisasters}" VerticalAlignment="Center" />
+            </Grid>
+            <customcontrols:IconButton Grid.Row="2" Icon="ArrowRight" Text="Continue" Command="{Binding GoToHomeCommand}" Margin="0,15,20,0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
         </Grid>
     </Grid>
 </Page>

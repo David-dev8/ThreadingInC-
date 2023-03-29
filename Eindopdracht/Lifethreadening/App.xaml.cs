@@ -73,8 +73,7 @@ namespace Lifethreadening
                     // configuring the new page by passing required information as a navigation
                     // parameter
                     var navigationService = new NavigationService(rootFrame);
-                    navigationService.CurrentViewModel = new CustomSpeciesViewModel(navigationService);
-
+                    navigationService.CurrentViewModel = new SimulationDataViewModel(navigationService, new Simulation("Initial", new GridWorld(new Ecosystem(1, "Amazone"), new RandomWeatherManager())));
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();

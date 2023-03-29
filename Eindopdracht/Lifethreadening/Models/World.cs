@@ -13,7 +13,7 @@ namespace Lifethreadening.Models
         private readonly IWeatherManager _weatherManager;
         private DateTime _currentDate;
 
-        public DateTime StartTime { get; set; }
+        public DateTime StartDate { get; set; }
         public DateTime CurrentDate
         {
             get 
@@ -66,7 +66,7 @@ namespace Lifethreadening.Models
 
             DateTime dateTime = DateTime.Now;
             CurrentDate = dateTime;
-            StartTime = dateTime;
+            StartDate = dateTime;
         }
 
         public virtual void Step()
@@ -84,7 +84,7 @@ namespace Lifethreadening.Models
                 location.RemoveNonExistingSimulationElements();
             }
             _weatherManager.Update();
-            Date = Date.Add(StepSize);
+            CurrentDate = CurrentDate.Add(StepSize);
             OnPropertyChanged(nameof(Weather));
             OnPropertyChanged(nameof(Locations));
         }

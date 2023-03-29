@@ -23,12 +23,12 @@ namespace Lifethreadening.Models
             _geneReader = new APIGeneReader();
         }
 
-        public async Task<Mutation> CreateMutation()
+        public async Task<Mutation> CreateMutation(DateTime currentDate)
         {
             string gene = await _geneReader.GetRandomGene(); // TODO rename allel to gene
             IEnumerable<string> proteins = await _geneReader.GetRandomProteins(2);
             return new Mutation(EnumHelpers.GetRandom<MutationType>(), gene, 
-                proteins.ElementAt(0), proteins.ElementAt(1), MutateAction);
+                proteins.ElementAt(0), proteins.ElementAt(1), currentDate, MutateAction);
         }
 
         private void MutateAction(Statistics statistics)

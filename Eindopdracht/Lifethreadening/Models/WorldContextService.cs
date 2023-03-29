@@ -17,7 +17,7 @@ namespace Lifethreadening.Models
 
         public WorldContext GetContext()
         {
-            return new WorldContext(_world.Ecosystem, _world.Weather, _world.Date);
+            return new WorldContext(_world.Ecosystem, _world.Weather, _world.CurrentDate);
         }
     }
 }

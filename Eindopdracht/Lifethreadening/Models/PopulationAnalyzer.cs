@@ -15,22 +15,7 @@ namespace Lifethreadening.Models
 
         public PopulationAnalyzer()
         {
-            SpeciesCount = new Dictionary<DateTime, IDictionary<Species, int>>
-            {
-                { DateTime.Now, new Dictionary<Species, int>() },
-                { DateTime.Now.AddYears(1), new Dictionary<Species, int>() },
-                { DateTime.Now.AddYears(2), new Dictionary<Species, int>() },
-                { DateTime.Now.AddYears(3), new Dictionary<Species, int>() }
-            };
-            SpeciesCount.First().Value.Add(new Species() { Image = "/Assets/fox.png", Name = "Koea", Id = 111 }, 1);
-            SpeciesCount.First().Value.Add(new Species() { Image = "/Assets/fox.png", Name = "Koeb", Id = 112 }, 1);
-            SpeciesCount.First().Value.Add(new Species() { Image = "/Assets/fox.png", Name = "Koec", Id = 113 }, 1);
-            SpeciesCount.First().Value.Add(new Species() { Image = "/Assets/fox.png", Name = "Koed", Id = 114 }, 1);
-            SpeciesCount.First().Value.Add(new Species() { Image = "/Assets/fox.png", Name = "Koee", Id = 115 }, 1);
-            SpeciesCount.ElementAt(1).Value.Add(new Species() { Image = "/Assets/fox.png", Name = "Koe", Id = 111 }, 1);
-            SpeciesCount.ElementAt(2).Value.Add(new Species() { Image = "/Assets/fox.png", Name = "Koe", Id = 111 }, 10);
-            SpeciesCount.ElementAt(2).Value.Add(new Species() { Image = "/Assets/fox.png", Name = "Varken", Id = 555 }, 5);
-            GetSpeciesCountPerSpecies();
+            SpeciesCount = new Dictionary<DateTime, IDictionary<Species, int>>{};
         }
 
         public void RegisterAnimals(IEnumerable<Animal> animals, DateTime currentDate)
@@ -95,7 +80,7 @@ namespace Lifethreadening.Models
 
         private IDictionary<DateTime, IDictionary<Species, int>> GetSpeciesCountWithMissingDates()
         {
-            IEnumerable<Species> species = SpeciesCount.SelectMany(speciesCount => {
+            IEnumerable<Species> species = SpeciesCount.SelectMany(speciesCount => { // TODO naamgeving
                 var b = speciesCount.Value.Keys;
                 return b;
             }).Distinct();
