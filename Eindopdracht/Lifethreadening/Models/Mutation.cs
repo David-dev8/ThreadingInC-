@@ -11,11 +11,11 @@ namespace Lifethreadening.Models
         private bool _hasAffected = false;
         private Action<Statistics> _mutateAction;
 
-        public MutationType type { get; set; }
+        public MutationType Type { get; set; }
         public string Allel { get; set; }
         public string ProteinBefore { get; set; }
         public string ProteinAfter { get; set; }
-        public DateTime mutationDate { get; set; } // TODO
+        public DateTime MutationDate { get; set; } // TODO
         public IList<StatisticInfo> Affected { get; set; }
 
 
@@ -38,7 +38,7 @@ namespace Lifethreadening.Models
                 animal.Mutations.Add(this);
                 
                 _hasAffected = true;
-                affected = CreateChangedStatistics(previousStatistics, animal.Statistics.GetData()).Values.ToList();
+                Affected = CreateChangedStatistics(previousStatistics, animal.Statistics.GetData()).Values.ToList();
             }
         }
 
@@ -47,10 +47,10 @@ namespace Lifethreadening.Models
             IDictionary<string, StatisticInfo> changedStatistics = new Dictionary<string, StatisticInfo>();
             foreach(KeyValuePair<string, StatisticInfo> statistic in currentStatistics)
             {
-                int change = statistic.Value.value - previousStatistics[statistic.Key].value;
+                int change = statistic.Value.Value - previousStatistics[statistic.Key].Value;
                 if(change != 0)
                 {
-                    changedStatistics.Add(statistic.Key, new StatisticInfo(statistic.Key, statistic.Value.color, change));
+                    changedStatistics.Add(statistic.Key, new StatisticInfo(statistic.Key, statistic.Value.Color, change));
                 }
             }
             return changedStatistics;

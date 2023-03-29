@@ -10,25 +10,7 @@ namespace Lifethreadening.Models
 {
     public class MutationAnalyzer
     {
-        public ISet<Mutation> Mutations { get; private set; }
-
-        public MutationAnalyzer() 
-        { 
-            ISet<StatisticInfo> statistics = new HashSet<StatisticInfo>();
-            statistics.Add(new StatisticInfo("attack", Microsoft.Toolkit.Uwp.Helpers.ColorHelper.ToColor("#59ff00"), 5));
-            statistics.Add(new StatisticInfo("defence", Microsoft.Toolkit.Uwp.Helpers.ColorHelper.ToColor("#FF0000"), 5));
-            statistics.Add(new StatisticInfo("defencea", Microsoft.Toolkit.Uwp.Helpers.ColorHelper.ToColor("#FF0000"), 5));
-            statistics.Add(new StatisticInfo("defenceb", Microsoft.Toolkit.Uwp.Helpers.ColorHelper.ToColor("#FF0000"), 5));
-            statistics.Add(new StatisticInfo("defencec", Microsoft.Toolkit.Uwp.Helpers.ColorHelper.ToColor("#FF0000"), 5));
-            statistics.Add(new StatisticInfo("defenced", Microsoft.Toolkit.Uwp.Helpers.ColorHelper.ToColor("#FF0000"), 5));
-            statistics.Add(new StatisticInfo("defencee", Microsoft.Toolkit.Uwp.Helpers.ColorHelper.ToColor("#FF0000"), 5));
-            statistics.Add(new StatisticInfo("defencef", Microsoft.Toolkit.Uwp.Helpers.ColorHelper.ToColor("#FF0000"), 5));
-            statistics.Add(new StatisticInfo("defenceg", Microsoft.Toolkit.Uwp.Helpers.ColorHelper.ToColor("#FF0000"), 5));
-            
-            Mutations = new HashSet<Mutation>();
-            Mutations.Add(new Mutation(MutationType.ADDITION, "q", "q", "q", DateTime.Now, statistics));
-            Mutations.Add(new Mutation(MutationType.ADDITION, "q", "q", "q", DateTime.Now, statistics));
-        }
+        public ISet<Mutation> Mutations { get; private set; } = new HashSet<Mutation>();
 
         public void RegisterMutations(IEnumerable<Animal> animals)
         {
