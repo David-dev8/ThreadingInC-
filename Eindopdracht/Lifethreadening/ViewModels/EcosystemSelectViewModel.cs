@@ -4,14 +4,12 @@ using Lifethreadening.DataAccess.Database;
 using Lifethreadening.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Lifethreadening.ViewModels
 {
-   
+
     public class EcosystemSelectViewModel : BaseViewModel
     {
         private readonly IEcosystemReader _ecosystemReader;
@@ -26,7 +24,7 @@ namespace Lifethreadening.ViewModels
                 if (_images != value)
                 {
                     _images = value;
-                    OnPropertyChanged();
+                   // OnPropertyChanged();
                 }
             }
         }
@@ -38,20 +36,35 @@ namespace Lifethreadening.ViewModels
                 if (_selectedImage != value)
                 {
                     _selectedImage = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(SelectedImage));
                 }
             }
         }
+
+        public ICommand SelectImageCommand { get; }
+
+
+
         public EcosystemSelectViewModel(NavigationService navigationService) : base(navigationService)
         {
             _ecosystemReader = new DatabaseEcosystemReader();
 
-            // Initialize the images collection with some URLs
+            // Initialize the images collection
             Images = _ecosystemReader.ReadAll();
-       
 
-            // Set the selected image to the first image URL in the collection
+
+            // Set the selected image to the first image in the collection 
             SelectedImage = Images.First();
+
+            SelectImageCommand = new RelayCommand(SelectImage);
+
         }
+
+        private void SelectImage()
+        {
+            // Set the current view model to a new instance of SimulationViewModel with the selected image
+            _navigationService.CurrentViewModel = new SimulationViewModel(_navigationService, null);
+        }
+
     }
 }

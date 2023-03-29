@@ -26,7 +26,7 @@ namespace Lifethreadening.DataAccess.Database
 
         private Ecosystem createEcosystem(SqlDataReader dataReader)
         {
-            return new Ecosystem(dataReader["name"].ToString(),dataReader["image"].ToString());
+            return new Ecosystem(dataReader["name"].ToString(), dataReader["image"].ToString(), dataReader["difficulty"].ToString());
         }
     }
 }

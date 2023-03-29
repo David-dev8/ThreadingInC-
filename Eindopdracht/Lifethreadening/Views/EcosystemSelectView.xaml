@@ -12,8 +12,13 @@
     <Page.Resources>
         <DataTemplate x:Key="ImageTemplate">
             <StackPanel>
-                <TextBlock Text="{Binding Name}" Margin="0,5,0,0" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding Name}" FontSize="20" FontWeight="Bold" Margin="0,5,0,0" HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0" HorizontalAlignment="Center">
+                    <TextBlock Text="Difficulty: " />
+                    <TextBlock Text="{Binding Difficulty}"/>
+                </StackPanel>
                 <Image Source="{Binding Image}" Stretch="UniformToFill" Width="200" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Button Content="Select" Margin="0,5,0,0" Command="{Binding SelectImageCommand}"/>
             </StackPanel>
         </DataTemplate>
     </Page.Resources>
@@ -26,7 +31,7 @@
             ItemRotationY="45" ItemRotationZ="0"
             Orientation="Horizontal" 
             ItemsSource="{Binding Images}"
-            SelectedItem="{Binding SelectedImage}"
+            SelectedItem="{Binding SelectedImage, Mode=TwoWay}"
             ItemTemplate="{StaticResource ImageTemplate}"
             Margin="0,151,0,151">
             <controls:Carousel.EasingFunction>
