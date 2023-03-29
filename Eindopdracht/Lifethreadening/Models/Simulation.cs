@@ -55,6 +55,8 @@ namespace Lifethreadening.Models
         public string Name { get; set; }
         public int Score { get; set; }
         public World World { get; set; }
+        public PopulationAnalyzer PopulationManager { get; set; }
+        public MutationAnalyzer MutationManager { get; set; }
         public TimeSpan SimulationSpeed
         {
             get
@@ -100,6 +102,10 @@ namespace Lifethreadening.Models
         { 
             Name = name;
             World = world;
+
+            PopulationManager = new PopulationAnalyzer();
+            MutationManager = new MutationAnalyzer()
+
             _disasterFactory = new RegularDisasterFactory();
             _mutationFactory = new RandomMutationFactory();
             _worldContextService = new WorldContextService(World);
@@ -123,11 +129,29 @@ namespace Lifethreadening.Models
         private void Step()
         {
             World.Step();
+
             if(!GetAnimals().Any())
             {
                 Stop();
                 IsGameOver = true;
             }
+
+            IEnumerable<Animal> animals = getAllAnimals(World.SimulationElements);
+            PopulationManager.RegisterAnimals(animals, World.Date);
+            MutationManager.RegisterMutations(animals); // TODO moet het registreren voor of na een stap?
+        }
+
+        private IEnumerable<Animal> getAllAnimals(IEnumerable<SimulationElement> elements)
+        {
+            IList<Animal> animals = new List<Animal>();
+            foreach(SimulationElement element in elements)
+            {
+                if(element is Animal)
+                {
+                    animals.Add((Animal) element);
+                }
+            }
+            return animals;
         }
 
         private void Spawn()

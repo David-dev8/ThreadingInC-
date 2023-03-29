@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
-    public class Species
+    public class Species : NamedEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -38,7 +38,7 @@ namespace Lifethreadening.Models
         public override bool Equals(object obj)
         {
             if(obj == null || GetType() != obj.GetType())
-            {
+            { 
                 return false;
             }
 

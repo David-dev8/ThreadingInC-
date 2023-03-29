@@ -37,11 +37,6 @@ namespace Lifethreadening.Views
 
             mutationsTester = new ObservableCollection<Mutation>();
             Dictionary<string, StatisticInfo> affections = new Dictionary<string, StatisticInfo>();
-            //affections.Add("Speed", new StatisticInfo("speed", Color.Red, +12));
-            //affections.Add("Size", new StatisticInfo("size", Color.Red, -5));
-            //mutationsTester.Add(new Mutation(MutationType.ADDITION, "7384.43", "glycin", "bancin", DateTime.Now, affections));
-            //mutationsTester.Add(new Mutation(MutationType.ADDITION, "3421.33", "glycin", "bancin", DateTime.Now, affections));
-            //mutationsTester.Add(new Mutation(MutationType.ADDITION, "8356.73", "glycin", "bancin", DateTime.Now, affections));
         }
 
         private void GeneInspectorOpen_Click(object sender, RoutedEventArgs e)

@@ -123,6 +123,7 @@
     <Compile Include="Base\NavigationService.cs" />
     <Compile Include="Base\Observable.cs" />
     <Compile Include="Converters\EnumToStringConverter.cs" />
+    <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Converters\IntFormatConverter.cs" />
     <Compile Include="Converters\ConverterGroup.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
@@ -208,8 +209,10 @@
     <Compile Include="Models\Mutation.cs" />
     <Compile Include="Models\MutationManager.cs" />
     <Compile Include="Models\MutationType.cs" />
+    <Compile Include="Models\NamedEntity.cs" />
     <Compile Include="Models\Obstruction.cs" />
     <Compile Include="Models\Path.cs" />
+    <Compile Include="Models\Rank.cs" />
     <Compile Include="Models\Sex.cs" />
     <Compile Include="Models\SimulationElement.cs" />
     <Compile Include="Models\GridWorld.cs" />
@@ -233,6 +236,9 @@
     <Compile Include="ViewModels\SimulationDataViewModel.cs" />
     <Compile Include="Views\CustomControls\IconButton.xaml.cs">
       <DependentUpon>IconButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CustomControls\LineChartWithMultipleLines.xaml.cs">
+      <DependentUpon>LineChartWithMultipleLines.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CustomControls\WorldView.xaml.cs">
       <DependentUpon>WorldView.xaml</DependentUpon>
@@ -299,6 +305,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\CustomControls\LineChartWithMultipleLines.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CustomControls\WorldView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -339,6 +349,8 @@
     </PackageReference>
     <PackageReference Include="System.Text.Json">
       <Version>7.0.2</Version>
+    <PackageReference Include="WinRTXamlToolkit.Controls.DataVisualization.UWP">
+      <Version>2.3.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup />

@@ -12,19 +12,19 @@ namespace Lifethreadening.Models
         private Action<Statistics> _mutateAction;
 
         public MutationType type { get; set; }
-        public string allel { get; set; }
-        public string proteinBefore { get; set; }
-        public string proteinAfter { get; set; }
+        public string Allel { get; set; }
+        public string ProteinBefore { get; set; }
+        public string ProteinAfter { get; set; }
         public DateTime mutationDate { get; set; } // TODO
-        public IList<StatisticInfo> affected { get; set; }
+        public IList<StatisticInfo> Affected { get; set; }
 
 
         public Mutation(MutationType type, string allel, string proteinBefore, string proteinAfter, Action<Statistics> mutateAction)
         {
-            this.type = type;
-            this.allel = allel;
-            this.proteinBefore = proteinBefore;
-            this.proteinAfter = proteinAfter;
+            Type = type;
+            Allel = allel;
+            ProteinBefore = proteinBefore;
+            ProteinAfter = proteinAfter;
             _mutateAction = mutateAction;
         }
 
@@ -54,6 +54,22 @@ namespace Lifethreadening.Models
                 }
             }
             return changedStatistics;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            Mutation other = (Mutation)obj;
+            return Allel == other.Allel && DateTime.Equals(MutationDate, other.MutationDate);
+        }
+
+        public override int GetHashCode()
+        {
+            return Allel.GetHashCode() + MutationDate.GetHashCode();
         }
     }
 }

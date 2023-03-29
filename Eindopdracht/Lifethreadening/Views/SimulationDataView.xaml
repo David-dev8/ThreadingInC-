@@ -3,12 +3,201 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Lifethreadening.Views"
+    xmlns:charts="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:dataVisual="using:WinRTXamlToolkit.Controls.DataVisualization"
+    xmlns:customcontrols="using:Lifethreadening.Views.CustomControls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <Style TargetType="charts:Chart">
+            <Setter Property="Padding" Value="20,0" />
+        </Style>
+    </Page.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10.5*" />
+            <ColumnDefinition Width="0.75*" />
+            <ColumnDefinition Width="10.5*" />
+            <ColumnDefinition Width="7*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="5.5*" />
+            <RowDefinition Height="0.7*" />
+            <RowDefinition Height="5.5*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="100*" />
+            </Grid.RowDefinitions>
+            <Grid Style="{StaticResource SectionHeadingGrid}">
+                <TextBlock Foreground="{StaticResource SecondaryBrush}" HorizontalAlignment="Stretch" TextAlignment="Center" Style="{StaticResource SectionTitle}">Population over time</TextBlock>
+            </Grid>
+            <StackPanel Grid.Row="1" Background="Red" />
+            <customcontrols:LineChartWithMultipleLines Grid.Row="2" Items="{Binding SpeciesCount}" />
+        </Grid>
+
+
+        <Grid Grid.Column="3" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="100*" />
+            </Grid.RowDefinitions>
+            <Grid Style="{StaticResource SectionHeadingGrid}">
+                <TextBlock Foreground="{StaticResource SecondaryBrush}" HorizontalAlignment="Stretch" TextAlignment="Center" Style="{StaticResource SectionTitle}">Shannon Weaver Index</TextBlock>
+            </Grid>
+            <StackPanel Grid.Row="1" Background="Red" />
+            <Grid Grid.Row="2" Background="CadetBlue">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="0.25*" />
+                </Grid.RowDefinitions>
+                <charts:Chart Background="CadetBlue">
+                    <charts:LineSeries ItemsSource="{Binding ShannonWeaverIndices}" IndependentValueBinding="{Binding Key}" 
+                               DependentValueBinding="{Binding Value}" DataPointStyle="{StaticResource DataPointLineChart}">
+                        <charts:LineSeries.LegendItemStyle>
+                            <Style TargetType="charts:LegendItem">
+                                <Setter Property="Width" Value="0" />
+                            </Style>
+                        </charts:LineSeries.LegendItemStyle>
+                    </charts:LineSeries>
+                    <charts:Chart.Axes>
+                        <charts:DateTimeAxis Orientation="X" Location="Bottom" AxisLabelStyle="{StaticResource DateAxisLineChart}" />
+                    </charts:Chart.Axes>
+                </charts:Chart>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="3" Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="100*" />
+            </Grid.RowDefinitions>
+            <Grid Style="{StaticResource SectionHeadingGrid}">
+                <TextBlock Foreground="{StaticResource SecondaryBrush}" HorizontalAlignment="Stretch" TextAlignment="Center" Style="{StaticResource SectionTitle}">Statistics affected by mutations</TextBlock>
+            </Grid>
+            
+            <StackPanel Grid.Row="1" Background="Red" />
+
+            <charts:Chart Grid.Row="2" Background="CadetBlue">
+                <charts:PieSeries ItemsSource="{Binding AffectedStatistics}" IndependentValueBinding="{Binding Key.Name}"
+                                  DependentValueBinding="{Binding Value}" IsSelectionEnabled="True">
+                    <charts:PieSeries.LegendItemStyle>
+                        <Style TargetType="charts:LegendItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="charts:LegendItem">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="10" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Rectangle Grid.Column="0" Height="6" Width="6" Margin="0,3,0,0" Fill="{Binding Path=DataContext.Key.Color, 
+                                                Converter={StaticResource ColorToBrushConverter}}" />
+                                            <TextBlock Grid.Column="1" Text="{Binding Path=DataContext.Key.Name}" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </charts:PieSeries.LegendItemStyle>
+                    <charts:PieSeries.DataPointStyle>
+                        <Style TargetType="charts:PieDataPoint">
+                            <Setter Property="BorderBrush" Value="{x:Null}"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="IsTabStop" Value="False"/>
+                            <Setter Property="RatioStringFormat" Value="{}{0:p2}"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="charts:PieDataPoint">
+                                        <Grid x:Name="Root" Opacity="0">
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup x:Name="CommonStates">
+                                                    <VisualStateGroup.Transitions>
+                                                        <VisualTransition GeneratedDuration="0:0:0.1"/>
+                                                    </VisualStateGroup.Transitions>
+                                                    <VisualState x:Name="Normal"/>
+                                                    <VisualState x:Name="MouseOver">
+                                                        <Storyboard>
+                                                            <DoubleAnimation Duration="0" Storyboard.TargetName="MouseOverHighlight" To="0.6" 
+                                                                             Storyboard.TargetProperty="Opacity"/>
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                                <VisualStateGroup x:Name="SelectionStates">
+                                                    <VisualStateGroup.Transitions>
+                                                        <VisualTransition GeneratedDuration="0:0:0.1"/>
+                                                    </VisualStateGroup.Transitions>
+                                                    <VisualState x:Name="Unselected"/>
+                                                    <VisualState x:Name="Selected" />
+                                                </VisualStateGroup>
+                                                <VisualStateGroup x:Name="RevealStates">
+                                                    <VisualStateGroup.Transitions>
+                                                        <VisualTransition GeneratedDuration="0:0:0.1"/>
+                                                    </VisualStateGroup.Transitions>
+                                                    <VisualState x:Name="Shown">
+                                                        <Storyboard>
+                                                            <DoubleAnimation Duration="0" Storyboard.TargetName="Root" To="1" 
+                                                                             Storyboard.TargetProperty="Opacity"/>
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                    <VisualState x:Name="Hidden">
+                                                        <Storyboard>
+                                                            <DoubleAnimation Duration="0" Storyboard.TargetName="Root" To="0" 
+                                                                             Storyboard.TargetProperty="Opacity"/>
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateManager.VisualStateGroups>
+                                            <Path x:Name="Slice" Data="{TemplateBinding Geometry}" Fill="{Binding Path=Key.Color, 
+                                                Converter={StaticResource ColorToBrushConverter}}" StrokeMiterLimit="1" Stroke="{TemplateBinding BorderBrush}">
+                                                <ToolTipService.ToolTip>
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding FormattedDependentValue, RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                                        Converter={StaticResource StringFormatter}, ConverterParameter='Amount: {0}'}" />
+                                                        <TextBlock Text="{Binding FormattedRatio, RelativeSource={RelativeSource Mode=TemplatedParent}, 
+                                                        Converter={StaticResource StringFormatter}, ConverterParameter='Percentage: {0}'}" />
+                                                    </StackPanel>
+                                                </ToolTipService.ToolTip>
+                                            </Path>
+                                            <Path x:Name="SelectionHighlight" Data="{TemplateBinding GeometrySelection}" Fill="Red" 
+                                                  IsHitTestVisible="False" Opacity="0" StrokeMiterLimit="1"/>
+                                            <Path x:Name="MouseOverHighlight" Data="{TemplateBinding GeometryHighlight}" Fill="White" 
+                                                  IsHitTestVisible="False" Opacity="0" StrokeMiterLimit="1"/>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </charts:PieSeries.DataPointStyle>
+                </charts:PieSeries>
+                <charts:Chart.LegendStyle>
+                    <Style TargetType="dataVisual:Legend">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="dataVisual:Legend">
+                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                                            BorderThickness="{TemplateBinding BorderThickness}" Padding="2">
+                                        <ScrollViewer VerticalScrollBarVisibility="Auto" BorderThickness="0" IsTabStop="False" VerticalAlignment="Center">
+                                            <ItemsPresenter x:Name="Items" Margin="10,0,10,10" />
+                                        </ScrollViewer>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </charts:Chart.LegendStyle>
+            </charts:Chart>
+        </Grid>
     </Grid>
 </Page>
