@@ -9,7 +9,6 @@ using System.Windows.Input;
 
 namespace Lifethreadening.ViewModels
 {
-
     public class EcosystemSelectViewModel : BaseViewModel
     {
         private readonly IEcosystemReader _ecosystemReader;
@@ -30,7 +29,10 @@ namespace Lifethreadening.ViewModels
         }
         public Ecosystem SelectedImage
         {
-            get { return _selectedImage; }
+            get 
+            { 
+                return _selectedImage; 
+            }
             set
             {
                 if (_selectedImage != value)
@@ -41,8 +43,7 @@ namespace Lifethreadening.ViewModels
             }
         }
 
-        public ICommand SelectImageCommand { get; }
-
+        public ICommand SelectEcosystemCommand { get; set; }
 
 
         public EcosystemSelectViewModel(NavigationService navigationService) : base(navigationService)
@@ -56,11 +57,11 @@ namespace Lifethreadening.ViewModels
             // Set the selected image to the first image in the collection 
             SelectedImage = Images.First();
 
-            SelectImageCommand = new RelayCommand(SelectImage);
+            SelectEcosystemCommand = new RelayCommand(SelectEcosystem);
 
         }
 
-        private void SelectImage()
+        private void SelectEcosystem()
         {
             // Set the current view model to a new instance of SimulationViewModel with the selected image
             _navigationService.CurrentViewModel = new SimulationViewModel(_navigationService, null);
