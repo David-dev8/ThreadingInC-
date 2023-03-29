@@ -11,6 +11,7 @@ namespace Lifethreadening.Models
     public abstract class World: Observable
     {
         private readonly IWeatherManager _weatherManager;
+
         private DateTime _date;
 
         public DateTime Date
@@ -27,8 +28,8 @@ namespace Lifethreadening.Models
         }
 
         public TimeSpan StepSize { get; } = new TimeSpan(1, 0, 0, 0);
-
         public Ecosystem Ecosystem { get; set; }
+
         public Weather Weather
         {
             get
@@ -36,6 +37,7 @@ namespace Lifethreadening.Models
                 return _weatherManager.GetCurrent();
             }
         }
+
         public IEnumerable<Location> Locations
         {
             get
@@ -64,26 +66,28 @@ namespace Lifethreadening.Models
             Date = DateTime.Now;
         }
 
-        public void Step()
+        public virtual void Step()
         {
             foreach(SimulationElement simulationElement in SimulationElements)
             {
-                simulationElement.Plan(CreateContext());
+                simulationElement.Plan();
             }
             foreach(SimulationElement simulationElement in SimulationElements)
             {
                 simulationElement.Act();
             }
+            foreach(Location location in Locations)
+            {
+                location.RemoveNonExistingSimulationElements();
+            }
+            _weatherManager.Update();
             Date = Date.Add(StepSize);
+            OnPropertyChanged(nameof(Weather));
+            OnPropertyChanged(nameof(Locations));
         }
 
-        public abstract void createWorld();
+        public abstract void CreateWorld();
 
         public abstract IEnumerable<Location> GetLocations();
-
-        private WorldContext CreateContext()
-        {
-            return new WorldContext(Weather, Date);
-        }
     }
 }

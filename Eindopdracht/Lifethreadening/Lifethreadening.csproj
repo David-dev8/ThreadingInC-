@@ -119,47 +119,100 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Base\AsyncRelayCommand.cs" />
     <Compile Include="Base\NavigationService.cs" />
     <Compile Include="Base\Observable.cs" />
+    <Compile Include="Converters\EnumToStringConverter.cs" />
+    <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Converters\IntFormatConverter.cs" />
     <Compile Include="Converters\ConverterGroup.cs" />
+    <Compile Include="Converters\NullToBooleanConverter.cs" />
+    <Compile Include="Converters\AmountToSingularOrPluralConverter.cs" />
+    <Compile Include="Converters\SexToBrushConverter.cs" />
+    <Compile Include="Converters\SexToIconConverter.cs" />
     <Compile Include="Converters\TimeSpanToAmountOfDaysConverter.cs" />
+    <Compile Include="Base\RelayCommand.cs" />
     <Compile Include="DataAccess\Algorithmic\RandomWeatherManager.cs" />
+    <Compile Include="DataAccess\API\APICaller.cs" />
+    <Compile Include="DataAccess\API\APIGeneReader.cs" />
+    <Compile Include="DataAccess\API\APIHelper.cs" />
+    <Compile Include="DataAccess\API\GeneDTOs\Description.cs" />
+    <Compile Include="DataAccess\API\GeneDTOs\Gene.cs" />
+    <Compile Include="DataAccess\API\GeneDTOs\GenomeDetails.cs" />
+    <Compile Include="DataAccess\API\GeneDTOs\Protein.cs" />
+    <Compile Include="DataAccess\API\GeneDTOs\ProteinName.cs" />
+    <Compile Include="DataAccess\API\GeneDTOs\UniProtResult.cs" />
+    <Compile Include="DataAccess\API\APINameReader.cs" />
     <Compile Include="DataAccess\Database\DatabaseConnectionManager.cs" />
-    <Compile Include="DataAccess\Database\DatabaseCustomSpeciesReader.cs" />
-    <Compile Include="DataAccess\Database\DatabaseCustomSpeciesWriter.cs" />
+    <Compile Include="DataAccess\Database\DatabaseObstructionReader.cs" />
+    <Compile Include="DataAccess\Database\DatabaseSpeciesReader.cs" />
+    <Compile Include="DataAccess\Database\DatabaseSpeciesWriter.cs" />
     <Compile Include="DataAccess\Database\DatabaseEcosystemReader.cs" />
     <Compile Include="DataAccess\Database\DatabaseSimulationReader.cs" />
     <Compile Include="DataAccess\Database\DatabaseSimulationWriter.cs" />
     <Compile Include="DataAccess\Database\DatabaseHelper.cs" />
+    <Compile Include="DataAccess\Database\DatabaseVegetationReader.cs" />
     <Compile Include="DataAccess\IEcosystemReader.cs" />
+    <Compile Include="DataAccess\IGeneReader.cs" />
+    <Compile Include="DataAccess\INameReader.cs" />
+    <Compile Include="DataAccess\IObstructionReader.cs" />
     <Compile Include="DataAccess\ISimulationReader.cs" />
     <Compile Include="DataAccess\ISimulationWriter.cs" />
+    <Compile Include="DataAccess\IVegetationReader.cs" />
     <Compile Include="DataAccess\IWeatherManager.cs" />
     <Compile Include="DataAccess\JSON\JSONWorldStateReader.cs" />
     <Compile Include="DataAccess\JSON\JSONWorldStateWriter.cs" />
-    <Compile Include="DataAccess\ICustomSpeciesReader.cs" />
-    <Compile Include="DataAccess\ICustomSpeciesWriter.cs" />
+    <Compile Include="DataAccess\ISpeciesReader.cs" />
+    <Compile Include="DataAccess\ISpeciesWriter.cs" />
     <Compile Include="DataAccess\IWorldStateReader.cs" />
     <Compile Include="DataAccess\IWorldStateWriter.cs" />
-    <Compile Include="ExtensionMethods\Numbers.cs" />
+    <Compile Include="ExtensionMethods\CollectionExtensions.cs" />
+    <Compile Include="ExtensionMethods\NumbersExtensions.cs" />
+    <Compile Include="ExtensionMethods\DatabaseExtensions.cs" />
+    <Compile Include="ExtensionMethods\RandomExtensions.cs" />
+    <Compile Include="ExtensionMethods\StringExtensions.cs" />
+    <Compile Include="Helpers\EnumHelpers.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Animal.cs" />
     <Compile Include="Models\Behaviours\Behaviour.cs" />
+    <Compile Include="Models\Behaviours\BreedBehaviour.cs" />
+    <Compile Include="Models\Behaviours\CarnivoreEatBehaviour.cs" />
     <Compile Include="Models\Behaviours\CompositeBehaviour.cs" />
+    <Compile Include="Models\Behaviours\CuriousWanderBehaviour.cs" />
+    <Compile Include="Models\Behaviours\EatBehaviour.cs" />
+    <Compile Include="Models\Behaviours\HerdBehaviour.cs" />
+    <Compile Include="Models\Behaviours\PanicWanderBehaviour.cs" />
+    <Compile Include="Models\Behaviours\RegularBehaviourBuilder.cs" />
     <Compile Include="Models\Behaviours\RestBehaviour.cs" />
-    <Compile Include="Models\BreedFactory.cs" />
+    <Compile Include="Models\Behaviours\HerbivoreEatBehaviour.cs" />
+    <Compile Include="Models\Behaviours\RunAwayBehaviour.cs" />
+    <Compile Include="Models\Behaviours\WanderBehaviour.cs" />
+    <Compile Include="Models\Disasters\Disaster.cs" />
+    <Compile Include="Models\Disasters\EarthquakeDisaster.cs" />
+    <Compile Include="Models\Disasters\LightningDisaster.cs" />
+    <Compile Include="Models\Disasters\RegularDisasterFactory.cs" />
+    <Compile Include="Models\Disasters\IDisasterFactory.cs" />
+    <Compile Include="Models\Disasters\FloodingDisaster.cs" />
+    <Compile Include="Models\IMutationFactory.cs" />
+    <Compile Include="Models\RandomMutationFactory.cs" />
+    <Compile Include="Models\WorldContextService.cs" />
+    <Compile Include="Models\EvenlyDistributedParentsBreedFactory.cs" />
+    <Compile Include="Models\IBreedFactory.cs" />
     <Compile Include="Models\Diet.cs" />
     <Compile Include="Models\Ecosystem.cs" />
     <Compile Include="Models\DatabaseSimulationElementFactory.cs" />
+    <Compile Include="Models\Behaviours\IBehaviourBuilder.cs" />
     <Compile Include="Models\Incentive.cs" />
     <Compile Include="Models\ISimulationElementFactory.cs" />
     <Compile Include="Models\Mutation.cs" />
     <Compile Include="Models\MutationManager.cs" />
     <Compile Include="Models\MutationType.cs" />
+    <Compile Include="Models\NamedEntity.cs" />
     <Compile Include="Models\Obstruction.cs" />
+    <Compile Include="Models\Path.cs" />
+    <Compile Include="Models\Rank.cs" />
     <Compile Include="Models\Sex.cs" />
     <Compile Include="Models\SimulationElement.cs" />
     <Compile Include="Models\GridWorld.cs" />
@@ -183,6 +236,9 @@
     <Compile Include="ViewModels\SimulationDataViewModel.cs" />
     <Compile Include="Views\CustomControls\IconButton.xaml.cs">
       <DependentUpon>IconButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CustomControls\LineChartWithMultipleLines.xaml.cs">
+      <DependentUpon>LineChartWithMultipleLines.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CustomControls\WorldView.xaml.cs">
       <DependentUpon>WorldView.xaml</DependentUpon>
@@ -213,6 +269,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="Assets\calendar.png" />
+    <Content Include="Assets\disaster.png" />
     <Content Include="Assets\fox.png" />
     <Content Include="Assets\sun.png" />
     <Content Include="Assets\water.png" />
@@ -245,6 +302,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CustomControls\IconButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CustomControls\LineChartWithMultipleLines.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -290,7 +351,14 @@
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
       <Version>7.1.3</Version>
     </PackageReference>
+    <PackageReference Include="System.Text.Json">
+      <Version>7.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="WinRTXamlToolkit.Controls.DataVisualization.UWP">
+      <Version>2.3.0</Version>
+    </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

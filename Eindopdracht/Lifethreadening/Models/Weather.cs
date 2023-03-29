@@ -8,13 +8,13 @@ namespace Lifethreadening.Models
 {
     public class Weather
     {
-        public double Humidity { get; set; }
+        public double Temperature { get; set; }
         public double WindSpeed { get; set; }
         public double RainFall { get; set; }
 
-        public Weather(double humidity, double windSpeed, double rainFall)
+        public Weather(double temperature, double windSpeed, double rainFall)
         {
-            Humidity = humidity;
+            Temperature = temperature;
             WindSpeed = windSpeed;
             RainFall = rainFall;
         }

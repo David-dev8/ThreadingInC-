@@ -8,10 +8,16 @@ namespace Lifethreadening.Models
 {
     public class Ecosystem
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
 
-        public Ecosystem(string name, string image)        {
+        public Ecosystem(string name, string image)
+        {
+
+        public Ecosystem(int id, string name)
+        {
+            Id = id;
             Name = name;
             Image = image;
         }

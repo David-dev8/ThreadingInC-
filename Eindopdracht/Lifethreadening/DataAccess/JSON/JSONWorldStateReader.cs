@@ -8,5 +8,6 @@ namespace Lifethreadening.DataAccess.JSON
 {
     public class JSONWorldStateReader: IWorldStateReader
     {
+
     }
 }

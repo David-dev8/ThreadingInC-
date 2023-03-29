@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.DataAccess
 {
-    public interface ICustomSpeciesReader
+    public interface INameReader
     {
-        IEnumerable<Species> ReadAll();
+        string GetName(Sex sex);
     }
 }

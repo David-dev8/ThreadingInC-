@@ -12,4 +12,8 @@
         <Setter Property="Background" Value="{StaticResource AccentBrush}" />
     </Style>
     <customConverters:TimeSpanToAmountOfDaysConverter x:Key="TimeSpanToAmountOfDaysConverter" />
+    <customConverters:SexToBrushConverter x:Key="SexToBrushConverter" />
+    <customConverters:SexToIconConverter x:Key="SexToIconConverter" />
+    <customConverters:EnumToStringConverter x:Key="EnumToStringConverter" />
+    <customConverters:AmountToSingularOrPluralConverter x:Key="AmountToSingularOrPluralConverter" />
 </ResourceDictionary>

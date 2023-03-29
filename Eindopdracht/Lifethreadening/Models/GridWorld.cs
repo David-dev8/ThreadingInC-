@@ -4,55 +4,70 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Composition;
+using Windows.UI.Xaml.Controls;
 
 namespace Lifethreadening.Models
 {
     public class GridWorld : World
     {
-        public int Height { get; set; }
-        public int Width { get; set; }
-        private Location[][] locations;
+        private int _height;
+        private int _width;
+        public Location[][] Grid { get; private set; }
 
-        public GridWorld(Ecosystem ecosystem, IWeatherManager weatherManager, int width = 10, int height = 10) : base(ecosystem, weatherManager)
+        public GridWorld(Ecosystem ecosystem, IWeatherManager weatherManager, int width = 50, int height = 50) : base(ecosystem, weatherManager)
         {
-            Width = width;
-            Height = height;
-            createWorld();
+            _height = width;
+            _width = height;
+            CreateWorld();
         }
 
-        public override void createWorld()
+        public override void CreateWorld()
         {
-            locations = new Location[Height][];
-            for (int i = 0; i < Height; i++)
+            Grid = new Location[_height][];
+            for (int i = 0; i < _height; i++)
             {
-                var row = new Location[Width];
-                for (int j = 0; j < Width; j++)
+                var row = new Location[_height];
+                for (int j = 0; j < _width; j++)
                 {
                     row[j] = new Location();
                 }
-                locations[i] = row;
+                Grid[i] = row;
             }
             RegisterNeighbours();
         }
 
         private void RegisterNeighbours()
         {
-            for (int i = 0; i < Height; i++)
+            for (int i = 0; i < _height; i++)
             {
-                for (int j = 0; j < Width; j++)
+                for (int j = 0; j < _width; j++)
                 {
-                    locations[i][j].Neighbours.Add(locations[i][j]);
-                    locations[i][j].Neighbours.Add(locations[i][j]);
-                    locations[i][j].Neighbours.Add(locations[i][j]);
-                    locations[i][j].Neighbours.Add(locations[i][j]);
+                    RegisterNeighbour(Grid[i][j], i - 1, j - 1);
+                    RegisterNeighbour(Grid[i][j], i - 1, j);
+                    RegisterNeighbour(Grid[i][j], i - 1, j + 1);
+                    RegisterNeighbour(Grid[i][j], i, j - 1);
+                    RegisterNeighbour(Grid[i][j], i, j + 1);
+                    RegisterNeighbour(Grid[i][j], i + 1, j - 1);
+                    RegisterNeighbour(Grid[i][j], i + 1, j);
+                    RegisterNeighbour(Grid[i][j], i + 1, j + 1);
                 }
+            }
+        }
+
+        private void RegisterNeighbour(Location location, int row, int column)
+        {
+            Location neighbour = Grid.ElementAtOrDefault(row)?.ElementAtOrDefault(column);
+            if(neighbour != null)
+            {
+                location.Neighbours.Add(neighbour);
             }
         }
 
         public override IEnumerable<Location> GetLocations()
         {
-            ISet<Location> allLocations = new HashSet<Location>();
-            foreach(Location[] row in locations)
+            IList<Location> allLocations = new List<Location>();
+            foreach(Location[] row in Grid)
             {
                 foreach(Location location in row)
                 {
@@ -60,6 +75,12 @@ namespace Lifethreadening.Models
                 }
             }
             return allLocations;
+        }
+
+        public override void Step()
+        {
+            base.Step();
+            OnPropertyChanged(nameof(Grid));
         }
     }
 }

@@ -1,5 +1,8 @@
-﻿using Lifethreadening.DataAccess.Database;
+﻿using Lifethreadening.DataAccess;
+using Lifethreadening.DataAccess.Database;
 using Lifethreadening.ExtensionMethods;
+using Lifethreadening.Helpers;
+using Lifethreadening.Models.Behaviours;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,55 +14,69 @@ namespace Lifethreadening.Models
 {
     public class DatabaseSimulationElementFactory : ISimulationElementFactory
     {
-        const double ANIMAL_CHANCE = 0.50;
-        const double VEGETATION_CHANCE = 0.35;
-        const double OBSTRUCTION_CHANCE = 0.15;
-        const int STATISTICS_DEVIATION = 5;
+        private const double ANIMAL_CHANCE = 0.10;
+        private const double VEGETATION_CHANCE = 0.35;
+        private const int STATISTICS_DEVIATION = 5;
+
+        private readonly IBehaviourBuilder _behaviourBuilder;
+        private readonly IBreedFactory _breedFactory;
+        private readonly INameReader _nameReader;
         private Random _random = new Random();
 
-        public SimulationElement CreateRandomElement(Ecosystem ecosystem)
+        public DatabaseSimulationElementFactory(IBehaviourBuilder behaviourBuilder, INameReader nameReader)
+        {
+            _behaviourBuilder = behaviourBuilder;
+            _breedFactory = new EvenlyDistributedParentsBreedFactory(_behaviourBuilder, nameReader);
+            _nameReader = nameReader;
+        }
+
+        public SimulationElement CreateRandomElement(WorldContextService contextService)
         {
             double randomNumber = _random.NextDouble();
             double total = 0;
-            if((total += ANIMAL_CHANCE) < randomNumber)
+            if(randomNumber < (total += ANIMAL_CHANCE))
             {
-                return CreateAnimal(ecosystem);
+                return CreateAnimal(contextService);
             }
-            else if((total += VEGETATION_CHANCE) < randomNumber)
+            else if(randomNumber < (total += VEGETATION_CHANCE))
             {
-                return CreateVegetation(ecosystem);
+                return CreateVegetation(contextService);
             }
-            else if((total += OBSTRUCTION_CHANCE) < randomNumber)
+            else
             {
-                return CreateObstruction(ecosystem);
+                return CreateObstruction(contextService);
             }
-            return null;
         }
 
-        public Animal CreateAnimal(Ecosystem ecosystem)
+        public Animal CreateAnimal(WorldContextService contextService)
         {
-            DatabaseHelper<Species> helper = new DatabaseHelper<Species>();
-            IEnumerable<Species> allSpecies = helper.Read(null, null, CommandType.Text);
-            Species species = allSpecies.ElementAt(_random.Next(allSpecies.Count()));
+            ISpeciesReader speciesReader = new DatabaseSpeciesReader();
+            Species species = speciesReader.ReadByEcosystem(contextService.GetContext().Ecosystem.Id).GetRandom();
 
-            Animal newAnimal = new Animal(GetRandomSex(), species, GenerateStatisticsFromBase(species.BaseStatistics));
+            Sex sex = EnumHelpers.GetRandom<Sex>();
+            string name = _nameReader.GetName(sex);
+            Animal newAnimal = new Animal(name, sex, species, GenerateStatisticsFromBase(species.BaseStatistics), contextService);
+            newAnimal.Behaviour = _behaviourBuilder
+                .ForAnimal(newAnimal)
+                .AddEat(species.Diet)
+                .AddBreed(_breedFactory) // TODO
+                .AddWander(false)
+                .AddRest()
+                .AddEvade()
+                .GetBehaviour();
             return newAnimal;
         }
 
-        public Obstruction CreateObstruction(Ecosystem ecosystem)
+        public Obstruction CreateObstruction(WorldContextService contextService)
         {
-            throw new NotImplementedException();
+            IObstructionReader obstructionReader = new DatabaseObstructionReader();
+            return obstructionReader.ReadByEcosystem(contextService.GetContext().Ecosystem.Id, contextService).GetRandom();
         }
 
-        public Vegetation CreateVegetation(Ecosystem ecosystem)
+        public Vegetation CreateVegetation(WorldContextService contextService)
         {
-            throw new NotImplementedException();
-        }
-
-        public Sex GetRandomSex()
-        {
-            Array values = Enum.GetValues(typeof(Sex));
-            return (Sex)values.GetValue(_random.Next(values.Length));
+            IVegetationReader vegetationReader = new DatabaseVegetationReader();
+            return vegetationReader.ReadByEcosystem(contextService.GetContext().Ecosystem.Id, contextService).GetRandom();
         }
 
         public Statistics GenerateStatisticsFromBase(Statistics baseStatistics)

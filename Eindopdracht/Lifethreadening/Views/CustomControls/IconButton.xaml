@@ -6,14 +6,18 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:fa="using:FontAwesome.UWP"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
     x:Name="CurrentButton">
-    <Button Background="{StaticResource SecondaryBackgroundBrush}" CornerRadius="3">
+    <Button Background="{StaticResource SecondaryBackgroundBrush}" CornerRadius="3" 
+            Command="{Binding ElementName=CurrentButton, Path=Command}">
         <StackPanel Orientation="Horizontal" Spacing="10" Margin="3,0">
             <fa:FontAwesome Foreground="White" Icon="{Binding ElementName=CurrentButton, Path=Icon}" FontSize="13" />
-            <TextBlock Foreground="White" FontWeight="SemiBold" Text="{Binding ElementName=CurrentButton, Path=Text}" />
+            <TextBlock Foreground="White" FontWeight="SemiBold" 
+                       Text="{Binding ElementName=CurrentButton, Path=Text}"
+                       Style="{Binding ElementName=CurrentButton, Path=TextStyle}" />
         </StackPanel>
     </Button>
 </UserControl>
