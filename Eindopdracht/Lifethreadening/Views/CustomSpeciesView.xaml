@@ -5,10 +5,195 @@
     xmlns:local="using:Lifethreadening.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:customControls="using:Lifethreadening.Views.CustomControls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Page.Resources>
+        <ResourceDictionary Source="../ResourceDictionaries/MainResources.xaml" />
+    </Page.Resources>
+
+    <Grid Background="{StaticResource PrimaryBackgroundBrush}">
+        <!--#region grid definition -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="10*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="5*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <!--#endregion-->
+
+        <Rectangle Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Fill="{StaticResource TertiaryBrush}"></Rectangle>
+        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Foreground="{StaticResource SecondaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource BlockHeader}" Text="Creating a species"></TextBlock>
+        
+        <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Style="{StaticResource BlockHeader}" Text="Statistics"></TextBlock>
+        <TextBlock Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" Style="{StaticResource BlockHeader}" Text="Information"></TextBlock>
+
+        <TextBlock Text="Points left" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource TraitTitle}"></TextBlock>
+        <TextBlock Text="{Binding PointsLeft}" Foreground="{Binding PointsLeft, Converter={StaticResource IntPositivityToColorBrushConverter}}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 60, 0, 0" FontSize="40"></TextBlock>
+
+        <Grid Grid.Column="1" Grid.Row="2" Grid.RowSpan="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            
+            <!--#region statBlocks -->
+            <!--#region StatTitles -->
+            <TextBlock Text="Speed" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TraitTitle}"></TextBlock>
+            <TextBlock Text="Weight" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TraitTitle}"></TextBlock>
+            <TextBlock Text="Size" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TraitTitle}"></TextBlock>
+            <TextBlock Text="Agression" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TraitTitle}"></TextBlock>
+            <TextBlock Text="Detection" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TraitTitle}"></TextBlock>
+            <TextBlock Text="Resilience" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TraitTitle}"></TextBlock>
+            <TextBlock Text="Inteligence" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TraitTitle}"></TextBlock>
+            <TextBlock Text="Self-defence" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TraitTitle}"></TextBlock>
+            <TextBlock Text="Metabolic rate" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TraitTitle}"></TextBlock>
+            <!--#endregion-->
+
+            <!--#region speedStat -->
+            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource StatDisp}" Text="{Binding creatingSpecies.BaseStatistics.Speed}"></TextBlock>
+            <Slider Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Speed, Mode=TwoWay}" Width="300"></Slider>
+            <!--#endregion-->
+
+            <!--#region weightStat -->
+            <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Weight}" Grid.Row="0" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
+            <Slider Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Weight, Mode=TwoWay}" Width="300"></Slider>
+            <!--#endregion-->
+
+            <!--#region sizeStat -->
+            <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Size}" Grid.Row="0" Grid.Column="2" Style="{StaticResource StatDisp}"></TextBlock>
+            <Slider Grid.Row="0" Grid.Column="2" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Size, Mode=TwoWay}" Width="300"></Slider>
+            <!--#endregion-->
+
+            <!--#region agressionStat -->
+            <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Aggresion}" Grid.Row="1" Grid.Column="0" Style="{StaticResource StatDisp}"></TextBlock>
+            <Slider Grid.Row="1" Grid.Column="0" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Aggresion, Mode=TwoWay}" Width="300"></Slider>
+            <!--#endregion-->
+
+            <!--#region detectionStat -->
+            <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Detection}" Grid.Row="1" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
+            <Slider Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Detection, Mode=TwoWay}" Width="300"></Slider>
+            <!--#endregion-->
+
+            <!--#region resStat -->
+            <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Resilience}" Grid.Row="1" Grid.Column="2" Style="{StaticResource StatDisp}"></TextBlock>
+            <Slider Grid.Row="1" Grid.Column="2" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Resilience, Mode=TwoWay}" Width="300"></Slider>
+
+            <!--#endregion-->
+
+            <!--#region intStat -->
+            <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Intelligence}" Grid.Row="3" Grid.Column="0" Style="{StaticResource StatDisp}"></TextBlock>
+            <Slider Grid.Row="3" Grid.Column="0" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Intelligence, Mode=TwoWay}" Width="300"></Slider>
+
+            <!--#endregion-->
+
+            <!--#region defenceStat -->
+            <TextBlock Text="{Binding creatingSpecies.BaseStatistics.SelfDefence}" Grid.Row="3" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
+            <Slider Grid.Row="3" Grid.Column="1" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.SelfDefence, Mode=TwoWay}" Width="300"></Slider>
+
+            <!--#endregion-->
+
+            <!--#region metabolicStat -->
+            <TextBlock Text="{Binding creatingSpecies.BaseStatistics.MetabolicRate}" Grid.Row="3" Grid.Column="2" Style="{StaticResource StatDisp}"></TextBlock>
+            <Slider Grid.Row="3" Grid.Column="2" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.MetabolicRate, Mode=TwoWay}" Width="300"></Slider>
+
+            <!--#endregion-->
+            <!--#endregion-->
+            
+        </Grid>
+        
+        <!--#region testkleuren -->
+        <!--<StackPanel Background="Red" Opacity="0.3" Grid.Column="0" Grid.Row="0" Grid.RowSpan="7"></StackPanel>
+        <StackPanel Background="Blue" Opacity="0.3" Grid.Column="1" Grid.Row="0" Grid.RowSpan="7"></StackPanel>
+        <StackPanel Background="Red" Opacity="0.3" Grid.Column="2" Grid.Row="0" Grid.RowSpan="7"></StackPanel>
+        <StackPanel Background="Blue" Opacity="0.3" Grid.Column="3" Grid.Row="0" Grid.RowSpan="7"></StackPanel>
+        <StackPanel Background="Red" Opacity="0.3" Grid.Column="4" Grid.Row="0" Grid.RowSpan="7"></StackPanel>
+
+        <StackPanel Background="Black" Opacity="0.5" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"></StackPanel>
+        <StackPanel Background="Black" Opacity="0.5" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5"></StackPanel>
+        <StackPanel Background="Black" Opacity="0.5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5"></StackPanel>
+        <StackPanel Background="Black" Opacity="0.5" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="5"></StackPanel>-->
+        <!--#endregion-->
+
+
+
+        <!--#region MiddleContent -->
+        <TextBox BorderThickness="0, 0, 0, 2" Background="Transparent" Grid.Column="3" Grid.Row="1" VerticalAlignment="Bottom" PlaceholderText="Name ✏" HorizontalAlignment="Left" Width="225" TextAlignment="Center" FontSize="18" Text="{Binding creatingSpecies.Name, Mode=TwoWay}"></TextBox>
+        <TextBox BorderThickness="0, 0, 0, 2" Background="Transparent" Grid.Column="3" Grid.Row="1" VerticalAlignment="Bottom" PlaceholderText="Scientific name ✏" HorizontalAlignment="Right" Width="225" TextAlignment="Center" FontSize="18" Text="{Binding creatingSpecies.ScientificName, Mode=TwoWay}"></TextBox>
+
+        <StackPanel Background="White" BackgroundSizing="OuterBorderEdge" Margin="50, -150, 50, 0" Grid.Row="3" Grid.Column="3" BorderThickness="5" BorderBrush="Black"></StackPanel>
+
+        <customControls:IconButton Command="{Binding OpenImagePicker}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, -150, 0, 0" Grid.Row="3" Grid.Column="3" Text="...Upload photo..."></customControls:IconButton>
+        <Image Source="{Binding creatingSpecies.Image}" MaxHeight="300" MaxWidth="300" Margin="0, -150, 0, 0" Grid.Row="3" Grid.Column="3"></Image>
+
+        <TextBlock Grid.Column="3" Grid.Row="4" VerticalAlignment="top" Margin="10, 20, 10, 0" Text="Diet:" Style="{StaticResource TraitTitle}"></TextBlock>
+        <ComboBox BorderThickness="0, 0, 0, 2" Background="Transparent" Grid.Column="3" Grid.Row="4" VerticalAlignment="top" Margin="200, 10, 10, 0" PlaceholderText="Select a value" HorizontalAlignment="Center" Width="225" FontSize="18" SelectedValue="{Binding creatingSpecies.Diet}">
+            <ComboBoxItem x:Name="Herb">Herbivoor</ComboBoxItem>
+            <ComboBoxItem x:Name="Carn">Carnivoor</ComboBoxItem>
+            <ComboBoxItem x:Name="Omni">Omnivoor</ComboBoxItem>
+        </ComboBox>
+
+        <TextBlock Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Margin="10, 40, 10, 0" Text="Average lifespan:" Style="{StaticResource TraitTitle}"></TextBlock>
+        <Slider Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Margin="200, 60, 10, 0" Maximum="120" Width="250" Value="{Binding creatingSpecies.AverageAge, Mode=TwoWay}"></Slider>
+        <TextBlock Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Margin="350, 15, 10, 0" Text="{Binding creatingSpecies.AverageAge}" Style="{StaticResource TraitTitle}"></TextBlock>
+
+        <TextBlock Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="10, -5, 10, 0" Text="Breed size:" Style="{StaticResource TraitTitle}"></TextBlock>
+        <Slider Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="200, 0, 20, 0" Maximum="10" Width="250" Value="{Binding creatingSpecies.BreedSize, Mode=TwoWay}"></Slider>
+        <TextBlock Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="350, -10, 10, 0" Text="{Binding creatingSpecies.BreedSize}" Style="{StaticResource TraitTitle}"></TextBlock>
+
+        <customControls:IconButton Command="{Binding SaveSpiecies}" Grid.Column="3" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="28" Text="Create species"></customControls:IconButton>
+        <!--#endregion-->
+         
+        <!--#region ErrorPopup -->
+        <Popup Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2" IsOpen="{Binding HasErrors}" IsLightDismissEnabled="True" LightDismissOverlayMode="On" HorizontalAlignment="Center" VerticalAlignment="Center" >
+            <Border BorderThickness="2" BorderBrush="{StaticResource TertiaryBrush}">
+                <Grid Background="{StaticResource PrimaryBackgroundBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" Height="300">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource BaseTextBlockStyle}">There seem to be some errors with the data</TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0, 35, 0, 0">Please fix the folowing errors to save this spiecies</TextBlock>
+
+                    <ItemsControl ItemsSource="{Binding Errors}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock VerticalAlignment="Center" Margin="75, 0, 0, 0" Text="{Binding}"></TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    
+                </Grid>
+            </Border>
+        </Popup>
+        <!--#endregion-->
 
     </Grid>
+
 </Page>

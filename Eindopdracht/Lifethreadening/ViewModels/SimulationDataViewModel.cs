@@ -10,6 +10,10 @@ namespace Lifethreadening.ViewModels
 {
     public class SimulationDataViewModel : BaseViewModel
     {
+        public SimulationDataViewModel(NavigationService navigationService) : base(navigationService)
+        {
+        }
+
         public Simulation Simulation { get; set; }
 
         public IDictionary<StatisticInfo, int> AffectedStatistics
@@ -48,7 +52,6 @@ namespace Lifethreadening.ViewModels
         {
             Simulation = simulation;
         }
-        
-
+       
     }
 }

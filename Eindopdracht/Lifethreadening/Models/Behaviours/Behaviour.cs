@@ -16,5 +16,10 @@ namespace Lifethreadening.Models.Behaviours
         }
 
         public abstract Incentive guide();
+
+        protected bool CanReach(Location location)
+        {
+            return Animal.Location == location || Animal.Location.Neighbours.Contains(location);
+        }
     }
 }

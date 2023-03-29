@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.ExtensionMethods
 {
-    public static class Numbers
+    public static class NumbersExtensions
     {
         private static Random _random = new Random();
 
@@ -19,6 +19,11 @@ namespace Lifethreadening.ExtensionMethods
         public static double Deviate(this double number, double deviationRange)
         {
             return number + (_random.NextDouble() - 0.5) * deviationRange;
+        }
+
+        public static int AverageWith(this int number, int otherNumber)
+        {
+            return (number + otherNumber) / 2;
         }
     }
 }
