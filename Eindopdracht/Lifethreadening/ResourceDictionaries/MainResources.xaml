@@ -52,6 +52,11 @@
         <Setter Property="Width" Value="0" />
         <Setter Property="Height" Value="0" />
     </Style>
+    <LinearGradientBrush x:Key="GraphBackgroundBrush" StartPoint="0,0.5" EndPoint="1,0.5">
+        <GradientStop Color="#D9D9D9" Offset="0" />
+        <GradientStop Color="#E0E5F7" Offset="0.5"  />
+        <GradientStop Color="#F2F2F2" Offset="1"  />
+    </LinearGradientBrush>
     <converters:BoolToVisibilityConverter x:Key="VisibilityConverter"/>
     <customConverters:ConverterGroup x:Key="InverseVisibilityConverter">
         <converters:BoolNegationConverter />

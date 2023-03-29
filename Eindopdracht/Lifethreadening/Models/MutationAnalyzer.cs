@@ -12,6 +12,14 @@ namespace Lifethreadening.Models
     {
         public ISet<Mutation> Mutations { get; private set; }
 
+        public int TotalAmounntOfMutations
+        {
+            get
+            {
+                return Mutations.Count;
+            }
+        }
+
         public MutationAnalyzer() 
         { 
             ISet<StatisticInfo> statistics = new HashSet<StatisticInfo>();

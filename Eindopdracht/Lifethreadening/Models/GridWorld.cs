@@ -17,10 +17,10 @@ namespace Lifethreadening.Models
         {
             Width = width;
             Height = height;
-            createWorld();
+            CreateWorld();
         }
 
-        public override void createWorld()
+        public override void CreateWorld()
         {
             locations = new Location[Height][];
             for (int i = 0; i < Height; i++)

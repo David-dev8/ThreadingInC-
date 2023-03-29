@@ -18,23 +18,9 @@ namespace Lifethreadening.Converters
 
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            //double oldValue;
-            //if (value != null)
-            //{
-            //    oldValue = double.Parse(value.ToString());
-            //}
-            //else if(parameter != null)
-            //{
-            //    oldValue = double.Parse(parameter.ToString());
-            //}
-
-            //double newValue = oldValue != null ? _index <= 2 ? ((1 - 0.2 * _index) * oldValue) : MIN_SCALE : null;
-            //_index++;
-            //return newValue; // TODO wat te doen bij false
             var currentSize = double.Parse(parameter.ToString());
             var index = double.Parse(value.ToString());
             return index <= 3 ? ((1 - 0.1 * index) * currentSize) : MIN_SCALE * currentSize; 
-            //return _index <= 2 ? ((1 - 0.2 * _index)) : MIN_SCALE;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

@@ -34,7 +34,6 @@ namespace Lifethreadening.Models
             }
         }
 
-
         public Simulation(string name, World world) 
         { 
             Name = name;
@@ -49,7 +48,7 @@ namespace Lifethreadening.Models
             World.Step();
 
             IEnumerable<Animal> animals = getAllAnimals(World.SimulationElements);
-            PopulationManager.RegisterAnimals(animals, World.Date);
+            PopulationManager.RegisterAnimals(animals, World.CurrentDate);
             MutationManager.RegisterMutations(animals); // TODO moet het registreren voor of na een stap?
         }
 

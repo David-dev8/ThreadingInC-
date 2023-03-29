@@ -11,17 +11,18 @@ namespace Lifethreadening.Models
     public abstract class World: Observable
     {
         private readonly IWeatherManager _weatherManager;
-        private DateTime _date;
+        private DateTime _currentDate;
 
-        public DateTime Date
+        public DateTime StartTime { get; set; }
+        public DateTime CurrentDate
         {
             get 
             { 
-                return _date; 
+                return _currentDate; 
             }
             set 
             { 
-                _date = value;
+                _currentDate = value;
                 NotifyPropertyChanged();
             }
         }
@@ -61,7 +62,10 @@ namespace Lifethreadening.Models
         {
             Ecosystem = ecosystem;
             _weatherManager = weatherManager;
-            Date = DateTime.Now;
+
+            DateTime dateTime = DateTime.Now;
+            CurrentDate = dateTime;
+            StartTime = dateTime;
         }
 
         public void Step()
@@ -74,16 +78,16 @@ namespace Lifethreadening.Models
             {
                 simulationElement.Act();
             }
-            Date = Date.Add(StepSize);
+            CurrentDate = CurrentDate.Add(StepSize);
         }
 
-        public abstract void createWorld();
+        public abstract void CreateWorld();
 
         public abstract IEnumerable<Location> GetLocations();
 
         private WorldContext CreateContext()
         {
-            return new WorldContext(Weather, Date);
+            return new WorldContext(Weather, CurrentDate);
         }
     }
 }

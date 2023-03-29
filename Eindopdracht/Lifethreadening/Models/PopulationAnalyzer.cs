@@ -56,9 +56,13 @@ namespace Lifethreadening.Models
 
         public IEnumerable<Rank> GetDominatingSpecies()
         {
+            int position = 1;
             IDictionary<Species, IDictionary<DateTime, int>> speciesCountPerSpecies = GetSpeciesCountPerSpecies();
-            return speciesCountPerSpecies.Select(speciesCount => new Rank(speciesCount.Key, speciesCount.Value.Values.Average()))
-                .OrderByDescending(rank => rank.Average);
+            return speciesCountPerSpecies.Select(speciesCount =>
+            {
+                return new { Species = speciesCount.Key, Average = speciesCount.Value.Values.Average() };
+            }).OrderByDescending(averageSpeciesCount => averageSpeciesCount.Average)
+            .Select(averageSpeciesCount => new Rank(position++, averageSpeciesCount.Species, averageSpeciesCount.Average)); // TODO intabbing?
         }
 
         // TODO plinq
