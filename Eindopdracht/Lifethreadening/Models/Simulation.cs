@@ -20,12 +20,12 @@ namespace Lifethreadening.Models
 {
     // TODO dispose timers
     // TODO lock mutations
-    public class Simulation: Observable, IDisposable
+    public class Simulation: Observable
     {
         private string gameName = "first";
-
-        private Disaster _mostRecentDisaster; // TODO make it bindable
-        private const double INITIAL_SPAWN_CHANCE = 0.10;
+        private int _amountOfDisasters = 0; // TODO make it bindable
+        private Disaster _mostRecentDisaster; 
+        private const double SPAWN_CHANCE = 0.10;
         private const double DISASTER_CHANCE = 1;
         private Random _random = new Random();
         private ISimulationElementFactory _elementFactory;
@@ -34,7 +34,7 @@ namespace Lifethreadening.Models
         private IMutationFactory _mutationFactory;
         private IWorldStateWriter _worldStateWriter;
         private ISimulationWriter _simulationWriter;
-        private bool _stopped = true;
+        private bool _stopped;
 
         private Timer _stepTimer;
         private Timer _spawnTimer;
@@ -45,8 +45,10 @@ namespace Lifethreadening.Models
         private static readonly TimeSpan _saveInterval = new TimeSpan(0, 0, 10);
 
         // For in game things
-        private static readonly TimeSpan _distasterInterval = new TimeSpan(50, 0, 0, 0); // TODO static conventions
         private static readonly TimeSpan _stepInterval = new TimeSpan(1, 0, 0, 0); // TODO static conventions
+        private static readonly TimeSpan _disasterInterval = new TimeSpan(50, 0, 0, 0); // TODO change interval en kans op disaster
+        private static readonly TimeSpan _mutationInterval = new TimeSpan(5, 0, 0, 0);
+        private static readonly TimeSpan _spawnInterval = new TimeSpan(20, 0, 0, 0);
 
 
         private TimeSpan _simulationSpeed = new TimeSpan(1, 0, 0, 0);
@@ -54,6 +56,18 @@ namespace Lifethreadening.Models
         public int AmountOfDisasters { get; set; }
         public string Name { get; set; }
         public int Score { get; set; }
+        public bool Stopped 
+        {
+            get
+            {
+                return _stopped;
+            }
+            set
+            {
+                _stopped = value;
+                NotifyPropertyChanged();
+            }
+        }
         public World World { get; set; }
         public PopulationAnalyzer PopulationManager { get; set; }
         public MutationAnalyzer MutationManager { get; set; }
@@ -102,6 +116,7 @@ namespace Lifethreadening.Models
         { 
             Name = name;
             World = world;
+            Stopped = false;
 
             PopulationManager = new PopulationAnalyzer();
             MutationManager = new MutationAnalyzer();
@@ -119,7 +134,7 @@ namespace Lifethreadening.Models
             // TODO werkt niet met async
             return (state) =>
             {
-                if(!_stopped)
+                if(!Stopped)
                 {
                     action();
                 }
@@ -132,7 +147,7 @@ namespace Lifethreadening.Models
 
             if(!GetAnimals().Any())
             {
-                Stop();
+                End();
                 IsGameOver = true;
             }
 
@@ -156,8 +171,11 @@ namespace Lifethreadening.Models
 
         private void Spawn()
         {
-            SimulationElement element = _elementFactory.CreateRandomElement(_worldContextService);
-            World.GetLocations().GetRandom().AddSimulationElement(element);
+            if(_random.NextDouble() < SPAWN_CHANCE)
+            {
+                SimulationElement element = _elementFactory.CreateRandomElement(_worldContextService);
+                World.GetLocations().GetRandom().AddSimulationElement(element);
+            }
         }
 
         private void LetPotentialDisasterOccur()
@@ -166,19 +184,20 @@ namespace Lifethreadening.Models
             {
                 MostRecentDisaster = _disasterFactory.CreateDisaster(_worldContextService);
                 AmountOfDisasters++;
-                //disaster.Strike(World.SimulationElements);
+                MostRecentDisaster.Strike(World.SimulationElements);
             }
         }
 
         private async void Mutate()
         {
             Mutation mutation = await _mutationFactory.CreateMutation(World.CurrentDate);
-            mutation.Affect(GetAnimals().GetRandom()); // TODO lock the mutations?
+            mutation.Affect(GetAnimals().GetRandom());
             // TODO async
         }
 
-        private async Task Save()
+        public async Task Save()
         {
+            // TODO prevent two threads from doing the save
             string location = await _worldStateWriter.Write(gameName, World);
             await _simulationWriter.Write(location, this);
         }
@@ -192,14 +211,21 @@ namespace Lifethreadening.Models
             _saveTimer = new Timer((_) => Save(), null, _saveInterval, _saveInterval);
         }
 
-        public async Task Start()
+        public async Task Setup()
         {
             var nameReader = new APINameReader();
             await nameReader.Initialize();
             _elementFactory = new DatabaseSimulationElementFactory(new RegularBehaviourBuilder(), nameReader);
             Populate();
-            _stopped = false;
-            SetTimerIntervals(); // TODO resume?
+        }
+
+        public void Start()
+        {
+            if(!IsGameOver && Stopped)
+            {
+                Stopped = false;
+                SetTimerIntervals();
+            }
         }
 
         private void SetTimerIntervals()
@@ -209,7 +235,8 @@ namespace Lifethreadening.Models
             // TODO
             
             ChangeTimer(_stepTimer, 1000 * _stepInterval.Divide(_simulationSpeed)); // TODO Changing while 
-            ChangeTimer(_disasterTimer, 1000 * _distasterInterval.Divide(_simulationSpeed)); // TODO take into account already running timer
+            ChangeTimer(_disasterTimer, 1000 * _disasterInterval.Divide(_simulationSpeed)); // TODO take into account already running timer
+            //ChangeTimer(_disasterTimer, 1000 * _disasterInterval.Divide(_simulationSpeed));
             
             // TODO Does timer run even when changing its period?
         }
@@ -220,9 +247,19 @@ namespace Lifethreadening.Models
             timer.Change(roundedMilliSeconds, roundedMilliSeconds);
         }
 
+        public void End()
+        {
+            Stop();
+            _stepTimer.Dispose();
+            _spawnTimer.Dispose();
+            _disasterTimer.Dispose();
+            _mutationTimer.Dispose();
+            _saveTimer.Dispose();
+        }
+
         public void Stop()
         {
-            _stopped = true;
+            Stopped = true;
             _stepTimer.Change(Timeout.Infinite, Timeout.Infinite);
             _spawnTimer.Change(Timeout.Infinite, Timeout.Infinite);
             _disasterTimer.Change(Timeout.Infinite, Timeout.Infinite);
@@ -247,7 +284,7 @@ namespace Lifethreadening.Models
         {
             foreach(Location location in World.GetLocations())
             {
-                if(_random.NextDouble() < INITIAL_SPAWN_CHANCE)
+                if(_random.NextDouble() < SPAWN_CHANCE)
                 {
                     SimulationElement element = _elementFactory.CreateRandomElement(_worldContextService);
                     if(element != null)
@@ -257,11 +294,6 @@ namespace Lifethreadening.Models
                     } // TODO Because this call is not awaited
                 }
             }
-        }
-
-        public void Dispose()
-        {
-            _stepTimer.Dispose();
         }
     }
 }

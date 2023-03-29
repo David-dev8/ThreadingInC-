@@ -6,13 +6,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Lifethreadening.ViewModels
 {
     public class SimulationViewModel : BaseViewModel
     {
         private Animal _selectedAnimal;
+        private bool _hasLoaded = false;
 
+        public bool HasLoaded
+        {
+            get
+            {
+                return _hasLoaded;
+            }
+            set
+            {
+                _hasLoaded = value;
+                NotifyPropertyChanged();
+            }
+        }
+        public ICommand QuitCommand { get; set; }
+        public ICommand ResumeCommand { get; set; }
+        public ICommand PauseCommand { get; set; }
         public Simulation Simulation { get; set; }
         public Animal SelectedAnimal 
         { 
@@ -49,11 +66,22 @@ namespace Lifethreadening.ViewModels
         {
             Simulation = simulation;
             Simulation.PropertyChanged += Simulation_PropertyChanged;
+            HasLoaded = false;
 
+            QuitCommand = new RelayCommand(Quit);
+            ResumeCommand = new RelayCommand(Simulation.Start);
+            PauseCommand = new RelayCommand(Simulation.Stop);
+
+            Initialize();
+        }
+
+        private async void Initialize()
+        {
+            // TODO try catch
+            await Simulation.Setup();
+            await Simulation.Save();
             Simulation.Start();
-
-            var s = new APIGeneReader();
-            var b = s.GetRandomGene();
+            HasLoaded = true;
         }
 
         private void Simulation_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -64,6 +92,11 @@ namespace Lifethreadening.ViewModels
             }
         }
 
+        private void Quit()
+        {
+            _navigationService.CurrentViewModel = new HomeViewModel(_navigationService);
+        }
+
         private void NavigateToSimulationData()
         {
             _navigationService.CurrentViewModel = new SimulationDataViewModel(_navigationService, null);
@@ -72,7 +105,7 @@ namespace Lifethreadening.ViewModels
         public override void Dispose()
         {
             base.Dispose();
-            Simulation.Dispose();
+            Simulation.End();
         }
     }
 }

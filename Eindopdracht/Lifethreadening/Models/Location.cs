@@ -15,7 +15,12 @@ namespace Lifethreadening.Models
     {
         // There is no native concurrent list in C#
         private object _simulationElementsLocker = new object();
-        private IList<SimulationElement> _simulationElements = new List<SimulationElement>();
+        private IList<SimulationElement> _simulationElements;
+
+        public Location(IList<SimulationElement> simulationElements = null)
+        {
+            _simulationElements = simulationElements ?? new List<SimulationElement>();
+        }
 
         public IList<Location> Neighbours { get; set; } = new List<Location>();
         public IEnumerable<SimulationElement> SimulationElements

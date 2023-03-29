@@ -14,412 +14,420 @@
         <ResourceDictionary Source="../ResourceDictionaries/SimulationViewResources.xaml" />
     </Page.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="320" />
-        </Grid.ColumnDefinitions>
-        <customcontrols:WorldView Grid.Column="0" World="{Binding GridWorld}"
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding HasLoaded, Converter={StaticResource InverseVisibilityConverter}}">
+            <ProgressRing IsActive="{Binding HasLoaded, Converter={StaticResource BooleanInverseConverter}}" Foreground="{StaticResource TertiaryBrush}" 
+                          Visibility="Visible" Grid.Row="0" VerticalAlignment="Stretch" Height="40" Width="40" Margin="0,20" />
+            <TextBlock Grid.Row="1">Please wait while the simulation is loading</TextBlock>
+        </StackPanel>
+        <Grid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="3" Visibility="{Binding HasLoaded,Converter={StaticResource VisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="320" />
+            </Grid.ColumnDefinitions>
+            <customcontrols:WorldView Grid.Column="0" World="{Binding GridWorld}"
                                   SelectedSimulationElement="{Binding SelectedSimulationElement, Mode=TwoWay}"/>
-        <Grid Grid.Column="1" Background="{StaticResource PrimaryBackgroundBrush}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="14*" />
-                <RowDefinition Height="6*" />
-                <RowDefinition Height="10*" />
-            </Grid.RowDefinitions>
-            <StackPanel>
-                <Button x:Name="GeneInspectorOpen" Click="GeneInspectorOpen_Click">🧬 Open gene inspector 🧬</Button>
-            </StackPanel>
-            <StackPanel Grid.Row="0">
-                <StackPanel Style="{StaticResource SectionHeading}" Spacing="10">
-                    <fa:FontAwesome Icon="InfoCircle" Foreground="{StaticResource SecondaryBrush}" />
-                    <TextBlock Foreground="{StaticResource SecondaryBrush}" VerticalAlignment="Center" Style="{StaticResource SectionTitle}">Currently looking at</TextBlock>
-                </StackPanel>
+            <Grid Grid.Column="1" Background="{StaticResource PrimaryBackgroundBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="14*" />
+                    <RowDefinition Height="6*" />
+                    <RowDefinition Height="10*" />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0">
+                    <StackPanel Style="{StaticResource SectionHeading}" Spacing="10">
+                        <fa:FontAwesome Icon="InfoCircle" Foreground="{StaticResource SecondaryBrush}" />
+                        <TextBlock Foreground="{StaticResource SecondaryBrush}" VerticalAlignment="Center" Style="{StaticResource SectionTitle}">Currently looking at</TextBlock>
+                    </StackPanel>
 
-                <StackPanel Padding="20,20">
-                    <Grid Visibility="{Binding SelectedAnimal, Converter={StaticResource InverseNullVisibilityConverter}}">
-                        <TextBlock TextWrapping="WrapWholeWords">
+                    <StackPanel Padding="20,20">
+                        <Grid Visibility="{Binding SelectedAnimal, Converter={StaticResource InverseNullVisibilityConverter}}">
+                            <TextBlock TextWrapping="WrapWholeWords">
                                 No animal selected.
                                 <LineBreak />
                                 Select an animal within the simulation to view its details.
-                        </TextBlock>
-                    </Grid>
-                    <StackPanel Visibility="{Binding SelectedAnimal, Converter={StaticResource NullVisibilityConverter}}">
-                        <StackPanel DataContext="{Binding SelectedAnimal}">
-                            <StackPanel Margin="0,0,0,5">
-                                <Grid Margin="0,0,0,10">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Style="{StaticResource Title}">
+                            </TextBlock>
+                        </Grid>
+                        <StackPanel Visibility="{Binding SelectedAnimal, Converter={StaticResource NullVisibilityConverter}}">
+                            <StackPanel DataContext="{Binding SelectedAnimal}">
+                                <StackPanel Margin="0,0,0,5">
+                                    <Grid Margin="0,0,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Style="{StaticResource Title}">
                                     <Run Text="{Binding Species.Name}" />
                                     <Run Text="{Binding Name}" />
-                                    </TextBlock>
-                                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="5">
-                                        <TextBlock>
+                                        </TextBlock>
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="5">
+                                            <TextBlock>
                                             Age:
                                             <Run Text="{Binding Age}" />
                                             <Run Text="{Binding Age, Converter={StaticResource AmountToSingularOrPluralConverter}, ConverterParameter='year'}" />
-                                        </TextBlock>
-                                        <fa:FontAwesome Icon="{Binding Sex, Converter={StaticResource SexToIconConverter}}" 
+                                            </TextBlock>
+                                            <fa:FontAwesome Icon="{Binding Sex, Converter={StaticResource SexToIconConverter}}" 
                                                         Foreground="{Binding Sex, Converter={StaticResource SexToBrushConverter}}" />
-                                    </StackPanel>
-                                </Grid>
-                                <Grid Margin="0,0,0,5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0">HP</TextBlock>
-                                    <ProgressBar Grid.Column="1" Foreground="#D64040" Value="{Binding Hp}" />
-                                </Grid>
-                                <Grid Margin="0,0,0,5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0">Energy</TextBlock>
-                                    <ProgressBar Grid.Column="1" Foreground="#CFB428" Value="{Binding Energy}" />
-                                </Grid>
-                                <Grid Margin="0,0,0,5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" VerticalAlignment="Center">Genetics</TextBlock>
-                                    <customcontrols:IconButton Grid.Column="1" Icon="Search" Text="Inspect" />
-                                </Grid>
-                            </StackPanel>
-                            <StackPanel DataContext="{Binding Species}">
-                                <TextBlock Style="{StaticResource Subtitle}" Margin="0,0,0,10">Species</TextBlock>
-                                <Grid Margin="0,0,0,10" ColumnSpacing="6">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Image Source="/Assets/fox.png" />
-                                    <TextBlock Grid.Column="1" Width="Auto" TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" MaxLines="2" 
-                                               ToolTipService.ToolTip="{Binding Description}" Text="{Binding Description}">
-                                    </TextBlock>
-                                </Grid>
-                                <StackPanel>
-                                    <Grid Margin="0,0,0,5">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0">Scientific name</TextBlock>
-                                        <TextBlock Grid.Column="1" Text="{Binding ScientificName}" />
+                                        </StackPanel>
                                     </Grid>
                                     <Grid Margin="0,0,0,5">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition />
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0">Age (avg/max)</TextBlock>
-                                        <TextBlock Grid.Column="1">
+                                        <TextBlock Grid.Column="0">HP</TextBlock>
+                                        <ProgressBar Grid.Column="1" Foreground="#D64040" Value="{Binding Hp}" />
+                                    </Grid>
+                                    <Grid Margin="0,0,0,5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0">Energy</TextBlock>
+                                        <ProgressBar Grid.Column="1" Foreground="#CFB428" Value="{Binding Energy}" />
+                                    </Grid>
+                                    <Grid Margin="0,0,0,5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" VerticalAlignment="Center">Genetics</TextBlock>
+                                        <customcontrols:IconButton Grid.Column="1" Icon="Search" Text="Inspect" />
+                                    </Grid>
+                                </StackPanel>
+                                <StackPanel DataContext="{Binding Species}">
+                                    <TextBlock Style="{StaticResource Subtitle}" Margin="0,0,0,10">Species</TextBlock>
+                                    <Grid Margin="0,0,0,10" ColumnSpacing="6">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="/Assets/fox.png" />
+                                        <TextBlock Grid.Column="1" Width="Auto" TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" MaxLines="2" 
+                                               ToolTipService.ToolTip="{Binding Description}" Text="{Binding Description}">
+                                        </TextBlock>
+                                    </Grid>
+                                    <StackPanel>
+                                        <Grid Margin="0,0,0,5">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0">Scientific name</TextBlock>
+                                            <TextBlock Grid.Column="1" Text="{Binding ScientificName}" />
+                                        </Grid>
+                                        <Grid Margin="0,0,0,5">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0">Age (avg/max)</TextBlock>
+                                            <TextBlock Grid.Column="1">
                                             <Run Text="{Binding AverageAge, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0} years'}" />
                                             /
                                             <Run Text="{Binding MaxAge, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0} years'}" />
-                                        </TextBlock>
-                                    </Grid>
-                                    <Grid Margin="0,0,0,5">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0">Breed size</TextBlock>
-                                        <TextBlock Grid.Column="1">
+                                            </TextBlock>
+                                        </Grid>
+                                        <Grid Margin="0,0,0,5">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0">Breed size</TextBlock>
+                                            <TextBlock Grid.Column="1">
                                             <Run Text="{Binding MinBreedSize}" />
                                             -
                                             <Run Text="{Binding MaxBreedSize}" />
                                             children
-                                        </TextBlock>
-                                    </Grid>
-                                    <Grid Margin="0,0,0,5">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0">Diet type</TextBlock>
-                                        <TextBlock Grid.Column="1" Text="{Binding Diet, Converter={StaticResource EnumToStringConverter}}" />
-                                    </Grid>
+                                            </TextBlock>
+                                        </Grid>
+                                        <Grid Margin="0,0,0,5">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0">Diet type</TextBlock>
+                                            <TextBlock Grid.Column="1" Text="{Binding Diet, Converter={StaticResource EnumToStringConverter}}" />
+                                        </Grid>
+                                    </StackPanel>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
-            </StackPanel>
-            <StackPanel Grid.Row="1">
-                <StackPanel Style="{StaticResource SectionHeading}" Spacing="10">
-                    <fa:FontAwesome Icon="Cloud" Foreground="White" />
-                    <TextBlock Foreground="White" VerticalAlignment="Center" FontWeight="Bold" FontSize="16">Environment</TextBlock>
-                </StackPanel>
-                <Grid Padding="20" RowSpacing="20" DataContext="{Binding Simulation}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Spacing="10">
-                        <Image Source="/Assets/sun.png" Width="30" VerticalAlignment="Center" />
-                        <TextBlock VerticalAlignment="Center" Text="{Binding World.Weather.Temperature, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:0.0} °C'}" />
+                <StackPanel Grid.Row="1">
+                    <StackPanel Style="{StaticResource SectionHeading}" Spacing="10">
+                        <fa:FontAwesome Icon="Cloud" Foreground="White" />
+                        <TextBlock Foreground="White" VerticalAlignment="Center" FontWeight="Bold" FontSize="16">Environment</TextBlock>
                     </StackPanel>
-                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Spacing="10">
-                        <Image Source="/Assets/wind.png" Width="30" VerticalAlignment="Center" />
-                        <TextBlock VerticalAlignment="Center" Text="{Binding World.Weather.WindSpeed, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:0.0} km/h'}" />
-                    </StackPanel>
-                    <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Spacing="10">
-                        <Image Source="/Assets/water.png" Width="30" VerticalAlignment="Center" />
-                        <TextBlock VerticalAlignment="Center" Text="{Binding World.Weather.RainFall, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:0.00} mm/h'}" />
-                    </StackPanel>
-                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
-                        <Image Source="/Assets/disaster.png" Width="30" Margin="0,0,10,0" VerticalAlignment="Center" />
-                        <TextBlock Visibility="{Binding MostRecentDisaster, Converter={StaticResource NullVisibilityConverter}}" 
+                    <Grid Padding="20" RowSpacing="20" DataContext="{Binding Simulation}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Spacing="10">
+                            <Image Source="/Assets/sun.png" Width="30" VerticalAlignment="Center" />
+                            <TextBlock VerticalAlignment="Center" Text="{Binding World.Weather.Temperature, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:0.0} °C'}" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Spacing="10">
+                            <Image Source="/Assets/wind.png" Width="30" VerticalAlignment="Center" />
+                            <TextBlock VerticalAlignment="Center" Text="{Binding World.Weather.WindSpeed, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:0.0} km/h'}" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Spacing="10">
+                            <Image Source="/Assets/water.png" Width="30" VerticalAlignment="Center" />
+                            <TextBlock VerticalAlignment="Center" Text="{Binding World.Weather.RainFall, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:0.00} mm/h'}" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                            <Image Source="/Assets/disaster.png" Width="30" Margin="0,0,10,0" VerticalAlignment="Center" />
+                            <TextBlock Visibility="{Binding MostRecentDisaster, Converter={StaticResource NullVisibilityConverter}}" 
                                    VerticalAlignment="Center" Text="{Binding MostRecentDisaster.Description}" 
                                    ToolTipService.ToolTip="{Binding MostRecentDisaster.LongDescription}" />
-                        <TextBlock Visibility="{Binding MostRecentDisaster, Converter={StaticResource InverseNullVisibilityConverter}}" 
+                            <TextBlock Visibility="{Binding MostRecentDisaster, Converter={StaticResource InverseNullVisibilityConverter}}" 
                                    VerticalAlignment="Center" Text="None" />
-                    </StackPanel>
-                </Grid>
-            </StackPanel>
-            <StackPanel Grid.Row="2">
-                <StackPanel Style="{StaticResource SectionHeading}" Spacing="10">
-                    <fa:FontAwesome Icon="PlayCircle" Foreground="White" />
-                    <TextBlock Foreground="White" VerticalAlignment="Center" FontWeight="Bold" FontSize="16">Simulation</TextBlock>
+                        </StackPanel>
+                    </Grid>
                 </StackPanel>
-                <StackPanel Padding="20">
-                    <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
-                        <Image Source="/Assets/calendar.png" Width="30" VerticalAlignment="Center" />
-                        <TextBlock VerticalAlignment="Center" Text="{Binding Simulation.World.Date, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:MMMM, d (yyyy)}'}" />
+                <StackPanel Grid.Row="2">
+                    <StackPanel Style="{StaticResource SectionHeading}" Spacing="10">
+                        <fa:FontAwesome Icon="PlayCircle" Foreground="White" />
+                        <TextBlock Foreground="White" VerticalAlignment="Center" FontWeight="Bold" FontSize="16">Simulation</TextBlock>
                     </StackPanel>
-                    <StackPanel Margin="0,0,0,5">
-                        <Grid Margin="0,0,0,5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0">Simulation speed</TextBlock>
-                            <StackPanel Grid.Column="1">
-                                <TextBlock Text="{Binding Simulation.SimulationSpeed, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:dd} days/step'}" />
-                                <Slider Minimum="1" Maximum="7" Value="{Binding Simulation.SimulationSpeed, Converter={StaticResource TimeSpanToAmountOfDaysConverter}, Mode=TwoWay}" />
-                            </StackPanel>
-                        </Grid>
-                        <Grid Margin="0,0,0,5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0">Score</TextBlock>
-                            <TextBlock Grid.Column="1" Text="{Binding Simulation.Score}" />
-                        </Grid>
-                        <Grid Margin="0,0,0,5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0">Ecosystem</TextBlock>
-                            <TextBlock Grid.Column="1" Text="{Binding Simulation.World.Ecosystem.Name}" />
-                        </Grid>
-                    </StackPanel>
-                    <StackPanel Margin="0,0,0,5" Orientation="Horizontal" Spacing="10">
-                        <customcontrols:IconButton Grid.Column="1" Icon="Pause" Text="Pause" />
-                        <customcontrols:IconButton Grid.Column="1" Icon="SignOut" Text="Quit" />
+                    <StackPanel Padding="20">
+                        <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
+                            <Image Source="/Assets/calendar.png" Width="30" VerticalAlignment="Center" />
+                            <TextBlock VerticalAlignment="Center" Text="{Binding Simulation.World.Date, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:MMMM, d (yyyy)}'}" />
+                        </StackPanel>
+                        <StackPanel Margin="0,0,0,5">
+                            <Grid Margin="0,0,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0">Simulation speed</TextBlock>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="{Binding Simulation.SimulationSpeed, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:dd} days/step'}" />
+                                    <Slider Minimum="1" Maximum="7" Value="{Binding Simulation.SimulationSpeed, Converter={StaticResource TimeSpanToAmountOfDaysConverter}, Mode=TwoWay}" />
+                                </StackPanel>
+                            </Grid>
+                            <Grid Margin="0,0,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0">Score</TextBlock>
+                                <TextBlock Grid.Column="1" Text="{Binding Simulation.Score}" />
+                            </Grid>
+                            <Grid Margin="0,0,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0">Ecosystem</TextBlock>
+                                <TextBlock Grid.Column="1" Text="{Binding Simulation.World.Ecosystem.Name}" />
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Margin="0,0,0,5" Orientation="Horizontal" Spacing="10">
+                            <Grid Grid.Column="1">
+                                <customcontrols:IconButton Icon="Pause" Text="Pause" Command="{Binding PauseCommand}" 
+                                                           Visibility="{Binding Simulation.Stopped, Converter={StaticResource InverseVisibilityConverter}}" />
+                                <customcontrols:IconButton Icon="Play" Text="Resume" Command="{Binding ResumeCommand}" 
+                                                           Visibility="{Binding Simulation.Stopped, Converter={StaticResource VisibilityConverter}}" />
+                            </Grid>
+                            <customcontrols:IconButton Icon="SignOut" Text="Quit" Command="{Binding QuitCommand}" />
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
-            </StackPanel>
-        </Grid>
+            </Grid>
 
-        <Popup Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="0" Grid.Column="0" x:Name="geneticsView" LightDismissOverlayMode="On" IsLightDismissEnabled="True" >
-            <Frame Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource SecondaryBackgroundBrush}" BorderThickness="10" Width="1125" Height="500">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
-                        <ColumnDefinition Width="5*"></ColumnDefinition>
-                        <ColumnDefinition Width="3*"></ColumnDefinition>
-                        <ColumnDefinition Width="13*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="2*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="2*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="3*"></RowDefinition>
-                    </Grid.RowDefinitions>
+            <Popup Grid.ColumnSpan="2" Grid.RowSpan="3" Grid.Row="0" Grid.Column="0" x:Name="geneticsView" LightDismissOverlayMode="On" IsLightDismissEnabled="True" >
+                <Frame Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource SecondaryBackgroundBrush}" BorderThickness="10" Width="1125" Height="500">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                            <ColumnDefinition Width="5*"></ColumnDefinition>
+                            <ColumnDefinition Width="3*"></ColumnDefinition>
+                            <ColumnDefinition Width="13*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="2*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="3*"></RowDefinition>
+                        </Grid.RowDefinitions>
 
-                    <!--Text on the left-->
-                    <TextBlock x:Name="animalName" FontSize="{StaticResource FontsizeGenetics}" FontWeight="Bold" Grid.Row="1" Grid.Column="1"> Rattlesnake</TextBlock>
-                    <!--text Needs to be bound to the animals species-->
-                    <TextBlock x:Name="animalAge" FontSize="{StaticResource FontsizeGenetics}"  Grid.Row="2" Grid.Column="1" Text="Age: 14 years"/>
-                    <!--text needs to be bound to animals age-->
+                        <!--Text on the left-->
+                        <TextBlock x:Name="animalName" FontSize="{StaticResource FontsizeGenetics}" FontWeight="Bold" Grid.Row="1" Grid.Column="1"> Rattlesnake</TextBlock>
+                        <!--text Needs to be bound to the animals species-->
+                        <TextBlock x:Name="animalAge" FontSize="{StaticResource FontsizeGenetics}"  Grid.Row="2" Grid.Column="1" Text="Age: 14 years"/>
+                        <!--text needs to be bound to animals age-->
 
-                    <TextBlock x:Name="animalStats" FontSize="{StaticResource FontsizeGenetics}" FontWeight="Bold" Grid.Row="4" Grid.Column="1"> Statistics</TextBlock>
-                    <TextBlock x:Name="statSpeed" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="5" Grid.Column="1"> Speed</TextBlock>
-                    <TextBlock x:Name="statWeight" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="6" Grid.Column="1"> Weight</TextBlock>
-                    <TextBlock x:Name="statSize" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="7" Grid.Column="1"> Size</TextBlock>
-                    <TextBlock x:Name="statAgression" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="8" Grid.Column="1"> Agression</TextBlock>
-                    <TextBlock x:Name="statDetectionRange" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="9" Grid.Column="1"> Detection range</TextBlock>
-                    <TextBlock x:Name="statResilience" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="10" Grid.Column="1"> Resilience</TextBlock>
-                    <TextBlock x:Name="statInteligence" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="11" Grid.Column="1"> Inteligence</TextBlock>
-                    <TextBlock x:Name="statSelfDefence" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="12" Grid.Column="1"> Self defence</TextBlock>
-                    <TextBlock x:Name="statMetabolicRate" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="13" Grid.Column="1"> Metabolic rate</TextBlock>
+                        <TextBlock x:Name="animalStats" FontSize="{StaticResource FontsizeGenetics}" FontWeight="Bold" Grid.Row="4" Grid.Column="1"> Statistics</TextBlock>
+                        <TextBlock x:Name="statSpeed" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="5" Grid.Column="1"> Speed</TextBlock>
+                        <TextBlock x:Name="statWeight" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="6" Grid.Column="1"> Weight</TextBlock>
+                        <TextBlock x:Name="statSize" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="7" Grid.Column="1"> Size</TextBlock>
+                        <TextBlock x:Name="statAgression" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="8" Grid.Column="1"> Agression</TextBlock>
+                        <TextBlock x:Name="statDetectionRange" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="9" Grid.Column="1"> Detection range</TextBlock>
+                        <TextBlock x:Name="statResilience" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="10" Grid.Column="1"> Resilience</TextBlock>
+                        <TextBlock x:Name="statInteligence" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="11" Grid.Column="1"> Inteligence</TextBlock>
+                        <TextBlock x:Name="statSelfDefence" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="12" Grid.Column="1"> Self defence</TextBlock>
+                        <TextBlock x:Name="statMetabolicRate" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="13" Grid.Column="1"> Metabolic rate</TextBlock>
 
-                    <!--Progress bars-->
-                    <!--LET OP de waardes in de tweede ofset moeten altijd hetzelfde zijn als in de eerste anders krijg je een gradient-->
-                    <Rectangle Grid.Row="5" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
-                                <GradientStop Color="Red" Offset="0.5" x:Name="speedBarColor"></GradientStop>
-                                <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
-                                <GradientStop Color="White" Offset="0.5" x:Name="speedBarEmpty"></GradientStop>
-                                <!--ofset needs to be bound to (stat value / statmax)-->
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="6" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
-                                <GradientStop Color="Red" Offset="0.5" x:Name="weightBarColor"></GradientStop>
-                                <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
-                                <GradientStop Color="White" Offset="0.5" x:Name="weightBarEmpty"></GradientStop>
-                                <!--ofset needs to be bound to (stat value / statmax)-->
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="7" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
-                                <GradientStop Color="Red" Offset="0.5" x:Name="sizeBarColor"></GradientStop>
-                                <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
-                                <GradientStop Color="White" Offset="0.5" x:Name="sizeBarEmpty"></GradientStop>
-                                <!--ofset needs to be bound to (stat value / statmax)-->
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="8" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
-                                <GradientStop Color="Red" Offset="0.5" x:Name="agressionBarColor"></GradientStop>
-                                <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
-                                <GradientStop Color="White" Offset="0.5" x:Name="agressionBarEmpty"></GradientStop>
-                                <!--ofset needs to be bound to (stat value / statmax)-->
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="9" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
-                                <GradientStop Color="Red" Offset="0.5" x:Name="DetectionRangeBarColor"></GradientStop>
-                                <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
-                                <GradientStop Color="White" Offset="0.5" x:Name="DetectionRangeBarEmpty"></GradientStop>
-                                <!--ofset needs to be bound to (stat value / statmax)-->
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="10" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
-                                <GradientStop Color="Red" Offset="0.5" x:Name="ResilienceBarColor"></GradientStop>
-                                <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
-                                <GradientStop Color="White" Offset="0.5" x:Name="ResilienceBarEmpty"></GradientStop>
-                                <!--ofset needs to be bound to (stat value / statmax)-->
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="11" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
-                                <GradientStop Color="Red" Offset="0.5" x:Name="InteligenceBarColor"></GradientStop>
-                                <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
-                                <GradientStop Color="White" Offset="0.5" x:Name="InteligenceBarEmpty"></GradientStop>
-                                <!--ofset needs to be bound to (stat value / statmax)-->
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="12" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
-                                <GradientStop Color="Red" Offset="0.5" x:Name="SelfDefenceBarColor"></GradientStop>
-                                <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
-                                <GradientStop Color="White" Offset="0.5" x:Name="SelfDefenceBarEmpty"></GradientStop>
-                                <!--ofset needs to be bound to (stat value / statmax)-->
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Rectangle Grid.Row="13" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
-                                <GradientStop Color="Red" Offset="0.5" x:Name="MetabolicRateBarColor"></GradientStop>
-                                <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
-                                <GradientStop Color="White" Offset="0.5" x:Name="MetabolicRateBarEmpty"></GradientStop>
-                                <!--ofset needs to be bound to (stat value / statmax)-->
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
+                        <!--Progress bars-->
+                        <!--LET OP de waardes in de tweede ofset moeten altijd hetzelfde zijn als in de eerste anders krijg je een gradient-->
+                        <Rectangle Grid.Row="5" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                                    <GradientStop Color="Red" Offset="0.5" x:Name="speedBarColor"></GradientStop>
+                                    <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
+                                    <GradientStop Color="White" Offset="0.5" x:Name="speedBarEmpty"></GradientStop>
+                                    <!--ofset needs to be bound to (stat value / statmax)-->
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Rectangle Grid.Row="6" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                                    <GradientStop Color="Red" Offset="0.5" x:Name="weightBarColor"></GradientStop>
+                                    <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
+                                    <GradientStop Color="White" Offset="0.5" x:Name="weightBarEmpty"></GradientStop>
+                                    <!--ofset needs to be bound to (stat value / statmax)-->
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Rectangle Grid.Row="7" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                                    <GradientStop Color="Red" Offset="0.5" x:Name="sizeBarColor"></GradientStop>
+                                    <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
+                                    <GradientStop Color="White" Offset="0.5" x:Name="sizeBarEmpty"></GradientStop>
+                                    <!--ofset needs to be bound to (stat value / statmax)-->
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Rectangle Grid.Row="8" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                                    <GradientStop Color="Red" Offset="0.5" x:Name="agressionBarColor"></GradientStop>
+                                    <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
+                                    <GradientStop Color="White" Offset="0.5" x:Name="agressionBarEmpty"></GradientStop>
+                                    <!--ofset needs to be bound to (stat value / statmax)-->
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Rectangle Grid.Row="9" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                                    <GradientStop Color="Red" Offset="0.5" x:Name="DetectionRangeBarColor"></GradientStop>
+                                    <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
+                                    <GradientStop Color="White" Offset="0.5" x:Name="DetectionRangeBarEmpty"></GradientStop>
+                                    <!--ofset needs to be bound to (stat value / statmax)-->
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Rectangle Grid.Row="10" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                                    <GradientStop Color="Red" Offset="0.5" x:Name="ResilienceBarColor"></GradientStop>
+                                    <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
+                                    <GradientStop Color="White" Offset="0.5" x:Name="ResilienceBarEmpty"></GradientStop>
+                                    <!--ofset needs to be bound to (stat value / statmax)-->
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Rectangle Grid.Row="11" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                                    <GradientStop Color="Red" Offset="0.5" x:Name="InteligenceBarColor"></GradientStop>
+                                    <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
+                                    <GradientStop Color="White" Offset="0.5" x:Name="InteligenceBarEmpty"></GradientStop>
+                                    <!--ofset needs to be bound to (stat value / statmax)-->
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Rectangle Grid.Row="12" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                                    <GradientStop Color="Red" Offset="0.5" x:Name="SelfDefenceBarColor"></GradientStop>
+                                    <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
+                                    <GradientStop Color="White" Offset="0.5" x:Name="SelfDefenceBarEmpty"></GradientStop>
+                                    <!--ofset needs to be bound to (stat value / statmax)-->
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Rectangle Grid.Row="13" Grid.Column="3" Height="10px" Margin="0, 0, 0, 5" RadiusX="10" RadiusY="15">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                                    <GradientStop Color="Red" Offset="0.5" x:Name="MetabolicRateBarColor"></GradientStop>
+                                    <!--ofset needs to be bound to (stat value / statmax), color needs to be bound to the collor of the stat-->
+                                    <GradientStop Color="White" Offset="0.5" x:Name="MetabolicRateBarEmpty"></GradientStop>
+                                    <!--ofset needs to be bound to (stat value / statmax)-->
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
 
-                    <!--mutationscroller-->
-                    <ListView Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="15" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemsSource="{x:Bind mutationsTester}">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate>
-                                            <ContentPresenter/>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Height="1155">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="5*"></RowDefinition>
-                                        <RowDefinition Height="5*"></RowDefinition>
-                                        <RowDefinition Height="15*"></RowDefinition>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                        <ColumnDefinition Width="12*"></ColumnDefinition>
-                                        <ColumnDefinition Width="10*"></ColumnDefinition>
-                                        <ColumnDefinition Width="5"></ColumnDefinition>
-                                        <ColumnDefinition Width="15"></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Grid Background="{StaticResource ternaryBackgroundBrush}" Grid.Column="1" Grid.Row="1" Width="320" Height="200">
+                        <!--mutationscroller-->
+                        <ListView Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="15" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemsSource="{x:Bind mutationsTester}">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <ContentPresenter/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Height="1155">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="*"></RowDefinition>
-                                            <RowDefinition Height="2*"></RowDefinition>
-                                            <RowDefinition Height="3*"></RowDefinition>
-                                            <RowDefinition Height="1*"></RowDefinition>
-                                            <RowDefinition Height="3*"></RowDefinition>
+                                            <RowDefinition Height="5*"></RowDefinition>
+                                            <RowDefinition Height="5*"></RowDefinition>
+                                            <RowDefinition Height="15*"></RowDefinition>
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"></ColumnDefinition>
-                                            <ColumnDefinition Width="29*"></ColumnDefinition>
+                                            <ColumnDefinition Width="12*"></ColumnDefinition>
+                                            <ColumnDefinition Width="10*"></ColumnDefinition>
+                                            <ColumnDefinition Width="5"></ColumnDefinition>
+                                            <ColumnDefinition Width="15"></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
 
-                                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{StaticResource FontsizeGenetics}">
+                                        <Grid Background="{StaticResource ternaryBackgroundBrush}" Grid.Column="1" Grid.Row="1" Width="320" Height="200">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                                <RowDefinition Height="2*"></RowDefinition>
+                                                <RowDefinition Height="3*"></RowDefinition>
+                                                <RowDefinition Height="1*"></RowDefinition>
+                                                <RowDefinition Height="3*"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="29*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{StaticResource FontsizeGenetics}">
                                             <Run Text="{Binding mutationDate.Day}"></Run><!--Moet gebonden worden op current date - mutationdate-->
                                             <Run Text=" days ago"></Run>
-                                        </TextBlock>
-                                        <TextBlock Grid.Row="2" Grid.Column="1" FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Left" Width="290">
+                                            </TextBlock>
+                                            <TextBlock Grid.Row="2" Grid.Column="1" FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Left" Width="290">
                                             <Run Text="{Binding type}"></Run>
                                             <Run Text="In gene HTTC, allel"></Run>
                                             <Run Text="{Binding allel}"></Run>
@@ -427,36 +435,37 @@
                                             <Run Text="{Binding proteinBefore}"></Run>
                                             <Run Text="transformed into"></Run>
                                             <Run Text="{Binding proteinAfter}"></Run>
-                                        </TextBlock>
-                                        <TextBlock Grid.Row="3" Grid.Column="1" FontSize="14">
+                                            </TextBlock>
+                                            <TextBlock Grid.Row="3" Grid.Column="1" FontSize="14">
                                             <Run Text="Resulted in change of:"></Run>
-                                        </TextBlock>
-                                        <ItemsControl Grid.Row="4" Grid.Column="1" ItemsSource="{Binding affected}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock FontSize="14">
+                                            </TextBlock>
+                                            <ItemsControl Grid.Row="4" Grid.Column="1" ItemsSource="{Binding affected}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock FontSize="14">
                                                         <Run Text="    • "></Run>
                                                         <Run Text="{Binding Key}"></Run>
                                                         <Run Text="("></Run>
                                                         <Run Text="{Binding Value.value, Converter={StaticResource intFormat}, ConverterParameter='+0;-#' }"></Run>
                                                         <Run Text=")"></Run>
-                                                    </TextBlock>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </Grid>
-                                    <Image Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="-10" Width="400" Source="../Assets/DNA.png"/>
-                                    <Image Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="-10, -780, 0, 0" Width="400" Source="../Assets/DNA.png"/>
-                                    <Image Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="-10, 760, 0, 0"  Width="400" Source="../Assets/DNA.png"/>
-                                    <Line Grid.Column="2" Grid.Row="1" X1="-1" Y1="100" X2="100" Y2="100" Stroke="Black" StrokeThickness="5"></Line>
-                                    <Line Grid.Column="2" Grid.Row="1" X1="100" Y1="100" X2="175" Y2="-5" Stroke="Black" StrokeThickness="5"></Line>
+                                                        </TextBlock>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Grid>
+                                        <Image Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="-10" Width="400" Source="../Assets/DNA.png"/>
+                                        <Image Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="-10, -780, 0, 0" Width="400" Source="../Assets/DNA.png"/>
+                                        <Image Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="-10, 760, 0, 0"  Width="400" Source="../Assets/DNA.png"/>
+                                        <Line Grid.Column="2" Grid.Row="1" X1="-1" Y1="100" X2="100" Y2="100" Stroke="Black" StrokeThickness="5"></Line>
+                                        <Line Grid.Column="2" Grid.Row="1" X1="100" Y1="100" X2="175" Y2="-5" Stroke="Black" StrokeThickness="5"></Line>
 
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Grid>
-            </Frame>
-        </Popup>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </Frame>
+            </Popup>
+        </Grid>
     </Grid>
 </Page>

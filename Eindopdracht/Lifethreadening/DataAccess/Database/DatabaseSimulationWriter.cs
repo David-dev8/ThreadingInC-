@@ -11,7 +11,8 @@ namespace Lifethreadening.DataAccess.Database
     {
         public Task Write(string saveSlotLocation, Simulation simulation)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
+            //throw new NotImplementedException();
         }
     }
 }

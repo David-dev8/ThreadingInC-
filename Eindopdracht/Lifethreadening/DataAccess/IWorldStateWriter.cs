@@ -10,5 +10,6 @@ namespace Lifethreadening.DataAccess
     public interface IWorldStateWriter
     {
         Task<string> Write(string gameName, World world);
+        Task Delete(string gameName);
     }
 }
