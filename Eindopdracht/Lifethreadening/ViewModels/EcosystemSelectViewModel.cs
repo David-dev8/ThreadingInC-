@@ -1,5 +1,6 @@
 ﻿using Lifethreadening.Base;
 using Lifethreadening.DataAccess;
+using Lifethreadening.DataAccess.Algorithmic;
 using Lifethreadening.DataAccess.Database;
 using Lifethreadening.Models;
 using System;
@@ -63,8 +64,8 @@ namespace Lifethreadening.ViewModels
 
         private void SelectEcosystem()
         {
-            // Set the current view model to a new instance of SimulationViewModel with the selected image
-            _navigationService.CurrentViewModel = new SimulationViewModel(_navigationService, null);
+            // Set the current view model to a new instance of SimulationViewModel with the selected ecosystem
+            _navigationService.CurrentViewModel = new SimulationViewModel(_navigationService, new Simulation("Amazon", new GridWorld(SelectedImage,new RandomWeatherManager())));
         }
 
     }

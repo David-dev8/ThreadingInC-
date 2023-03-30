@@ -40,7 +40,7 @@ namespace Lifethreadening.ViewModels
 
         public void NavigateToStats()
         {
-            _navigationService.CurrentViewModel = new SimulationDataViewModel(_navigationService);
+            _navigationService.CurrentViewModel = new SimulationDataViewModel(_navigationService,null);
         }
 
         public void NavigateToCustomSpiecies()
