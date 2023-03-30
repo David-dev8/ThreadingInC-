@@ -212,37 +212,38 @@
                                 <TextBlock VerticalAlignment="Center" Text="{Binding Simulation.World.CurrentDate, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:MMMM, d (yyyy)}'}" />
                             </StackPanel>
                             <StackPanel Margin="0,0,0,5">
-                                <Grid Margin="0,0,0,5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0">Simulation speed</TextBlock>
-                                    <StackPanel Grid.Column="1">
-                                        <TextBlock Text="{Binding Simulation.SimulationSpeed, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:dd} days/step'}" />
-                                        <Slider Minimum="1" Maximum="7" Value="{Binding Simulation.SimulationSpeed, Converter={StaticResource TimeSpanToAmountOfDaysConverter}, Mode=TwoWay}" />
-                                    </StackPanel>
-                                </Grid>
-                                <Grid Margin="0,0,0,5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0">Score</TextBlock>
-                                    <TextBlock Grid.Column="1" Text="{Binding Simulation.Score}" />
-                                </Grid>
-                                <Grid Margin="0,0,0,5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0">Ecosystem</TextBlock>
-                                    <TextBlock Grid.Column="1" Text="{Binding Simulation.World.Ecosystem.Name}" />
-                                </Grid>
-                            </StackPanel>
-                            <StackPanel Margin="0,0,0,5" Orientation="Horizontal" Spacing="10">
-                                <Grid Grid.Column="1">
-                                    <customcontrols:IconButton Icon="Pause" Text="Pause" Command="{Binding PauseCommand}" 
+                            <Grid Margin="0,0,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0">Simulation speed</TextBlock>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="{Binding Simulation.SimulationSpeed, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:dd} days/step'}" />
+                                    <Slider Minimum="1" Maximum="7" Value="{Binding Simulation.SimulationSpeed, Converter={StaticResource TimeSpanToAmountOfDaysConverter}, Mode=TwoWay}" />
+                                </StackPanel>
+                            </Grid>
+                            <Grid Margin="0,0,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0">Score</TextBlock>
+                                <TextBlock Grid.Column="1" Text="{Binding Simulation.Score}" />
+                            </Grid>
+                            <Grid Margin="0,0,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0">Ecosystem</TextBlock>
+                                <TextBlock Grid.Column="1" Text="{Binding Simulation.World.Ecosystem.Name}" />
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Margin="0,0,0,5" Orientation="Horizontal" Spacing="10">
+                            <customcontrols:IconButton Icon="Save" Text="Save" Command="{Binding SaveCommand}" />
+                            <Grid>
+                                <customcontrols:IconButton Icon="Pause" Text="Pause" Command="{Binding PauseCommand}" 
                                                            Visibility="{Binding Simulation.Stopped, Converter={StaticResource InverseVisibilityConverter}}" />
                                     <customcontrols:IconButton Icon="Play" Text="Resume" Command="{Binding ResumeCommand}" 
                                                            Visibility="{Binding Simulation.Stopped, Converter={StaticResource VisibilityConverter}}" />
@@ -345,7 +346,6 @@
                                             <ColumnDefinition Width="*"></ColumnDefinition>
                                             <ColumnDefinition Width="29*"></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
-
                                         <TextBlock Grid.Row="1" Grid.Column="1" FontSize="{StaticResource FontsizeGenetics}">
                                             <Run Text="{Binding MutationDate.Day}"></Run>
                                             <Run Text=" days ago"></Run>

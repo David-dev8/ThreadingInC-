@@ -21,7 +21,8 @@ namespace Lifethreadening.DataAccess.Database
 
         public async Task Write(Simulation simulation)
         {
-            if (simulation.Id != 0)
+            // TODO stond !=, als deze crashte kon je niet meer op knoppen drukken
+            if (simulation.Id == 0)
             {
                 CreateSimulation(simulation);
             }
@@ -37,8 +38,7 @@ namespace Lifethreadening.DataAccess.Database
         // TODO ASYNC of SYNC
         private void CreateSimulation(Simulation simulation)
         {
-            string query = "INSERT INTO Simulation(dateStarted, ecosystemId, name, fileNameSaveSlot)" + 
-                "VALUES (@dateStarted, @ecosystemId, @name, @fileNameSaveSlot)";
+            string query = "INSERT INTO Simulation(dateStarted, ecosystemId, name, fileNameSaveSlot) OUTPUT INSERTED.ID VALUES (@dateStarted, @ecosystemId, @name, @fileNameSaveSlot)";
 
             IEnumerable<SqlParameter> parameters = new List<SqlParameter>
             {
@@ -47,7 +47,7 @@ namespace Lifethreadening.DataAccess.Database
                 new SqlParameter("@name", simulation.Name),
                 new SqlParameter("@fileNameSaveSlot", simulation.Filename)
             };
-            _database.ExecuteQuery(query, CommandType.Text, parameters);
+            simulation.Id = (int)_database.ExecuteQueryScalar(query, CommandType.Text, parameters);
         }
 
         private void UpdateSimulation(Simulation simulation)

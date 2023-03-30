@@ -79,18 +79,6 @@ namespace Lifethreadening
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
-
-
-
-
-
-            // TODO later verwijderen
-            //Task.Run(async () =>
-            //{
-            //    var s = new Simulation("Initial", new GridWorld(new Ecosystem(2, "Amazone"), new RandomWeatherManager()), 1);
-            //    var t = new DatabaseSimulationWriter();
-            //    await t.Write("filename.txt", s);
-            //});
         }
 
         /// <summary>

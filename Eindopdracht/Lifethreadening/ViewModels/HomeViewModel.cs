@@ -29,7 +29,7 @@ namespace Lifethreadening.ViewModels
             }
         }
         public ICommand GoToStatisticsCommand { get; set; }
-        public ICommand GoToCustomSpieciesCommand { get; set; }
+        public ICommand GoToCustomSpeciesCommand { get; set; }
         public IDictionary<string, Simulation> Slots { get; set; }
 
         public HomeViewModel(NavigationService navigationService) : base(navigationService)
@@ -37,7 +37,7 @@ namespace Lifethreadening.ViewModels
             CreateNewGameCommand = new RelayCommand(CreateNewGame);
 
             GoToStatisticsCommand = new RelayCommand(NavigateToStats);
-            GoToCustomSpieciesCommand = new RelayCommand(NavigateToCustomSpiecies);
+            GoToCustomSpeciesCommand = new RelayCommand(NavigateToCustomSpiecies);
 
             Slots = new Dictionary<string, Simulation>();
             for(int i = 0; i < AMOUNT_OF_SLOTS; i++)

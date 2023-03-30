@@ -49,8 +49,7 @@ namespace Lifethreadening.ViewModels
         private void SelectEcosystem()
         {
             // Set the current view model to a new instance of SimulationViewModel with the selected ecosystem
-            _navigationService.CurrentViewModel = new SimulationViewModel(_navigationService, new Simulation(
-                0, 0, DateTime.Now, 0, "n", "name", new GridWorld(SelectedEcosystem,new RandomWeatherManager())));
+            _navigationService.CurrentViewModel = new SimulationViewModel(_navigationService, new Simulation(SelectedEcosystem)); // TODO
         }
 
         private void GoBack()

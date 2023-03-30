@@ -7,8 +7,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lifethreadening.DataAccess.Database
 {
@@ -38,7 +36,7 @@ namespace Lifethreadening.DataAccess.Database
             return database.Read(CreateSimulation, query, CommandType.Text);
         }
 
-        public Simulation GetFullDetailsOfSimulation(Simulation simulation)
+        public Simulation ReadFullDetails(Simulation simulation)
         {
             simulation.PopulationManager.SpeciesCount = (IDictionary<DateTime, IDictionary<Species, int>>)GetSpeciesCount(simulation);
             simulation.MutationManager.Mutations = GetMutations(simulation);

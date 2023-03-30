@@ -1,5 +1,6 @@
 ﻿using Lifethreadening.Base;
 using Lifethreadening.DataAccess;
+using Lifethreadening.DataAccess.Algorithmic;
 using Lifethreadening.DataAccess.API;
 using Lifethreadening.DataAccess.Database;
 using Lifethreadening.DataAccess.JSON;
@@ -39,9 +40,6 @@ namespace Lifethreadening.Models
         private Timer _spawnTimer;
         private Timer _disasterTimer;
         private Timer _mutationTimer;
-        private Timer _saveTimer;
-
-        private static readonly TimeSpan _saveInterval = new TimeSpan(0, 0, 10);
 
         // For in game things
         private static readonly TimeSpan _stepInterval = new TimeSpan(1, 0, 0, 0); // TODO static conventions
@@ -52,7 +50,7 @@ namespace Lifethreadening.Models
 
         private TimeSpan _simulationSpeed = new TimeSpan(1, 0, 0, 0);
 
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public string Filename { get; set; }
         public int AmountOfDisasters { get; set; }
         public string Name { get; set; }
@@ -138,6 +136,10 @@ namespace Lifethreadening.Models
             SetUpTimers();
         }
 
+        public Simulation(Ecosystem ecosystem): this(0, 0, DateTime.Now, 0, "file", "name", new GridWorld(ecosystem, new RandomWeatherManager()))
+        {
+        }
+
         private TimerCallback Run(Action action)
         {
             // TODO werkt niet met async
@@ -160,12 +162,12 @@ namespace Lifethreadening.Models
                 IsGameOver = true;
             }
 
-            IEnumerable<Animal> animals = getAllAnimals(World.SimulationElements);
+            IEnumerable<Animal> animals = GetAllAnimals(World.SimulationElements);
             PopulationManager.RegisterAnimals(animals, World.CurrentDate);
             MutationManager.RegisterMutations(animals); // TODO moet het registreren voor of na een stap?
         }
 
-        private IEnumerable<Animal> getAllAnimals(IEnumerable<SimulationElement> elements)
+        private IEnumerable<Animal> GetAllAnimals(IEnumerable<SimulationElement> elements)
         {
             IList<Animal> animals = new List<Animal>();
             foreach(SimulationElement element in elements)
@@ -217,7 +219,6 @@ namespace Lifethreadening.Models
             _spawnTimer = new Timer((_) => Spawn(), null, Timeout.Infinite, Timeout.Infinite);
             _disasterTimer = new Timer(Run(LetPotentialDisasterOccur), null, Timeout.Infinite, Timeout.Infinite);
             _mutationTimer = new Timer((_) => Mutate(), null, Timeout.Infinite, Timeout.Infinite);
-            _saveTimer = new Timer((_) => Save(), null, _saveInterval, _saveInterval);
         }
 
         public async Task Setup()
@@ -258,12 +259,11 @@ namespace Lifethreadening.Models
 
         public void End()
         {
-            Stop();
+            Stopped = true;
             _stepTimer.Dispose();
             _spawnTimer.Dispose();
             _disasterTimer.Dispose();
             _mutationTimer.Dispose();
-            _saveTimer.Dispose();
         }
 
         public void Stop()
@@ -273,7 +273,6 @@ namespace Lifethreadening.Models
             _spawnTimer.Change(Timeout.Infinite, Timeout.Infinite);
             _disasterTimer.Change(Timeout.Infinite, Timeout.Infinite);
             _mutationTimer.Change(Timeout.Infinite, Timeout.Infinite);
-            _saveTimer.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
         private IEnumerable<Animal> GetAnimals()

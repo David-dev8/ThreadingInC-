@@ -1,5 +1,8 @@
 ﻿using Lifethreadening.Base;
+using Lifethreadening.DataAccess;
+using Lifethreadening.DataAccess.Algorithmic;
 using Lifethreadening.DataAccess.API;
+using Lifethreadening.DataAccess.Database;
 using Lifethreadening.Models;
 using System;
 using System.Collections.Generic;
@@ -31,6 +34,7 @@ namespace Lifethreadening.ViewModels
 
 
         private bool _hasLoaded = false;
+        private ISimulationReader _simulationReader;
 
         public bool HasLoaded
         {
@@ -47,7 +51,8 @@ namespace Lifethreadening.ViewModels
         public ICommand QuitCommand { get; set; }
         public ICommand ResumeCommand { get; set; }
         public ICommand PauseCommand { get; set; }
-        public ICommand OpenInspector { get; set; }
+        public ICommand OpenInspectorCommand { get; set; }
+        public ICommand SaveCommand { get; set; }
         public Simulation Simulation { get; set; }
         public Animal SelectedAnimal 
         { 
@@ -83,33 +88,59 @@ namespace Lifethreadening.ViewModels
 
         public SimulationViewModel(NavigationService navigationService, Simulation simulation) : base(navigationService)
         {
-            Simulation = simulation;
-            Simulation.PropertyChanged += Simulation_PropertyChanged;
             HasLoaded = false;
-
+            _simulationReader = new DatabaseSimulationReader();
             QuitCommand = new RelayCommand(Quit);
-            ResumeCommand = new RelayCommand(Simulation.Start);
-            PauseCommand = new RelayCommand(Simulation.Stop);
-            OpenInspector = new RelayCommand(OpenGeneInspector);
-
-            Initialize();
+            ResumeCommand = new RelayCommand(Start);
+            PauseCommand = new RelayCommand(Stop);
+            SaveCommand = new AsyncRelayCommand(Save);
+            OpenInspectorCommand = new RelayCommand(OpenGeneInspector);
+            Initialize(simulation);
         }
 
-        private async void Initialize()
+        private async Task Initialize(Simulation simulation)
         {
-            // TODO try catch stop simulation
             try
             {
-                await Simulation.Setup();
-                await Simulation.Save();
+                if(simulation.Id == 0)
+                {
+                    await RegisterNewSimulation(simulation);
+                }
+                else
+                {
+                    await GetFullSimulation(simulation);
+                }
+                Simulation.PropertyChanged += Simulation_PropertyChanged;
                 Simulation.Start();
                 HasLoaded = true;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 _navigationService.Error = new ErrorMessage("Something went wrong while initializing the simulation");
                 Quit();
             }
+        }
+
+        private async Task RegisterNewSimulation(Simulation simulation)
+        {
+            Simulation = simulation;
+            await InitializeSimulation();
+            await Simulation.Save();
+            Simulation.Start();
+            HasLoaded = true;
+        }
+
+        private async Task GetFullSimulation(Simulation simulation)
+        {
+            Simulation = _simulationReader.ReadFullDetails(simulation);
+            await InitializeSimulation();
+        }
+
+        private async Task InitializeSimulation()
+        {
+            // TODO try catch stop simulation
+            await Simulation.Setup();
+            await Simulation.Save();         
         }
 
         private void Simulation_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -123,6 +154,29 @@ namespace Lifethreadening.ViewModels
         private void Quit()
         {
             _navigationService.CurrentViewModel = new HomeViewModel(_navigationService);
+        }
+
+        private void Stop()
+        {
+            Simulation.Stop();
+        }
+
+        private void Start()
+        {
+            Simulation.Start();
+        }
+
+        private async Task Save()
+        {
+            try
+            {
+                await Simulation.Save();
+            }
+            catch(Exception ex)
+            {
+                _navigationService.Error = new ErrorMessage("Something went wrong while trying to save the data");
+                Stop();
+            }
         }
 
         private void NavigateToSimulationData()
