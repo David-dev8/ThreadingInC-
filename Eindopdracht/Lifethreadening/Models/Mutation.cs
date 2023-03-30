@@ -15,17 +15,19 @@ namespace Lifethreadening.Models
         public string Allel { get; set; }
         public string ProteinBefore { get; set; }
         public string ProteinAfter { get; set; }
-        public DateTime MutationDate { get; set; } // TODO
-        public IList<StatisticInfo> Affected { get; set; }
+        public DateTime MutationDate { get; set; }
+        public IList<StatisticInfo> Affected { get; private set; }
 
 
-        public Mutation(MutationType type, string allel, string proteinBefore, string proteinAfter, Action<Statistics> mutateAction)
+        public Mutation(MutationType type, string allel, string proteinBefore, string proteinAfter, DateTime mutationDate, Action<Statistics> mutateAction)
         {
             Type = type;
             Allel = allel;
             ProteinBefore = proteinBefore;
             ProteinAfter = proteinAfter;
+            MutationDate = mutationDate;
             _mutateAction = mutateAction;
+            Affected = new List<StatisticInfo>();
         }
 
         public void Affect(Animal animal)

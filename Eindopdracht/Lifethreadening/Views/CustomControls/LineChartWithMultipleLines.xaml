@@ -42,12 +42,12 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Background="CadetBlue">
+    <Grid Background="{StaticResource GraphBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="0.25*" />
         </Grid.RowDefinitions>
-        <charts:Chart x:Name="lineChart" Background="CadetBlue" Padding="20,0">
+        <charts:Chart x:Name="lineChart" Background="{StaticResource GraphBackgroundBrush}" Padding="20,0">
             <charts:Chart.Axes>
                 <charts:DateTimeAxis Orientation="X" Location="Bottom" AxisLabelStyle="{StaticResource DateAxisLineChart}" />
             </charts:Chart.Axes>

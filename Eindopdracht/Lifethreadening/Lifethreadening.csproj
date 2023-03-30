@@ -126,10 +126,13 @@
     <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Converters\IntFormatConverter.cs" />
     <Compile Include="Converters\ConverterGroup.cs" />
+    <Compile Include="Converters\IntPositivityToColorConverter.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
     <Compile Include="Converters\AmountToSingularOrPluralConverter.cs" />
     <Compile Include="Converters\SexToBrushConverter.cs" />
     <Compile Include="Converters\SexToIconConverter.cs" />
+    <Compile Include="Converters\StringToImageConverter.cs" />
+    <Compile Include="Converters\PositionToScaleConverter.cs" />
     <Compile Include="Converters\TimeSpanToAmountOfDaysConverter.cs" />
     <Compile Include="Base\RelayCommand.cs" />
     <Compile Include="DataAccess\Algorithmic\RandomWeatherManager.cs" />
@@ -366,7 +369,14 @@
       <Version>2.3.0</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Assets\UserUploads\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Fonts\RubikBubbles-Regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

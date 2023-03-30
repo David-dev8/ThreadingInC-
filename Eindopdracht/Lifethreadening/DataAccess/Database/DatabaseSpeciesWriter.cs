@@ -18,14 +18,31 @@ namespace Lifethreadening.DataAccess.Database
         {
             _database = new DatabaseHelper<Species>();
         }
-        
+
         public void Create(Species species)
         {
-            string query = "INSERT INTO " + DATABASE_TABLE_NAME + "(name, image) VALUES (@name, @image)";
+            string query = "INSERT INTO " + DATABASE_TABLE_NAME + "(name, image, description, scientificName, averageAge, maxAge, maxBreedSize, minBreedSize, diet, aggression, detection, selfDefence, intelligence, metabolicRate, resilience, size, weight, speed) VALUES (@name, @image, @description, @scientificName, @averageAge, @maxAge, @maxBreedSize, @minBreedSize, @diet, @aggression, @detection, @selfDefence, @intelligence, @metabolicRate, @resilience, @size, @weight, @speed)";
+            
             IEnumerable<SqlParameter> parameters = new List<SqlParameter>
             {
                 new SqlParameter("@name", species.Name),
-                new SqlParameter("@image", species.Image)
+                new SqlParameter("@image", species.Image),
+                new SqlParameter("@description", species.Description),
+                new SqlParameter("@scientificName", species.ScientificName),
+                new SqlParameter("@averageAge", species.AverageAge),
+                new SqlParameter("@maxAge", species.MaxAge),
+                new SqlParameter("@maxBreedSize", species.MaxBreedSize),
+                new SqlParameter("@minBreedSize", species.MinBreedSize),
+                new SqlParameter("@diet", species.Diet),
+                new SqlParameter("@aggression", species.BaseStatistics.Aggresion),
+                new SqlParameter("@detection", species.BaseStatistics.Detection),
+                new SqlParameter("@selfDefence", species.BaseStatistics.SelfDefence),
+                new SqlParameter("@intelligence", species.BaseStatistics.Intelligence),
+                new SqlParameter("@metabolicRate", species.BaseStatistics.MetabolicRate),
+                new SqlParameter("@resilience", species.BaseStatistics.Resilience),
+                new SqlParameter("@size", species.BaseStatistics.Size),
+                new SqlParameter("@weight", species.BaseStatistics.Weight),
+                new SqlParameter("@speed", species.BaseStatistics.Speed)
             };
             _database.ExecuteQuery(query, CommandType.Text, parameters);
         }

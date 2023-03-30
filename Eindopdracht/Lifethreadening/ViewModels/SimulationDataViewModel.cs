@@ -5,14 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Lifethreadening.ViewModels
 {
     public class SimulationDataViewModel : BaseViewModel
     {
-        public SimulationDataViewModel(NavigationService navigationService) : base(navigationService)
-        {
-        }
+        public ICommand GoToHomeCommand { get; set; }
 
         public Simulation Simulation { get; set; }
 
@@ -40,10 +39,23 @@ namespace Lifethreadening.ViewModels
             }
         }
 
+        public IEnumerable<Rank> DominatingSpecies
+        {
+            get
+            {
+                return Simulation.PopulationManager.GetDominatingSpecies().Take(3);
+            }
+        }
+
+        private void SelectHomeAsCurrentPage()
+        {
+            _navigationService.CurrentViewModel = new HomeViewModel(_navigationService);
+        }
+
         public SimulationDataViewModel(NavigationService navigationService, Simulation simulation) : base(navigationService)
         {
             Simulation = simulation;
+            GoToHomeCommand = new RelayCommand(() => SelectHomeAsCurrentPage());
         }
-       
     }
 }

@@ -73,8 +73,10 @@ namespace Lifethreadening
                     // configuring the new page by passing required information as a navigation
                     // parameter
                     var navigationService = new NavigationService(rootFrame);
+
                     var ecosystemSelectViewModel = new EcosystemSelectViewModel(navigationService);
                     navigationService.CurrentViewModel = ecosystemSelectViewModel;
+
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
