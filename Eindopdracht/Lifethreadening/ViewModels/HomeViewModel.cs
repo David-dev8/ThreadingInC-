@@ -49,17 +49,12 @@ namespace Lifethreadening.ViewModels
             }
         }
 
-        public Dictionary<Simulation, ICommand> PastGames 
+        public List<Simulation> PastGames 
         {
             get 
             {
-                Dictionary<Simulation, ICommand> returnVal = new Dictionary<Simulation, ICommand>();
                 List<Simulation> completedSims = new DatabaseSimulationReader().ReadAll().Where((s) => s.Filename == "").ToList(); ;
-                foreach (Simulation sim in completedSims) 
-                {
-                    returnVal.Add(sim, new RelayCommand(() => NavigateToStats(sim)));
-                }
-                return returnVal;
+                return completedSims;
             }
         }
 

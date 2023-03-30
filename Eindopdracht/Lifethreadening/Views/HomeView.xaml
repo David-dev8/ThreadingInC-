@@ -139,15 +139,15 @@
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0">
-                                    <Run Text="{Binding Key.Name}"></Run>
+                                    <Run Text="{Binding Name}"></Run>
                                 </TextBlock>
                                 <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
                                     <Run Text="Ecosystem: "></Run>
-                                    <Run Text="{Binding Key.World.Ecosystem.Name}"></Run>
+                                    <Run Text="{Binding World.Ecosystem.Name}"></Run>
                                 </TextBlock>
                                 <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3">
                                     <Run Text="Started on"></Run>
-                                    <Run Text="{Binding Key.StartDate, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:yyyy-MM-dd}'}"></Run>
+                                    <Run Text="{Binding StartDate, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:yyyy-MM-dd}'}"></Run>
                                 </TextBlock>
                                 <TextBlock Text=">" Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
                             </Grid>
