@@ -60,8 +60,7 @@ namespace Lifethreadening.ViewModels
         public HomeViewModel(NavigationService navigationService) : base(navigationService)
         {
             CreateNewGameCommand = new RelayCommand(CreateNewGame);
-
-            GoToStatisticsCommand = new RelayCommand(NavigateToStats);
+            GoToCustomSpeciesCommand = new RelayCommand(NavigateToCustomSpiecies);
 
             Slots = new Dictionary<string, Simulation>();
             for(int i = 0; i < AMOUNT_OF_SLOTS; i++)

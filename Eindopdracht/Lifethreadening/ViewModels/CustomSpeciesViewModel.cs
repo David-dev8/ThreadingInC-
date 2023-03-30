@@ -111,7 +111,7 @@ namespace Lifethreadening.ViewModels
 
         public CustomSpeciesViewModel(NavigationService navigationService) : base(navigationService)
         {
-            creatingSpecies = new Species(0, "", "", "", "", 0, 0, 0, 0, PossibleDiets.First());
+            creatingSpecies = new Species(0, "", "", "", "", 0, 0, 0, 0, PossibleDiets.First(), new Statistics());
             creatingSpecies.BaseStatistics.PropertyChanged += BaseStatistics_PropertyChanged; 
 
             PointsLeft = MAX_POINTS - creatingSpecies.BaseStatistics.GetSumOfStats();

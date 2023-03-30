@@ -177,8 +177,7 @@ namespace Lifethreadening.Models
 
         public int GetSumOfStats()
         {
-            return Weight + Size + Speed + Aggresion + Detection + Resilience + Intelligence + SelfDefence + MetabolicRate;
-
+            return GetData().Sum(data => data.Value.Value);
         }
 
         public IDictionary<string, StatisticInfo> GetData()
