@@ -44,7 +44,6 @@ namespace Lifethreadening.Models
             } 
         }
 
-
         public int MaxAge { get; set; }
         
         private int _breedSize;

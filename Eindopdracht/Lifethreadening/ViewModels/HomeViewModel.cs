@@ -1,4 +1,5 @@
 ﻿using Lifethreadening.Base;
+using Lifethreadening.DataAccess.Database;
 using Lifethreadening.Models;
 using System;
 using System.Collections.Generic;
@@ -61,7 +62,6 @@ namespace Lifethreadening.ViewModels
             CreateNewGameCommand = new RelayCommand(CreateNewGame);
 
             GoToStatisticsCommand = new RelayCommand(NavigateToStats);
-            GoToCustomSpeciesCommand = new RelayCommand(NavigateToCustomSpiecies);
 
             Slots = new Dictionary<string, Simulation>();
             for(int i = 0; i < AMOUNT_OF_SLOTS; i++)
@@ -76,9 +76,9 @@ namespace Lifethreadening.ViewModels
             _navigationService.CurrentViewModel = new EcosystemSelectViewModel(_navigationService);
         }
 
-        public void NavigateToStats()
+        public void NavigateToStats(Simulation simulation)
         {
-            _navigationService.CurrentViewModel = new SimulationDataViewModel(_navigationService,null);
+            _navigationService.CurrentViewModel = new SimulationDataViewModel(_navigationService, simulation);
         }
 
         public void NavigateToCustomSpiecies()
