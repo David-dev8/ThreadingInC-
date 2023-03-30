@@ -15,9 +15,19 @@ namespace Lifethreadening.ExtensionMethods
             return sqlDataReader.GetInt32(sqlDataReader.GetOrdinal(key));
         }
 
+        public static DateTime GetDateTime(this SqlDataReader sqlDataReader, string key)
+        {
+            return sqlDataReader.GetDateTime(sqlDataReader.GetOrdinal(key));
+        }
+
         public static string GetString(this SqlDataReader sqlDataReader, string key)
         {
             return sqlDataReader[key].ToString();
+        }
+
+        public static float GetFloat(this SqlDataReader sqlDataReader, string key)
+        {
+            return sqlDataReader.GetFloat(sqlDataReader.GetOrdinal(key));
         }
     }
 }

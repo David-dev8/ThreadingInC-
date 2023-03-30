@@ -19,15 +19,15 @@ namespace Lifethreadening.DataAccess.Database
             _database = new DatabaseHelper<Simulation>();
         }
 
-        public async Task Write(string saveSlotLocation, Simulation simulation)
+        public async Task Write(Simulation simulation)
         {
             if (simulation.Id != 0)
             {
-                Create(saveSlotLocation, simulation);
+                CreateSimulation(simulation);
             }
             else
             {
-                UpdateSimulation(simulation, saveSlotLocation);
+                UpdateSimulation(simulation);
             }
 
             await UpdateMutations(simulation);
@@ -35,22 +35,22 @@ namespace Lifethreadening.DataAccess.Database
         }
 
         // TODO ASYNC of SYNC
-        private void Create(string saveSlotLocation, Simulation simulation)
+        private void CreateSimulation(Simulation simulation)
         {
             string query = "INSERT INTO Simulation(dateStarted, ecosystemId, name, fileNameSaveSlot)" + 
                 "VALUES (@dateStarted, @ecosystemId, @name, @fileNameSaveSlot)";
 
             IEnumerable<SqlParameter> parameters = new List<SqlParameter>
             {
-                new SqlParameter("@dateStarted", simulation.World.StartDate),
+                new SqlParameter("@dateStarted", simulation.StartDate.ToString()),
                 new SqlParameter("@ecosystemId", simulation.World.Ecosystem.Id),
                 new SqlParameter("@name", simulation.Name),
-                new SqlParameter("@fileNameSaveSlot", saveSlotLocation)
+                new SqlParameter("@fileNameSaveSlot", simulation.Filename)
             };
             _database.ExecuteQuery(query, CommandType.Text, parameters);
         }
 
-        private void UpdateSimulation(Simulation simulation, string saveSlotLocation)
+        private void UpdateSimulation(Simulation simulation)
         {
             string query = "UPDATE Simulation SET score = @score, dateEnded = @dateEnded, amountOfDisasters = @amountOfDisasters, " + 
                 "fileNameSaveSlot = @fileNameSaveSlot WHERE id = @id";
@@ -58,9 +58,9 @@ namespace Lifethreadening.DataAccess.Database
             IEnumerable<SqlParameter> parameters = new List<SqlParameter>
             {
                 new SqlParameter("@score", simulation.Score),
-                new SqlParameter("@dateEnded", simulation.IsGameOver ? simulation.World.CurrentDate.ToString() : null),
+                new SqlParameter("@dateEnded", simulation.World.CurrentDate.ToString()),
                 new SqlParameter("@amountOfDisasters", simulation.AmountOfDisasters),
-                new SqlParameter("@fileNameSaveSlot", "newFilename.txt"), // TODO hardcoded value is dit, moet dynamisch worden
+                new SqlParameter("@fileNameSaveSlot", simulation.Filename),
                 new SqlParameter("@id", simulation.Id)
             };
             _database.ExecuteQuery(query, CommandType.Text, parameters);

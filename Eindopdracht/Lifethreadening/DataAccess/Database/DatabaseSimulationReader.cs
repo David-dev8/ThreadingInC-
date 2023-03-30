@@ -1,4 +1,5 @@
-﻿using Lifethreadening.ExtensionMethods;
+﻿using Lifethreadening.DataAccess.Algorithmic;
+using Lifethreadening.ExtensionMethods;
 using Lifethreadening.Models;
 using System;
 using System.Collections.Generic;
@@ -12,24 +13,14 @@ namespace Lifethreadening.DataAccess.Database
 {
     public class DatabaseSimulationReader : ISimulationReader
     {
-        public Simulation Read()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Simulation> ReadAll()
+        public IEnumerable<Simulation> ReadAll() 
         {
             DatabaseHelper<Simulation> database = new DatabaseHelper<Simulation>();
             string query = @"
                 SELECT S.*, E.id AS ecosystemId, E.name AS ecosystemName, E.image, E.difficulty
                 FROM Simulation AS S
                 JOIN Ecosystem AS E ON E.id = S.ecosystemId";
-
-            IEnumerable<SqlParameter> parameters = new List<SqlParameter>
-            {
-                //new SqlParameter("@ecosystemId", ecosystemId),
-            };
-            return database.Read(CreateSimulation, query, CommandType.Text, parameters);
+            return database.Read(CreateSimulation, query, CommandType.Text);
         }
 
         private Simulation CreateSimulation(SqlDataReader dataReader)
@@ -38,20 +29,21 @@ namespace Lifethreadening.DataAccess.Database
                 dataReader.GetInt32("id"),
                 dataReader.GetInt32("score"),
                 dataReader.GetDateTime("dateStarted"),
-                dataReader.GetDateTime("dateEnded"),
                 dataReader.GetInt32("amountOfDisasters"),
+                dataReader.GetString("fileNameSaveSlot"),
                 dataReader.GetString("name"),
-                dataReader.GetString("fileNameSaveSlot"), // TODO saveslot
-                new Ecosystem(
-                    dataReader.GetInt32("id"),
-                    dataReader.GetString("name"),
-                    dataReader.GetString("image"),
-                    dataReader.GetFloat("difficulty")
+                
+                new EmptyWorld(
+                    new Ecosystem(
+                        dataReader.GetInt32("ecosystemId"),
+                        dataReader.GetString("ecosystemName"),
+                        dataReader.GetString("image"),
+                        dataReader.GetFloat("difficulty")
+                    ),
+                    dataReader.GetDateTime("dateEnded"),
+                    new RandomWeatherManager()
                 )
-    
             );
         }
-
-        private Sim
     }
 }

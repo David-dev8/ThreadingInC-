@@ -23,7 +23,6 @@ namespace Lifethreadening.Models
     public class Simulation: Observable
     {
         private string gameName = "first";
-        private int _amountOfDisasters = 0; // TODO make it bindable
         private Disaster _mostRecentDisaster; 
         private const double SPAWN_CHANCE = 0.10;
         private const double DISASTER_CHANCE = 1;
@@ -54,9 +53,11 @@ namespace Lifethreadening.Models
         private TimeSpan _simulationSpeed = new TimeSpan(1, 0, 0, 0);
 
         public int Id { get; private set; }
+        public string Filename { get; set; }
         public int AmountOfDisasters { get; set; }
         public string Name { get; set; }
         public int Score { get; set; }
+        public DateTime StartDate { get; set; }
         public bool Stopped 
         {
             get
@@ -114,12 +115,16 @@ namespace Lifethreadening.Models
             }
         }
 
-        public Simulation(string name, World world, int id) 
+        public Simulation(int id, int score, DateTime startDate, int amountOfDisasters, string fileNameSaveSlot, string name, World world) 
         { 
             Name = name;
             World = world;
             Id = id;
             Stopped = false;
+            Score = score;
+            StartDate = startDate;
+            AmountOfDisasters = amountOfDisasters;
+            Filename= fileNameSaveSlot;
 
             PopulationManager = new PopulationAnalyzer();
             MutationManager = new MutationAnalyzer();

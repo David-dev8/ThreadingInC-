@@ -124,8 +124,8 @@
     <Compile Include="Base\Observable.cs" />
     <Compile Include="Converters\EnumToStringConverter.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
-    <Compile Include="Converters\IntFormatConverter.cs" />
     <Compile Include="Converters\ConverterGroup.cs" />
+    <Compile Include="Converters\StringToImageConverter.cs" /
     <Compile Include="Converters\IntPositivityToColorConverter.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
     <Compile Include="Converters\AmountToSingularOrPluralConverter.cs" />
@@ -274,6 +274,12 @@
     <EmbeddedResource Include="Assets\DNA.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <Content Include="Assets\amazon.png" />
+    <Content Include="Assets\antartica.png" />
+    <Content Include="Assets\desert.png" />
+    <Content Include="Assets\mountains.png" />
+    <Content Include="Assets\ocean.png" />
+    <Content Include="Assets\savanna.png" />
     <Content Include="Assets\calendar.png" />
     <Content Include="Assets\disaster.png" />
     <Content Include="Assets\fox.png" />
@@ -350,7 +356,13 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.14</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp">
+      <Version>7.1.3</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
+      <Version>7.1.3</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
       <Version>7.1.3</Version>
     </PackageReference>
     <PackageReference Include="System.Text.Json">
@@ -362,6 +374,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\UserUploads\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Fonts\RubikBubbles-Regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

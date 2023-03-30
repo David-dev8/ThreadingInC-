@@ -269,7 +269,7 @@
 
                 <TextBlock Grid.Column="1" Text="{Binding Score}" VerticalAlignment="Center" />
                 <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding World.Ecosystem.Name}" VerticalAlignment="Center" />
-                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding World.StartDate, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:MMMM, d (yyyy)}'}" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding StartDate, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:MMMM, d (yyyy)}'}" VerticalAlignment="Center" />
                 <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding World.CurrentDate, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:MMMM, d (yyyy)}'}" VerticalAlignment="Center" />
                 <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding MutationManager.TotalAmounntOfMutations}" VerticalAlignment="Center" />
                 <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding AmountOfDisasters}" VerticalAlignment="Center" />

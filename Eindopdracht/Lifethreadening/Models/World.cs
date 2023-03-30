@@ -13,7 +13,6 @@ namespace Lifethreadening.Models
         private readonly IWeatherManager _weatherManager;
         private DateTime _currentDate;
 
-        public DateTime StartDate { get; set; }
         public DateTime CurrentDate
         {
             get 
@@ -63,10 +62,7 @@ namespace Lifethreadening.Models
         {
             Ecosystem = ecosystem;
             _weatherManager = weatherManager;
-
-            DateTime dateTime = DateTime.Now;
-            CurrentDate = dateTime;
-            StartDate = dateTime;
+            CurrentDate = DateTime.Now;
         }
 
         public virtual void Step()

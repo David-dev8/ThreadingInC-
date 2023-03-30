@@ -9,7 +9,6 @@ namespace Lifethreadening.DataAccess
 {
     public interface ISimulationReader
     {
-        Simulation Read();
         IEnumerable<Simulation> ReadAll();
     }
 }
