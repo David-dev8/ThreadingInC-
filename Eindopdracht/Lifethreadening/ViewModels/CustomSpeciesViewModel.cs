@@ -13,6 +13,7 @@ using Windows.Storage;
 using Windows.UI;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI.Xaml;
+using WinRTXamlToolkit.Tools;
 
 namespace Lifethreadening.ViewModels
 {
@@ -23,6 +24,42 @@ namespace Lifethreadening.ViewModels
 
         public ICommand OpenImagePicker { get; set; }
         public ICommand SaveSpiecies { get; set; }
+
+        public IEnumerable<Diet> PossibleDiets 
+        {
+            get 
+            {
+                return Enum.GetValues(typeof(Diet)).Cast<Diet>();
+            }
+        }
+
+        public IEnumerable<Ecosystem> PossibleEcosystems
+        {
+            get 
+            {
+                DatabaseEcosystemReader reader = new DatabaseEcosystemReader();
+                IEnumerable<Ecosystem> returnVal = reader.ReadAll();
+
+                return returnVal; 
+            }
+        }
+
+        private Ecosystem _chosenEcosystem;
+
+        public Ecosystem ChosenEcosystem
+        {
+            get 
+            { 
+                return _chosenEcosystem;
+            }
+            set 
+            { 
+                _chosenEcosystem = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
 
         private List<string> _errors;
         public List<string> Errors
@@ -78,6 +115,8 @@ namespace Lifethreadening.ViewModels
             
             OpenImagePicker = new AsyncRelayCommand(OpenFilePicker);
             SaveSpiecies = new RelayCommand(CreateSpiecies);
+
+            ChosenEcosystem = PossibleEcosystems.First();
         }
 
         private void BaseStatistics_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -106,7 +145,7 @@ namespace Lifethreadening.ViewModels
                 creatingSpecies.Description = "This is an user created species";
 
                 DatabaseSpeciesWriter DatabaseWriter = new DatabaseSpeciesWriter();
-                DatabaseWriter.Create(creatingSpecies);
+                DatabaseWriter.Create(creatingSpecies, ChosenEcosystem.Id);
                 _navigationService.CurrentViewModel = new HomeViewModel(_navigationService);
             }
 

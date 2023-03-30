@@ -79,6 +79,7 @@
         <GradientStop Color="#E0E5F7" Offset="0.5"  />
         <GradientStop Color="#F2F2F2" Offset="1"  />
     </LinearGradientBrush>
+    <customConverters:EnumToStringConverter x:Key="EnumToStringConverter" />
     <converters:BoolToVisibilityConverter x:Key="VisibilityConverter"/>
     <customConverters:ConverterGroup x:Key="InverseVisibilityConverter">
         <converters:BoolNegationConverter />

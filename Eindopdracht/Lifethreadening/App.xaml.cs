@@ -77,7 +77,7 @@ namespace Lifethreadening
 
                     //navigationService.CurrentViewModel = new SimulationViewModel(navigationService, new Simulation("test", new GridWorld(new Ecosystem("3", "ha", "3", 3), new RandomWeatherManager()), 1));
 
-                    navigationService.CurrentViewModel = new CustomSpeciesViewModel(navigationService);
+                    navigationService.CurrentViewModel = new HomeViewModel(navigationService);
 
 
                 }

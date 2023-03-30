@@ -29,6 +29,22 @@ namespace Lifethreadening.DataAccess.Database
                 }
             }   
         }
+        
+        public object ExecuteQueryScalar(string commandText, CommandType commandType, IEnumerable<SqlParameter> commandParameters)
+        {
+            object returnValue = null;
+            using (var connection = DatabaseConnectionManager.GetSqlConnection())
+            {
+                connection.Open();
+                using (var command = new SqlCommand(commandText, connection))
+                {
+                    command.CommandType = commandType;
+                    command.Parameters.AddRange(commandParameters.ToArray());
+                    returnValue = command.ExecuteScalar();
+                }
+            }
+            return returnValue;
+        }
 
         public async Task ExecuteQueryAsync(string commandText, CommandType commandType, IEnumerable<SqlParameter> commandParameters)
         {

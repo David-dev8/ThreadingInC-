@@ -19,9 +19,9 @@ namespace Lifethreadening.DataAccess.Database
             _database = new DatabaseHelper<Species>();
         }
 
-        public void Create(Species species)
+        public void Create(Species species, int ecoID)
         {
-            string query = "INSERT INTO " + DATABASE_TABLE_NAME + "(name, image, description, scientificName, averageAge, maxAge, maxBreedSize, minBreedSize, diet, aggression, detection, selfDefence, intelligence, metabolicRate, resilience, size, weight, speed) VALUES (@name, @image, @description, @scientificName, @averageAge, @maxAge, @maxBreedSize, @minBreedSize, @diet, @aggression, @detection, @selfDefence, @intelligence, @metabolicRate, @resilience, @size, @weight, @speed)";
+            string query = "INSERT INTO " + DATABASE_TABLE_NAME + "(name, image, description, scientificName, averageAge, maxAge, maxBreedSize, minBreedSize, diet, aggression, detection, selfDefence, intelligence, metabolicRate, resilience, size, weight, speed) OUTPUT INSERTED.ID VALUES (@name, @image, @description, @scientificName, @averageAge, @maxAge, @maxBreedSize, @minBreedSize, @diet, @aggression, @detection, @selfDefence, @intelligence, @metabolicRate, @resilience, @size, @weight, @speed)";
             
             IEnumerable<SqlParameter> parameters = new List<SqlParameter>
             {
@@ -33,7 +33,7 @@ namespace Lifethreadening.DataAccess.Database
                 new SqlParameter("@maxAge", species.MaxAge),
                 new SqlParameter("@maxBreedSize", species.MaxBreedSize),
                 new SqlParameter("@minBreedSize", species.MinBreedSize),
-                new SqlParameter("@diet", species.Diet),
+                new SqlParameter("@diet", species.Diet.ToString()),
                 new SqlParameter("@aggression", species.BaseStatistics.Aggresion),
                 new SqlParameter("@detection", species.BaseStatistics.Detection),
                 new SqlParameter("@selfDefence", species.BaseStatistics.SelfDefence),
@@ -44,7 +44,17 @@ namespace Lifethreadening.DataAccess.Database
                 new SqlParameter("@weight", species.BaseStatistics.Weight),
                 new SqlParameter("@speed", species.BaseStatistics.Speed)
             };
+            int SpecID = (int)_database.ExecuteQueryScalar(query, CommandType.Text, parameters);
+
+            query = "INSERT INTO [EcosystemSpecies] (ecosystemId, speciesId) VALUES (@eco, @spec)";
+            parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@eco", ecoID),
+                new SqlParameter("@spec", SpecID)
+            };
+
             _database.ExecuteQuery(query, CommandType.Text, parameters);
+
         }
 
         // TODO deze methode en alle andere die te maken hebben met bulk aan het einde van het project weghalen, dit is voor nu een template voor het bulk inserten
