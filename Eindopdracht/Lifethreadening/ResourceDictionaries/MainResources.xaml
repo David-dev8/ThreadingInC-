@@ -100,4 +100,5 @@
         <customConverters:ColorToBrushConverter />
     </customConverters:ConverterGroup>
     <converters:BoolNegationConverter x:Key="BooleanInverseConverter" />
+    <customConverters:StringToImageConverter x:Key="StringToImageConverter"/>
 </ResourceDictionary>
