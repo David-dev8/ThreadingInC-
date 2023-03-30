@@ -17,7 +17,7 @@ namespace Lifethreadening.DataAccess.Database
         {
             { "Herbivore", Diet.HERBIVORE },
             { "Carnivore", Diet.CARNIVORE },
-            { "Omnivore", Diet.HERBIVORE }
+            { "Omnivore", Diet.OMNIVORE }
         };
         private static readonly string DATABASE_TABLE_NAME = "Species";
         private DatabaseHelper<Species> _database;

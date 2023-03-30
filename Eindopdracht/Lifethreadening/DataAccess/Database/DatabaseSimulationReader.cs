@@ -16,7 +16,7 @@ namespace Lifethreadening.DataAccess.Database
         {
             { "Herbivore", Diet.HERBIVORE },
             { "Carnivore", Diet.CARNIVORE },
-            { "Omnivore", Diet.HERBIVORE }
+            { "Omnivore", Diet.OMNIVORE }
         };
 
         private static readonly IDictionary<string, MutationType> mutationTypeDatabaseMapping = new Dictionary<string, MutationType>()
@@ -38,7 +38,7 @@ namespace Lifethreadening.DataAccess.Database
 
         public Simulation ReadFullDetails(Simulation simulation)
         {
-            simulation.PopulationManager.SpeciesCount = (IDictionary<DateTime, IDictionary<Species, int>>)GetSpeciesCount(simulation);
+            simulation.PopulationManager.SpeciesCount = GetSpeciesCount(simulation);
             simulation.MutationManager.Mutations = GetMutations(simulation);
             return simulation;
         }
@@ -60,7 +60,7 @@ namespace Lifethreadening.DataAccess.Database
                 SELECT M.*, MAS.statistic, MAS.affection, MAS.Color
                 FROM Mutation AS M
                 JOIN MutationAffectedStatistic AS MAS ON M.allel = MAS.mutationAllel AND M.date = MAS.mutationDate AND M.simulationId = MAS.simulationId
-                WHERE simulationId = @simulationId";
+                WHERE M.simulationId = @simulationId";
 
             IEnumerable<SqlParameter> parameters = new List<SqlParameter>
             {
@@ -69,11 +69,11 @@ namespace Lifethreadening.DataAccess.Database
             return database.Read(CreateMutation, query, CommandType.Text, parameters);
         }
 
-        private Dictionary<DateTime, Dictionary<Species, int>> GetSpeciesCount(Simulation simulation)
+        private Dictionary<DateTime, IDictionary<Species, int>> GetSpeciesCount(Simulation simulation)
         {
             IEnumerable<PopulationCount> populationCounts = RetrievePopulationCounts(simulation);
             return populationCounts.GroupBy(populationCount => populationCount.Date)
-                .ToDictionary(populationCount => populationCount.Key, populationCount => populationCount.ToDictionary(speciesCount => speciesCount.Species,
+                .ToDictionary(populationCount => populationCount.Key, populationCount => (IDictionary<Species, int>)populationCount.ToDictionary(speciesCount => speciesCount.Species,
                 speciesCount => speciesCount.AmountOfAnimals));
         }
 

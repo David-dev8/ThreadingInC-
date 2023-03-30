@@ -37,11 +37,13 @@ namespace Lifethreadening.DataAccess.Database
         // TODO ASYNC of SYNC
         private void CreateSimulation(Simulation simulation)
         {
-            string query = "INSERT INTO Simulation(dateStarted, ecosystemId, name, fileNameSaveSlot) OUTPUT INSERTED.ID VALUES (@dateStarted, @ecosystemId, @name, @fileNameSaveSlot)";
+            string query = "INSERT INTO Simulation(dateStarted, dateEnded, ecosystemId, name, fileNameSaveSlot)" + 
+                "VALUES (@dateStarted, @dateEnded, @ecosystemId, @name, @fileNameSaveSlot)";
 
             IEnumerable<SqlParameter> parameters = new List<SqlParameter>
             {
                 new SqlParameter("@dateStarted", simulation.StartDate.ToString()),
+                new SqlParameter("@dateEnded", simulation.World.CurrentDate.ToString()),
                 new SqlParameter("@ecosystemId", simulation.World.Ecosystem.Id),
                 new SqlParameter("@name", simulation.Name),
                 new SqlParameter("@fileNameSaveSlot", simulation.Filename)
