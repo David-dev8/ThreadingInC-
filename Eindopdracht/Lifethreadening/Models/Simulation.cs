@@ -135,7 +135,7 @@ namespace Lifethreadening.Models
             _worldStateWriter = new JSONWorldStateWriter();
             _simulationWriter = new DatabaseSimulationWriter();
             // TODO exceptions tijdens timer
-            SetUpTimers();
+            //SetUpTimers();
         }
 
         private TimerCallback Run(Action action)
