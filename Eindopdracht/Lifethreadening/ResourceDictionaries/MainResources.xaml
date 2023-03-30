@@ -11,6 +11,8 @@
     </LinearGradientBrush>
     <SolidColorBrush x:Key="PrimaryBrush" Color="Black" />
     <SolidColorBrush x:Key="SecondaryBrush" Color="White" />
+    <SolidColorBrush x:Key="SystemControlHighlightListAccentLowBrush" Color="#29000000" />
+    <SolidColorBrush x:Key="SystemControlHighlightListAccentMediumBrush" Color="#29000000" />
 
     <x:Double x:Key="FontsizeGenetics">18</x:Double> <!-- TODO -->
     <SolidColorBrush x:Key="TertiaryBrush" Color="#333333" />
