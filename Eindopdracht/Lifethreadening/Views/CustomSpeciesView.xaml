@@ -82,50 +82,50 @@
 
                 <!--#region speedStat -->
                 <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource StatDisp}" Text="{Binding creatingSpecies.BaseStatistics.Speed}"></TextBlock>
-                <Slider Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Speed, Mode=TwoWay}" Width="300"></Slider>
+                <Slider Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Speed, Mode=TwoWay}" Padding="25, 0, 25, 0" ></Slider>
                 <!--#endregion-->
 
                 <!--#region weightStat -->
                 <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Weight}" Grid.Row="0" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
-                <Slider Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Weight, Mode=TwoWay}" Width="300"></Slider>
+                <Slider Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Weight, Mode=TwoWay}" Padding="25, 0, 25, 0"></Slider>
                 <!--#endregion-->
 
                 <!--#region sizeStat -->
                 <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Size}" Grid.Row="0" Grid.Column="2" Style="{StaticResource StatDisp}"></TextBlock>
-                <Slider Grid.Row="0" Grid.Column="2" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Size, Mode=TwoWay}" Width="300"></Slider>
+                <Slider Grid.Row="0" Grid.Column="2" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Size, Mode=TwoWay}" Padding="25, 0, 25, 0"></Slider>
                 <!--#endregion-->
 
                 <!--#region agressionStat -->
                 <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Aggresion}" Grid.Row="1" Grid.Column="0" Style="{StaticResource StatDisp}"></TextBlock>
-                <Slider Grid.Row="1" Grid.Column="0" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Aggresion, Mode=TwoWay}" Width="300"></Slider>
+                <Slider Grid.Row="1" Grid.Column="0" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Aggresion, Mode=TwoWay}" Padding="25, 0, 25, 0"></Slider>
                 <!--#endregion-->
 
                 <!--#region detectionStat -->
                 <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Detection}" Grid.Row="1" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
-                <Slider Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Detection, Mode=TwoWay}" Width="300"></Slider>
+                <Slider Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Detection, Mode=TwoWay}" Padding="25, 0, 25, 0"></Slider>
                 <!--#endregion-->
 
                 <!--#region resStat -->
                 <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Resilience}" Grid.Row="1" Grid.Column="2" Style="{StaticResource StatDisp}"></TextBlock>
-                <Slider Grid.Row="1" Grid.Column="2" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Resilience, Mode=TwoWay}" Width="300"></Slider>
+                <Slider Grid.Row="1" Grid.Column="2" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Resilience, Mode=TwoWay}" Padding="25, 0, 25, 0"></Slider>
 
                 <!--#endregion-->
 
                 <!--#region intStat -->
                 <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Intelligence}" Grid.Row="3" Grid.Column="0" Style="{StaticResource StatDisp}"></TextBlock>
-                <Slider Grid.Row="3" Grid.Column="0" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Intelligence, Mode=TwoWay}" Width="300"></Slider>
+                <Slider Grid.Row="3" Grid.Column="0" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Intelligence, Mode=TwoWay}" Padding="25, 0, 25, 0"></Slider>
 
                 <!--#endregion-->
 
                 <!--#region defenceStat -->
                 <TextBlock Text="{Binding creatingSpecies.BaseStatistics.SelfDefence}" Grid.Row="3" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
-                <Slider Grid.Row="3" Grid.Column="1" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.SelfDefence, Mode=TwoWay}" Width="300"></Slider>
+                <Slider Grid.Row="3" Grid.Column="1" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.SelfDefence, Mode=TwoWay}" Padding="25, 0, 25, 0"></Slider>
 
                 <!--#endregion-->
 
                 <!--#region metabolicStat -->
                 <TextBlock Text="{Binding creatingSpecies.BaseStatistics.MetabolicRate}" Grid.Row="3" Grid.Column="2" Style="{StaticResource StatDisp}"></TextBlock>
-                <Slider Grid.Row="3" Grid.Column="2" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.MetabolicRate, Mode=TwoWay}" Width="300"></Slider>
+                <Slider Grid.Row="3" Grid.Column="2" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.MetabolicRate, Mode=TwoWay}" Padding="25, 0, 25, 0"></Slider>
 
                 <!--#endregion-->
                 <!--#endregion-->
@@ -151,7 +151,7 @@
             <TextBox BorderThickness="0, 0, 0, 2" Background="Transparent" Grid.Column="3" Grid.Row="1" VerticalAlignment="Bottom" PlaceholderText="Name ✏" HorizontalAlignment="Left" Width="225" TextAlignment="Center" FontSize="18" Text="{Binding creatingSpecies.Name, Mode=TwoWay}"></TextBox>
             <TextBox BorderThickness="0, 0, 0, 2" Background="Transparent" Grid.Column="3" Grid.Row="1" VerticalAlignment="Bottom" PlaceholderText="Scientific name ✏" HorizontalAlignment="Right" Width="225" TextAlignment="Center" FontSize="18" Text="{Binding creatingSpecies.ScientificName, Mode=TwoWay}"></TextBox>
 
-            <StackPanel Background="White" BackgroundSizing="OuterBorderEdge" Margin="50, -150, 50, 0" Grid.Row="3" Grid.Column="3" BorderThickness="5" BorderBrush="Black"></StackPanel>
+            <StackPanel Background="White" BackgroundSizing="OuterBorderEdge"  Grid.Row="2" Grid.RowSpan="2" Grid.Column="3" Margin="10, 10, 10, 10" BorderThickness="5" BorderBrush="Black"></StackPanel>
 
             <customControls:IconButton Command="{Binding OpenImagePickerCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, -150, 0, 0" Grid.Row="3" Grid.Column="3" Text="...Upload photo..."></customControls:IconButton>
             <Image Source="{Binding creatingSpecies.Image, Converter={StaticResource StringToImageConverter}}" MaxHeight="300" MaxWidth="300" Margin="0, -150, 0, 0" Grid.Row="3" Grid.Column="3"></Image>
