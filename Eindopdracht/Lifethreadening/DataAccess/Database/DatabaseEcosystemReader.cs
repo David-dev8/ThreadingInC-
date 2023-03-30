@@ -31,7 +31,7 @@ namespace Lifethreadening.DataAccess.Database
                 dataReader.GetInt32("id"),
                 dataReader.GetString("name"),
                 dataReader.GetString("image"),
-                dataReader.GetFloat("float")
+                dataReader.GetDouble("difficulty")
             );
         }
     }

@@ -25,9 +25,9 @@ namespace Lifethreadening.ExtensionMethods
             return sqlDataReader[key].ToString();
         }
 
-        public static float GetFloat(this SqlDataReader sqlDataReader, string key)
+        public static double GetDouble(this SqlDataReader sqlDataReader, string key)
         {
-            return sqlDataReader.GetFloat(sqlDataReader.GetOrdinal(key));
+            return sqlDataReader.GetDouble(sqlDataReader.GetOrdinal(key));
         }
     }
 }

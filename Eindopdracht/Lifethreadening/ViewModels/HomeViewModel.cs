@@ -52,14 +52,6 @@ namespace Lifethreadening.ViewModels
             _navigationService.CurrentViewModel = new EcosystemSelectViewModel(_navigationService);
         }
 
-        public void StartGame(int slot) 
-        {
-            //TODO safeslots
-            //Simulation simul = new Simulation();
-
-            //_navigationService.CurrentViewModel = new SimulationViewModel(_navigationService, simul);
-        }
-
         public void NavigateToStats()
         {
             _navigationService.CurrentViewModel = new SimulationDataViewModel(_navigationService,null);

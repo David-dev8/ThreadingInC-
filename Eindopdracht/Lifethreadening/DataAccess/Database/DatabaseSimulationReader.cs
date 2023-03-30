@@ -110,7 +110,7 @@ namespace Lifethreadening.DataAccess.Database
                         dataReader.GetInt32("ecosystemId"),
                         dataReader.GetString("ecosystemName"),
                         dataReader.GetString("image"),
-                        dataReader.GetFloat("difficulty")
+                        dataReader.GetDouble("difficulty")
                     ),
                     dataReader.GetDateTime("dateEnded"),
                     new RandomWeatherManager()

@@ -87,7 +87,7 @@ namespace Lifethreadening.ViewModels
             }
             catch(Exception ex)
             {
-                _navigationService.Error = new ErrorMessage("Something went wrong while initializing the simulation"); // TODO CustomSpecies mistakes
+                _navigationService.Error = new ErrorMessage("Something went wrong while initializing the simulation");
                 Quit();
             }
         }

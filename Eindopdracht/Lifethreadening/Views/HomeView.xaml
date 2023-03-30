@@ -71,7 +71,7 @@
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="{StaticResource TertiaryBrush}" BorderThickness="5" Grid.Row="1" Grid.Column="1" Background="Red" VerticalAlignment="Stretch">
+                            <Border BorderBrush="{StaticResource TertiaryBrush}" BorderThickness="5" Grid.Row="1" Grid.Column="1" VerticalAlignment="Stretch">
                                 <Grid>
                                     <TextBlock Text="Saveslot A" Style="{StaticResource BlockHeader}"></TextBlock>
                                 </Grid>
@@ -91,8 +91,8 @@
 
                 <StackPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="5">
                     <customControls:IconButton Text="Start new" HorizontalAlignment="Center" VerticalAlignment="Bottom" Command="{Binding CreateNewGameCommand}"></customControls:IconButton>
-                    <customControls:IconButton Text="Statistics" Grid.Row="3" Grid.Column="3" HorizontalAlignment="Center" Command="{Binding GoToStatistics}"></customControls:IconButton>
-                    <customControls:IconButton Text="Create a custom spiecies" Grid.Row="4" Grid.Column="3" HorizontalAlignment="Center" Margin="0, 0, 0, 0" Command="{Binding GoToCustomSpiecies}"></customControls:IconButton>
+                    <customControls:IconButton Text="Statistics" Grid.Row="3" Grid.Column="3" HorizontalAlignment="Center" Command="{Binding GoToStatisticsCommand}"></customControls:IconButton>
+                    <customControls:IconButton Text="Create a custom spiecies" Grid.Row="4" Grid.Column="3" HorizontalAlignment="Center" Margin="0, 0, 0, 0" Command="{Binding GoToCustomSpeciesCommand}"></customControls:IconButton>
                 </StackPanel>
 
             </Grid>

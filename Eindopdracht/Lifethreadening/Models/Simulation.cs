@@ -115,7 +115,8 @@ namespace Lifethreadening.Models
             }
         }
 
-        public Simulation(int id, int score, DateTime startDate, int amountOfDisasters, string fileNameSaveSlot, string name, World world) 
+        public Simulation(int id, int score, DateTime startDate, int amountOfDisasters, string fileNameSaveSlot, string name, World world)
+        { 
             Name = name;
             World = world;
             Id = id;
