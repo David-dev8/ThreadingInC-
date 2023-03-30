@@ -11,6 +11,9 @@ using Windows.UI.Xaml.Media;
 
 namespace Lifethreadening.Converters
 {
+    /// <summary>
+    /// Converts an animals sex into a collor, Either Pink Or Blue
+    /// </summary>
     public class SexToBrushConverter: IValueConverter
     {
         private static readonly IDictionary<Sex, SolidColorBrush> _colorMapping = new Dictionary<Sex, SolidColorBrush>() 

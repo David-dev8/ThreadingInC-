@@ -9,6 +9,9 @@ using Windows.UI.Xaml.Controls;
 
 namespace Lifethreadening.Base
 {
+    /// <summary>
+    /// The navigation service is used to navigate between pages
+    /// </summary>
     public class NavigationService: Observable
     {
         private const string CLOSE_DIALOG_TEXT = "Continue";
@@ -67,12 +70,19 @@ namespace Lifethreadening.Base
             }
         }
 
+        /// <summary>
+        /// Create a new navigationservice
+        /// </summary>
+        /// <param name="frame">The frame to navigate on</param>
         public NavigationService(Frame frame)
         {
             _frame = frame;
         }
     }
 
+    /// <summary>
+    /// This class is used to contain an error message
+    /// </summary>
     public class ErrorMessage
     {
         private const string DEFAULT_TITLE = "Error";
@@ -80,6 +90,11 @@ namespace Lifethreadening.Base
         public string Title { get; set; }
         public string Content { get; set; }
 
+        /// <summary>
+        /// Creates a new eroor message
+        /// </summary>
+        /// <param name="content">The main body of the error</param>
+        /// <param name="title">The title of this error, leaving this blank wil set it to "Error"</param>
         public ErrorMessage(string content, string title = DEFAULT_TITLE)
         {
             Title = title;

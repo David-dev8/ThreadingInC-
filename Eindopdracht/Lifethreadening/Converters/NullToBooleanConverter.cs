@@ -8,6 +8,9 @@ using Windows.UI.Xaml.Data;
 
 namespace Lifethreadening.Converters
 {
+    /// <summary>
+    /// Converts a posible null value to a boolean value indicating wether the value is not null
+    /// </summary>
     public class NullToBooleanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)

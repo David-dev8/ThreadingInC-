@@ -10,6 +10,9 @@ using WinRTXamlToolkit.Controls.DataVisualization.Charting;
 
 namespace Lifethreadening.DataAccess.Database
 {
+    /// <summary>
+    /// This class saves data about simulations using the database as storage
+    /// </summary>
     public class DatabaseSimulationWriter : ISimulationWriter
     {
         private DatabaseHelper<Simulation> _database;

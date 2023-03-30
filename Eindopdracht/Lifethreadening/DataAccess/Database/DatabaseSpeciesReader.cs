@@ -11,6 +11,9 @@ using Windows.UI.Xaml.Controls.Primitives;
 
 namespace Lifethreadening.DataAccess.Database
 {
+    /// <summary>
+    /// This class retrieves data about species from the database
+    /// </summary>
     public class DatabaseSpeciesReader : ISpeciesReader
     {
         private static readonly IDictionary<string, Diet> dietDatabaseMapping = new Dictionary<string, Diet>()

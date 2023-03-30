@@ -9,6 +9,9 @@ using Windows.UI.Xaml.Data;
 
 namespace Lifethreadening.Converters
 {
+    /// <summary>
+    /// Converts an ENUM into a string with 1 capital (ENUM => Enum)
+    /// </summary>
     public class EnumToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)

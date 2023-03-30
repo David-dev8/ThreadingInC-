@@ -10,6 +10,9 @@ using Windows.UI.Xaml.Data;
 
 namespace Lifethreadening.Converters
 {
+    /// <summary>
+    /// Converts an animals sex into an Icon depicting the sex
+    /// </summary>
     public class SexToIconConverter : IValueConverter
     {
         private static readonly ColorConverter _colorConverter = new ColorConverter();

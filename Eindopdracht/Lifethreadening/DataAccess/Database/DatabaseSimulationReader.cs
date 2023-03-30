@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.DataAccess.Database
 {
+    /// <summary>
+    /// This class retrieves data about simulations from the database 
+    /// </summary>
     public class DatabaseSimulationReader : ISimulationReader
     {
         private static readonly IDictionary<string, Diet> dietDatabaseMapping = new Dictionary<string, Diet>()

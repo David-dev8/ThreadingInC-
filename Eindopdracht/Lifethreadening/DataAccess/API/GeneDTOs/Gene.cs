@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.DataAccess.API.GeneDTOs
 {
+    /// <summary>
+    /// This class is used to store data about a gene
+    /// </summary>
     public class Gene
     {
         [JsonPropertyName("geneName")]

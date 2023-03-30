@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.DataAccess.API
 {
+    /// <summary>
+    /// This class is used to retrieve Names from an random name generator API
+    /// </summary>
     public class APINameReader : APICaller, INameReader
     {
         private const string NAME_API_BASE_URL = "https://names.drycodes.com";
@@ -33,6 +36,10 @@ namespace Lifethreadening.DataAccess.API
             { Sex.FEMALE, new List<string>() { "Janice", "Selene", "Vivian", "Lenora" } },
         };
 
+        /// <summary>
+        /// Initializes the conection to the API
+        /// </summary>
+        /// <returns></returns>
         public async Task Initialize()
         {
             try
@@ -46,6 +53,12 @@ namespace Lifethreadening.DataAccess.API
             }
         }
 
+
+        /// <summary>
+        /// Retrieves a name from the API
+        /// </summary>
+        /// <param name="sex">The sex to get the name for</param>
+        /// <returns>A sex apropriate name</returns>
         public string GetName(Sex sex)
         {
             string nextName = _cache[sex].Dequeue();
@@ -53,6 +66,11 @@ namespace Lifethreadening.DataAccess.API
             return nextName;
         }
 
+        /// <summary>
+        /// Retrieve multiple names at once
+        /// </summary>
+        /// <param name="sex">The sex to get the names for</param>
+        /// <returns>A list containg sex apropriate names</returns>
         private async Task<KeyValuePair<Sex, Queue<string>>> RetrieveBatch(Sex sex)
         {
             var result = await _apiHandler.Fetch<IEnumerable<string>>(NAME_API_BASE_URL, CACHE_AMOUNT,

@@ -7,6 +7,9 @@ using Windows.UI.Xaml.Data;
 
 namespace Lifethreadening.Converters
 {
+    /// <summary>
+    /// Groups together a group of converters, allowing them to be executed sequencially
+    /// </summary>
     public class ConverterGroup : List<IValueConverter>, IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter,string language)

@@ -11,6 +11,9 @@ using Windows.Storage;
 
 namespace Lifethreadening.DataAccess.JSON
 {
+    /// <summary>
+    /// This class is used to save a Worldstate to a JSON file
+    /// </summary>
     public class JSONWorldStateWriter : JSONWorldStateProcessor, IWorldStateWriter
     {
         public async Task<string> Write(string gameName, World world)

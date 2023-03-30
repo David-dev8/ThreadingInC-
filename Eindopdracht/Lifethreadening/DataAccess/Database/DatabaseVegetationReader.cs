@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.DataAccess.Database
 {
+    /// <summary>
+    /// This class saves data about vegitation using the database as storage
+    /// </summary>
     public class DatabaseVegetationReader : IVegetationReader
     {
         private DatabaseHelper<Vegetation> _database;
