@@ -29,18 +29,20 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
+        <Rectangle Fill="Red" Grid.Column="1" Grid.Row="1"></Rectangle>
+        
         <TextBlock Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="100" Foreground="#041E00" FontFamily="/Assets/Fonts/RubikBubbles-Regular.ttf#Rubik Bubbles">Lifethreadening</TextBlock>
 
-        <Border BorderBrush="{StaticResource TertiaryBrush}" BorderThickness="5" Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Margin="350, 0, 350, 100">
+        <Border BorderBrush="{StaticResource TertiaryBrush}" BorderThickness="5" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch">
             <Grid Background="{StaticResource PrimaryBackgroundBrush}">
 
                 <Grid.RowDefinitions>

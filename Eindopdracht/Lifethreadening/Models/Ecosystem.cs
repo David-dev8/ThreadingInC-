@@ -13,11 +13,12 @@ namespace Lifethreadening.Models
         public string Image { get; set; }
         public string Difficulty { get; set; }
 
-        public Ecosystem(string name, string image, string difficulty)
+        public Ecosystem(string name, string image, string difficulty, int idEc)
         {        
             Name = name;
             Image = image;
             Difficulty = difficulty;
+            Id = idEc;
         }
     }
 }
