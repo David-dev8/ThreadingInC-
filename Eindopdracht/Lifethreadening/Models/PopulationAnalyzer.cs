@@ -82,18 +82,14 @@ namespace Lifethreadening.Models
 
         private IDictionary<DateTime, IDictionary<Species, int>> GetSpeciesCountWithMissingDates()
         {
-            IEnumerable<Species> species = SpeciesCount.SelectMany(speciesCount => { // TODO naamgeving
-                var b = speciesCount.Value.Keys;
-                return b;
-            }).Distinct();
-            var st = SpeciesCount.Select(s =>
+            IEnumerable<Species> species = SpeciesCount.SelectMany(speciesCount => speciesCount.Value.Keys).Distinct();
+            return SpeciesCount.Select(currentSpeciesCount =>
             {
-                IDictionary<Species, int> t = species.Select(sp => {
-                    return new { Key = sp, Value = s.Value.ContainsKey(sp) ? s.Value[sp] : 0 };
-                }).ToDictionary(b => b.Key, b => b.Value);
-                return new { Key = s.Key, Value = t }; // TODO: join????
-            }).ToDictionary(b => b.Key, b => b.Value);
-            return st;
+                IDictionary<Species, int> amountPerSpecies = species.Select(currentSpecies => {
+                    return new { Key = currentSpecies, Value = currentSpeciesCount.Value.ContainsKey(currentSpecies) ? currentSpeciesCount.Value[currentSpecies] : 0 };
+                }).ToDictionary(currentSpecies => currentSpecies.Key, currentSpecies => currentSpecies.Value);
+                return new { currentSpeciesCount.Key, Value = amountPerSpecies };
+            }).ToDictionary(currentSpecies => currentSpecies.Key, currentSpecies => currentSpecies.Value);
         }
     }
 }
