@@ -51,7 +51,7 @@ namespace Lifethreadening.Models
             newAnimal.Behaviour = _behaviourBuilder
                 .ForAnimal(newAnimal)
                 .AddEat(species.Diet)
-                .AddBreed(this) // TODO
+                .AddBreed(this)
                 .AddWander(true, _random.NextDouble(mother.Age / species.MaxAge))
                 .AddRest()
                 .AddEvade()

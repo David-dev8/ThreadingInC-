@@ -9,7 +9,6 @@ namespace Lifethreadening.DataAccess.API.GeneDTOs
 {
     public class GenomeDetails
     {
-        public string PrimaryAccession { get; set; }
         [JsonPropertyName("proteinDescription")]
         public Protein Protein { get; set; }
         public IEnumerable<Gene> Genes { get; set; }

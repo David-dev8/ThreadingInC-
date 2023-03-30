@@ -23,7 +23,6 @@ namespace Lifethreadening.Models
     public class Simulation: Observable
     {
         private string gameName = "first";
-        private int _amountOfDisasters = 0; // TODO make it bindable
         private Disaster _mostRecentDisaster; 
         private const double SPAWN_CHANCE = 0.10;
         private const double DISASTER_CHANCE = 1;
@@ -47,7 +46,7 @@ namespace Lifethreadening.Models
         // For in game things
         private static readonly TimeSpan _stepInterval = new TimeSpan(1, 0, 0, 0); // TODO static conventions
         private static readonly TimeSpan _disasterInterval = new TimeSpan(50, 0, 0, 0); // TODO change interval en kans op disaster
-        private static readonly TimeSpan _mutationInterval = new TimeSpan(5, 0, 0, 0);
+        private static readonly TimeSpan _mutationInterval = new TimeSpan(14, 0, 0, 0);
         private static readonly TimeSpan _spawnInterval = new TimeSpan(20, 0, 0, 0);
 
 
@@ -153,12 +152,12 @@ namespace Lifethreadening.Models
                 IsGameOver = true;
             }
 
-            IEnumerable<Animal> animals = getAllAnimals(World.SimulationElements);
+            IEnumerable<Animal> animals = GetAllAnimals(World.SimulationElements);
             PopulationManager.RegisterAnimals(animals, World.CurrentDate);
             MutationManager.RegisterMutations(animals); // TODO moet het registreren voor of na een stap?
         }
 
-        private IEnumerable<Animal> getAllAnimals(IEnumerable<SimulationElement> elements)
+        private IEnumerable<Animal> GetAllAnimals(IEnumerable<SimulationElement> elements)
         {
             IList<Animal> animals = new List<Animal>();
             foreach(SimulationElement element in elements)
@@ -238,7 +237,8 @@ namespace Lifethreadening.Models
             
             ChangeTimer(_stepTimer, 1000 * _stepInterval.Divide(_simulationSpeed)); // TODO Changing while 
             ChangeTimer(_disasterTimer, 1000 * _disasterInterval.Divide(_simulationSpeed)); // TODO take into account already running timer
-            //ChangeTimer(_disasterTimer, 1000 * _disasterInterval.Divide(_simulationSpeed));
+            ChangeTimer(_spawnTimer, 1000 * _spawnInterval.Divide(_simulationSpeed));
+            ChangeTimer(_mutationTimer, 1000 * _mutationInterval.Divide(_simulationSpeed));
             
             // TODO Does timer run even when changing its period?
         }
@@ -251,7 +251,7 @@ namespace Lifethreadening.Models
 
         public void End()
         {
-            Stop();
+            Stopped = true;
             _stepTimer.Dispose();
             _spawnTimer.Dispose();
             _disasterTimer.Dispose();

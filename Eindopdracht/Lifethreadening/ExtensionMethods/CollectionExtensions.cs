@@ -36,5 +36,10 @@ namespace Lifethreadening.ExtensionMethods
                 stack.Enqueue(element);
             }
         }
+
+        public static IEnumerable<T> RepeatUntilLength<T>(this IEnumerable<T> elements, int length)
+        {
+            return Enumerable.Repeat(new List<T>(elements), (int)Math.Ceiling((double)length / elements.Count())).SelectMany(element => element);
+        }
     }
 }

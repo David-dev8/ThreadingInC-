@@ -71,6 +71,7 @@ namespace Lifethreadening.Models
 
         public Statistics BaseStatistics { get; set; }
 
+        // TODO dub?
         public Species()
         {
             Name = "";

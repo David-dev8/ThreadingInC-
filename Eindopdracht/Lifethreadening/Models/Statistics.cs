@@ -6,11 +6,24 @@ using System.Linq;
 using System.Text;
 using Lifethreadening.Base;
 using System.Threading.Tasks;
+using Lifethreadening.ExtensionMethods;
 
 namespace Lifethreadening.Models
 {
     public class Statistics : Observable
     {
+        private static readonly IDictionary<string, Windows.UI.Color> _colors = new Dictionary<string, Windows.UI.Color>()
+        {
+            { "speed", ColorHelper.ToColor("#ECB72F") },
+            { "weight", ColorHelper.ToColor("#6F733E") },
+            { "size", ColorHelper.ToColor("#4D4E47") },
+            { "aggresion", ColorHelper.ToColor("#BD4400") },
+            { "detection", ColorHelper.ToColor("#97BD00") },
+            { "resilience", ColorHelper.ToColor("#860681") },
+            { "intelligence", ColorHelper.ToColor("#37A195") },
+            { "selfDefence", ColorHelper.ToColor("#584DDB") },
+            { "metabolicRate", ColorHelper.ToColor("#32DE24") },
+        };
 
         private int _weight;
         public int Weight
@@ -154,19 +167,6 @@ namespace Lifethreadening.Models
             };
         }
 
-        public Statistics()
-        {
-            Weight = 0;
-            Size = 0;
-            Speed = 0;
-            Aggresion = 0;
-            Detection = 0;
-            Resilience = 0;
-            Intelligence = 0;
-            SelfDefence = 0;
-            MetabolicRate = 0;
-        }
-
         public int GetSumOfStats()
         {
             return Weight + Size + Speed + Aggresion + Detection + Resilience + Intelligence + SelfDefence + MetabolicRate;
@@ -175,19 +175,22 @@ namespace Lifethreadening.Models
 
         public IDictionary<string, StatisticInfo> GetData()
         {
-            // TODO
-            return new Dictionary<string, StatisticInfo>
-            {
-                {"speed", new StatisticInfo("speed", ColorHelper.ToColor("#ffffff"), Speed) },
-                {"weight", new StatisticInfo("weight", ColorHelper.ToColor("#ffffff"), Weight) },
-                {"size", new StatisticInfo("size", ColorHelper.ToColor("#ffffff"), Size) },
-                {"aggresion", new StatisticInfo("aggresion", ColorHelper.ToColor("#ffffff"), Aggresion) },
-                {"detection", new StatisticInfo("detection", ColorHelper.ToColor("#ffffff"), Detection) },
-                {"resilience", new StatisticInfo("resilience", ColorHelper.ToColor("#ffffff"), Resilience) },
-                {"intelligence", new StatisticInfo("intelligence", ColorHelper.ToColor("#ffffff"), Intelligence) },
-                {"selfDefence", new StatisticInfo("selfDefence", ColorHelper.ToColor("#ffffff"), SelfDefence) },
-                {"metabolicRate", new StatisticInfo("metabolicRate", ColorHelper.ToColor("#ffffff"), MetabolicRate) }
-            };
+            IDictionary<string, StatisticInfo> stats = new Dictionary<string, StatisticInfo>();
+            Add(stats, "speed", Speed);
+            Add(stats, "weight", Weight);
+            Add(stats, "size", Size);
+            Add(stats, "aggresion", Aggresion);
+            Add(stats, "detection", Detection);
+            Add(stats, "resilience", Resilience);
+            Add(stats, "intelligence", Intelligence);
+            Add(stats, "selfDefence", SelfDefence);
+            Add(stats, "metabolicRate", MetabolicRate);
+            return stats;
+        }
+
+        private void Add(IDictionary<string, StatisticInfo> stats, string name, int value)
+        {
+            stats.Add(name, new StatisticInfo(name, _colors[name], value));
         }
     }
 }

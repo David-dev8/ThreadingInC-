@@ -22,6 +22,7 @@ namespace Lifethreadening.Models
         private const int MAX_HP = 100;
         private const int MAX_ENERGY = 100;
         private const int HP_LOSS_FOR_NATURAL_AGING_FACTOR = 3;
+        private const int ENERGY_LOSS_PER_STEP = 1;
 
         private int _hp;
         private int _energy;
@@ -110,31 +111,32 @@ namespace Lifethreadening.Models
         {
             base.Act();
 
-            // TODO AddEnergy(-1);
-
-            // If the animal has not much energy left, it will gradually lose hp
-            int hpToLoseDueToEnergy = (10 - Energy) / 3; // TODO constant
-            if(hpToLoseDueToEnergy > 0)
+            AddEnergy(-ENERGY_LOSS_PER_STEP);
+            int hpToLose = CalculateHpToLoseDueToEnergy() + CalculateHpToLoseDueToNaturalAging();
+            if(hpToLose > 0)
             {
-                AddHp(-hpToLoseDueToEnergy); // TODO combine with below
+                AddHp(-hpToLose);
             }
             
-            
-
-            // The older the animal is, the more hp it loses to natural causes and the more likely it is to die
-            int age = Age;
-            int ageDifferenceFromAverage = age - Species.AverageAge;
-            double ageDifferenceProportinalToMaxAge = ageDifferenceFromAverage / Species.MaxAge;
-            if(ageDifferenceFromAverage > 0)
-            {
-                int hpToLose = _random.Next(0, (int)(ageDifferenceProportinalToMaxAge * HP_LOSS_FOR_NATURAL_AGING_FACTOR));
-                AddHp(hpToLose);
-            }
-            if(age > Species.MaxAge)
+            if(Age > Species.MaxAge)
             {
                 Hp = 0;
                 Energy = 0;
             }
+        }
+
+        private int CalculateHpToLoseDueToEnergy()
+        {
+            // If the animal has not much energy left, it will gradually lose hp
+            return Math.Max(0, (10 - Energy) / 3); // TODO constant
+        }
+
+        private int CalculateHpToLoseDueToNaturalAging()
+        {
+            // The older the animal is, the more hp it loses to natural causes and the more likely it is to die
+            int ageDifferenceFromAverage = Age - Species.AverageAge;
+            double ageDifferenceProportinalToMaxAge = ageDifferenceFromAverage / Species.MaxAge;
+            return ageDifferenceFromAverage > 0 ? _random.Next(0, (int)(ageDifferenceProportinalToMaxAge * HP_LOSS_FOR_NATURAL_AGING_FACTOR)) : 0;
         }
 
         public override bool StillExistsPhysically()

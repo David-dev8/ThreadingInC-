@@ -1,5 +1,6 @@
 ﻿using Lifethreadening.DataAccess.API.GeneDTOs;
 using Lifethreadening.ExtensionMethods;
+using Lifethreadening.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,17 +10,39 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.DataAccess.API
 {
-    // TODO initialize? backup?
+    // TODO initialize? backup? Werkt deze eigenlijk nog wel?
     public class APIGeneReader : APICaller, IGeneReader
     {
-        private const string GENE_API_BASE_URL = "https://rest.uniprot.org/uniprotkb/";
+        private const string GENE_API_BASE_URL = "https://rest.uniprot.org/uniprotk/";
         private const string API_QUERY = "(organism_id%3A9606)";
         private static readonly string[] FIELDS_TO_SELECT = new string[] { "protein_name", "gene_names", "sequence" };
 
         private Queue<GenomeDetails> _cache = new Queue<GenomeDetails>();
+        private IList<GenomeDetails> _backup = new List<GenomeDetails>()
+        {
+            new GenomeDetails() 
+            {
+                Protein = new Protein() { Name = new ProteinName() { FullName = new Description() { Value = "Peptase" } } },
+                Genes = new List<Gene>() { new Gene() { Name = new Description() { Value = "TP56" } } },
+                Sequence = new Description() { Value = "AAAAAABBTYKPWNA" }
+            },
+            new GenomeDetails()
+            {
+                Protein = new Protein() { Name = new ProteinName() { FullName = new Description() { Value = "Mycitylinose" } } },
+                Genes = new List<Gene>() { new Gene() { Name = new Description() { Value = "X-4" } } },
+                Sequence = new Description() { Value = "HAOQ" }
+            },
+            new GenomeDetails()
+            {
+                Protein = new Protein() { Name = new ProteinName() { FullName = new Description() { Value = "Tryptofan" } } },
+                Genes = new List<Gene>() { new Gene() { Name = new Description() { Value = "Gn-(2)15" } } },
+                Sequence = new Description() { Value = "PPPPAQWWWW" }
+            }
+        };
+
         // For pagination
         private string _nextPage;
-        private const int MINIMUM_CACHE_AMOUNT = 30;
+        private const int MINIMUM_CACHE_AMOUNT = 100;
 
         public async Task<string> GetRandomGene()
         {
@@ -30,7 +53,7 @@ namespace Lifethreadening.DataAccess.API
         public async Task<IEnumerable<string>> GetRandomProteins(int amount)
         {
             await MakeSureToHaveEnough(amount);
-            return _cache.DequeueMultiple(amount).Select(genomeDetails => genomeDetails.Protein.SubmissionNames.First().FullName.Value).ToList();
+            return _cache.DequeueMultiple(amount).Select(genomeDetails => genomeDetails.Protein.Name.FullName.Value).ToList();
         }
 
         private async Task MakeSureToHaveEnough(int amount = 1)
@@ -54,13 +77,20 @@ namespace Lifethreadening.DataAccess.API
                 queryParameters.Add("cursor", _nextPage);
             }
 
-            var result = await _apiHandler.Fetch<UniProtResult<GenomeDetails>>(
-                GENE_API_BASE_URL + "search",
-                queryParameters,
-                new string[] { "link" }
-            );
-            _nextPage = result.Headers["link"];
-            _cache.EnqueueMultiple(result.Value.Results);
+            try
+            {
+                var result = await _apiHandler.Fetch<UniProtResult<GenomeDetails>>(
+                    GENE_API_BASE_URL + "search",
+                    queryParameters,
+                    new string[] { "link" }
+                );
+                _nextPage = result.Headers["link"];
+                _cache.EnqueueMultiple(result.Value.Results);
+            }
+            catch(Exception)
+            {
+                _cache.EnqueueMultiple(_backup.RepeatUntilLength(amount));
+            }
         }
     }
 }

@@ -54,7 +54,7 @@ namespace Lifethreadening.Models.Behaviours
 
         protected Incentive guide(Func<SimulationElement, bool> filter)
         {
-            IDictionary<Location, Path> locations = Animal.DetectSurroundings(); // TODO cache?
+            IDictionary<Location, Path> locations = Animal.DetectSurroundings();
             SimulationElement mostRelevantTarget = FindMostRelevantTarget(FindTargets(locations, filter));
 
             if(mostRelevantTarget != null)

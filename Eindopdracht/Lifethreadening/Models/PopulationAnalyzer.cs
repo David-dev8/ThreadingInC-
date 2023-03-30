@@ -20,6 +20,7 @@ namespace Lifethreadening.Models
 
         public void RegisterAnimals(IEnumerable<Animal> animals, DateTime currentDate)
         {
+            // TODO already exists
             if (!SpeciesCount.ContainsKey(currentDate))
             {
                 SpeciesCount.Add(currentDate, new Dictionary<Species, int>());

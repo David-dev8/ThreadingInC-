@@ -10,7 +10,12 @@ namespace Lifethreadening.ExtensionMethods
     {
         public static string ToTitleCase(this string value)
         {
-            return string.Join(" ", value.Split(" ").Select(v => v.Substring(0, 1).ToUpper() + v.Substring(1).ToLower()));
+            return string.Join(" ", value.Split(" ").Select(v => v.UcFirst()));
+        }
+
+        public static string UcFirst(this string value)
+        {
+            return value.Substring(0, 1).ToUpper() + value.Substring(1).ToLower();
         }
     }
 }

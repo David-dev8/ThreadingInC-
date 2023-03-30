@@ -8,7 +8,7 @@ namespace Lifethreadening.Models.Behaviours
 {
     public class CarnivoreEatBehaviour : EatBehaviour
     {
-        private const int MINIMUM_DAMAGE = 0; // TODO
+        private const int MINIMUM_DAMAGE = 1;
 
         public CarnivoreEatBehaviour(Animal animal) : base(animal)
         {
@@ -38,9 +38,7 @@ namespace Lifethreadening.Models.Behaviours
 
         protected override int GetMotivation()
         {
-            int hunger = GetHunger();
-            int motiva = (int)(Animal.Statistics.Aggresion / 50.0 * hunger);
-            return motiva; // TODO
+            return (int)(Animal.Statistics.Aggresion / 50.0 * GetHunger());
         }
     }
 }

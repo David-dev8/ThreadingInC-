@@ -10,7 +10,6 @@ namespace Lifethreadening.ExtensionMethods
 {
     public static class DatabaseExtensions
     {
-        // TODO of cachen van ordinals
         public static int GetInt32(this SqlDataReader sqlDataReader, string key)
         {
             return sqlDataReader.GetInt32(sqlDataReader.GetOrdinal(key));
