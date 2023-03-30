@@ -25,6 +25,14 @@ namespace Lifethreadening.Views
         public CustomSpeciesView()
         {
             this.InitializeComponent();
+            SizeChanged += CustomSpeciesView_LayoutUpdated1; ;
         }
+
+        private void CustomSpeciesView_LayoutUpdated1(object sender, object e)
+        {
+            ValidationPopup.HorizontalOffset = (ActualWidth - ValidationPopup.ActualWidth/2) / 2;
+            ValidationPopup.VerticalOffset = (ActualHeight - ValidationPopup.ActualHeight/2) / 2;
+        }
+
     }
 }

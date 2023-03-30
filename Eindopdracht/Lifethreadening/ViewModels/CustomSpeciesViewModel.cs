@@ -27,6 +27,42 @@ namespace Lifethreadening.ViewModels
         public ICommand SaveSpeciesCommand { get; set; }
         public ICommand QuitCommand { get; set; }
 
+        public IEnumerable<Diet> PossibleDiets 
+        {
+            get 
+            {
+                return Enum.GetValues(typeof(Diet)).Cast<Diet>();
+            }
+        }
+
+        public IEnumerable<Ecosystem> PossibleEcosystems
+        {
+            get 
+            {
+                DatabaseEcosystemReader reader = new DatabaseEcosystemReader();
+                IEnumerable<Ecosystem> returnVal = reader.ReadAll();
+
+                return returnVal; 
+            }
+        }
+
+        private Ecosystem _chosenEcosystem;
+
+        public Ecosystem ChosenEcosystem
+        {
+            get 
+            { 
+                return _chosenEcosystem;
+            }
+            set 
+            { 
+                _chosenEcosystem = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+
         private List<string> _errors;
         public List<string> Errors
         {
@@ -82,6 +118,7 @@ namespace Lifethreadening.ViewModels
             OpenImagePickerCommand = new AsyncRelayCommand(OpenImagePicker);
             SaveSpeciesCommand = new RelayCommand(CreateSpecies);
             QuitCommand = new RelayCommand(Quit);
+            ChosenEcosystem = PossibleEcosystems.First();
         }
 
         private void Quit()
@@ -111,7 +148,7 @@ namespace Lifethreadening.ViewModels
                 creatingSpecies.Description = "This is a user created species";
 
                 DatabaseSpeciesWriter DatabaseWriter = new DatabaseSpeciesWriter();
-                DatabaseWriter.Create(creatingSpecies);
+                DatabaseWriter.Create(creatingSpecies, ChosenEcosystem.Id);
                 _navigationService.CurrentViewModel = new HomeViewModel(_navigationService);
             }
             else

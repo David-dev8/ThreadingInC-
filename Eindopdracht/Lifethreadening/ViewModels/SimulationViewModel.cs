@@ -13,6 +13,23 @@ namespace Lifethreadening.ViewModels
     public class SimulationViewModel : BaseViewModel
     {
         private Animal _selectedAnimal;
+
+        private bool _popUpVisible = false;
+
+        public bool PopupVisible
+        {
+            get 
+            {
+                return _popUpVisible;
+            }
+            set 
+            {
+                _popUpVisible = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
         private bool _hasLoaded = false;
 
         public bool HasLoaded
@@ -30,19 +47,21 @@ namespace Lifethreadening.ViewModels
         public ICommand QuitCommand { get; set; }
         public ICommand ResumeCommand { get; set; }
         public ICommand PauseCommand { get; set; }
+        public ICommand OpenInspector { get; set; }
         public Simulation Simulation { get; set; }
         public Animal SelectedAnimal 
         { 
             get
-            {
+            {               
                 return _selectedAnimal;
             }
             set
             {
-                _selectedAnimal = value;
+                _selectedAnimal = value;              
                 NotifyPropertyChanged();
             }
         }
+
         public SimulationElement SelectedSimulationElement
         {
             get
@@ -71,6 +90,7 @@ namespace Lifethreadening.ViewModels
             QuitCommand = new RelayCommand(Quit);
             ResumeCommand = new RelayCommand(Simulation.Start);
             PauseCommand = new RelayCommand(Simulation.Stop);
+            OpenInspector = new RelayCommand(OpenGeneInspector);
 
             Initialize();
         }
@@ -114,6 +134,13 @@ namespace Lifethreadening.ViewModels
         {
             base.Dispose();
             Simulation.End();
+        }
+
+        private void OpenGeneInspector() 
+        {
+            Mutation testter = new Mutation(MutationType.ADDITION, "test", "test", "terst", DateTime.Now, (s) => s.Weight = s.Weight - 5);
+            testter.Affect(SelectedAnimal);
+            PopupVisible = true;
         }
     }
 }

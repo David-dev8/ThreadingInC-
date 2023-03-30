@@ -37,11 +37,17 @@ namespace Lifethreadening.Views
 
             mutationsTester = new ObservableCollection<Mutation>();
             Dictionary<string, StatisticInfo> affections = new Dictionary<string, StatisticInfo>();
+
+            SizeChanged += SimulationView_SizeChanged;
         }
 
-        private void GeneInspectorOpen_Click(object sender, RoutedEventArgs e)
+        private void SimulationView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            geneticsView.IsOpen = true;
+            gridMutation.Width = ActualWidth / 2;
+            gridMutation.Height = ActualHeight / 2;
+            geneticsView.HorizontalOffset = (ActualWidth - gridMutation.ActualWidth) / 4;
+            geneticsView.VerticalOffset = (ActualHeight - gridMutation.ActualHeight) / 4;
         }
+
     }
 }
