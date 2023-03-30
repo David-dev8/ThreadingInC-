@@ -1,4 +1,5 @@
-﻿using Lifethreadening.Models;
+﻿using Lifethreadening.ExtensionMethods;
+using Lifethreadening.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -26,7 +27,12 @@ namespace Lifethreadening.DataAccess.Database
 
         private Ecosystem createEcosystem(SqlDataReader dataReader)
         {
-            return new Ecosystem(dataReader["name"].ToString(), dataReader["image"].ToString(), dataReader["difficulty"].ToString());
+            return new Ecosystem(
+                dataReader.GetInt32("id"),
+                dataReader.GetString("name"),
+                dataReader.GetString("image"),
+                dataReader.GetFloat("float")
+            );
         }
     }
 }
