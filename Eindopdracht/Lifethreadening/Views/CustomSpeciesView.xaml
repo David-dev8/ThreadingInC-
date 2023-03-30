@@ -108,7 +108,7 @@
 
             <StackPanel Background="White" BackgroundSizing="OuterBorderEdge" Margin="50, -150, 50, 0" Grid.Row="3" Grid.Column="3" BorderThickness="5" BorderBrush="Black"></StackPanel>
 
-            <customControls:IconButton Command="{Binding OpenImagePickerCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, -150, 0, 0" Grid.Row="3" Grid.Column="3" Text="...Upload photo..."></customControls:IconButton>
+            <customControls:IconButton Icon="Image" Command="{Binding OpenImagePickerCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, -150, 0, 0" Grid.Row="3" Grid.Column="3" Text="Upload photo"></customControls:IconButton>
             <Image Source="{Binding creatingSpecies.Image, Converter={StaticResource StringToImageConverter}}" MaxHeight="300" MaxWidth="300" Margin="0, -150, 0, 0" Grid.Row="3" Grid.Column="3"></Image>
 
             <TextBlock Grid.Column="3" Grid.Row="4" VerticalAlignment="top" Margin="10, 20, 10, 0" Text="Diet:" Style="{StaticResource TraitTitle}"></TextBlock>
@@ -137,8 +137,7 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <customControls:IconButton Command="{Binding SaveSpiecies}" Grid.Column="3" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="28" Text="Create species"></customControls:IconButton>
-
+            <customControls:IconButton Icon="Save" Command="{Binding SaveSpeciesCommand}" Grid.Column="3" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="28" Text="Create species"></customControls:IconButton>
         </Grid>
 
         <Popup IsOpen="{Binding HasErrors}" IsLightDismissEnabled="True" LightDismissOverlayMode="On" x:Name="ValidationPopup">

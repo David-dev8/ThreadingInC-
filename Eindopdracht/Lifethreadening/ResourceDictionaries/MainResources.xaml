@@ -14,7 +14,6 @@
     <SolidColorBrush x:Key="SystemControlHighlightListAccentLowBrush" Color="#29000000" />
     <SolidColorBrush x:Key="SystemControlHighlightListAccentMediumBrush" Color="#29000000" />
 
-    <x:Double x:Key="FontsizeGenetics">18</x:Double> <!-- TODO -->
     <SolidColorBrush x:Key="TertiaryBrush" Color="#333333" />
     <SolidColorBrush x:Key="AccentBrush" Color="#D9D9D9" />
     <Style x:Key="SectionHeading" TargetType="StackPanel">

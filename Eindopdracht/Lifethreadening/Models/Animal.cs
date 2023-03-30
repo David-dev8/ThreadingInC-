@@ -23,6 +23,8 @@ namespace Lifethreadening.Models
         private const int MAX_ENERGY = 100;
         private const int HP_LOSS_FOR_NATURAL_AGING_FACTOR = 3;
         private const int ENERGY_LOSS_PER_STEP = 1;
+        private const int ENERGY_WHERE_BELOW_STARTS_TO_LOSE_HP = 10;
+        private const int ENERGY_PER_SINGLE_HP_LOSS = 3;
 
         private int _hp;
         private int _energy;
@@ -128,7 +130,7 @@ namespace Lifethreadening.Models
         private int CalculateHpToLoseDueToEnergy()
         {
             // If the animal has not much energy left, it will gradually lose hp
-            return Math.Max(0, (10 - Energy) / 3); // TODO constant
+            return Math.Max(0, (ENERGY_WHERE_BELOW_STARTS_TO_LOSE_HP - Energy) / ENERGY_PER_SINGLE_HP_LOSS);
         }
 
         private int CalculateHpToLoseDueToNaturalAging()

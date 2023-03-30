@@ -86,6 +86,12 @@ namespace Lifethreadening.Views.CustomControls
         public WorldView()
         {
             this.InitializeComponent();
+            this.SizeChanged += WorldView_SizeChanged;
+        }
+
+        private void WorldView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Draw();
         }
 
         private static void InitializeRedraw(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -163,7 +169,6 @@ namespace Lifethreadening.Views.CustomControls
 
         private BitmapImage GetImage(string imageName)
         {
-            // TODO use converter
             if(!elementImages.ContainsKey(imageName))
             {
                 var newImage = new BitmapImage(new Uri(new Uri("ms-appdata:///local/UserUploads/"), imageName));

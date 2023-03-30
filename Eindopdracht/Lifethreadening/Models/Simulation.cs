@@ -203,7 +203,7 @@ namespace Lifethreadening.Models
         {
             Mutation mutation = await _mutationFactory.CreateMutation(World.CurrentDate);
             mutation.Affect(GetAnimals().GetRandom());
-            // TODO async
+            // TODO async (void)
         }
 
         public async Task Save()

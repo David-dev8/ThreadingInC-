@@ -102,7 +102,7 @@
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column="0" VerticalAlignment="Center">Genetics</TextBlock>
-                                            <customcontrols:IconButton Grid.Column="1" Icon="Search" Text="Inspect" Command="{Binding DataContext.OpenInspector, ElementName=CurrentSimulationView}" />
+                                            <customcontrols:IconButton Grid.Column="1" Icon="Search" Text="Inspect" Command="{Binding DataContext.OpenInspectorCommand, ElementName=CurrentSimulationView}" />
                                         </Grid>
                                     </StackPanel>
                                     <StackPanel DataContext="{Binding Species}">
@@ -212,38 +212,38 @@
                                 <TextBlock VerticalAlignment="Center" Text="{Binding Simulation.World.CurrentDate, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:MMMM, d (yyyy)}'}" />
                             </StackPanel>
                             <StackPanel Margin="0,0,0,5">
-                            <Grid Margin="0,0,0,5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0">Simulation speed</TextBlock>
-                                <StackPanel Grid.Column="1">
-                                    <TextBlock Text="{Binding Simulation.SimulationSpeed, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:dd} days/step'}" />
-                                    <Slider Minimum="1" Maximum="7" Value="{Binding Simulation.SimulationSpeed, Converter={StaticResource TimeSpanToAmountOfDaysConverter}, Mode=TwoWay}" />
-                                </StackPanel>
-                            </Grid>
-                            <Grid Margin="0,0,0,5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0">Score</TextBlock>
-                                <TextBlock Grid.Column="1" Text="{Binding Simulation.Score}" />
-                            </Grid>
-                            <Grid Margin="0,0,0,5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0">Ecosystem</TextBlock>
-                                <TextBlock Grid.Column="1" Text="{Binding Simulation.World.Ecosystem.Name}" />
-                            </Grid>
-                        </StackPanel>
-                        <StackPanel Margin="0,0,0,5" Orientation="Horizontal" Spacing="10">
-                            <customcontrols:IconButton Icon="Save" Text="Save" Command="{Binding SaveCommand}" />
-                            <Grid>
-                                <customcontrols:IconButton Icon="Pause" Text="Pause" Command="{Binding PauseCommand}" 
+                                <Grid Margin="0,0,0,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0">Simulation speed</TextBlock>
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="{Binding Simulation.SimulationSpeed, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:dd} days/step'}" />
+                                        <Slider Minimum="1" Maximum="7" Value="{Binding Simulation.SimulationSpeed, Converter={StaticResource TimeSpanToAmountOfDaysConverter}, Mode=TwoWay}" />
+                                    </StackPanel>
+                                </Grid>
+                                <Grid Margin="0,0,0,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0">Score</TextBlock>
+                                    <TextBlock Grid.Column="1" Text="{Binding Simulation.Score}" />
+                                </Grid>
+                                <Grid Margin="0,0,0,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0">Ecosystem</TextBlock>
+                                    <TextBlock Grid.Column="1" Text="{Binding Simulation.World.Ecosystem.Name}" />
+                                </Grid>
+                            </StackPanel>
+                            <StackPanel Margin="0,0,0,5" Orientation="Horizontal" Spacing="10">
+                                <customcontrols:IconButton Icon="Save" Text="Save" Command="{Binding SaveCommand}" />
+                                <Grid>
+                                    <customcontrols:IconButton Icon="Pause" Text="Pause" Command="{Binding PauseCommand}" 
                                                            Visibility="{Binding Simulation.Stopped, Converter={StaticResource InverseVisibilityConverter}}" />
                                     <customcontrols:IconButton Icon="Play" Text="Resume" Command="{Binding ResumeCommand}" 
                                                            Visibility="{Binding Simulation.Stopped, Converter={StaticResource VisibilityConverter}}" />
@@ -254,12 +254,14 @@
                     </StackPanel>
                 </Grid>
             </Grid>
-
         </Grid>
 
         <Popup Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="3" x:Name="geneticsView" IsOpen="{Binding PopupVisible}" LightDismissOverlayMode="On" IsLightDismissEnabled="True">
             <Frame Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource SecondaryBackgroundBrush}" BorderThickness="10">
                 <Grid x:Name="gridMutation">
+                    <Grid.Resources>
+                        <x:Double x:Key="FontsizeGenetics">18</x:Double>
+                    </Grid.Resources>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="4*"></ColumnDefinition>
@@ -279,15 +281,12 @@
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <!--Text on the left-->
                     <TextBlock x:Name="animalName" FontSize="{StaticResource FontsizeGenetics}" FontWeight="Bold" Grid.Row="1" Grid.Column="1" Text="{Binding SelectedAnimal.Name}"></TextBlock>
-                    <!--text Needs to be bound to the animals species-->
-                    <TextBlock x:Name="animalAge" FontSize="{StaticResource FontsizeGenetics}"  Grid.Row="2" Grid.Column="1">
+                    <TextBlock x:Name="animalAge" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="2" Grid.Column="1">
                         <Run Text="Age: "></Run>
                         <Run Text="{Binding SelectedAnimal.Age}"></Run>
                         <Run Text=" Years"></Run>
                     </TextBlock>
-                    <!--text needs to be bound to animals age TODO -->
 
                     <ItemsControl Grid.Row="5" ItemsSource="{Binding SelectedAnimal.Statistics.Data}" Grid.Column="1" Grid.ColumnSpan="3">
                         <ItemsControl.ItemTemplate>
@@ -304,7 +303,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <TextBlock x:Name="animalStats" FontSize="{StaticResource FontsizeGenetics}" FontWeight="Bold" Grid.Row="4" Grid.Column="1"> Statistics</TextBlock>
+                    <TextBlock x:Name="animalStats" FontSize="{StaticResource FontsizeGenetics}" FontWeight="Bold" Grid.Row="4" Grid.Column="1">Statistics</TextBlock>
 
                     <ListView Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="7" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemsSource="{Binding SelectedAnimal.Mutations}">
                         <ListView.ItemContainerStyle>
@@ -369,7 +368,7 @@
                                                         <Run Text="    • "></Run>
                                                         <Run Text="{Binding Name}"></Run>
                                                         <Run Text="("></Run>
-                                                        <Run Text="{Binding Value, Converter={StaticResource intFormat}, ConverterParameter='+0;-#' }"></Run>
+                                                        <Run Text="{Binding Value, Converter={StaticResource StringFormatter}, ConverterParameter='+0;-#' }"></Run>
                                                         <Run Text=")"></Run>
                                                     </TextBlock>
                                                 </DataTemplate>

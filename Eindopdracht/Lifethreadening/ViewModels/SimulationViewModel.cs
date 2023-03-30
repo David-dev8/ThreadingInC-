@@ -48,6 +48,22 @@ namespace Lifethreadening.ViewModels
                 NotifyPropertyChanged();
             }
         }
+        private bool _saving;
+
+        // TODO show spinner
+        public bool Saving
+        {
+            get 
+            { 
+                return _saving; 
+            }
+            set 
+            { 
+                _saving = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public ICommand QuitCommand { get; set; }
         public ICommand ResumeCommand { get; set; }
         public ICommand PauseCommand { get; set; }
@@ -89,6 +105,7 @@ namespace Lifethreadening.ViewModels
         public SimulationViewModel(NavigationService navigationService, Simulation simulation) : base(navigationService)
         {
             HasLoaded = false;
+            Saving = false;
             _simulationReader = new DatabaseSimulationReader();
             QuitCommand = new RelayCommand(Quit);
             ResumeCommand = new RelayCommand(Start);
@@ -124,23 +141,15 @@ namespace Lifethreadening.ViewModels
         private async Task RegisterNewSimulation(Simulation simulation)
         {
             Simulation = simulation;
-            await InitializeSimulation();
+            await Simulation.Setup();
             await Simulation.Save();
-            Simulation.Start();
-            HasLoaded = true;
         }
 
         private async Task GetFullSimulation(Simulation simulation)
         {
             Simulation = _simulationReader.ReadFullDetails(simulation);
-            await InitializeSimulation();
-        }
-
-        private async Task InitializeSimulation()
-        {
-            // TODO try catch stop simulation
             await Simulation.Setup();
-            await Simulation.Save();         
+            // TODO try catch stop simulation
         }
 
         private void Simulation_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -170,7 +179,9 @@ namespace Lifethreadening.ViewModels
         {
             try
             {
+                Saving = true;
                 await Simulation.Save();
+                Saving = false;
             }
             catch(Exception ex)
             {

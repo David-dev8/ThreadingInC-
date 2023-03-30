@@ -92,16 +92,11 @@
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
                 </ListView>
-
                 <StackPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="5">
-                    <customControls:IconButton Text="Start new" HorizontalAlignment="Center" VerticalAlignment="Bottom" Command="{Binding CreateNewGameCommand}"></customControls:IconButton>
-                    <customControls:IconButton Text="Statistics" Grid.Row="3" Grid.Column="3" HorizontalAlignment="Center" Command="{Binding GoToStatisticsCommand}"></customControls:IconButton>
-                    <customControls:IconButton Text="Create a custom spiecies" Grid.Row="4" Grid.Column="3" HorizontalAlignment="Center" Margin="0, 0, 0, 0" Command="{Binding GoToCustomSpeciesCommand}"></customControls:IconButton>
+                    <customControls:IconButton Icon="Play" Text="Start new" HorizontalAlignment="Center" VerticalAlignment="Bottom" Command="{Binding CreateNewGameCommand}"></customControls:IconButton>
+                    <customControls:IconButton Icon="Paw" Text="Create a custom species" Grid.Row="4" Grid.Column="3" HorizontalAlignment="Center" Margin="0, 0, 0, 0" Command="{Binding GoToCustomSpeciesCommand}"></customControls:IconButton>
                 </StackPanel>
-
             </Grid>
-            
         </Border>
-
     </Grid>
 </Page>

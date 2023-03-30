@@ -9,7 +9,6 @@ namespace Lifethreadening.DataAccess.Database
 {
     public static class DatabaseConnectionManager
     {
-        // TODO naar config?
         private static readonly string CONNECTION_STRING = @"Server=.;Database=LifeThreadening;Integrated Security=true";
 
         public static SqlConnection GetSqlConnection()
