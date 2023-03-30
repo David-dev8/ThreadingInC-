@@ -163,6 +163,7 @@ namespace Lifethreadening.Views.CustomControls
 
         private BitmapImage GetImage(string imageName)
         {
+            // TODO use converter
             if(!elementImages.ContainsKey(imageName))
             {
                 var newImage = new BitmapImage(new Uri(new Uri("ms-appdata:///local/UserUploads/"), imageName));
