@@ -5,38 +5,47 @@
     xmlns:local="using:Lifethreadening.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"    
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:customcontrols="using:Lifethreadening.Views.CustomControls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    <Page.Resources>
-        <DataTemplate x:Key="ImageTemplate">
-            <StackPanel>
-                <TextBlock Text="{Binding Name}" FontSize="20" FontWeight="Bold" Margin="0,5,0,0" HorizontalAlignment="Center"/>
-                <StackPanel Orientation="Horizontal" Margin="0,5,0,0" HorizontalAlignment="Center">
-                    <TextBlock Text="Difficulty: " />
-                    <TextBlock Text="{Binding Difficulty}"/>
-                </StackPanel>
-                <Image Source="{Binding Image}" Stretch="UniformToFill" Width="200" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Grid Background="{StaticResource PrimaryBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="7*" />
+            <RowDefinition Height="3*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="1" Text="Eco Select Screen" Style="{StaticResource BlockHeader}" HorizontalAlignment="Center"></TextBlock>
+        <StackPanel Grid.Row="2" VerticalAlignment="Bottom">
+            <controls:Carousel
+                InvertPositive="True" ItemDepth="300"
+                ItemMargin="0" ItemRotationX="0"
+                ItemRotationY="45" ItemRotationZ="0"
+                Orientation="Horizontal" 
+                ItemsSource="{Binding Ecosystems}"
+                SelectedItem="{Binding SelectedEcosystem, Mode=TwoWay}"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch">
+                <controls:Carousel.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel VerticalAlignment="Stretch">
+                            <TextBlock Text="{Binding Name}" FontSize="20" FontWeight="Bold" Margin="0,5,0,0" HorizontalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0" HorizontalAlignment="Center">
+                                <TextBlock Text="Difficulty: " />
+                                <TextBlock Text="{Binding Difficulty}"/>
+                            </StackPanel>
+                            <Image Source="{Binding Image}" Stretch="UniformToFill" Width="225" Height="225" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </controls:Carousel.ItemTemplate>
+                <controls:Carousel.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </controls:Carousel.EasingFunction>
+            </controls:Carousel>
+            <StackPanel HorizontalAlignment="Center" Grid.Row="2" Margin="0,20">
+                <customcontrols:IconButton Text="Select" Icon="Play" Command="{Binding SelectEcosystemCommand}" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <customcontrols:IconButton Text="Back" Icon="SignOut" Command="{Binding GoBackCommand}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5"/>
             </StackPanel>
-        </DataTemplate>
-    </Page.Resources>
-    <Grid Background="#A1A1A1">
-        <TextBlock Text="Eco Select Screen" FontSize="50" HorizontalAlignment="Center"></TextBlock>
-        <controls:Carousel 
-            InvertPositive="True" ItemDepth="300"
-            ItemMargin="0" ItemRotationX="0"
-            ItemRotationY="45" ItemRotationZ="0"
-            Orientation="Horizontal" 
-            ItemsSource="{Binding Images}"
-            SelectedItem="{Binding SelectedImage, Mode=TwoWay}"
-            ItemTemplate="{StaticResource ImageTemplate}"
-            Margin="0,151,0,151">
-            <controls:Carousel.EasingFunction>
-                <CubicEase EasingMode="EaseOut" />
-            </controls:Carousel.EasingFunction>
-        </controls:Carousel>
-        <Button Content="Select" Margin="0,641,0,0" Command="{Binding SelectEcosystemCommand}" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-
+        </StackPanel>
     </Grid>
 </Page>

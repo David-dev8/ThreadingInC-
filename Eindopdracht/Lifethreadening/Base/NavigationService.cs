@@ -9,8 +9,10 @@ using Windows.UI.Xaml.Controls;
 
 namespace Lifethreadening.Base
 {
-    public class NavigationService
+    public class NavigationService: Observable
     {
+        private const string CLOSE_DIALOG_TEXT = "Continue";
+
         private Frame _frame;
         private BaseViewModel _currentViewModel;
         private readonly Dictionary<Type, Type> viewMapping = new Dictionary<Type, Type>() 
@@ -37,9 +39,51 @@ namespace Lifethreadening.Base
             }
         }
 
+        private ContentDialog _dialog;
+        private ErrorMessage _error;
+        public ErrorMessage Error
+        {
+            get
+            {
+                return _error;
+            }
+            set
+            {
+                _error = value;
+                if(_error != null)
+                {
+                    _dialog = new ContentDialog()
+                    {
+                        Title = _error.Title,
+                        Content = _error.Content,
+                        CloseButtonText = CLOSE_DIALOG_TEXT
+                    };
+                    _dialog.ShowAsync();
+                }
+                else
+                {
+                    _dialog.Hide();
+                }
+            }
+        }
+
         public NavigationService(Frame frame)
         {
             _frame = frame;
+        }
+    }
+
+    public class ErrorMessage
+    {
+        private const string DEFAULT_TITLE = "Error";
+
+        public string Title { get; set; }
+        public string Content { get; set; }
+
+        public ErrorMessage(string content, string title = DEFAULT_TITLE)
+        {
+            Title = title;
+            Content = content;
         }
     }
 }

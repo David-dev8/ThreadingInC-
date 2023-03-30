@@ -116,7 +116,6 @@ namespace Lifethreadening.Models
         }
 
         public Simulation(int id, int score, DateTime startDate, int amountOfDisasters, string fileNameSaveSlot, string name, World world) 
-        { 
             Name = name;
             World = world;
             Id = id;
@@ -134,6 +133,7 @@ namespace Lifethreadening.Models
             _worldContextService = new WorldContextService(World);
             _worldStateWriter = new JSONWorldStateWriter();
             _simulationWriter = new DatabaseSimulationWriter();
+            // TODO exceptions tijdens timer
             SetUpTimers();
         }
 

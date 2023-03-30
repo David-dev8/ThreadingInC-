@@ -45,9 +45,9 @@
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="8*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="2*"></RowDefinition>
+                    <RowDefinition Height="4*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
 
@@ -61,32 +61,40 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <Border BorderBrush="{StaticResource TertiaryBrush}" BorderThickness="5" Grid.Row="1" Grid.Column="1">
-                    <Grid>
-                        <TextBlock Text="Saveslot A" HorizontalAlignment="Center" Margin="0, 25, 0, 0" Style="{StaticResource BlockHeader}"></TextBlock>
-                        <customControls:IconButton Text="Continue" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 10" Command="{Binding OpenGameA}"></customControls:IconButton>
-                    </Grid>
-                </Border>
-                
-                
-                <Border BorderBrush="{StaticResource TertiaryBrush}" BorderThickness="5" Grid.Row="1" Grid.Column="3">
-                    <Grid>
-                        <TextBlock Text="Saveslot B" HorizontalAlignment="Center" Margin="0, 25, 0, 0" Style="{StaticResource BlockHeader}"></TextBlock>
-                        <customControls:IconButton Text="Continue" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 10" Command="{Binding OpenGameB}"></customControls:IconButton>
-                    </Grid> 
-                </Border>
-                
-                
-                <Border BorderBrush="{StaticResource TertiaryBrush}" BorderThickness="5" Grid.Row="1" Grid.Column="5">
-                    <Grid>
-                        <TextBlock Text="Saveslot C" HorizontalAlignment="Center" Margin="0, 25, 0, 0" Style="{StaticResource BlockHeader}"></TextBlock>
-                        <customControls:IconButton Text="Continue" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 10" Command="{Binding OpenGameC}"></customControls:IconButton>
-                    </Grid> 
-                </Border>
+                <ListView Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5" ItemsSource="{Binding Slots}" SelectedItem="{Binding SelectedSlot, Mode=TwoWay}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="VerticalAlignment" Value="Stretch" />
+                            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="{StaticResource TertiaryBrush}" BorderThickness="5" Grid.Row="1" Grid.Column="1" Background="Red" VerticalAlignment="Stretch">
+                                <Grid>
+                                    <TextBlock Text="Saveslot A" Style="{StaticResource BlockHeader}"></TextBlock>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel Orientation="Horizontal" 
+                                             VerticalAlignment="Stretch"  
+                                             ScrollViewer.HorizontalScrollMode="Auto" 
+                                             ScrollViewer.VerticalScrollMode="Disabled"
+                                             HorizontalAlignment="Stretch" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </ListView>
 
-                <customControls:IconButton Text="Statistics" Grid.Row="3" Grid.Column="3" HorizontalAlignment="Center" Margin="0, 25, 0, 0" Command="{Binding GoToStatistics}"></customControls:IconButton>
-                <customControls:IconButton Text="Create a custom spiecies" Grid.Row="4" Grid.Column="3" HorizontalAlignment="Center" Margin="0, 0, 0, 0" Command="{Binding GoToCustomSpiecies}"></customControls:IconButton>
-                
+                <StackPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="5">
+                    <customControls:IconButton Text="Start new" HorizontalAlignment="Center" VerticalAlignment="Bottom" Command="{Binding CreateNewGameCommand}"></customControls:IconButton>
+                    <customControls:IconButton Text="Statistics" Grid.Row="3" Grid.Column="3" HorizontalAlignment="Center" Command="{Binding GoToStatistics}"></customControls:IconButton>
+                    <customControls:IconButton Text="Create a custom spiecies" Grid.Row="4" Grid.Column="3" HorizontalAlignment="Center" Margin="0, 0, 0, 0" Command="{Binding GoToCustomSpiecies}"></customControls:IconButton>
+                </StackPanel>
+
             </Grid>
             
         </Border>

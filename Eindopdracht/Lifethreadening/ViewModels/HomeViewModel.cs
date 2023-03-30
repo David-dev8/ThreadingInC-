@@ -12,22 +12,44 @@ namespace Lifethreadening.ViewModels
 {
     public class HomeViewModel : BaseViewModel
     {
-        public ICommand OpenGameA { get; set; }
-        public ICommand OpenGameB { get; set; }
-        public ICommand OpenGameC { get; set; }
-        public ICommand GoToStatistics { get; set; }
-        public ICommand GoToCustomSpiecies { get; set; }
+        private const int AMOUNT_OF_SLOTS = 3;
+        private KeyValuePair<string, Simulation> _selectedSlot;
+
+        public ICommand CreateNewGameCommand { get; set; }
+        public KeyValuePair<string, Simulation> SelectedSlot
+        {
+            get
+            {
+                return _selectedSlot;
+            }
+            set
+            {
+                _selectedSlot = value;
+                NotifyPropertyChanged();
+            }
+        }
+        public ICommand GoToStatisticsCommand { get; set; }
+        public ICommand GoToCustomSpieciesCommand { get; set; }
+        public IDictionary<string, Simulation> Slots { get; set; }
 
         public HomeViewModel(NavigationService navigationService) : base(navigationService)
         {
+            CreateNewGameCommand = new RelayCommand(CreateNewGame);
 
-            OpenGameA = new RelayCommand(() => StartGame(0));
-            OpenGameB = new RelayCommand(() => StartGame(1));
-            OpenGameC = new RelayCommand(() => StartGame(2));
+            GoToStatisticsCommand = new RelayCommand(NavigateToStats);
+            GoToCustomSpieciesCommand = new RelayCommand(NavigateToCustomSpiecies);
 
-            GoToStatistics = new RelayCommand(NavigateToStats);
-            GoToCustomSpiecies = new RelayCommand(NavigateToCustomSpiecies);
+            Slots = new Dictionary<string, Simulation>();
+            for(int i = 0; i < AMOUNT_OF_SLOTS; i++)
+            {
+                Slots.Add(i.ToString(), null);
+            }
+            SelectedSlot = Slots.First();
+        }
 
+        private void CreateNewGame()
+        {
+            _navigationService.CurrentViewModel = new EcosystemSelectViewModel(_navigationService);
         }
 
         public void StartGame(int slot) 

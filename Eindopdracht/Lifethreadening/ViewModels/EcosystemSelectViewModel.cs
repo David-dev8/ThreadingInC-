@@ -13,60 +13,48 @@ namespace Lifethreadening.ViewModels
     public class EcosystemSelectViewModel : BaseViewModel
     {
         private readonly IEcosystemReader _ecosystemReader;
-        private IEnumerable<Ecosystem> _images;
-        private Ecosystem _selectedImage;
+        private Ecosystem _selectedEcosystem;
 
-        public IEnumerable<Ecosystem> Images
-        {
-            get { return _images; }
-            set
-            {
-                if (_images != value)
-                {
-                    _images = value;
-                   // OnPropertyChanged();
-                }
-            }
-        }
-        public Ecosystem SelectedImage
+        public IEnumerable<Ecosystem> Ecosystems { get; set; }
+        public Ecosystem SelectedEcosystem
         {
             get 
             { 
-                return _selectedImage; 
+                return _selectedEcosystem; 
             }
             set
             {
-                if (_selectedImage != value)
+                if (_selectedEcosystem != value)
                 {
-                    _selectedImage = value;
-                    OnPropertyChanged(nameof(SelectedImage));
+                    _selectedEcosystem = value;
+                    OnPropertyChanged(nameof(SelectedEcosystem));
                 }
             }
         }
 
         public ICommand SelectEcosystemCommand { get; set; }
+        public ICommand GoBackCommand { get; set; }
 
 
         public EcosystemSelectViewModel(NavigationService navigationService) : base(navigationService)
         {
             _ecosystemReader = new DatabaseEcosystemReader();
-
-            // Initialize the images collection
-            Images = _ecosystemReader.ReadAll();
-
-
-            // Set the selected image to the first image in the collection 
-            SelectedImage = Images.First();
+            Ecosystems = _ecosystemReader.ReadAll();
+            SelectedEcosystem = Ecosystems.First();
 
             SelectEcosystemCommand = new RelayCommand(SelectEcosystem);
-
+            GoBackCommand = new RelayCommand(GoBack);
         }
 
         private void SelectEcosystem()
         {
             // Set the current view model to a new instance of SimulationViewModel with the selected ecosystem
-            //_navigationService.CurrentViewModel = new SimulationViewModel(_navigationService, new Simulation("Amazon", new GridWorld(SelectedImage,new RandomWeatherManager())));
+            _navigationService.CurrentViewModel = new SimulationViewModel(_navigationService, new Simulation("Amazon", new GridWorld(SelectedEcosystem,new RandomWeatherManager())));
         }
 
+        private void GoBack()
+        {
+            _navigationService.CurrentViewModel = new HomeViewModel(_navigationService);
+        }
     }
 }

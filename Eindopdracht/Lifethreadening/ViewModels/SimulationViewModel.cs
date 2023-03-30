@@ -77,11 +77,19 @@ namespace Lifethreadening.ViewModels
 
         private async void Initialize()
         {
-            // TODO try catch
-            await Simulation.Setup();
-            await Simulation.Save();
-            Simulation.Start();
-            HasLoaded = true;
+            // TODO try catch stop simulation
+            try
+            {
+                await Simulation.Setup();
+                await Simulation.Save();
+                Simulation.Start();
+                HasLoaded = true;
+            }
+            catch(Exception ex)
+            {
+                _navigationService.Error = new ErrorMessage("Something went wrong while initializing the simulation"); // TODO CustomSpecies mistakes
+                Quit();
+            }
         }
 
         private void Simulation_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

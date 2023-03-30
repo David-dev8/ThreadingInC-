@@ -142,7 +142,7 @@
 
         <StackPanel Background="White" BackgroundSizing="OuterBorderEdge" Margin="50, -150, 50, 0" Grid.Row="3" Grid.Column="3" BorderThickness="5" BorderBrush="Black"></StackPanel>
 
-        <customControls:IconButton Command="{Binding OpenImagePicker}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, -150, 0, 0" Grid.Row="3" Grid.Column="3" Text="...Upload photo..."></customControls:IconButton>
+        <customControls:IconButton Command="{Binding OpenImagePickerCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, -150, 0, 0" Grid.Row="3" Grid.Column="3" Text="...Upload photo..."></customControls:IconButton>
         <Image Source="{Binding creatingSpecies.Image, Converter={StaticResource StringToImageConverter}}" MaxHeight="300" MaxWidth="300" Margin="0, -150, 0, 0" Grid.Row="3" Grid.Column="3"></Image>
 
         <TextBlock Grid.Column="3" Grid.Row="4" VerticalAlignment="top" Margin="10, 20, 10, 0" Text="Diet:" Style="{StaticResource TraitTitle}"></TextBlock>
@@ -160,7 +160,8 @@
         <Slider Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="200, 0, 20, 0" Maximum="10" Width="250" Value="{Binding creatingSpecies.BreedSize, Mode=TwoWay}"></Slider>
         <TextBlock Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="350, -10, 10, 0" Text="{Binding creatingSpecies.BreedSize}" Style="{StaticResource TraitTitle}"></TextBlock>
 
-        <customControls:IconButton Command="{Binding SaveSpiecies}" Grid.Column="3" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="28" Text="Create species"></customControls:IconButton>
+        <customControls:IconButton Icon="Plus" Command="{Binding SaveSpeciesCommand}" Grid.Column="3" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="28" Text="Create species" />
+        <customControls:IconButton Icon="SignOut" Command="{Binding QuitCommand}" Grid.Column="3" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="28" Text="Quit" />
         <!--#endregion-->
          
         <!--#region ErrorPopup -->

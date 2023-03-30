@@ -13,6 +13,8 @@ using Windows.Storage;
 using Windows.UI;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI.Xaml;
+using System.Numerics;
+using Windows.UI.Xaml.Controls;
 
 namespace Lifethreadening.ViewModels
 {
@@ -21,8 +23,9 @@ namespace Lifethreadening.ViewModels
 
         public readonly int MAX_POINTS = 350;
 
-        public ICommand OpenImagePicker { get; set; }
-        public ICommand SaveSpiecies { get; set; }
+        public ICommand OpenImagePickerCommand { get; set; }
+        public ICommand SaveSpeciesCommand { get; set; }
+        public ICommand QuitCommand { get; set; }
 
         private List<string> _errors;
         public List<string> Errors
@@ -76,8 +79,14 @@ namespace Lifethreadening.ViewModels
 
             PointsLeft = MAX_POINTS - creatingSpecies.BaseStatistics.GetSumOfStats();
             
-            OpenImagePicker = new AsyncRelayCommand(OpenFilePicker);
-            SaveSpiecies = new RelayCommand(CreateSpiecies);
+            OpenImagePickerCommand = new AsyncRelayCommand(OpenImagePicker);
+            SaveSpeciesCommand = new RelayCommand(CreateSpecies);
+            QuitCommand = new RelayCommand(Quit);
+        }
+
+        private void Quit()
+        {
+            _navigationService.CurrentViewModel = new HomeViewModel(_navigationService);
         }
 
         private void BaseStatistics_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -85,34 +94,34 @@ namespace Lifethreadening.ViewModels
             PointsLeft = MAX_POINTS - creatingSpecies.BaseStatistics.GetSumOfStats(); //TODO GetSumOfStats verwerken
         }
 
-        private void CreateSpiecies()
+        private void CreateSpecies()
         {
-
-            List<string> valid = creatingSpecies.CheckIfValid();
+            List<string> errors = creatingSpecies.CheckIfValid();
 
             if (PointsLeft < 0)
             {
-                valid.Add("* The points may not be negative");
+                errors.Add("* The points may not be negative");
             }
 
-            HasErrors = valid.Count > 0;
-            Errors = valid;
-
-            if (valid.Count == 0) 
+            if (errors.Count == 0) 
             {
                 creatingSpecies.MinBreedSize = (int)Math.Ceiling(creatingSpecies.BreedSize / 2d);
                 creatingSpecies.MaxBreedSize = (int)Math.Ceiling(creatingSpecies.BreedSize * 1.5d);
                 creatingSpecies.MaxAge = (int)Math.Ceiling(creatingSpecies.AverageAge * 1.25d);
-                creatingSpecies.Description = "This is an user created species";
+                creatingSpecies.Description = "This is a user created species";
 
                 DatabaseSpeciesWriter DatabaseWriter = new DatabaseSpeciesWriter();
                 DatabaseWriter.Create(creatingSpecies);
                 _navigationService.CurrentViewModel = new HomeViewModel(_navigationService);
             }
-
+            else
+            {
+                _navigationService.Error = new ErrorMessage("Please fix the folowing errors to save this spiecies:\n" + 
+                    string.Join("\n", errors), "There seem to be some errors with the data");
+            }
         }
 
-        private async Task OpenFilePicker()
+        private async Task OpenImagePicker()
         {
             FileOpenPicker openPicker = new FileOpenPicker();
             openPicker.ViewMode = PickerViewMode.Thumbnail;
