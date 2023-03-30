@@ -59,41 +59,30 @@ namespace Lifethreadening.Models
         }
 
         private Diet _diet;
-        public Diet Diet {
-            get {
+        public Diet Diet 
+        {
+            get 
+            {
                 return _diet;
-            } set { 
+            } 
+            set 
+            { 
                 _diet = value;
                 NotifyPropertyChanged();
             }
         }
 
-
         public Statistics BaseStatistics { get; set; }
-
-        // TODO dub?
-        public Species()
-        {
-            Name = "";
-            ScientificName = "";
-            Image = "";
-            AverageAge = 0;
-            MaxAge = 0;
-            BreedSize = 0;
-            Diet = Diet.HERBIVORE;
-            BaseStatistics = new Statistics();
-        }
         
         public string Description { get; set; }
         public int MaxBreedSize { get; set; }
         public int MinBreedSize { get; set; }
 
-        public Species(int id, string name, string description, string scientificName, string image, int averageAge, int maxAge, int maxBreedSize, int minBreedSize, Diet diet, Statistics baseStatistics)
+        public Species(int id, string name, string description, string scientificName, string image, int averageAge, int maxAge, int maxBreedSize, int minBreedSize, Diet diet, Statistics baseStatistics = null)
         {
             Id = id;
             Name = name;
             Description = description;
-
             ScientificName = scientificName;
             Image = image;
             AverageAge = averageAge;
@@ -102,20 +91,6 @@ namespace Lifethreadening.Models
             MinBreedSize = minBreedSize;
             Diet = diet;
             BaseStatistics = baseStatistics;
-        }
-
-        public Species(int id, string name, string description, string scientificName, string image, int averageAge, int maxAge, int maxBreedSize, int minBreedSize, Diet diet)
-        {
-            Id = id;
-            Name = name;
-            Description = description;
-            ScientificName = scientificName;
-            Image = image;
-            AverageAge = averageAge;
-            MaxAge = maxAge;
-            MinBreedSize = minBreedSize;
-            MaxBreedSize = maxBreedSize;
-            Diet = diet;
         }
 
         public override bool Equals(object obj)

@@ -21,7 +21,6 @@ namespace Lifethreadening.DataAccess.Database
 
         public async Task Write(Simulation simulation)
         {
-            // TODO stond !=, als deze crashte kon je niet meer op knoppen drukken
             if (simulation.Id == 0)
             {
                 CreateSimulation(simulation);

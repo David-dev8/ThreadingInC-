@@ -25,7 +25,7 @@ namespace Lifethreadening.Models
 
         public async Task<Mutation> CreateMutation(DateTime currentDate)
         {
-            string gene = await _geneReader.GetRandomGene(); // TODO rename allel to gene
+            string gene = await _geneReader.GetRandomGene();
             IEnumerable<string> proteins = await _geneReader.GetRandomProteins(2);
             return new Mutation(EnumHelpers.GetRandom<MutationType>(), gene, 
                 proteins.ElementAt(0), proteins.ElementAt(1), currentDate, MutateAction);

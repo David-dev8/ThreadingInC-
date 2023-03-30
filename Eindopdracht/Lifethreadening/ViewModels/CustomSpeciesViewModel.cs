@@ -15,6 +15,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI.Xaml;
 using System.Numerics;
 using Windows.UI.Xaml.Controls;
+using System.Xml.Linq;
 
 namespace Lifethreadening.ViewModels
 {
@@ -110,7 +111,7 @@ namespace Lifethreadening.ViewModels
 
         public CustomSpeciesViewModel(NavigationService navigationService) : base(navigationService)
         {
-            creatingSpecies = new Species();
+            creatingSpecies = new Species(0, "", "", "", "", 0, 0, 0, 0, PossibleDiets.First());
             creatingSpecies.BaseStatistics.PropertyChanged += BaseStatistics_PropertyChanged; 
 
             PointsLeft = MAX_POINTS - creatingSpecies.BaseStatistics.GetSumOfStats();
