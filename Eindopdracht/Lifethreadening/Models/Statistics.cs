@@ -25,6 +25,14 @@ namespace Lifethreadening.Models
             { "metabolicRate", ColorHelper.ToColor("#32DE24") },
         };
 
+        public IDictionary<string, StatisticInfo> Data
+        { 
+            get 
+            {
+                return GetData();
+            } 
+        }
+
         private int _weight;
         public int Weight
         {
