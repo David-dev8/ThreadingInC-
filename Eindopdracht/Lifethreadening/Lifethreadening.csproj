@@ -124,7 +124,6 @@
     <Compile Include="Base\Observable.cs" />
     <Compile Include="Converters\EnumToStringConverter.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
-    <Compile Include="Converters\IntFormatConverter.cs" />
     <Compile Include="Converters\ConverterGroup.cs" />
     <Compile Include="Converters\IntPositivityToColorConverter.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
@@ -359,9 +358,7 @@
       <Version>2.3.0</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\UserUploads\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
