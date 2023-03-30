@@ -9,7 +9,6 @@ namespace Lifethreadening.DataAccess
 {
     public interface ISimulationWriter
     {
-        void Create(string saveSlotLocation, Simulation simulation);
-        Task Update(Simulation simulation);
+        Task Write(string saveSlotLocation, Simulation simulation);
     }
 }

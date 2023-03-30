@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lifethreadening.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,7 @@ namespace Lifethreadening.DataAccess
 {
     public interface ISimulationReader
     {
+        Simulation Read();
+        IEnumerable<Simulation> ReadAll();
     }
 }
