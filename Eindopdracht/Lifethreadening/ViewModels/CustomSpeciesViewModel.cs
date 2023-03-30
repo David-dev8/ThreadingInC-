@@ -18,6 +18,7 @@ namespace Lifethreadening.ViewModels
 {
     public class CustomSpeciesViewModel : BaseViewModel
     {
+
         public readonly int MAX_POINTS = 350;
 
         public ICommand OpenImagePicker { get; set; }
@@ -102,8 +103,11 @@ namespace Lifethreadening.ViewModels
                 creatingSpecies.MinBreedSize = (int)Math.Ceiling(creatingSpecies.BreedSize / 2d);
                 creatingSpecies.MaxBreedSize = (int)Math.Ceiling(creatingSpecies.BreedSize * 1.5d);
                 creatingSpecies.MaxAge = (int)Math.Ceiling(creatingSpecies.AverageAge * 1.25d);
+                creatingSpecies.Description = "This is an user created species";
 
-                //TODO Save custom spiecies to DB
+                DatabaseSpeciesWriter DatabaseWriter = new DatabaseSpeciesWriter();
+                DatabaseWriter.Create(creatingSpecies);
+                _navigationService.CurrentViewModel = new HomeViewModel(_navigationService);
             }
 
         }
@@ -125,15 +129,11 @@ namespace Lifethreadening.ViewModels
                 await file.RenameAsync(newFileName);
                 StorageFolder saveFolder = ApplicationData.Current.LocalFolder; 
 
-                try { 
-                    await saveFolder.GetFolderAsync("UserUploads");
-                } catch( Exception e) {
-                    await saveFolder.CreateFolderAsync("UserUploads");
-                    await saveFolder.GetFolderAsync("UserUploads");
-                }
+                saveFolder = await saveFolder.CreateFolderAsync("UserUploads", CreationCollisionOption.OpenIfExists);
+
                 await file.CopyAsync(saveFolder);
 
-                creatingSpecies.Image = saveFolder.Path + "/" + newFileName;
+                creatingSpecies.Image = newFileName;
             }
         }
 

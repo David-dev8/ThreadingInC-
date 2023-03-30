@@ -96,4 +96,6 @@
         <customConverters:IntPositivityToColorConverter  />
         <customConverters:ColorToBrushConverter />
     </customConverters:ConverterGroup>
+    <customConverters:StringToImageConverter x:Key="StringToImageConverter"/>
+
 </ResourceDictionary>

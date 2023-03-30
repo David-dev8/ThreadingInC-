@@ -131,6 +131,7 @@
     <Compile Include="Converters\AmountToSingularOrPluralConverter.cs" />
     <Compile Include="Converters\SexToBrushConverter.cs" />
     <Compile Include="Converters\SexToIconConverter.cs" />
+    <Compile Include="Converters\StringToImageConverter.cs" />
     <Compile Include="Converters\TimeSpanToAmountOfDaysConverter.cs" />
     <Compile Include="Base\RelayCommand.cs" />
     <Compile Include="DataAccess\Algorithmic\RandomWeatherManager.cs" />
@@ -357,6 +358,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\UserUploads\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Fonts\RubikBubbles-Regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

@@ -4,11 +4,92 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Lifethreadening.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:customControls="using:Lifethreadening.Views.CustomControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
+    <Page.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0" Opacity="1">
+            <GradientStop Color="#387B54" Offset="0.00" x:Name="GradientStop1"/>
+            <GradientStop Color="#387B54" Offset="0.195" x:Name="GradientStop11"/>
+            <GradientStop Color="#D1A36E" Offset="0.20" x:Name="GradientStop2"/>
+            <GradientStop Color="#D1A36E" Offset="0.395" x:Name="GradientStop22"/>
+            <GradientStop Color="#FAD5A5" Offset="0.40" x:Name="GradientStop3"/>
+            <GradientStop Color="#FAD5A5" Offset="0.595" x:Name="GradientStop33"/>
+            <GradientStop Color="#4978E5" Offset="0.60" x:Name="GradientStop4"/>
+            <GradientStop Color="#4978E5" Offset="0.795" x:Name="GradientStop44"/>
+            <GradientStop Color="#FFFFFF" Offset="0.80" x:Name="GradientStop5"/>
+            <GradientStop Color="#FFFFFF" Offset="1.0" x:Name="GradientStop55"/>
+        </LinearGradientBrush>
+    </Page.Background>
 
     <Grid>
-        <TextBlock Margin="100">Hallo</TextBlock>
+        <Grid.Background>
+            <ImageBrush Stretch="Fill" ImageSource="/Assets/worldBackground.png"/>
+        </Grid.Background>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="100" Foreground="#041E00" FontFamily="/Assets/Fonts/RubikBubbles-Regular.ttf#Rubik Bubbles">Lifethreadening</TextBlock>
+
+        <Border BorderBrush="{StaticResource TertiaryBrush}" BorderThickness="5" Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Margin="350, 0, 350, 100">
+            <Grid Background="{StaticResource PrimaryBackgroundBrush}">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="2*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="10*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="10*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="10*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Border BorderBrush="{StaticResource TertiaryBrush}" BorderThickness="5" Grid.Row="1" Grid.Column="1">
+                    <Grid>
+                        <TextBlock Text="Saveslot A" HorizontalAlignment="Center" Margin="0, 25, 0, 0" Style="{StaticResource BlockHeader}"></TextBlock>
+                        <customControls:IconButton Text="Continue" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 10" Command="{Binding OpenGameA}"></customControls:IconButton>
+                    </Grid>
+                </Border>
+                
+                
+                <Border BorderBrush="{StaticResource TertiaryBrush}" BorderThickness="5" Grid.Row="1" Grid.Column="3">
+                    <Grid>
+                        <TextBlock Text="Saveslot B" HorizontalAlignment="Center" Margin="0, 25, 0, 0" Style="{StaticResource BlockHeader}"></TextBlock>
+                        <customControls:IconButton Text="Continue" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 10" Command="{Binding OpenGameB}"></customControls:IconButton>
+                    </Grid> 
+                </Border>
+                
+                
+                <Border BorderBrush="{StaticResource TertiaryBrush}" BorderThickness="5" Grid.Row="1" Grid.Column="5">
+                    <Grid>
+                        <TextBlock Text="Saveslot C" HorizontalAlignment="Center" Margin="0, 25, 0, 0" Style="{StaticResource BlockHeader}"></TextBlock>
+                        <customControls:IconButton Text="Continue" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 10" Command="{Binding OpenGameC}"></customControls:IconButton>
+                    </Grid> 
+                </Border>
+
+                <customControls:IconButton Text="Statistics" Grid.Row="3" Grid.Column="3" HorizontalAlignment="Center" Margin="0, 25, 0, 0" Command="{Binding GoToStatistics}"></customControls:IconButton>
+                <customControls:IconButton Text="Create a custom spiecies" Grid.Row="4" Grid.Column="3" HorizontalAlignment="Center" Margin="0, 0, 0, 0" Command="{Binding GoToCustomSpiecies}"></customControls:IconButton>
+                
+            </Grid>
+            
+        </Border>
+
     </Grid>
 </Page>
