@@ -133,7 +133,7 @@ namespace Lifethreadening.Models
             _worldStateWriter = new JSONWorldStateWriter();
             _simulationWriter = new DatabaseSimulationWriter();
             // TODO exceptions tijdens timer
-            SetUpTimers();
+            //SetUpTimers();
         }
 
         public Simulation(Ecosystem ecosystem): this(0, 0, DateTime.Now, 0, "file", "name", new GridWorld(ecosystem, new RandomWeatherManager()))

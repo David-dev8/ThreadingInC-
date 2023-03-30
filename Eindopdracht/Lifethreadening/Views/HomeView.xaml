@@ -21,7 +21,6 @@
             <GradientStop Color="#FFFFFF" Offset="1.0" x:Name="GradientStop55"/>
         </LinearGradientBrush>
     </Page.Background>
-    
 
     <Grid>
         <Grid.Background>
@@ -35,13 +34,15 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="0.5*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="0.5*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
         <Rectangle Fill="Red" Grid.Column="1" Grid.Row="1"></Rectangle>
         
-        <TextBlock Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="100" Foreground="#041E00" FontFamily="/Assets/Fonts/RubikBubbles-Regular.ttf#Rubik Bubbles">Lifethreadening</TextBlock>
+        <TextBlock Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="100" Foreground="#041E00" FontFamily="/Assets/Fonts/RubikBubbles-Regular.ttf#Rubik Bubbles">Lifethreadening</TextBlock>
 
         <Border BorderBrush="{StaticResource TertiaryBrush}" BorderThickness="5" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch">
             <Grid Background="{StaticResource PrimaryBackgroundBrush}">
@@ -96,6 +97,58 @@
                     <customControls:IconButton Icon="Play" Text="Start new" HorizontalAlignment="Center" VerticalAlignment="Bottom" Command="{Binding CreateNewGameCommand}"></customControls:IconButton>
                     <customControls:IconButton Icon="Paw" Text="Create a custom species" Grid.Row="4" Grid.Column="3" HorizontalAlignment="Center" Margin="0, 0, 0, 0" Command="{Binding GoToCustomSpeciesCommand}"></customControls:IconButton>
                 </StackPanel>
+            </Grid>
+        </Border>
+        <Border BorderBrush="{StaticResource TertiaryBrush}" BorderThickness="5" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Stretch">
+            <Grid Background="{StaticResource PrimaryBackgroundBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="5*"></RowDefinition>
+                    <RowDefinition Height="5*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Style="{StaticResource BaseTextBlockStyle}" FontSize="20" Grid.Column="1" Text="Past games"></TextBlock>
+
+                <ListView Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3" Background="Azure" ItemsSource="{Binding PastGames}" SelectedValue="{Binding SelectedPastGame, Mode=TwoWay}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Background="{StaticResource PrimaryBackgroundBrush}" Padding="5" Margin="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0">
+                                    <Run Text="{Binding Key.Name}"></Run>
+                                </TextBlock>
+                                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
+                                    <Run Text="Ecosystem: "></Run>
+                                    <Run Text="{Binding Key.World.Ecosystem.Name}"></Run>
+                                </TextBlock>
+                                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3">
+                                    <Run Text="Started on"></Run>
+                                    <Run Text="{Binding Key.StartDate, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:yyyy-MM-dd}'}"></Run>
+                                </TextBlock>
+                                <TextBlock Text=">" Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Grid>
         </Border>
     </Grid>
