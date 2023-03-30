@@ -274,7 +274,7 @@
                 <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding MutationManager.TotalAmounntOfMutations}" VerticalAlignment="Center" />
                 <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding AmountOfDisasters}" VerticalAlignment="Center" />
             </Grid>
-            <customcontrols:IconButton Grid.Row="2" Icon="ArrowRight" Text="Continue" Command="{Binding GoToHomeCommand}" Margin="0,15,20,0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+            <customcontrols:IconButton Grid.Row="2" Icon="Home" Text="Home" Command="{Binding GoToHomeCommand}" Margin="0,15,20,0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
         </Grid>
     </Grid>
 </Page>

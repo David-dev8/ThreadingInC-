@@ -32,6 +32,30 @@ namespace Lifethreadening.ViewModels
         public ICommand GoToCustomSpeciesCommand { get; set; }
         public IDictionary<string, Simulation> Slots { get; set; }
 
+
+        private Simulation _selectedPastGame;
+        public Simulation SelectedPastGame
+        {
+            get 
+            {
+                return _selectedPastGame;
+            }
+            set 
+            {
+                _selectedPastGame = value;
+                NavigateToStats(value);
+            }
+        }
+
+        public List<Simulation> PastGames 
+        {
+            get 
+            {
+                List<Simulation> completedSims = new DatabaseSimulationReader().ReadAll().Where((s) => s.Filename == "").ToList(); ;
+                return completedSims;
+            }
+        }
+
         public HomeViewModel(NavigationService navigationService) : base(navigationService)
         {
             CreateNewGameCommand = new RelayCommand(CreateNewGame);
