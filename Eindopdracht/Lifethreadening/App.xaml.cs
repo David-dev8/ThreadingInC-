@@ -75,6 +75,7 @@ namespace Lifethreadening
                     // parameter
                     var navigationService = new NavigationService(rootFrame);
                     navigationService.CurrentViewModel = new SimulationViewModel(navigationService, new Simulation("test", new GridWorld(new Ecosystem(3, "ha"), new RandomWeatherManager()), 1));
+
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();

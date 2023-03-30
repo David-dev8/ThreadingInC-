@@ -10,10 +10,14 @@ namespace Lifethreadening.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Image { get; set; }
+        public string Difficulty { get; set; }
 
-        public Ecosystem(int id, string name)        {
-            Id = id;
+        public Ecosystem(string name, string image, string difficulty)
+        {        
             Name = name;
+            Image = image;
+            Difficulty = difficulty;
         }
     }
 }

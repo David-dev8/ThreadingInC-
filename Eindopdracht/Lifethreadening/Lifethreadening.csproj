@@ -273,6 +273,12 @@
     <EmbeddedResource Include="Assets\DNA.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+	<Content Include="Assets\amazon.png" />
+    <Content Include="Assets\antartica.png" />
+    <Content Include="Assets\desert.png" />
+    <Content Include="Assets\mountains.png" />
+    <Content Include="Assets\ocean.png" />
+    <Content Include="Assets\savanna.png" />
     <Content Include="Assets\calendar.png" />
     <Content Include="Assets\disaster.png" />
     <Content Include="Assets\fox.png" />
@@ -349,7 +355,13 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.14</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp">
+      <Version>7.1.3</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
+      <Version>7.1.3</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
       <Version>7.1.3</Version>
     </PackageReference>
     <PackageReference Include="System.Text.Json">
