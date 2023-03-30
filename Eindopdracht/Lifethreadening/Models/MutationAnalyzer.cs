@@ -10,7 +10,7 @@ namespace Lifethreadening.Models
 {
     public class MutationAnalyzer
     {
-        public ISet<Mutation> Mutations { get; private set; }
+        public ISet<Mutation> Mutations { get; set; }
 
         public int TotalAmounntOfMutations
         {

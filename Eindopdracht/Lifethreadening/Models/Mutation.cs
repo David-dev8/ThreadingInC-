@@ -8,7 +8,7 @@ namespace Lifethreadening.Models
 {
     public class Mutation
     {
-        private bool _hasAffected = false;
+        private bool _hasAffected;
         private Action<Statistics> _mutateAction;
 
         public MutationType Type { get; set; }
@@ -16,8 +16,7 @@ namespace Lifethreadening.Models
         public string ProteinBefore { get; set; }
         public string ProteinAfter { get; set; }
         public DateTime MutationDate { get; set; }
-        public IList<StatisticInfo> Affected { get; private set; }
-
+        public IList<StatisticInfo> Affected { get; set; }
 
         public Mutation(MutationType type, string allel, string proteinBefore, string proteinAfter, DateTime mutationDate, Action<Statistics> mutateAction)
         {
@@ -28,6 +27,18 @@ namespace Lifethreadening.Models
             MutationDate = mutationDate;
             _mutateAction = mutateAction;
             Affected = new List<StatisticInfo>();
+            _hasAffected = false;
+        }
+
+        public Mutation(MutationType type, string allel, string proteinBefore, string proteinAfter, DateTime mutationDate, IList<StatisticInfo> affected)
+        {
+            Type = type;
+            Allel = allel;
+            ProteinBefore = proteinBefore;
+            ProteinAfter = proteinAfter;
+            MutationDate = mutationDate;
+            Affected = affected;
+            _hasAffected = true;
         }
 
         public void Affect(Animal animal)
