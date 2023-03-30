@@ -10,7 +10,20 @@ namespace Lifethreadening.Models
 {
     public class MutationAnalyzer
     {
-        public ISet<Mutation> Mutations { get; private set; } = new HashSet<Mutation>();
+        public ISet<Mutation> Mutations { get; private set; }
+
+        public int TotalAmounntOfMutations
+        {
+            get
+            {
+                return Mutations.Count;
+            }
+        }
+
+        public MutationAnalyzer() 
+        { 
+            Mutations = new HashSet<Mutation>();
+        }
 
         public void RegisterMutations(IEnumerable<Animal> animals)
         {

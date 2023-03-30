@@ -8,6 +8,6 @@ namespace Lifethreadening.Models
 {
     public interface IMutationFactory
     {
-        Task<Mutation> CreateMutation();
+        Task<Mutation> CreateMutation(DateTime currentDate);
     }
 }

@@ -24,7 +24,6 @@ namespace Lifethreadening.Models
     {
         private string gameName = "first";
 
-        private int _amountOfDisasters = 0;
         private Disaster _mostRecentDisaster; // TODO make it bindable
         private const double INITIAL_SPAWN_CHANCE = 0.10;
         private const double DISASTER_CHANCE = 1;
@@ -52,6 +51,7 @@ namespace Lifethreadening.Models
 
         private TimeSpan _simulationSpeed = new TimeSpan(1, 0, 0, 0);
 
+        public int AmountOfDisasters { get; set; }
         public string Name { get; set; }
         public int Score { get; set; }
         public World World { get; set; }
@@ -137,7 +137,7 @@ namespace Lifethreadening.Models
             }
 
             IEnumerable<Animal> animals = getAllAnimals(World.SimulationElements);
-            PopulationManager.RegisterAnimals(animals, World.Date);
+            PopulationManager.RegisterAnimals(animals, World.CurrentDate);
             MutationManager.RegisterMutations(animals); // TODO moet het registreren voor of na een stap?
         }
 
@@ -165,14 +165,14 @@ namespace Lifethreadening.Models
             if(_random.NextDouble() < DISASTER_CHANCE)
             {
                 MostRecentDisaster = _disasterFactory.CreateDisaster(_worldContextService);
-                _amountOfDisasters++;
+                AmountOfDisasters++;
                 //disaster.Strike(World.SimulationElements);
             }
         }
 
         private async void Mutate()
         {
-            Mutation mutation = await _mutationFactory.CreateMutation();
+            Mutation mutation = await _mutationFactory.CreateMutation(World.CurrentDate);
             mutation.Affect(GetAnimals().GetRandom()); // TODO lock the mutations?
             // TODO async
         }

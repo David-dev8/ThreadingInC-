@@ -66,7 +66,7 @@ namespace Lifethreadening.ViewModels
 
         private void NavigateToSimulationData()
         {
-            _navigationService.CurrentViewModel = new SimulationDataViewModel(_navigationService);
+            _navigationService.CurrentViewModel = new SimulationDataViewModel(_navigationService, null);
         }
 
         public override void Dispose()

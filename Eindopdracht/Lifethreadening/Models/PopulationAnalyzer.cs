@@ -11,7 +11,12 @@ namespace Lifethreadening.Models
     // Plinq voor de algemen loop door elke data shannon te berekenen
     public class PopulationAnalyzer
     {
-        public IDictionary<DateTime, IDictionary<Species, int>> SpeciesCount { get; private set; } = new Dictionary<DateTime, IDictionary<Species, int>>(); // TODO private field maken
+        public IDictionary<DateTime, IDictionary<Species, int>> SpeciesCount { get; private set; } // TODO private field maken
+
+        public PopulationAnalyzer()
+        {
+            SpeciesCount = new Dictionary<DateTime, IDictionary<Species, int>>{};
+        }
 
         public void RegisterAnimals(IEnumerable<Animal> animals, DateTime currentDate)
         {
@@ -36,9 +41,13 @@ namespace Lifethreadening.Models
 
         public IEnumerable<Rank> GetDominatingSpecies()
         {
+            int position = 1;
             IDictionary<Species, IDictionary<DateTime, int>> speciesCountPerSpecies = GetSpeciesCountPerSpecies();
-            return speciesCountPerSpecies.Select(speciesCount => new Rank(speciesCount.Key, speciesCount.Value.Values.Average()))
-                .OrderByDescending(rank => rank.Average);
+            return speciesCountPerSpecies.Select(speciesCount =>
+            {
+                return new { Species = speciesCount.Key, Average = speciesCount.Value.Values.Average() };
+            }).OrderByDescending(averageSpeciesCount => averageSpeciesCount.Average)
+            .Select(averageSpeciesCount => new Rank(position++, averageSpeciesCount.Species, averageSpeciesCount.Average)); // TODO intabbing?
         }
 
         // TODO plinq
@@ -71,7 +80,7 @@ namespace Lifethreadening.Models
 
         private IDictionary<DateTime, IDictionary<Species, int>> GetSpeciesCountWithMissingDates()
         {
-            IEnumerable<Species> species = SpeciesCount.SelectMany(speciesCount => {
+            IEnumerable<Species> species = SpeciesCount.SelectMany(speciesCount => { // TODO naamgeving
                 var b = speciesCount.Value.Keys;
                 return b;
             }).Distinct();

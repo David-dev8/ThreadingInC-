@@ -8,6 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:dataVisual="using:WinRTXamlToolkit.Controls.DataVisualization"
     xmlns:customcontrols="using:Lifethreadening.Views.CustomControls"
+    xmlns:customConverters="using:Lifethreadening.Converters"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -15,8 +17,9 @@
         <Style TargetType="charts:Chart">
             <Setter Property="Padding" Value="20,0" />
         </Style>
+        <customConverters:PositionToScaleConverter  x:Key="PositionToScaleConverter"/>
     </Page.Resources>
-    <Grid>
+    <Grid Background="{StaticResource PrimaryBackgroundBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="10.5*" />
@@ -41,7 +44,6 @@
             <Grid Style="{StaticResource SectionHeadingGrid}">
                 <TextBlock Foreground="{StaticResource SecondaryBrush}" HorizontalAlignment="Stretch" TextAlignment="Center" Style="{StaticResource SectionTitle}">Population over time</TextBlock>
             </Grid>
-            <StackPanel Grid.Row="1" Background="Red" />
             <customcontrols:LineChartWithMultipleLines Grid.Row="2" Items="{Binding SpeciesCount}" />
         </Grid>
 
@@ -55,13 +57,12 @@
             <Grid Style="{StaticResource SectionHeadingGrid}">
                 <TextBlock Foreground="{StaticResource SecondaryBrush}" HorizontalAlignment="Stretch" TextAlignment="Center" Style="{StaticResource SectionTitle}">Shannon Weaver Index</TextBlock>
             </Grid>
-            <StackPanel Grid.Row="1" Background="Red" />
-            <Grid Grid.Row="2" Background="CadetBlue">
+            <Grid Grid.Row="2" Background="{StaticResource GraphBackgroundBrush}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="0.25*" />
                 </Grid.RowDefinitions>
-                <charts:Chart Background="CadetBlue">
+                <charts:Chart Background="{StaticResource GraphBackgroundBrush}">
                     <charts:LineSeries ItemsSource="{Binding ShannonWeaverIndices}" IndependentValueBinding="{Binding Key}" 
                                DependentValueBinding="{Binding Value}" DataPointStyle="{StaticResource DataPointLineChart}">
                         <charts:LineSeries.LegendItemStyle>
@@ -77,6 +78,49 @@
             </Grid>
         </Grid>
 
+        <Grid Grid.Row="3" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="10*" />
+                <RowDefinition Height="100*" />
+            </Grid.RowDefinitions>
+            <Grid Style="{StaticResource SectionHeadingGrid}">
+                <TextBlock Foreground="{StaticResource SecondaryBrush}" HorizontalAlignment="Stretch" TextAlignment="Center" Style="{StaticResource SectionTitle}">Most dominating species</TextBlock>
+            </Grid>
+            <ListView Grid.Row="2" ItemsSource="{Binding DominatingSpecies}" SelectionMode="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="6.4*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Image MaxHeight="{Binding Position, Converter={StaticResource PositionToScaleConverter}, ConverterParameter=60}" 
+                                       Source="{Binding Species.Image}" Opacity="{Binding Position, Converter={StaticResource PositionToScaleConverter}, ConverterParameter=1}" />
+                            </Grid>
+                            <StackPanel Grid.Column="1">
+                                <StackPanel Orientation="Horizontal" >
+                                    <TextBlock FontSize="{Binding Position, Converter={StaticResource PositionToScaleConverter}, ConverterParameter=18}"
+                                               FontWeight="SemiBold">
+                                        #<Run Text="{Binding Position}" /> |
+                                        <Run Text="{Binding Species.Name}" />
+                                    </TextBlock>
+                                </StackPanel>
+                                <TextBlock Text="{Binding Description}" FontSize="{Binding Position, Converter={StaticResource PositionToScaleConverter}, ConverterParameter=15}"/>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Height" Value="60" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </Grid>
+
         <Grid Grid.Column="3" Grid.Row="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
@@ -86,12 +130,9 @@
             <Grid Style="{StaticResource SectionHeadingGrid}">
                 <TextBlock Foreground="{StaticResource SecondaryBrush}" HorizontalAlignment="Stretch" TextAlignment="Center" Style="{StaticResource SectionTitle}">Statistics affected by mutations</TextBlock>
             </Grid>
-            
-            <StackPanel Grid.Row="1" Background="Red" />
-
-            <charts:Chart Grid.Row="2" Background="CadetBlue">
+            <charts:Chart Grid.Row="2" Background="{StaticResource GraphBackgroundBrush}">
                 <charts:PieSeries ItemsSource="{Binding AffectedStatistics}" IndependentValueBinding="{Binding Key.Name}"
-                                  DependentValueBinding="{Binding Value}" IsSelectionEnabled="True">
+                                  DependentValueBinding="{Binding Value}" IsSelectionEnabled="True" >
                     <charts:PieSeries.LegendItemStyle>
                         <Style TargetType="charts:LegendItem">
                             <Setter Property="Template">
@@ -198,6 +239,42 @@
                     </Style>
                 </charts:Chart.LegendStyle>
             </charts:Chart>
+        </Grid>
+        <Grid Grid.Column="5" Grid.Row="1" Margin="40, 7">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="5*" />
+                <RowDefinition Height="3*" />
+            </Grid.RowDefinitions>
+            <TextBlock Text="Summary" FontSize="20" FontWeight="Bold" VerticalAlignment="Center" />
+            <Grid Grid.Row="1" DataContext="{Binding Simulation}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.2*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Score" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="1" Text="Ecosystem" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="2" Text="Date started" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="3" Text="Date ended" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="4" Text="Number of mutations" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="5" Text="Number of disasters" VerticalAlignment="Center" />
+
+                <TextBlock Grid.Column="1" Text="{Binding Score}" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding World.Ecosystem.Name}" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding World.StartDate, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:MMMM, d (yyyy)}'}" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding World.CurrentDate, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:MMMM, d (yyyy)}'}" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding MutationManager.TotalAmounntOfMutations}" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding AmountOfDisasters}" VerticalAlignment="Center" />
+            </Grid>
+            <customcontrols:IconButton Grid.Row="2" Icon="ArrowRight" Text="Continue" Command="{Binding GoToHomeCommand}" Margin="0,15,20,0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
         </Grid>
     </Grid>
 </Page>
