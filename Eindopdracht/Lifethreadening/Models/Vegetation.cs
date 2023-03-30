@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
@@ -21,6 +22,12 @@ namespace Lifethreadening.Models
         {
             _standardGrowth = standardGrowth;
             _maxNutrition = maxNutrition;
+        }
+
+        [JsonConstructor]
+        public Vegetation(string image): base(DEFAULT_PRIORITY, image, null)
+        {
+
         }
 
         private void Grow(int growth)

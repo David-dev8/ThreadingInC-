@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Windows.Devices.Sensors;
 using Windows.UI.Text;
@@ -30,6 +31,7 @@ namespace Lifethreadening.Models
         private int _energy;
         private Species _species;
 
+        [JsonInclude]
         public int Hp
         {
             get
@@ -41,6 +43,7 @@ namespace Lifethreadening.Models
                 _hp = Math.Min(Math.Max(0, value), MAX_HP);
             }
         }
+        [JsonInclude]
         public int Energy
         {
             get
@@ -94,6 +97,12 @@ namespace Lifethreadening.Models
             Species = species;
             Statistics = statistics;
             DateOfBirth = contextService.GetContext().Date;
+        }
+
+        [JsonConstructor]
+        public Animal(string name, Sex sex): base(DEFAULT_PRIORITY, null, null)
+        {
+
         }
 
         protected override Action GetNextAction()

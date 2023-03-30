@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
@@ -28,6 +29,9 @@ namespace Lifethreadening.Models
 
         public TimeSpan StepSize { get; } = new TimeSpan(1, 0, 0, 0);
         public Ecosystem Ecosystem { get; set; }
+
+        [JsonIgnore]
+        public WorldContextService ContextService { get; set; }
 
         public Weather Weather
         {
@@ -63,6 +67,7 @@ namespace Lifethreadening.Models
             Ecosystem = ecosystem;
             _weatherManager = weatherManager;
             CurrentDate = DateTime.Now;
+            ContextService = new WorldContextService(this);
         }
 
         public virtual void Step()

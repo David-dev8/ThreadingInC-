@@ -16,7 +16,9 @@ namespace Lifethreadening.DataAccess.JSON
         public async Task<string> Write(string gameName, World world)
         {
             JsonSerializerOptions options = new JsonSerializerOptions();
+            options.Converters.Add(new JSONWorldConverter());
             options.Converters.Add(new JSONLocationConverter());
+            options.Converters.Add(new JSONSimulationElementConverter());
 
             StorageFolder gameFolder = await GetGameFolder();
             StorageFile gameFile = await gameFolder.CreateFileAsync(GetFileName(gameName), CreationCollisionOption.ReplaceExisting);

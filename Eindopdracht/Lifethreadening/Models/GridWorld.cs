@@ -1,4 +1,5 @@
 ﻿using Lifethreadening.DataAccess;
+using Lifethreadening.DataAccess.Algorithmic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +12,12 @@ namespace Lifethreadening.Models
 {
     public class GridWorld : World
     {
-        private int _height;
-        private int _width;
-        public Location[][] Grid { get; private set; }
+        private int _height = 50;
+        private int _width = 50;
+        public Location[][] Grid { get; set; }
 
-        public GridWorld(Ecosystem ecosystem, IWeatherManager weatherManager, int width = 50, int height = 50) : base(ecosystem, weatherManager)
+        public GridWorld(Ecosystem ecosystem) : base(ecosystem, new RandomWeatherManager())
         {
-            _height = width;
-            _width = height;
             CreateWorld();
         }
 

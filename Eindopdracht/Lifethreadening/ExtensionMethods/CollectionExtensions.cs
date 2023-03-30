@@ -41,5 +41,11 @@ namespace Lifethreadening.ExtensionMethods
         {
             return Enumerable.Repeat(new List<T>(elements), (int)Math.Ceiling((double)length / elements.Count())).SelectMany(element => element);
         }
+
+        public static IEnumerable<T> PadUntilLength<T>(this IEnumerable<T> source, int length, T item)
+        {
+            int difference = length - source.Count();
+            return difference > 0 ? source.Concat(Enumerable.Repeat(item, difference)) : source;
+        }
     }
 }

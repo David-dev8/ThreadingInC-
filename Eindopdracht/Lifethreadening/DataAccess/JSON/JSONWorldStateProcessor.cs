@@ -24,7 +24,7 @@ namespace Lifethreadening.DataAccess.JSON
 
         protected string GetFileName(string gameName)
         {
-            return gameName + "." + FILE_EXTENSION;
+            return !gameName.EndsWith(FILE_EXTENSION) ? (gameName + "." + FILE_EXTENSION) : gameName;
         }
     }
 }

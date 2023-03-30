@@ -18,10 +18,17 @@ namespace Lifethreadening.DataAccess.JSON
 
         public override Location Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            JSONLocation jsonLocation = JsonSerializer.Deserialize<JSONLocation>(ref reader);
+            JsonSerializerOptions newOptions = new JsonSerializerOptions();
+            newOptions.Converters.Add(new JSONSimulationElementConverter());
+            JSONLocation jsonLocation = JsonSerializer.Deserialize<JSONLocation>(ref reader, newOptions);
             Location location = new Location(jsonLocation.SimulationElements.ToList());
             _knownLocationsReversed.Add(jsonLocation.Id, location);
             _knownNeighbours.Add(location, jsonLocation.Neighbours);
+
+            foreach(SimulationElement simulationElement in location.SimulationElements)
+            {
+                simulationElement.Location = location;
+            }
             return location;
         }
 
@@ -40,6 +47,8 @@ namespace Lifethreadening.DataAccess.JSON
 
         public override void Write(Utf8JsonWriter writer, Location value, JsonSerializerOptions options)
         {
+            JsonSerializerOptions newOptions = new JsonSerializerOptions();
+            newOptions.Converters.Add(new JSONSimulationElementConverter());
             IList<string> neighbours = new List<string>();
             foreach(Location location in value.Neighbours)
             {
@@ -51,7 +60,7 @@ namespace Lifethreadening.DataAccess.JSON
                 Id = GetId(value),
                 Neighbours = neighbours,
                 SimulationElements = value.SimulationElements
-            }, options);
+            }, newOptions);
         }
 
         private string GetId(Location location)

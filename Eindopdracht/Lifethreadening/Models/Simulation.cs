@@ -28,8 +28,8 @@ namespace Lifethreadening.Models
         private const double SPAWN_CHANCE = 0.10;
         private const double DISASTER_CHANCE = 1;
         private Random _random = new Random();
+        private World _world;
         private ISimulationElementFactory _elementFactory;
-        private WorldContextService _worldContextService;
         private IDisasterFactory _disasterFactory;
         private IMutationFactory _mutationFactory;
         private IWorldStateWriter _worldStateWriter;
@@ -68,7 +68,18 @@ namespace Lifethreadening.Models
                 NotifyPropertyChanged();
             }
         }
-        public World World { get; set; }
+        public World World
+        {
+            get
+            {
+                return _world;
+            }
+            set
+            {
+                _world = value;
+                NotifyPropertyChanged();
+            }
+        }
         public PopulationAnalyzer PopulationManager { get; set; }
         public MutationAnalyzer MutationManager { get; set; }
         public TimeSpan SimulationSpeed
@@ -118,25 +129,24 @@ namespace Lifethreadening.Models
             Name = name;
             World = world;
             Id = id;
-            Stopped = false;
+            Stopped = true;
             Score = score;
             StartDate = startDate;
             AmountOfDisasters = amountOfDisasters;
-            Filename= fileNameSaveSlot;
+            Filename = fileNameSaveSlot;
 
             PopulationManager = new PopulationAnalyzer();
             MutationManager = new MutationAnalyzer();
 
             _disasterFactory = new RegularDisasterFactory();
             _mutationFactory = new RandomMutationFactory();
-            _worldContextService = new WorldContextService(World);
             _worldStateWriter = new JSONWorldStateWriter();
             _simulationWriter = new DatabaseSimulationWriter();
             // TODO exceptions tijdens timer
-            //SetUpTimers();
+            SetUpTimers();
         }
 
-        public Simulation(Ecosystem ecosystem): this(0, 0, DateTime.Now, 0, "file", "name", new GridWorld(ecosystem, new RandomWeatherManager()))
+        public Simulation(Ecosystem ecosystem): this(0, 0, DateTime.Now, 0, "file", "name", new GridWorld(ecosystem))
         {
         }
 
@@ -184,7 +194,7 @@ namespace Lifethreadening.Models
         {
             if(_random.NextDouble() < SPAWN_CHANCE)
             {
-                SimulationElement element = _elementFactory.CreateRandomElement(_worldContextService);
+                SimulationElement element = _elementFactory.CreateRandomElement(World.ContextService);
                 World.GetLocations().GetRandom().AddSimulationElement(element);
             }
         }
@@ -193,7 +203,7 @@ namespace Lifethreadening.Models
         {
             if(_random.NextDouble() < DISASTER_CHANCE)
             {
-                MostRecentDisaster = _disasterFactory.CreateDisaster(_worldContextService);
+                MostRecentDisaster = _disasterFactory.CreateDisaster(World.ContextService);
                 AmountOfDisasters++;
                 MostRecentDisaster.Strike(World.SimulationElements);
             }
@@ -221,12 +231,15 @@ namespace Lifethreadening.Models
             _mutationTimer = new Timer((_) => Mutate(), null, Timeout.Infinite, Timeout.Infinite);
         }
 
-        public async Task Setup()
+        public async Task Setup(bool populate = true)
         {
             var nameReader = new APINameReader();
             await nameReader.Initialize();
             _elementFactory = new DatabaseSimulationElementFactory(new RegularBehaviourBuilder(), nameReader);
-            Populate();
+            if(populate)
+            {
+                Populate();
+            }
         }
 
         public void Start()
@@ -260,10 +273,10 @@ namespace Lifethreadening.Models
         public void End()
         {
             Stopped = true;
-            _stepTimer.Dispose();
-            _spawnTimer.Dispose();
-            _disasterTimer.Dispose();
-            _mutationTimer.Dispose();
+            _stepTimer?.Dispose();
+            _spawnTimer?.Dispose();
+            _disasterTimer?.Dispose();
+            _mutationTimer?.Dispose();
         }
 
         public void Stop()
@@ -294,7 +307,7 @@ namespace Lifethreadening.Models
             {
                 if(_random.NextDouble() < SPAWN_CHANCE)
                 {
-                    SimulationElement element = _elementFactory.CreateRandomElement(_worldContextService);
+                    SimulationElement element = _elementFactory.CreateRandomElement(World.ContextService);
                     if(element != null)
                     {
                         location.AddSimulationElement(element);

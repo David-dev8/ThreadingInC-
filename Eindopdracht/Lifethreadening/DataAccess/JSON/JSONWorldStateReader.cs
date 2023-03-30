@@ -22,6 +22,7 @@ namespace Lifethreadening.DataAccess.JSON
             JsonSerializerOptions options = new JsonSerializerOptions();
             JSONLocationConverter locationConverter = new JSONLocationConverter();
             options.Converters.Add(locationConverter);
+            options.Converters.Add(new JSONWorldConverter());
 
             StorageFolder gameFolder = await GetGameFolder();
             StorageFile gameFile = await gameFolder.GetFileAsync(GetFileName(gameName));
@@ -29,8 +30,12 @@ namespace Lifethreadening.DataAccess.JSON
             World world;
             using(Stream stream = await gameFile.OpenStreamForReadAsync())
             {
-                world = await JsonSerializer.DeserializeAsync<World>(stream);
+                world = await JsonSerializer.DeserializeAsync<World>(stream, options);
                 locationConverter.CompleteMapping(world.Locations);
+            }
+            foreach(SimulationElement element in world.SimulationElements)
+            {
+                element.ContextService = world.ContextService;
             }
             return world;
         }

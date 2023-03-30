@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
@@ -12,6 +13,11 @@ namespace Lifethreadening.Models
 
         public Obstruction(string image, WorldContextService contextService): base(DEFAULT_PRIORITY, image, contextService)
         { 
+        }
+
+        [JsonConstructor]
+        public Obstruction(string image) : base(DEFAULT_PRIORITY, image, null)
+        {
         }
 
         public override int GetNutritionalValue()

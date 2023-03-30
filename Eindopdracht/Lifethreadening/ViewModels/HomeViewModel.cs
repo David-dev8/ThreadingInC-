@@ -1,5 +1,6 @@
 ﻿using Lifethreadening.Base;
 using Lifethreadening.DataAccess.Database;
+using Lifethreadening.ExtensionMethods;
 using Lifethreadening.Models;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace Lifethreadening.ViewModels
     {
         private const int AMOUNT_OF_SLOTS = 3;
         private KeyValuePair<string, Simulation> _selectedSlot;
+        private IList<Simulation> _games;
 
         public ICommand CreateNewGameCommand { get; set; }
         public KeyValuePair<string, Simulation> SelectedSlot
@@ -27,12 +29,15 @@ namespace Lifethreadening.ViewModels
             {
                 _selectedSlot = value;
                 NotifyPropertyChanged();
+                if(_selectedSlot.Value != null)
+                {
+                    OpenSimulation(_selectedSlot.Value);
+                }
             }
         }
         public ICommand GoToStatisticsCommand { get; set; }
         public ICommand GoToCustomSpeciesCommand { get; set; }
         public IDictionary<string, Simulation> Slots { get; set; }
-
 
         private Simulation _selectedPastGame;
         public Simulation SelectedPastGame
@@ -48,31 +53,28 @@ namespace Lifethreadening.ViewModels
             }
         }
 
-        public List<Simulation> PastGames 
-        {
-            get 
-            {
-                List<Simulation> completedSims = new DatabaseSimulationReader().ReadAll().Where((s) => s.Filename == "").ToList(); ;
-                return completedSims;
-            }
-        }
+        public List<Simulation> PastGames { get; set; }
 
         public HomeViewModel(NavigationService navigationService) : base(navigationService)
         {
-            CreateNewGameCommand = new RelayCommand(CreateNewGame);
-            GoToCustomSpeciesCommand = new RelayCommand(NavigateToCustomSpiecies);
+            _games = new DatabaseSimulationReader().ReadAll().ToList();
 
-            Slots = new Dictionary<string, Simulation>();
-            for(int i = 0; i < AMOUNT_OF_SLOTS; i++)
-            {
-                Slots.Add(i.ToString(), null);
-            }
-            SelectedSlot = Slots.First();
+            PastGames = _games.Where(s => !CanBeOpened(s)).ToList();
+            Queue<string> slotNames = new Queue<string>(new string[] { "A", "B", "C" });
+            Slots = _games.Where(CanBeOpened).PadUntilLength(3, null).Take(3).ToDictionary(simulation => slotNames.Dequeue(), simulation => simulation);
+
+            CreateNewGameCommand = new RelayCommand(CreateNewGame, (_) => Slots.Any(s => s.Value == null));
+            GoToCustomSpeciesCommand = new RelayCommand(NavigateToCustomSpiecies);
         }
 
         private void CreateNewGame()
         {
             _navigationService.CurrentViewModel = new EcosystemSelectViewModel(_navigationService);
+        }
+
+        private void OpenSimulation(Simulation simulation)
+        {
+            _navigationService.CurrentViewModel = new SimulationViewModel(_navigationService, simulation);
         }
 
         public void NavigateToStats(Simulation simulation)
@@ -83,6 +85,11 @@ namespace Lifethreadening.ViewModels
         public void NavigateToCustomSpiecies()
         {
             _navigationService.CurrentViewModel = new CustomSpeciesViewModel(_navigationService);
+        }
+
+        private bool CanBeOpened(Simulation simulation)
+        {
+            return simulation.Filename != "" && simulation.Filename != null;
         }
     }
 }

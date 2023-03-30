@@ -37,7 +37,7 @@ namespace Lifethreadening.DataAccess.Database
         // TODO ASYNC of SYNC
         private void CreateSimulation(Simulation simulation)
         {
-            string query = "INSERT INTO Simulation(dateStarted, dateEnded, ecosystemId, name, fileNameSaveSlot)" + 
+            string query = "INSERT INTO Simulation(dateStarted, dateEnded, ecosystemId, name, fileNameSaveSlot) OUTPUT INSERTED.ID " + 
                 "VALUES (@dateStarted, @dateEnded, @ecosystemId, @name, @fileNameSaveSlot)";
 
             IEnumerable<SqlParameter> parameters = new List<SqlParameter>

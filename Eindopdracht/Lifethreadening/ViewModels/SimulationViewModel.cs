@@ -3,6 +3,7 @@ using Lifethreadening.DataAccess;
 using Lifethreadening.DataAccess.Algorithmic;
 using Lifethreadening.DataAccess.API;
 using Lifethreadening.DataAccess.Database;
+using Lifethreadening.DataAccess.JSON;
 using Lifethreadening.Models;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,8 @@ namespace Lifethreadening.ViewModels
 
         private bool _hasLoaded = false;
         private ISimulationReader _simulationReader;
+        private ISimulationWriter _simulationWriter;
+        private IWorldStateReader _worldStateReader;
 
         public bool HasLoaded
         {
@@ -98,7 +101,7 @@ namespace Lifethreadening.ViewModels
         {
             get
             {
-                return (GridWorld)Simulation.World;
+                return Simulation.World as GridWorld;
             }
         }
 
@@ -107,6 +110,8 @@ namespace Lifethreadening.ViewModels
             HasLoaded = false;
             Saving = false;
             _simulationReader = new DatabaseSimulationReader();
+            _simulationWriter = new DatabaseSimulationWriter();
+            _worldStateReader = new JSONWorldStateReader();
             QuitCommand = new RelayCommand(Quit);
             ResumeCommand = new RelayCommand(Start);
             PauseCommand = new RelayCommand(Stop);
@@ -131,7 +136,7 @@ namespace Lifethreadening.ViewModels
                 Simulation.Start();
                 HasLoaded = true;
             }
-            catch(Exception)
+            catch(Exception ex)
             {
                 _navigationService.Error = new ErrorMessage("Something went wrong while initializing the simulation");
                 Quit();
@@ -148,7 +153,8 @@ namespace Lifethreadening.ViewModels
         private async Task GetFullSimulation(Simulation simulation)
         {
             Simulation = _simulationReader.ReadFullDetails(simulation);
-            await Simulation.Setup();
+            Simulation.World = await _worldStateReader.Read(Simulation.Filename);
+            await Simulation.Setup(false);
             // TODO try catch stop simulation
         }
 

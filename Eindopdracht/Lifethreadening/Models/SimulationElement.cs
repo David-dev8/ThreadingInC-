@@ -14,6 +14,7 @@ namespace Lifethreadening.Models
         [JsonIgnore]
         public Location Location { get; set; }
         protected Action PlannedAction { get; set; }
+        [JsonIgnore]
         public WorldContextService ContextService { get; set; }
 
         public SimulationElement(int priority, string image, WorldContextService contextService)

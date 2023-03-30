@@ -57,7 +57,7 @@ namespace Lifethreadening.DataAccess.Database
         {
             DatabaseHelper<Mutation> database = new DatabaseHelper<Mutation>();
             string query = @"
-                SELECT M.*, MAS.statistic, MAS.affection, MAS.Color
+                SELECT M.*, MAS.statistic, MAS.affection, MAS.color
                 FROM Mutation AS M
                 JOIN MutationAffectedStatistic AS MAS ON M.allel = MAS.mutationAllel AND M.date = MAS.mutationDate AND M.simulationId = MAS.simulationId
                 WHERE M.simulationId = @simulationId";
