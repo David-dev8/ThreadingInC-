@@ -120,7 +120,7 @@ namespace Lifethreadening.DataAccess.Database
         {
             DataRow row = mutationsTable.NewRow();
 
-            row["type"] = mutation.Type;
+            row["type"] = mutation.Type.ToString();
             row["allel"] = mutation.Allel;
             row["proteinBefore"] = mutation.ProteinBefore;
             row["proteinAfter"] = mutation.ProteinAfter;
@@ -163,6 +163,7 @@ namespace Lifethreadening.DataAccess.Database
             newAffectedStatisticsTable.Columns.Add(new DataColumn("mutationAllel"));
             newAffectedStatisticsTable.Columns.Add(new DataColumn("simulationId"));
             newAffectedStatisticsTable.Columns.Add(new DataColumn("mutationDate"));
+            newAffectedStatisticsTable.Columns.Add(new DataColumn("color"));
 
             foreach (Mutation newMutation in mutations)
             {
@@ -184,6 +185,7 @@ namespace Lifethreadening.DataAccess.Database
             row["mutationAllel"] = mutation.Allel;
             row["simulationId"] = simulationId;
             row["mutationDate"] = mutation.MutationDate;
+            row["color"] = statistic.Color.ToString();
 
             return row;
         }

@@ -11,7 +11,7 @@ namespace Lifethreadening.Models
     // Plinq voor de algemen loop door elke data shannon te berekenen
     public class PopulationAnalyzer
     {
-        public IDictionary<DateTime, IDictionary<Species, int>> SpeciesCount { get; private set; } // TODO private field maken
+        public IDictionary<DateTime, IDictionary<Species, int>> SpeciesCount { get; set; }
 
         public PopulationAnalyzer()
         {
@@ -68,13 +68,14 @@ namespace Lifethreadening.Models
         // TODO: Plinq en opdelen??
         public IDictionary<Species, IDictionary<DateTime, int>> GetSpeciesCountPerSpecies()
         {
-            return GetSpeciesCountWithMissingDates().SelectMany(speciesCount => speciesCount.Value, (SpeciesCount, amountPerDate) => new { Date = SpeciesCount.Key, Species = amountPerDate.Key, Quantity = amountPerDate.Value })
+            return GetSpeciesCountWithMissingDates()
+                .SelectMany(speciesCount => speciesCount.Value, (SpeciesCount, amountPerDate) => new PopulationCount(SpeciesCount.Key, amountPerDate.Key, amountPerDate.Value))
                 .Aggregate(new Dictionary<Species, IDictionary<DateTime, int>>(), (seed, value) => {
                     if (!seed.ContainsKey(value.Species))
                     {
                         seed.Add(value.Species, new Dictionary<DateTime, int>());
                     }
-                    seed[value.Species].Add(value.Date, value.Quantity);
+                    seed[value.Species].Add(value.Date, value.AmountOfAnimals);
                     return seed;
                 });
         }

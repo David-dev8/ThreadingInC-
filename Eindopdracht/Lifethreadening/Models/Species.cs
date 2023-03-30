@@ -104,17 +104,18 @@ namespace Lifethreadening.Models
             BaseStatistics = baseStatistics;
         }
 
-
-        public Species(string name, string scientificName, string image, int averageAge, int maxAge, int breedSize, Diet diet, Statistics baseStatistics)
+        public Species(int id, string name, string description, string scientificName, string image, int averageAge, int maxAge, int maxBreedSize, int minBreedSize, Diet diet)
         {
+            Id = id;
             Name = name;
+            Description = description;
             ScientificName = scientificName;
             Image = image;
             AverageAge = averageAge;
             MaxAge = maxAge;
-            BreedSize = breedSize;
+            MinBreedSize = minBreedSize;
+            MaxBreedSize = maxBreedSize;
             Diet = diet;
-            BaseStatistics = baseStatistics;
         }
 
         public override bool Equals(object obj)

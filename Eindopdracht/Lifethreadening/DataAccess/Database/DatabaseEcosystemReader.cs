@@ -22,10 +22,10 @@ namespace Lifethreadening.DataAccess.Database
         public IEnumerable<Ecosystem> ReadAll()
         {
             string query = "SELECT * FROM " + DATABASE_TABLE_NAME;
-            return _database.Read(createEcosystem, query, System.Data.CommandType.Text);
+            return _database.Read(CreateEcosystem, query, System.Data.CommandType.Text);
         }
 
-        private Ecosystem createEcosystem(SqlDataReader dataReader)
+        private Ecosystem CreateEcosystem(SqlDataReader dataReader)
         {
             return new Ecosystem(
                 dataReader.GetInt32("id"),

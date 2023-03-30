@@ -202,6 +202,7 @@
     <Compile Include="Models\Disasters\FloodingDisaster.cs" />
     <Compile Include="Models\EmptyWorld.cs" />
     <Compile Include="Models\IMutationFactory.cs" />
+    <Compile Include="Models\PopulationCount.cs" />
     <Compile Include="Models\RandomMutationFactory.cs" />
     <Compile Include="Models\WorldContextService.cs" />
     <Compile Include="Models\EvenlyDistributedParentsBreedFactory.cs" />

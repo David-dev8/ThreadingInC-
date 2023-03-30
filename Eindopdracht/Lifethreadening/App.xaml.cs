@@ -74,7 +74,7 @@ namespace Lifethreadening
                     // configuring the new page by passing required information as a navigation
                     // parameter
                     var navigationService = new NavigationService(rootFrame);
-                    navigationService.CurrentViewModel = new CustomSpeciesViewModel(navigationService);
+                    navigationService.CurrentViewModel = new HomeViewModel(navigationService);
 
                 }
                 // Ensure the current window is active
