@@ -23,7 +23,6 @@ namespace Lifethreadening.Models
     // TODO lock mutations
     public class Simulation: Observable
     {
-        private string gameName = "first";
         private Disaster _mostRecentDisaster; 
         private const double SPAWN_CHANCE = 0.10;
         private const double DISASTER_CHANCE = 1;
@@ -43,7 +42,7 @@ namespace Lifethreadening.Models
 
         // For in game things
         private static readonly TimeSpan _stepInterval = new TimeSpan(1, 0, 0, 0); // TODO static conventions
-        private static readonly TimeSpan _disasterInterval = new TimeSpan(50, 0, 0, 0); // TODO change interval en kans op disaster
+        private static readonly TimeSpan _disasterInterval = new TimeSpan(50, 0, 0, 0); // TODO change interval en kans op disaster and disaster intensity
         private static readonly TimeSpan _mutationInterval = new TimeSpan(5, 0, 0, 0);
         private static readonly TimeSpan _spawnInterval = new TimeSpan(20, 0, 0, 0);
 
@@ -146,7 +145,7 @@ namespace Lifethreadening.Models
             SetUpTimers();
         }
 
-        public Simulation(Ecosystem ecosystem): this(0, 0, DateTime.Now, 0, "file", "name", new GridWorld(ecosystem))
+        public Simulation(Ecosystem ecosystem, string fileName, string name): this(0, 0, DateTime.Now, 0, fileName, name, new GridWorld(ecosystem))
         {
         }
 
@@ -164,27 +163,29 @@ namespace Lifethreadening.Models
 
         private void Step()
         {
-            World.Step();
-
-            if(!GetAnimals().Any())
+            if(!Stopped)
             {
-                End();
-                IsGameOver = true;
-            }
+                IEnumerable<Animal> animals = GetAnimals();
+                PopulationManager.RegisterAnimals(animals, World.CurrentDate);
+                MutationManager.RegisterMutations(animals); // TODO moet het registreren voor of na een stap?
+                World.Step();
 
-            IEnumerable<Animal> animals = GetAllAnimals(World.SimulationElements);
-            PopulationManager.RegisterAnimals(animals, World.CurrentDate);
-            MutationManager.RegisterMutations(animals); // TODO moet het registreren voor of na een stap?
+                if(!animals.Any())
+                {
+                    End();
+                    IsGameOver = true;
+                }
+            }
         }
 
-        private IEnumerable<Animal> GetAllAnimals(IEnumerable<SimulationElement> elements)
+        private IEnumerable<Animal> GetAnimals()
         {
-            IList<Animal> animals = new List<Animal>();
-            foreach(SimulationElement element in elements)
+            ISet<Animal> animals = new HashSet<Animal>();
+            foreach(SimulationElement element in World.SimulationElements)
             {
-                if(element is Animal)
+                if(element is Animal animal)
                 {
-                    animals.Add((Animal) element);
+                    animals.Add(animal);
                 }
             }
             return animals;
@@ -192,46 +193,59 @@ namespace Lifethreadening.Models
 
         private void Spawn()
         {
-            if(_random.NextDouble() < SPAWN_CHANCE)
-            {
-                SimulationElement element = _elementFactory.CreateRandomElement(World.ContextService);
-                World.GetLocations().GetRandom().AddSimulationElement(element);
+            if(!Stopped)
+            { 
+                if(_random.NextDouble() < SPAWN_CHANCE)
+                {
+                    SimulationElement element = _elementFactory.CreateRandomElement(World.ContextService);
+                    World.GetLocations().GetRandom().AddSimulationElement(element);
+                }
             }
         }
 
         private void LetPotentialDisasterOccur()
         {
-            if(_random.NextDouble() < DISASTER_CHANCE)
+            if(!Stopped)
             {
-                MostRecentDisaster = _disasterFactory.CreateDisaster(World.ContextService);
-                AmountOfDisasters++;
-                MostRecentDisaster.Strike(World.SimulationElements);
+                if(_random.NextDouble() < DISASTER_CHANCE)
+                {
+                    MostRecentDisaster = _disasterFactory.CreateDisaster(World.ContextService);
+                    AmountOfDisasters++;
+                    MostRecentDisaster.Strike(World.SimulationElements);
+                }
             }
         }
 
-        private async void Mutate()
+        private async Task Mutate()
         {
-            Mutation mutation = await _mutationFactory.CreateMutation(World.CurrentDate);
-            mutation.Affect(GetAnimals().GetRandom());
-            // TODO async (void)
+            if(!Stopped)
+            {
+                Mutation mutation = await _mutationFactory.CreateMutation(World.CurrentDate);
+                mutation.Affect(GetAnimals().GetRandom());
+            }
         }
 
         public async Task Save()
         {
             if(!IsGameOver)
             {
-                // TODO prevent two threads from doing the save
-                Filename = await _worldStateWriter.Write(gameName, World);
+                Filename = await _worldStateWriter.Write(Name, World);
+                //Stop(); // TODO
+                await _simulationWriter.Write(this);
+                //Start();
             }
-            await _simulationWriter.Write(this);
+            else
+            {
+                await _simulationWriter.Write(this);
+            }
         }
 
         private void SetUpTimers()
         {
-            _stepTimer = new Timer(Run(Step), null, Timeout.Infinite, Timeout.Infinite);
+            _stepTimer = new Timer((_) => Step(), null, Timeout.Infinite, Timeout.Infinite);
             _spawnTimer = new Timer((_) => Spawn(), null, Timeout.Infinite, Timeout.Infinite);
-            _disasterTimer = new Timer(Run(LetPotentialDisasterOccur), null, Timeout.Infinite, Timeout.Infinite);
-            _mutationTimer = new Timer((_) => Mutate(), null, Timeout.Infinite, Timeout.Infinite);
+            _disasterTimer = new Timer((_) => LetPotentialDisasterOccur(), null, Timeout.Infinite, Timeout.Infinite);
+            _mutationTimer = new Timer(async (_) => await Mutate(), null, Timeout.Infinite, Timeout.Infinite);
         }
 
         public async Task Setup(bool populate = true)
@@ -256,19 +270,16 @@ namespace Lifethreadening.Models
 
         private void SetTimerIntervals()
         {
-            //_spawnTimer.Change(2000, secondsForOneDay);
-            //_spawnTimer.Change(2000, secondsForOneDay);
             // TODO
-            
-            ChangeTimer(_stepTimer, 1000 * _stepInterval.Divide(_simulationSpeed)); // TODO Changing while 
-            ChangeTimer(_disasterTimer, 1000 * _disasterInterval.Divide(_simulationSpeed)); // TODO take into account already running timer
-            //ChangeTimer(_disasterTimer, 1000 * _disasterInterval.Divide(_simulationSpeed));
-            
-            // TODO Does timer run even when changing its period?
+            ChangeTimer(_stepTimer, _stepInterval);
+            ChangeTimer(_disasterTimer, _disasterInterval);
+            ChangeTimer(_spawnTimer, _spawnInterval);
+            ChangeTimer(_mutationTimer, _mutationInterval);
         }
 
-        private void ChangeTimer(Timer timer, double milliseconds)
+        private void ChangeTimer(Timer timer, TimeSpan interval)
         {
+            double milliseconds = 1000 * interval.Divide(_simulationSpeed);
             int roundedMilliSeconds = (int)milliseconds;
             timer.Change(roundedMilliSeconds, roundedMilliSeconds);
         }
@@ -289,19 +300,6 @@ namespace Lifethreadening.Models
             _spawnTimer.Change(Timeout.Infinite, Timeout.Infinite);
             _disasterTimer.Change(Timeout.Infinite, Timeout.Infinite);
             _mutationTimer.Change(Timeout.Infinite, Timeout.Infinite);
-        }
-
-        private IEnumerable<Animal> GetAnimals()
-        {
-            ISet<Animal> animals = new HashSet<Animal>();
-            foreach(SimulationElement element in World.SimulationElements)
-            {
-                if(element is Animal animal)
-                {
-                    animals.Add(animal);
-                }
-            }
-            return animals;
         }
 
         private void Populate()

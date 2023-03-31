@@ -14,6 +14,7 @@ namespace Lifethreadening.ViewModels
     {
         private readonly IEcosystemReader _ecosystemReader;
         private Ecosystem _selectedEcosystem;
+        private string _simulationName;
 
         public IEnumerable<Ecosystem> Ecosystems { get; set; }
         public Ecosystem SelectedEcosystem
@@ -35,8 +36,7 @@ namespace Lifethreadening.ViewModels
         public ICommand SelectEcosystemCommand { get; set; }
         public ICommand GoBackCommand { get; set; }
 
-
-        public EcosystemSelectViewModel(NavigationService navigationService) : base(navigationService)
+        public EcosystemSelectViewModel(NavigationService navigationService, string name) : base(navigationService)
         {
             _ecosystemReader = new DatabaseEcosystemReader();
             Ecosystems = _ecosystemReader.ReadAll();
@@ -44,12 +44,13 @@ namespace Lifethreadening.ViewModels
 
             SelectEcosystemCommand = new RelayCommand(SelectEcosystem);
             GoBackCommand = new RelayCommand(GoBack);
+            _simulationName = name;
         }
 
         private void SelectEcosystem()
         {
             // Set the current view model to a new instance of SimulationViewModel with the selected ecosystem
-            _navigationService.CurrentViewModel = new SimulationViewModel(_navigationService, new Simulation(SelectedEcosystem)); // TODO
+            _navigationService.CurrentViewModel = new SimulationViewModel(_navigationService, new Simulation(SelectedEcosystem, _simulationName, _simulationName)); // TODO
         }
 
         private void GoBack()

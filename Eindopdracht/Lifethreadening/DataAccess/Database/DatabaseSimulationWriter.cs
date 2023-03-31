@@ -15,6 +15,7 @@ namespace Lifethreadening.DataAccess.Database
     /// </summary>
     public class DatabaseSimulationWriter : ISimulationWriter
     {
+        private static int c = 0;
         private DatabaseHelper<Simulation> _database;
 
         public DatabaseSimulationWriter()
@@ -153,7 +154,6 @@ namespace Lifethreadening.DataAccess.Database
 
         private async Task CreateAffectedStatistics(Simulation simulation)
         {
-
             DataTable dataTable = CreateDataTableForAffectedStatistics(simulation.MutationManager.Mutations, simulation.Id);
             await BulkInsertEntity(dataTable, "MutationAffectedStatistic");
         }
@@ -184,6 +184,7 @@ namespace Lifethreadening.DataAccess.Database
         {
             DataRow row = affectedStatisticsTable.NewRow();
 
+            row["id"] = c++;
             row["statistic"] = statistic.Name;
             row["affection"] = statistic.Value;
             row["mutationAllel"] = mutation.Allel;

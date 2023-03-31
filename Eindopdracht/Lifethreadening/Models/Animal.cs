@@ -87,6 +87,7 @@ namespace Lifethreadening.Models
         public Statistics Statistics { get; set; }
         [JsonIgnore]
         public Behaviour Behaviour { get; set; }
+        [JsonIgnore] // TODO
         public IList<Mutation> Mutations { get; set; } = new List<Mutation>();
 
         public Animal(string name, Sex sex, Species species, Statistics statistics, WorldContextService contextService) : base(DEFAULT_PRIORITY, species.Image, contextService)

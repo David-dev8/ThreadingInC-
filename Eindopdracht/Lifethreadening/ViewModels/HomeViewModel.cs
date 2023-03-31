@@ -69,7 +69,12 @@ namespace Lifethreadening.ViewModels
 
         private void CreateNewGame()
         {
-            _navigationService.CurrentViewModel = new EcosystemSelectViewModel(_navigationService);
+            _navigationService.CurrentViewModel = new EcosystemSelectViewModel(_navigationService, CreateSimulationName());
+        }
+
+        private string CreateSimulationName()
+        {
+            return "Saveslot" + Slots.First(s => s.Value == null).Key + DateTime.Now.ToString("yyyyMMddHHmmss");
         }
 
         private void OpenSimulation(Simulation simulation)

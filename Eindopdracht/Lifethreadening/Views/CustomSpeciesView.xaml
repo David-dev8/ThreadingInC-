@@ -137,7 +137,10 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <customControls:IconButton Icon="Save" Command="{Binding SaveSpeciesCommand}" Grid.Column="3" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="28" Text="Create species"></customControls:IconButton>
+            <StackPanel Grid.Column="3" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
+                <customControls:IconButton Icon="Home" Command="{Binding QuitCommand}" VerticalAlignment="Bottom" FontSize="28" Text="Home" />
+                <customControls:IconButton Margin="10,0" Icon="Save" Command="{Binding SaveSpeciesCommand}" VerticalAlignment="Bottom" FontSize="28" Text="Create species" />
+            </StackPanel>
         </Grid>
 
         <Popup IsOpen="{Binding HasErrors}" IsLightDismissEnabled="True" LightDismissOverlayMode="On" x:Name="ValidationPopup">
