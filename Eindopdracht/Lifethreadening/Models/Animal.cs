@@ -92,7 +92,7 @@ namespace Lifethreadening.Models
         [JsonIgnore]
         public Behaviour Behaviour { get; set; }
         [JsonInclude]
-        public ISet<Mutation> Mutations { get; set; } = new HashSet<Mutation>();
+        public IList<Mutation> Mutations { get; set; } = new List<Mutation>();
 
         /// <summary>
         /// Creates a new animal
