@@ -10,6 +10,9 @@ using Lifethreadening.ExtensionMethods;
 
 namespace Lifethreadening.Models
 {
+    /// <summary>
+    /// This class is used to create ofspring with genes from both parents equally
+    /// </summary>
     public class EvenlyDistributedParentsBreedFactory : IBreedFactory
     {
         private const int WEIGHT_DEVIATION = 2;
@@ -19,12 +22,24 @@ namespace Lifethreadening.Models
         private readonly IBehaviourBuilder _behaviourBuilder;
         private readonly INameReader _nameReader;
 
+        /// <summary>
+        /// Creates a new evenly distributed parents breed factory
+        /// </summary>
+        /// <param name="behaviourBuilder">The builder to use for building behviours</param>
+        /// <param name="nameReader">The reader to use for names</param>
         public EvenlyDistributedParentsBreedFactory(IBehaviourBuilder behaviourBuilder, INameReader nameReader)
         {
             _behaviourBuilder = behaviourBuilder;
             _nameReader = nameReader;
         }
 
+        /// <summary>
+        /// This function creates ofspring
+        /// </summary>
+        /// <param name="father">The first parent</param>
+        /// <param name="mother">The second parent</param>
+        /// <param name="contextService">The context service</param>
+        /// <returns>A collection with all ofspring</returns>
         public IEnumerable<Animal> CreateAnimals(Animal father, Animal mother, WorldContextService contextService)
         {
             if(CanBreed(father, mother))
@@ -42,6 +57,13 @@ namespace Lifethreadening.Models
             return Enumerable.Empty<Animal>();
         }
 
+        /// <summary>
+        /// This function creates a single ofspring
+        /// </summary>
+        /// <param name="father">The first parent</param>
+        /// <param name="mother">The second parent</param>
+        /// <param name="contextService">The context service</param>
+        /// <returns>The ofspring</returns>
         private Animal CreateAnimal(Animal father, Animal mother, WorldContextService contextService)
         {
             Species species = father.Species;
@@ -59,6 +81,13 @@ namespace Lifethreadening.Models
             return newAnimal;
         }
 
+        /// <summary>
+        /// This function merges the statistics of both parents 
+        /// </summary>
+        /// <param name="species">The spiecies of the parents</param>
+        /// <param name="first">The first parents statistics</param>
+        /// <param name="second">The second parents statistics</param>
+        /// <returns>The merged statistics</returns>
         private Statistics MergeStatistics(Species species, Statistics first, Statistics second)
         {
             Statistics newStatistics = species.BaseStatistics.Clone();
@@ -74,6 +103,12 @@ namespace Lifethreadening.Models
             return newStatistics;
         }
 
+        /// <summary>
+        /// This function checks if two animals can breed
+        /// </summary>
+        /// <param name="father">The first parent</param>
+        /// <param name="mother">The second parent</param>
+        /// <returns>A boolean value indicating if the parent can breed</returns>
         private bool CanBreed(Animal father, Animal mother)
         {
             return father.Species.Equals(mother.Species) && 

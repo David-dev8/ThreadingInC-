@@ -7,12 +7,24 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models.Behaviours
 {
+    /// <summary>
+    /// This class is used to contain behavior characteristics partaining to the behaviour of running away from danger
+    /// </summary>
     public class RunAwayBehaviour : Behaviour
     {
+        /// <summary>
+        /// Creates a new running away behaviour
+        /// </summary>
+        /// <param name="animal">The animal to create the behaviour for</param>
         public RunAwayBehaviour(Animal animal) : base(animal)
         {
         }
 
+        /// <summary>
+        /// This method find all potential sources of danger in the world
+        /// </summary>
+        /// <param name="locations">All locations in the world</param>
+        /// <returns>A collection of danger is the world</returns>
         private IEnumerable<Animal> FindThreats(IDictionary<Location, Path> locations)
         {
             IList<Animal> threats = new List<Animal>();
@@ -52,6 +64,10 @@ namespace Lifethreadening.Models.Behaviours
             return null;
         }
 
+        /// <summary>
+        /// This method gets the motivation the animal has to run away
+        /// </summary>
+        /// <returns>The ammount of motivation the animal has to run away</returns>
         private int GetMotivation()
         {
             return ((100 - Animal.Statistics.SelfDefence) + (100 - Animal.Hp));

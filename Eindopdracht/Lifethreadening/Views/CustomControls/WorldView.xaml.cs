@@ -21,10 +21,12 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Lifethreadening.Views.CustomControls
 {
+    /// <summary>
+    /// This is a custom view control that displays the game / simulation world
+    /// </summary>
     public sealed partial class WorldView : UserControl
     {
         public static readonly DependencyProperty WorldProperty =
@@ -119,6 +121,11 @@ namespace Lifethreadening.Views.CustomControls
             SelectedSimulationElement = GetSimulationElementAt(e.GetCurrentPoint(this).Position);
         }
 
+        /// <summary>
+        /// This method gets a simulation element at the given point
+        /// </summary>
+        /// <param name="point">The point to look for an element at</param>
+        /// <returns>The element at the given point</returns>
         private SimulationElement GetSimulationElementAt(Point point)
         {
             int column = (int)(point.X / CellWidth);
@@ -126,6 +133,9 @@ namespace Lifethreadening.Views.CustomControls
             return GetOnTop(Locations[row][column]);
         }
 
+        /// <summary>
+        /// This methodd draws the world to the screen
+        /// </summary>
         private void Draw()
         {
             if(Locations != null)
@@ -143,6 +153,12 @@ namespace Lifethreadening.Views.CustomControls
             }
         }
 
+        /// <summary>
+        /// This method assigns a location to a point in the world
+        /// </summary>
+        /// <param name="location">The location to show</param>
+        /// <param name="row">The row it should be in</param>
+        /// <param name="column">The column it should be in</param>
         private void ShowAt(Location location, int row, int column)
         {
             SimulationElement simulationElement = GetOnTop(location);
@@ -158,6 +174,11 @@ namespace Lifethreadening.Views.CustomControls
             }
         }
 
+        /// <summary>
+        /// This method gets how a element should be represented
+        /// </summary>
+        /// <param name="simulationElement">The element that needs to represented</param>
+        /// <returns>A framework element of that element</returns>
         private FrameworkElement GetRepresentation(SimulationElement simulationElement)
         {
             return new Image()
@@ -170,6 +191,11 @@ namespace Lifethreadening.Views.CustomControls
             };
         }
 
+        /// <summary>
+        /// This method gets a bitmap Image based on a filename
+        /// </summary>
+        /// <param name="imageName">The name of the image to get</param>
+        /// <returns>The image that was requested as abitmap</returns>
         private BitmapImage GetImage(string imageName)
         {
             if(!elementImages.ContainsKey(imageName))
@@ -180,11 +206,19 @@ namespace Lifethreadening.Views.CustomControls
             return elementImages[imageName];
         }
 
+        /// <summary>
+        /// This method gets the first simulation element in the given location
+        /// </summary>
+        /// <param name="location">The location to get the top element from</param>
+        /// <returns>The top most element in the given location</returns>
         private SimulationElement GetOnTop(Location location)
         {
             return location.SimulationElements.FirstOrDefault();
         }
 
+        /// <summary>
+        /// This method empties the world
+        /// </summary>
         private void Clear()
         {
             Space.Children.Clear();

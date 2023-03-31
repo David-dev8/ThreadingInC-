@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
+    /// <summary>
+    /// This class is used to contain all behaviour buleder mehods
+    /// </summary>
     public interface IBehaviourBuilder
     {
         IBehaviourBuilder AddRest();

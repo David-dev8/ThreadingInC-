@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
+    /// <summary>
+    /// This class is used to represent a location in a world
+    /// </summary>
     public class Location : Observable
     {
         // There is no native concurrent list in C# (remove at random index, by specifying an object, is needed (.Remove))
@@ -18,6 +21,10 @@ namespace Lifethreadening.Models
         private object _simulationElementsLocker = new object();
         private IList<SimulationElement> _simulationElements;
 
+        /// <summary>
+        /// Creates a new location
+        /// </summary>
+        /// <param name="simulationElements">A collection of all simulation elements in this lcoation</param>
         public Location(IList<SimulationElement> simulationElements = null)
         {
             _simulationElements = simulationElements ?? new List<SimulationElement>();
@@ -46,6 +53,10 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// This function adds a simulation element to a location
+        /// </summary>
+        /// <param name="simulationElement">The element to add</param>
         public void AddSimulationElement(SimulationElement simulationElement)
         {
             lock(_simulationElementsLocker)
@@ -54,6 +65,10 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// This function removes a simulation element from a location
+        /// </summary>
+        /// <param name="simulationElement">The element to remove</param>
         public void RemoveSimulationElement(SimulationElement simulationElement)
         {
             lock(_simulationElementsLocker)
@@ -62,6 +77,9 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// This function removes all dead and non existing simulation elements from a location
+        /// </summary>
         public void RemoveNonExistingSimulationElements()
         {
             lock(_simulationElementsLocker)

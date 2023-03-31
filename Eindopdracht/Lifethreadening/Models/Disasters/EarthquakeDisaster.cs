@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models.Disasters
 {
+    /// <summary>
+    /// This class is used to contain data about earthquake disasters
+    /// </summary>
     public class EarthquakeDisaster : Disaster
     {
         private const string DESCRIPTION = "Earthquake";
@@ -16,6 +19,10 @@ namespace Lifethreadening.Models.Disasters
         private Random _random = new Random();
         private int _shockwaves;
 
+        /// <summary>
+        /// Creates a new earthquake disaster
+        /// </summary>
+        /// <param name="contextService">The contextservice</param>
         public EarthquakeDisaster(WorldContextService contextService) : base(DESCRIPTION, contextService)
         {
             _shockwaves = _random.Next(MINIMUM_SHOCKWAVES, MAXIMUM_SHOCKWAVES);
@@ -42,6 +49,10 @@ namespace Lifethreadening.Models.Disasters
             }
         }
 
+        /// <summary>
+        /// This method lets the earthquake damage all affected animals in the simulation
+        /// </summary>
+        /// <param name="simulationElement">A list of all simulation elements that are affected by the earthquake</param>
         private void Damage(SimulationElement simulationElement)
         {
             if(simulationElement is Animal animal)
@@ -50,6 +61,10 @@ namespace Lifethreadening.Models.Disasters
             }
         }
 
+        /// <summary>
+        /// This methods calculates the serverity of the earthquake expressed in a Richter value
+        /// </summary>
+        /// <returns>The Richter value of the earthquake</returns>
         private double CalculateRichterScaleValue()
         {
             return Math.Log(_shockwaves, RICHTER_SCALE_LOG_BASE);

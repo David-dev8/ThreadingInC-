@@ -16,10 +16,12 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Lifethreadening.Views.CustomControls
 {
+
+    /// <summary>
+    /// This custom control is a button control with an icon on it
+    /// </summary>
     public sealed partial class IconButton : UserControl
     {
         public static readonly DependencyProperty IconProperty =
@@ -58,6 +60,9 @@ namespace Lifethreadening.Views.CustomControls
             set { SetValue(TextStyleProperty, value); }
         }
 
+        /// <summary>
+        /// Creates a new iconbutton
+        /// </summary>
         public IconButton()
         {
             this.InitializeComponent();

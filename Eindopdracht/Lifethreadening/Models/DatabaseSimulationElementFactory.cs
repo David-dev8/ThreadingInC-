@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
+    /// <summary>
+    /// This class is used to create simulation elements from the database
+    /// </summary>
     public class DatabaseSimulationElementFactory : ISimulationElementFactory
     {
         private const double ANIMAL_CHANCE = 0.15;
@@ -23,6 +26,11 @@ namespace Lifethreadening.Models
         private readonly INameReader _nameReader;
         private Random _random = new Random();
 
+        /// <summary>
+        /// Creates a new database simulation ellement factory 
+        /// </summary>
+        /// <param name="behaviourBuilder">The behaviour boulder to use</param>
+        /// <param name="nameReader">The namereader to use</param>
         public DatabaseSimulationElementFactory(IBehaviourBuilder behaviourBuilder, INameReader nameReader)
         {
             _behaviourBuilder = behaviourBuilder;
@@ -30,6 +38,11 @@ namespace Lifethreadening.Models
             _nameReader = nameReader;
         }
 
+        /// <summary>
+        /// This function creates a random simulation element
+        /// </summary>
+        /// <param name="contextService">The context service</param>
+        /// <returns>A random simulation element</returns>
         public SimulationElement CreateRandomElement(WorldContextService contextService)
         {
             double randomNumber = _random.NextDouble();
@@ -48,6 +61,11 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// This function Creates an animal at random
+        /// </summary>
+        /// <param name="contextService">The contectservice</param>
+        /// <returns>an animal</returns>
         public Animal CreateAnimal(WorldContextService contextService)
         {
             ISpeciesReader speciesReader = new DatabaseSpeciesReader();
@@ -67,18 +85,33 @@ namespace Lifethreadening.Models
             return newAnimal;
         }
 
+        /// <summary>
+        /// This function creates an obstruction at random
+        /// </summary>
+        /// <param name="contextService">The contextservice to use</param>
+        /// <returns>A random obstruction</returns>
         public Obstruction CreateObstruction(WorldContextService contextService)
         {
             IObstructionReader obstructionReader = new DatabaseObstructionReader();
             return obstructionReader.ReadByEcosystem(contextService.GetContext().Ecosystem.Id, contextService).GetRandom();
         }
 
+        /// <summary>
+        /// This function returns vegitation at random
+        /// </summary>
+        /// <param name="contextService">The contextservice</param>
+        /// <returns>A random vegitation from the database</returns>
         public Vegetation CreateVegetation(WorldContextService contextService)
         {
             IVegetationReader vegetationReader = new DatabaseVegetationReader();
             return vegetationReader.ReadByEcosystem(contextService.GetContext().Ecosystem.Id, contextService).GetRandom();
         }
 
+        /// <summary>
+        /// This function creates a new statist object for a spiecies with minor deviations
+        /// </summary>
+        /// <param name="baseStatistics">The base statistics to use as a base</param>
+        /// <returns>A new statisticks object</returns>
         public Statistics GenerateStatisticsFromBase(Statistics baseStatistics)
         {
             Statistics statistics = baseStatistics.Clone();

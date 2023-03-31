@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
+    /// <summary>
+    /// This class is used to store data about names
+    /// </summary>
     public class ChartNamedEntity : Observable
     {
         private string _name;

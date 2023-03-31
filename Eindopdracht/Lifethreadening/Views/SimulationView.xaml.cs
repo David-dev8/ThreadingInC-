@@ -19,12 +19,10 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace Lifethreadening.Views
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// This is the view in wich the game / simulation runs
     /// </summary>
     public sealed partial class SimulationView : Page
     {
@@ -41,6 +39,11 @@ namespace Lifethreadening.Views
             SizeChanged += SimulationView_SizeChanged;
         }
 
+        /// <summary>
+        /// This method resizes and positions the popup based on the window size to make it responsive
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SimulationView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             gridMutation.Width = ActualWidth / 2;

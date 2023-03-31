@@ -9,37 +9,50 @@ using System.Xml.Linq;
 
 namespace Lifethreadening.Models
 {
+    /// <summary>
+    /// This class is used to store data about species
+    /// </summary>
     public class Species: ChartNamedEntity
     {
         public int Id { get; set; }
 
         private string _scientificName;
-        public string ScientificName {
-            get {
+        public string ScientificName 
+        {
+            get 
+            {
                 return _scientificName;
-            } set { 
+            } 
+            set 
+            { 
                 _scientificName = value;
                 NotifyPropertyChanged();
             }
         }
 
         private string _image;
-        public string Image {
-            get { 
+        public string Image 
+        {
+            get 
+            { 
                 return _image;
             }
-            set {
+            set 
+            {
                 _image = value;
                 NotifyPropertyChanged();
             }
         }
 
         private int _AverageAge;
-        public int AverageAge {
-            get { 
+        public int AverageAge 
+        {
+            get 
+            { 
                 return _AverageAge;
             }
-            set {
+            set 
+            {
                 _AverageAge = value;
                 NotifyPropertyChanged();
             } 
@@ -48,11 +61,14 @@ namespace Lifethreadening.Models
         public int MaxAge { get; set; }
         
         private int _breedSize;
-        public int BreedSize {
-            get { 
+        public int BreedSize 
+        {
+            get 
+            { 
                 return _breedSize;
             }
-            set {
+            set 
+            {
                 _breedSize = value;
                 NotifyPropertyChanged();
             } 
@@ -78,6 +94,20 @@ namespace Lifethreadening.Models
         public int MaxBreedSize { get; set; }
         public int MinBreedSize { get; set; }
 
+        /// <summary>
+        /// Creates a new species object
+        /// </summary>
+        /// <param name="id">The ID of the species</param>
+        /// <param name="name">The name of the species</param>
+        /// <param name="description">The description of the species</param>
+        /// <param name="scientificName">The scientific name of the species</param>
+        /// <param name="image">The image representing the species</param>
+        /// <param name="averageAge">The average age of the species</param>
+        /// <param name="maxAge">The max age of the species</param>
+        /// <param name="maxBreedSize">The maximum breed size of this species</param>
+        /// <param name="minBreedSize">The minimum breedsize of this speices</param>
+        /// <param name="diet">The diet of this species</param>
+        /// <param name="baseStatistics">The base stats of this species</param>
         [JsonConstructor]
         public Species(int id, string name, string description, string scientificName, string image, int averageAge, int maxAge, int maxBreedSize, int minBreedSize, Diet diet, Statistics baseStatistics = null) : base(name)
         {
@@ -109,6 +139,10 @@ namespace Lifethreadening.Models
             return Id.GetHashCode();
         }
 
+        /// <summary>
+        /// This function checks if a spiecies data is valid to be saved to the database
+        /// </summary>
+        /// <returns>A collection with all the remaining errors</returns>
         public List<string> CheckIfValid()
         {
             List<string> valid = new List<string>();

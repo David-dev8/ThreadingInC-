@@ -12,6 +12,9 @@ using System.Timers;
 
 namespace Lifethreadening.Models
 {
+    /// <summary>
+    /// This class is used to analyse data about populations
+    /// </summary>
     public class PopulationAnalyzer
     {
         private const int MINIMUM_REQUIRED_TO_BE_FAIR = 100;
@@ -25,11 +28,19 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// Creates a new population analyser
+        /// </summary>
         public PopulationAnalyzer()
         {
             SpeciesCount = new Dictionary<DateTime, IDictionary<Species, int>> { };
         }
 
+        /// <summary>
+        /// This function registers a set of animals to the analyser
+        /// </summary>
+        /// <param name="animals">The colection of animals to add</param>
+        /// <param name="currentDate">The date of the animal collection gathering</param>
         public void RegisterAnimals(IEnumerable<Animal> animals, DateTime currentDate)
         {
             // TODO already exists
@@ -60,6 +71,10 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// This function calculates the most dominant species
+        /// </summary>
+        /// <returns>A list of Ranks</returns>
         public IEnumerable<Rank> GetDominatingSpecies()
         {
             int position = 1;
@@ -71,6 +86,10 @@ namespace Lifethreadening.Models
             .Select(averageSpeciesCount => new Rank(position++, averageSpeciesCount.Species, averageSpeciesCount.Average));
         }
 
+        /// <summary>
+        /// This function calculates the shannon weaver indexes for all the animals
+        /// </summary>
+        /// <returns>The shannon weaver indexes at every time intervall</returns>
         public IDictionary<DateTime, double> GetShannonWeaverData()
         {
             return SpeciesCount.AsParallel().Select(speciesCount => 
@@ -79,6 +98,11 @@ namespace Lifethreadening.Models
             }).ToDictionary(k => k.Key, k => k.index);
         }
 
+        /// <summary>
+        /// This function calculates the shannon weaver index for a set of species
+        /// </summary>
+        /// <param name="populations">The populations to consider when calculating</param>
+        /// <returns>The shannon weaver index for the input</returns>
         private double CalculateShannonWeaverIndex(IDictionary<Species, int> populations)
         {
             int amountOfAnimals = populations.Values.Sum();
@@ -88,12 +112,17 @@ namespace Lifethreadening.Models
                 .Sum(relativePresence => relativePresence > 0 ? ((relativePresence * Math.Log(relativePresence)) / Math.Sqrt(MINIMUM_REQUIRED_TO_BE_FAIR) * -1) : 0);
         }
 
+        /// <summary>
+        /// This fucntion gets the population count per species
+        /// </summary>
+        /// <returns>A colection linking species to their populations at serveral intervals</returns>
         public IDictionary<Species, IDictionary<DateTime, int>> GetSpeciesCountPerSpecies()
         {
             return SpeciesCount
                 .SelectMany(speciesCount => speciesCount.Value, (SpeciesCount, amountPerDate) => new PopulationCount(SpeciesCount.Key, amountPerDate.Key, amountPerDate.Value))
-                .Aggregate(new Dictionary<Species, IDictionary<DateTime, int>>(), (seed, value) => {
-                    if (!seed.ContainsKey(value.Species))
+                .Aggregate(new Dictionary<Species, IDictionary<DateTime, int>>(), (seed, value) =>
+                {
+                    if(!seed.ContainsKey(value.Species))
                     {
                         seed.Add(value.Species, new Dictionary<DateTime, int>());
                     }

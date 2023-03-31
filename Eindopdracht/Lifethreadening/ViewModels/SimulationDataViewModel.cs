@@ -11,6 +11,9 @@ using System.Windows.Input;
 
 namespace Lifethreadening.ViewModels
 {
+    /// <summary>
+    /// This viewmodel is used for the simulation data view
+    /// </summary>
     public class SimulationDataViewModel : BaseViewModel
     {
         private static readonly int maxAmountOfDatapoints = 100;
@@ -94,6 +97,11 @@ namespace Lifethreadening.ViewModels
             }
         }
 
+        /// <summary>
+        /// Creates a new simulation data view model
+        /// </summary>
+        /// <param name="navigationService">The navigation service to use when navigating</param>
+        /// <param name="simulation">The simulation that will get its data displayed</param>
         public SimulationDataViewModel(NavigationService navigationService, Simulation simulation) : base(navigationService)
         {
             DataLoaded = false;
@@ -131,6 +139,9 @@ namespace Lifethreadening.ViewModels
             AffectedStatistics = Simulation.MutationManager.Analyze();
         }
 
+        /// <summary>
+        /// This function is used to navigate to the home view
+        /// </summary>
         private void SelectHomeAsCurrentPage()
         {
             _navigationService.CurrentViewModel = new HomeViewModel(_navigationService);
