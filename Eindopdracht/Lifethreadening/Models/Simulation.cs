@@ -26,8 +26,8 @@ namespace Lifethreadening.Models
     {
         private Disaster _mostRecentDisaster; 
         private const double INITIAL_SPAWN_CHANCE = 0.10;
-        private const double RUNNING_SPAWN_CHANCE = 0.85;
-        private const double DISASTER_CHANCE = 0.40;
+        private const double RUNNING_SPAWN_CHANCE = 0.45;
+        private const double DISASTER_CHANCE = 0.60;
         private Random _random = new Random();
         private World _world;
         private ISimulationElementFactory _elementFactory;
