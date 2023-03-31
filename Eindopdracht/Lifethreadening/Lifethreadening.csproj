@@ -290,7 +290,6 @@
     <Content Include="Assets\savanna.png" />
     <Content Include="Assets\calendar.png" />
     <Content Include="Assets\disaster.png" />
-    <Content Include="Assets\fox.png" />
     <Content Include="Assets\SmallTile.scale-100.png" />
     <Content Include="Assets\SmallTile.scale-125.png" />
     <Content Include="Assets\SmallTile.scale-150.png" />
