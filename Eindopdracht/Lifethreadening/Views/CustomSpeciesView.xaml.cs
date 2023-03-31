@@ -13,12 +13,10 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace Lifethreadening.Views
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// This view is used to create a custom species
     /// </summary>
     public sealed partial class CustomSpeciesView : Page
     {
@@ -28,6 +26,11 @@ namespace Lifethreadening.Views
             SizeChanged += CustomSpeciesView_LayoutUpdated1; ;
         }
 
+        /// <summary>
+        /// Positions the popup on the frame resizing ensuring that its always centered in the frame
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CustomSpeciesView_LayoutUpdated1(object sender, object e)
         {
             ValidationPopup.HorizontalOffset = (ActualWidth - ValidationPopup.ActualWidth/2) / 2;

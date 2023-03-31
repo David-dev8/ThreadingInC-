@@ -19,10 +19,11 @@ using Windows.UI.Xaml.Shapes;
 using WinRTXamlToolkit.Controls.DataVisualization;
 using WinRTXamlToolkit.Controls.DataVisualization.Charting;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Lifethreadening.Views.CustomControls
 {
+    /// <summary>
+    /// This custom control is a linechart with multiple chart lines
+    /// </summary>
     public sealed partial class LineChartWithMultipleLines : UserControl
     {
         public static readonly DependencyProperty ItemsProperty =
@@ -50,18 +51,29 @@ namespace Lifethreadening.Views.CustomControls
             }
         }
 
+        /// <summary>
+        /// Creates a new line chart with multiple lines
+        /// </summary>
         public LineChartWithMultipleLines()
         {
             this.InitializeComponent();
             _colors = new Queue<Color>();
         }
 
+        /// <summary>
+        /// This function initializes the background like a chart background
+        /// </summary>
+        /// <param name="d"></param>
+        /// <param name="e"></param>
         private static void InitializeFill(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             LineChartWithMultipleLines chart = (LineChartWithMultipleLines)d;
             chart.FillLineChart();
         }
 
+        /// <summary>
+        /// This function Fills the lines in the linechart with colors
+        /// </summary>
         private void FillLineChart()
         {
             lineChart.Series.Clear();
@@ -86,6 +98,10 @@ namespace Lifethreadening.Views.CustomControls
             }
         }
 
+        /// <summary>
+        /// This function gets the color that is to be used next
+        /// </summary>
+        /// <returns>The color for the next line</returns>
         private Color GetNextColor()
         {
             if(_colors.Count == 0)
@@ -98,6 +114,9 @@ namespace Lifethreadening.Views.CustomControls
             return currentColor;
         }
 
+        /// <summary>
+        /// This function fills the collection of posible colors with predefined colors
+        /// </summary>
         private void FillColorCollection()
         {
             if(_colors.Count == 0)
