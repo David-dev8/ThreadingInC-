@@ -19,6 +19,9 @@ using Windows.UI.Composition;
 
 namespace Lifethreadening.Models
 {
+    /// <summary>
+    /// This class represents the core simulation that can be run
+    /// </summary>
     public class Simulation: Observable
     {
         private Disaster _mostRecentDisaster; 
@@ -93,6 +96,7 @@ namespace Lifethreadening.Models
                 NotifyPropertyChanged();
             }
         }
+
         private bool _isGameOver;
 
         public bool IsGameOver
@@ -122,6 +126,16 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// Create a simulation based on the given parameters
+        /// </summary>
+        /// <param name="id">The id of the simulation</param>
+        /// <param name="score">The score of the simulation</param>
+        /// <param name="startDate">The date at which the simulation started</param>
+        /// <param name="amountOfDisasters">The amount of disasters that have occured</param>
+        /// <param name="fileNameSaveSlot">The name of the file in which the world state of this simulation is saved</param>
+        /// <param name="name">The name of the simulation</param>
+        /// <param name="world">The world for the simulation</param>
         public Simulation(int id, int score, DateTime startDate, int amountOfDisasters, string fileNameSaveSlot, string name, World world)
         { 
             Name = name;
@@ -143,10 +157,21 @@ namespace Lifethreadening.Models
             SetUpTimers();
         }
 
+        /// <summary>
+        /// Creates a simulation based on the given parameters
+        /// This constructor will also create a world based on the given ecosystem
+        /// </summary>
+        /// <param name="ecosystem">The ecosystem to create the simulation for</param>
+        /// <param name="fileName">The name of the file in which the world state of this simulation is saved</param>
+        /// <param name="name">The name of the simulation</param>
         public Simulation(Ecosystem ecosystem, string fileName, string name): this(0, 0, DateTime.Now, 0, fileName, name, new GridWorld(ecosystem))
         {
         }
 
+        /// <summary>
+        /// This function takes one step in the simulation
+        /// If there are no animals left, this will result in the simulation being game over
+        /// </summary>
         private void Step()
         {
             if(!Stopped)
@@ -156,6 +181,7 @@ namespace Lifethreadening.Models
                 MutationManager.RegisterMutations(animals); // TODO moet het registreren voor of na een stap?
                 World.Step();
 
+                // Check if the game has ended
                 if(!animals.Any())
                 {
                     End();
@@ -164,6 +190,10 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// This function returns all animals that exist in the world of this simulation
+        /// </summary>
+        /// <returns>All animals in the world of this simulation</returns>
         private IEnumerable<Animal> GetAnimals()
         {
             ISet<Animal> animals = new HashSet<Animal>();
@@ -177,6 +207,9 @@ namespace Lifethreadening.Models
             return animals;
         }
 
+        /// <summary>
+        /// This function places a new animal at a random location of the world, based on the spawn chance
+        /// </summary>
         private void Spawn()
         {
             if(!Stopped)
@@ -191,6 +224,9 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// This function lets a random disaster strike, based on the disaster chance
+        /// </summary>
         private void LetPotentialDisasterOccur()
         {
             if(!Stopped)
@@ -204,6 +240,10 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// This function creates a mutation that affects a random animal in the simulation
+        /// </summary>
+        /// <returns>A task</returns>
         private async Task Mutate()
         {
             if(!Stopped)
@@ -213,6 +253,10 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// This function saves the current simulation
+        /// </summary>
+        /// <returns>A task</returns>
         public async Task Save()
         {
             if(!IsGameOver)
@@ -228,6 +272,9 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// This function sets up the timers by associating each timer with its corresponding function
+        /// </summary>
         private void SetUpTimers()
         {
             _stepTimer = new Timer((_) => Step(), null, Timeout.Infinite, Timeout.Infinite);
@@ -236,6 +283,11 @@ namespace Lifethreadening.Models
             _mutationTimer = new Timer(async (_) => await Mutate(), null, Timeout.Infinite, Timeout.Infinite);
         }
 
+        /// <summary>
+        /// This function sets up the simulation
+        /// </summary>
+        /// <param name="populate">Indicates whether to populate the world with elements, or to just use the existing world and its elements</param>
+        /// <returns>A task</returns>
         public async Task Setup(bool populate = true)
         {
             var nameReader = new APINameReader();
@@ -247,6 +299,9 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// This function starts the simulation
+        /// </summary>
         public void Start()
         {
             if(!IsGameOver && Stopped)
@@ -256,6 +311,9 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// This function updates the interval of the timers
+        /// </summary>
         private void SetTimerIntervals()
         {
             ChangeTimer(_stepTimer, _stepInterval);
@@ -264,6 +322,11 @@ namespace Lifethreadening.Models
             ChangeTimer(_mutationTimer, _mutationInterval);
         }
 
+        /// <summary>
+        /// This function updates a timer based on an interval, with respect to the current simulationspeed
+        /// </summary>
+        /// <param name="timer">The timer</param>
+        /// <param name="interval">The interval to use for the timer</param>
         private void ChangeTimer(Timer timer, TimeSpan interval)
         {
             double milliseconds = 1000 * interval.Divide(_simulationSpeed);
@@ -271,6 +334,9 @@ namespace Lifethreadening.Models
             timer.Change(roundedMilliSeconds, roundedMilliSeconds);
         }
 
+        /// <summary>
+        /// This function completely ends the simulation
+        /// </summary>
         public void End()
         {
             Stopped = true;
@@ -280,6 +346,9 @@ namespace Lifethreadening.Models
             _mutationTimer?.Dispose();
         }
 
+        /// <summary>
+        /// This function temporarily stops the simulation
+        /// </summary>
         public void Stop()
         {
             Stopped = true;
@@ -289,6 +358,9 @@ namespace Lifethreadening.Models
             _mutationTimer.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
+        /// <summary>
+        /// This function randomly populates the world of this simulation with elements
+        /// </summary>
         private void Populate()
         {
             foreach(Location location in World.GetLocations())
