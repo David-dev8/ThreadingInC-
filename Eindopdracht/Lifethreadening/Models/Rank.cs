@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
+    /// <summary>
+    /// This class is used to store data on ranks for species populations
+    /// </summary>
     public class Rank
     {
         private static readonly List<string> RANK_DESCRIPTION = new List<string>() 
@@ -28,6 +31,12 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// Creates a new rank
+        /// </summary>
+        /// <param name="position">The position of the rank</param>
+        /// <param name="species">The species that have this rank</param>
+        /// <param name="average">The average specie count for the species that owns this rank</param>
         public Rank(int position, Species species, double average)
         {
             Position = position;

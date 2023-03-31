@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
+    /// <summary>
+    /// This class is used to store data about the world
+    /// </summary>
     public abstract class World: Observable
     {
         private readonly IWeatherManager _weatherManager;
@@ -58,6 +61,11 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// Creates a new world
+        /// </summary>
+        /// <param name="ecosystem">The ecosystem for the new world</param>
+        /// <param name="weatherManager">The weather manager for the new world</param>
         public World(Ecosystem ecosystem, IWeatherManager weatherManager)
         {
             Ecosystem = ecosystem;
@@ -65,6 +73,10 @@ namespace Lifethreadening.Models
             CurrentDate = DateTime.Now;
         }
 
+
+        /// <summary>
+        /// This function executes a game tick in this world
+        /// </summary>
         public virtual void Step()
         {
             foreach(SimulationElement simulationElement in SimulationElements)
@@ -85,8 +97,15 @@ namespace Lifethreadening.Models
             OnPropertyChanged(nameof(Locations));
         }
 
+        /// <summary>
+        /// This function is used to set up the world
+        /// </summary>
         public abstract void CreateWorld();
 
+        /// <summary>
+        /// This function is used to get all the locations in the world
+        /// </summary>
+        /// <returns>A list of all the mutations in the world</returns>
         public abstract IEnumerable<Location> GetLocations();
     }
 }

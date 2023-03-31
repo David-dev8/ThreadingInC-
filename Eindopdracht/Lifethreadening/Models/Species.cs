@@ -8,6 +8,9 @@ using System.Xml.Linq;
 
 namespace Lifethreadening.Models
 {
+    /// <summary>
+    /// This class is used to store data about species
+    /// </summary>
     public class Species: NamedEntity
     {
         public int Id { get; set; }
@@ -72,6 +75,9 @@ namespace Lifethreadening.Models
         public Statistics BaseStatistics { get; set; }
 
         // TODO dub?
+        /// <summary>
+        /// Creates a new empty species object
+        /// </summary>
         public Species()
         {
             Name = "";
@@ -88,6 +94,20 @@ namespace Lifethreadening.Models
         public int MaxBreedSize { get; set; }
         public int MinBreedSize { get; set; }
 
+        /// <summary>
+        /// Creates a new species object
+        /// </summary>
+        /// <param name="id">The ID of the species</param>
+        /// <param name="name">The name of the species</param>
+        /// <param name="description">The description of the species</param>
+        /// <param name="scientificName">The scientific name of the species</param>
+        /// <param name="image">The image representing the species</param>
+        /// <param name="averageAge">The average age of the species</param>
+        /// <param name="maxAge">The max age of the species</param>
+        /// <param name="maxBreedSize">The maximum breed size of this species</param>
+        /// <param name="minBreedSize">The minimum breedsize of this speices</param>
+        /// <param name="diet">The diet of this species</param>
+        /// <param name="baseStatistics">The base stats of this species</param>
         public Species(int id, string name, string description, string scientificName, string image, int averageAge, int maxAge, int maxBreedSize, int minBreedSize, Diet diet, Statistics baseStatistics)
         {
             Id = id;
@@ -104,6 +124,19 @@ namespace Lifethreadening.Models
             BaseStatistics = baseStatistics;
         }
 
+        /// <summary>
+        /// Creates a new species object
+        /// </summary>
+        /// <param name="id">The ID of the species</param>
+        /// <param name="name">The name of the species</param>
+        /// <param name="description">The description of the species</param>
+        /// <param name="scientificName">The scientific name of the species</param>
+        /// <param name="image">The image representing the species</param>
+        /// <param name="averageAge">The average age of the species</param>
+        /// <param name="maxAge">The max age of the species</param>
+        /// <param name="maxBreedSize">The maximum breed size of this species</param>
+        /// <param name="minBreedSize">The minimum breedsize of this speices</param>
+        /// <param name="diet">The diet of this species</param>
         public Species(int id, string name, string description, string scientificName, string image, int averageAge, int maxAge, int maxBreedSize, int minBreedSize, Diet diet)
         {
             Id = id;
@@ -134,6 +167,10 @@ namespace Lifethreadening.Models
             return Id.GetHashCode();
         }
 
+        /// <summary>
+        /// This function checks if a spiecies data is valid to be saved to the database
+        /// </summary>
+        /// <returns>A collection with all the remaining errors</returns>
         public List<string> CheckIfValid()
         {
             List<string> valid = new List<string>();

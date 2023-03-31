@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
+    /// <summary>
+    /// This enum is used to store the posible mutation types
+    /// </summary>
     public enum MutationType
     {
         ADDITION,

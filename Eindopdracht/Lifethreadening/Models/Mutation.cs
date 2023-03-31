@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
+    /// <summary>
+    /// This class stores all data partaining to mutations
+    /// </summary>
     public class Mutation
     {
         private bool _hasAffected;
@@ -18,6 +21,15 @@ namespace Lifethreadening.Models
         public DateTime MutationDate { get; set; }
         public IList<StatisticInfo> Affected { get; set; }
 
+        /// <summary>
+        /// Creates a new mutation
+        /// </summary>
+        /// <param name="type">The type of mutation</param>
+        /// <param name="allel">The allel that gets mutated</param>
+        /// <param name="proteinBefore">The protein that gets affected</param>
+        /// <param name="proteinAfter">The resulting protien</param>
+        /// <param name="mutationDate">The date of the mutation</param>
+        /// <param name="mutateAction"> The changes this mutation makes</param>
         public Mutation(MutationType type, string allel, string proteinBefore, string proteinAfter, DateTime mutationDate, Action<Statistics> mutateAction)
         {
             Type = type;
@@ -30,6 +42,15 @@ namespace Lifethreadening.Models
             _hasAffected = false;
         }
 
+        /// <summary>
+        /// Creates a new mutation
+        /// </summary>
+        /// <param name="type">The type of mutation</param>
+        /// <param name="allel">The allel that gets mutated</param>
+        /// <param name="proteinBefore">The protein that gets affected</param>
+        /// <param name="proteinAfter">The resulting protien</param>
+        /// <param name="mutationDate">The date of the mutation</param>
+        /// <param name="affected"> The changes this mutation makes</param>
         public Mutation(MutationType type, string allel, string proteinBefore, string proteinAfter, DateTime mutationDate, IList<StatisticInfo> affected)
         {
             Type = type;
@@ -41,6 +62,10 @@ namespace Lifethreadening.Models
             _hasAffected = true;
         }
 
+        /// <summary>
+        /// This function aplies the mutation effect to an animal
+        /// </summary>
+        /// <param name="animal">The animal to mutate</param>
         public void Affect(Animal animal)
         {
             if(!_hasAffected)
@@ -55,6 +80,12 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// This function generates the statistics of after the mutation
+        /// </summary>
+        /// <param name="previousStatistics">The statistics before the mutation</param>
+        /// <param name="currentStatistics">The statistics after the mutation</param>
+        /// <returns>A collection of all changes</returns>
         private IDictionary<string, StatisticInfo> CreateChangedStatistics(IDictionary<string, StatisticInfo> previousStatistics, IDictionary<string, StatisticInfo> currentStatistics)
         {
             IDictionary<string, StatisticInfo> changedStatistics = new Dictionary<string, StatisticInfo>();

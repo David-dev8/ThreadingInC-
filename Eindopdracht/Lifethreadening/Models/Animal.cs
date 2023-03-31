@@ -9,6 +9,9 @@ using Windows.UI.Text;
 
 namespace Lifethreadening.Models
 {
+    /// <summary>
+    /// This class is used to store data about an animal
+    /// </summary>
     public class Animal: SimulationElement
     {
         private object _hpLocker = new object(); // TODO
@@ -83,6 +86,14 @@ namespace Lifethreadening.Models
         public Behaviour Behaviour { get; set; }
         public IList<Mutation> Mutations { get; set; } = new List<Mutation>();
 
+        /// <summary>
+        /// Creates a new animal
+        /// </summary>
+        /// <param name="name">The name of the animal</param>
+        /// <param name="sex">The sex of the animal</param>
+        /// <param name="species">The species of the animal</param>
+        /// <param name="statistics">The stats of the animal</param>
+        /// <param name="contextService">The context service</param>
         public Animal(string name, Sex sex, Species species, Statistics statistics, WorldContextService contextService) : base(DEFAULT_PRIORITY, species.Image, contextService)
         {
             Name = name;
@@ -94,6 +105,10 @@ namespace Lifethreadening.Models
             DateOfBirth = contextService.GetContext().Date;
         }
 
+        /// <summary>
+        /// This function returns the next action the animal shal undertake
+        /// </summary>
+        /// <returns></returns>
         protected override Action GetNextAction()
         {
             if(Behaviour != null)
@@ -107,6 +122,9 @@ namespace Lifethreadening.Models
             return null;
         }
 
+        /// <summary>
+        /// This fucntion makes the animal act out their next action
+        /// </summary>
         public override void Act()
         {
             base.Act();
@@ -125,12 +143,20 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// This function calculates how much HP would be lost every tick when the energy is 0
+        /// </summary>
+        /// <returns>The ammount of HP that should be removed</returns>
         private int CalculateHpToLoseDueToEnergy()
         {
             // If the animal has not much energy left, it will gradually lose hp
             return Math.Max(0, (10 - Energy) / 3); // TODO constant
         }
 
+        /// <summary>
+        /// This function calculate how much HP would be lost as a result of natural ageing
+        /// </summary>
+        /// <returns>The amount of HP that should be removed</returns>
         private int CalculateHpToLoseDueToNaturalAging()
         {
             // The older the animal is, the more hp it loses to natural causes and the more likely it is to die
@@ -139,16 +165,28 @@ namespace Lifethreadening.Models
             return ageDifferenceFromAverage > 0 ? _random.Next(0, (int)(ageDifferenceProportinalToMaxAge * HP_LOSS_FOR_NATURAL_AGING_FACTOR)) : 0;
         }
 
+        /// <summary>
+        /// This function checks if an animal is still alive
+        /// </summary>
+        /// <returns>A boolean value indicating wether the animal is still alive or not</returns>
         public override bool StillExistsPhysically()
         {
             return Hp > 0;
         }
 
+        /// <summary>
+        /// This function calculates the nutritional value of the animal
+        /// </summary>
+        /// <returns>The nutritional value of the animal</returns>
         public override int GetNutritionalValue()
         {
             return (int)(Math.Sqrt(Statistics.Weight) * Math.Sqrt(Statistics.Size));
         }
 
+        /// <summary>
+        /// This function deplets the nutritional value of the animal due do eating or deteriorating
+        /// </summary>
+        /// <returns>The amount the nutritional value should go down</returns>
         public override int DepleteNutritionalValue()
         {
             if(StillExistsPhysically())
@@ -162,6 +200,10 @@ namespace Lifethreadening.Models
             return nutrition;
         }
 
+        /// <summary>
+        /// This function lets the animal follow a path
+        /// </summary>
+        /// <param name="path">The path to follow</param>
         public void MoveAlong(Path path)
         {
             if(path != null && path.Length > 0)
@@ -173,17 +215,31 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// This function gets the amount of spaces this animal may move
+        /// </summary>
+        /// <returns></returns>
         private int GetMaxMovementMagntitude()
         {
             return 1;
         }
 
+        /// <summary>
+        /// This function lets the animal look at its surroundings
+        /// </summary>
+        /// <returns>A list with all surrounding elements with paths to them</returns>
         public IDictionary<Location, Path> DetectSurroundings()
         {
             int range = (int)Math.Ceiling((double)Statistics.Detection / DETECTION_FACTOR);
             return DetectSurroundings(range);
         }
 
+
+        /// <summary>
+        /// This function lets the animal look at its surroundings
+        /// </summary>
+        /// <param name="range">The amount of tiles to look outward for</param>
+        /// <returns>A list with all surrounding elements with paths to them</returns>
         public IDictionary<Location, Path> DetectSurroundings(int range)
         {
             IDictionary<Location, Path> possiblePaths = new Dictionary<Location, Path>() { { Location, new Path(Location) } };
@@ -203,6 +259,10 @@ namespace Lifethreadening.Models
             return possiblePaths;
         }
 
+        /// <summary>
+        /// This function adds HP to an animal
+        /// </summary>
+        /// <param name="hpToAdd">The ammount of HP to be added</param>
         public void AddHp(int hpToAdd)
         {
             lock(_hpLocker)
@@ -211,6 +271,10 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// This function adds ennergy to an animal
+        /// </summary>
+        /// <param name="energyToAdd">The ammount of Ennergy to be added</param>
         public void AddEnergy(int energyToAdd)
         {
             lock(_energyLocker)

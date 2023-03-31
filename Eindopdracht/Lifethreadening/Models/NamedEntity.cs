@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 namespace Lifethreadening.Models
 {
     // TODO elke klasse constructor bekijken
+    /// <summary>
+    /// This class is used to store data about names
+    /// </summary>
     public class NamedEntity : Observable // TODO elke klasse met een name property moet hiervan overerven
     {
         private string _name;

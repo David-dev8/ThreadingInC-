@@ -10,6 +10,9 @@ using Lifethreadening.ExtensionMethods;
 
 namespace Lifethreadening.Models
 {
+    /// <summary>
+    /// This class is used to stroe data about animal statistics
+    /// </summary>
     public class Statistics : Observable
     {
         private static readonly IDictionary<string, Windows.UI.Color> _colors = new Dictionary<string, Windows.UI.Color>()
@@ -159,6 +162,10 @@ namespace Lifethreadening.Models
             }
         }
 
+        /// <summary>
+        /// This function clones the existing stats object
+        /// </summary>
+        /// <returns>The cloned stats object</returns>
         public Statistics Clone()
         {
             return new Statistics()
@@ -175,12 +182,20 @@ namespace Lifethreadening.Models
             };
         }
 
+        /// <summary>
+        /// This function calculates the sum of all the stats
+        /// </summary>
+        /// <returns></returns>
         public int GetSumOfStats()
         {
             return Weight + Size + Speed + Aggresion + Detection + Resilience + Intelligence + SelfDefence + MetabolicRate;
 
         }
 
+        /// <summary>
+        /// This function converts all the stats into statistic data
+        /// </summary>
+        /// <returns>The statisticInfo</returns>
         public IDictionary<string, StatisticInfo> GetData()
         {
             IDictionary<string, StatisticInfo> stats = new Dictionary<string, StatisticInfo>();
@@ -196,6 +211,12 @@ namespace Lifethreadening.Models
             return stats;
         }
 
+        /// <summary>
+        /// This function adds a new statistic
+        /// </summary>
+        /// <param name="stats">The statistics to add</param>
+        /// <param name="name">The name of the statistic</param>
+        /// <param name="value">The value of the statistic</param>
         private void Add(IDictionary<string, StatisticInfo> stats, string name, int value)
         {
             stats.Add(name, new StatisticInfo(name, _colors[name], value));

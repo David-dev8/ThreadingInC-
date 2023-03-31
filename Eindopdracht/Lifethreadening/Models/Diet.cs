@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
+    /// <summary>
+    /// This ENUM is used to store posible diets
+    /// </summary>
     public enum Diet
     {
         HERBIVORE,
