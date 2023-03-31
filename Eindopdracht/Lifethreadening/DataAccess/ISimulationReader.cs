@@ -17,6 +17,6 @@ namespace Lifethreadening.DataAccess
         /// </summary>
         /// <returns>A list of all the simulations</returns>
         IEnumerable<Simulation> ReadAll();
-        Simulation ReadFullDetails(Simulation simulation);
+        Task<Simulation> ReadFullDetails(Simulation simulation);
     }
 }

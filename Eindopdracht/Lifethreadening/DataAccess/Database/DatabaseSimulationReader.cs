@@ -42,16 +42,16 @@ namespace Lifethreadening.DataAccess.Database
             return database.Read(CreateSimulation, query, CommandType.Text);
         }
 
-        public Simulation ReadFullDetails(Simulation simulation)
+        public async Task<Simulation> ReadFullDetails(Simulation simulation)
         {
-            simulation.PopulationManager.SpeciesCount = GetSpeciesCount(simulation);
-            simulation.MutationManager.Mutations = GetMutations(simulation);
+            simulation.PopulationManager.SpeciesCount = await GetSpeciesCount(simulation);
+            simulation.MutationManager.Mutations = await GetMutations(simulation);
             return simulation;
         }
 
-        private ISet<Mutation> GetMutations(Simulation simulation)
+        private async Task<ISet<Mutation>> GetMutations(Simulation simulation)
         {
-            IEnumerable<Mutation> mutations = RetrieveMutations(simulation);
+            IEnumerable<Mutation> mutations = await RetrieveMutations(simulation);
             return mutations.GroupBy(mutation => mutation, mutation => mutation.Affected).Select(mutation =>
             {
                 mutation.Key.Affected = mutation.SelectMany(affected => affected).ToList();
@@ -59,7 +59,7 @@ namespace Lifethreadening.DataAccess.Database
             }).ToHashSet();
         }
 
-        private IEnumerable<Mutation> RetrieveMutations(Simulation simulation)
+        private async Task<IEnumerable<Mutation>> RetrieveMutations(Simulation simulation)
         {
             DatabaseHelper<Mutation> database = new DatabaseHelper<Mutation>();
             string query = @"
@@ -72,18 +72,18 @@ namespace Lifethreadening.DataAccess.Database
             {
                 new SqlParameter("@simulationId", simulation.Id),
             };
-            return database.Read(CreateMutation, query, CommandType.Text, parameters);
+            return await database.ReadAsync(CreateMutation, query, CommandType.Text, parameters);
         }
 
-        private Dictionary<DateTime, IDictionary<Species, int>> GetSpeciesCount(Simulation simulation)
+        private async Task<Dictionary<DateTime, IDictionary<Species, int>>> GetSpeciesCount(Simulation simulation)
         {
-            IEnumerable<PopulationCount> populationCounts = RetrievePopulationCounts(simulation);
+            IEnumerable<PopulationCount> populationCounts = await RetrievePopulationCounts(simulation);
             return populationCounts.GroupBy(populationCount => populationCount.Date)
                 .ToDictionary(populationCount => populationCount.Key, populationCount => (IDictionary<Species, int>)populationCount.ToDictionary(speciesCount => speciesCount.Species,
                 speciesCount => speciesCount.AmountOfAnimals));
         }
 
-        private IEnumerable<PopulationCount> RetrievePopulationCounts(Simulation simulation)
+        private async Task<IEnumerable<PopulationCount>> RetrievePopulationCounts(Simulation simulation)
         {
             DatabaseHelper<PopulationCount> database = new DatabaseHelper<PopulationCount>();
             string query = @"
@@ -97,7 +97,7 @@ namespace Lifethreadening.DataAccess.Database
                 new SqlParameter("@simulationId", simulation.Id),
             };
 
-            return database.Read(CreatePopulationCount, query, CommandType.Text, parameters);
+            return await database.ReadAsync(CreatePopulationCount, query, CommandType.Text, parameters);
         }
 
         private Simulation CreateSimulation(SqlDataReader dataReader)

@@ -96,8 +96,6 @@ namespace Lifethreadening.ViewModels
 
         public void NavigateToStats(Simulation simulation)
         {
-            ISimulationReader simulationReader = new DatabaseSimulationReader();
-            simulation = simulationReader.ReadFullDetails(simulation);
             _navigationService.CurrentViewModel = new SimulationDataViewModel(_navigationService, simulation);
         }
 

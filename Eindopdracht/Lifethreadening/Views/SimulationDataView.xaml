@@ -44,7 +44,11 @@
             <Grid Style="{StaticResource SectionHeadingGrid}">
                 <TextBlock Foreground="{StaticResource SecondaryBrush}" HorizontalAlignment="Stretch" TextAlignment="Center" Style="{StaticResource SectionTitle}">Population over time</TextBlock>
             </Grid>
-            <customcontrols:LineChartWithMultipleLines Grid.Row="2" Items="{Binding SpeciesCount}" />
+            <customcontrols:LineChartWithMultipleLines Grid.Row="2" Items="{Binding SpeciesCount}" Visibility="{Binding DataLoaded,Converter={StaticResource VisibilityConverter}}" />
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Visibility="{Binding DataLoaded,Converter={StaticResource InverseVisibilityConverter}}">
+                <ProgressRing IsActive="{Binding DataLoaded,Converter={StaticResource BooleanInverseConverter}}" Foreground="Red" Height="40" Width="40" />
+                <TextBlock HorizontalAlignment="Center" TextAlignment="Center">Retrieving and calculating...</TextBlock>
+            </StackPanel>
         </Grid>
 
 
@@ -57,7 +61,7 @@
             <Grid Style="{StaticResource SectionHeadingGrid}">
                 <TextBlock Foreground="{StaticResource SecondaryBrush}" HorizontalAlignment="Stretch" TextAlignment="Center" Style="{StaticResource SectionTitle}">Shannon Weaver Index</TextBlock>
             </Grid>
-            <Grid Grid.Row="2" Background="{StaticResource GraphBackgroundBrush}">
+            <Grid Grid.Row="2" Background="{StaticResource GraphBackgroundBrush}" Visibility="{Binding DataLoaded,Converter={StaticResource VisibilityConverter}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="0.25*" />
@@ -76,6 +80,10 @@
                     </charts:Chart.Axes>
                 </charts:Chart>
             </Grid>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Visibility="{Binding DataLoaded,Converter={StaticResource InverseVisibilityConverter}}">
+                <ProgressRing IsActive="{Binding DataLoaded,Converter={StaticResource BooleanInverseConverter}}" Foreground="Red" Height="40" Width="40" />
+                <TextBlock HorizontalAlignment="Center" TextAlignment="Center">Retrieving and calculating...</TextBlock>
+            </StackPanel>
         </Grid>
 
         <Grid Grid.Row="3" Grid.Column="1">
@@ -87,7 +95,7 @@
             <Grid Style="{StaticResource SectionHeadingGrid}">
                 <TextBlock Foreground="{StaticResource SecondaryBrush}" HorizontalAlignment="Stretch" TextAlignment="Center" Style="{StaticResource SectionTitle}">Most dominating species</TextBlock>
             </Grid>
-            <ListView Grid.Row="2" ItemsSource="{Binding DominatingSpecies}" SelectionMode="None">
+            <ListView Grid.Row="2" ItemsSource="{Binding DominatingSpecies}" SelectionMode="None" Visibility="{Binding DataLoaded,Converter={StaticResource VisibilityConverter}}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -119,6 +127,10 @@
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Visibility="{Binding DataLoaded,Converter={StaticResource InverseVisibilityConverter}}">
+                <ProgressRing IsActive="{Binding DataLoaded,Converter={StaticResource BooleanInverseConverter}}" Foreground="Red" Height="40" Width="40" />
+                <TextBlock HorizontalAlignment="Center" TextAlignment="Center">Retrieving and calculating...</TextBlock>
+            </StackPanel>
         </Grid>
 
         <Grid Grid.Column="3" Grid.Row="3">
@@ -130,7 +142,7 @@
             <Grid Style="{StaticResource SectionHeadingGrid}">
                 <TextBlock Foreground="{StaticResource SecondaryBrush}" HorizontalAlignment="Stretch" TextAlignment="Center" Style="{StaticResource SectionTitle}">Statistics affected by mutations</TextBlock>
             </Grid>
-            <charts:Chart Grid.Row="2" Background="{StaticResource GraphBackgroundBrush}">
+            <charts:Chart Grid.Row="2" Background="{StaticResource GraphBackgroundBrush}" Visibility="{Binding DataLoaded,Converter={StaticResource VisibilityConverter}}">
                 <charts:PieSeries ItemsSource="{Binding AffectedStatistics}" IndependentValueBinding="{Binding Key.Name}"
                                   DependentValueBinding="{Binding Value}" IsSelectionEnabled="True" >
                     <charts:PieSeries.LegendItemStyle>
@@ -239,6 +251,10 @@
                     </Style>
                 </charts:Chart.LegendStyle>
             </charts:Chart>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Visibility="{Binding DataLoaded,Converter={StaticResource InverseVisibilityConverter}}">
+                <ProgressRing IsActive="{Binding DataLoaded,Converter={StaticResource BooleanInverseConverter}}" Foreground="Red" Height="40" Width="40" />
+                <TextBlock HorizontalAlignment="Center" TextAlignment="Center">Retrieving and calculating...</TextBlock>
+            </StackPanel>
         </Grid>
         <Grid Grid.Column="5" Grid.Row="1" Margin="40, 7">
             <Grid.RowDefinitions>

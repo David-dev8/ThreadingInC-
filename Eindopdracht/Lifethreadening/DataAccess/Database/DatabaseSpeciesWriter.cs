@@ -1,4 +1,5 @@
-﻿using Lifethreadening.Models;
+﻿using Lifethreadening.ExtensionMethods;
+using Lifethreadening.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -35,7 +36,7 @@ namespace Lifethreadening.DataAccess.Database
                 new SqlParameter("@maxAge", species.MaxAge),
                 new SqlParameter("@maxBreedSize", species.MaxBreedSize),
                 new SqlParameter("@minBreedSize", species.MinBreedSize),
-                new SqlParameter("@diet", species.Diet.ToString()),
+                new SqlParameter("@diet", species.Diet.ToString().ToTitleCase()),
                 new SqlParameter("@aggression", species.BaseStatistics.Aggresion),
                 new SqlParameter("@detection", species.BaseStatistics.Detection),
                 new SqlParameter("@selfDefence", species.BaseStatistics.SelfDefence),

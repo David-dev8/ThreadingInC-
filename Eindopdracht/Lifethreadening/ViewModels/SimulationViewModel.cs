@@ -155,7 +155,7 @@ namespace Lifethreadening.ViewModels
 
         private async Task GetFullSimulation(Simulation simulation)
         {
-            Simulation = _simulationReader.ReadFullDetails(simulation);
+            Simulation = await _simulationReader.ReadFullDetails(simulation);
             Simulation.World = await _worldStateReader.Read(Simulation.Filename);
             await Simulation.Setup(false);
             // TODO try catch stop simulation

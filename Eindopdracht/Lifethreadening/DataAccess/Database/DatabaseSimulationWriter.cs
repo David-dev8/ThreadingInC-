@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WinRTXamlToolkit.Controls.DataVisualization.Charting;
+using Lifethreadening.ExtensionMethods;
 
 namespace Lifethreadening.DataAccess.Database
 {
@@ -123,7 +124,7 @@ namespace Lifethreadening.DataAccess.Database
         {
             DataRow row = mutationsTable.NewRow();
 
-            row["type"] = mutation.Type.ToString();
+            row["type"] = mutation.Type.ToString().ToTitleCase();
             row["allel"] = mutation.Allel;
             row["proteinBefore"] = mutation.ProteinBefore;
             row["proteinAfter"] = mutation.ProteinAfter;
