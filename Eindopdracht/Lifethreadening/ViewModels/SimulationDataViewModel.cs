@@ -11,6 +11,8 @@ namespace Lifethreadening.ViewModels
 {
     public class SimulationDataViewModel : BaseViewModel
     {
+        private static readonly int MAX_AMOUNT_OF_DATAPOINTS = 100;
+        
         public ICommand GoToHomeCommand { get; set; }
 
         public Simulation Simulation { get; set; }
@@ -19,7 +21,7 @@ namespace Lifethreadening.ViewModels
         {
             get
             {
-                return Simulation.MutationManager.Analyze();
+                return new Dictionary<StatisticInfo, int>();
             }
         }
 
@@ -27,7 +29,8 @@ namespace Lifethreadening.ViewModels
         {
             get
             {
-                return Simulation.PopulationManager.GetSpeciesCountPerSpecies();
+                IDictionary<Species, IDictionary<DateTime, int>> speciesCount = Simulation.PopulationManager.GetSpeciesCountPerSpecies();
+                return speciesCount.ToDictionary(currentSpeciesCount => currentSpeciesCount.Key, currentSpeciesCount => GetDataPoints(currentSpeciesCount.Value));
             }
         }
 
@@ -35,7 +38,7 @@ namespace Lifethreadening.ViewModels
         {
             get
             {
-                return Simulation.PopulationManager.GetShannonWeaverData();
+                return GetDataPoints(Simulation.PopulationManager.GetShannonWeaverData());
             }
         }
 
@@ -47,15 +50,21 @@ namespace Lifethreadening.ViewModels
             }
         }
 
+        public SimulationDataViewModel(NavigationService navigationService, Simulation simulation) : base(navigationService)
+        {
+            Simulation = simulation;
+            GoToHomeCommand = new RelayCommand(() => SelectHomeAsCurrentPage());
+        }
+
         private void SelectHomeAsCurrentPage()
         {
             _navigationService.CurrentViewModel = new HomeViewModel(_navigationService);
         }
 
-        public SimulationDataViewModel(NavigationService navigationService, Simulation simulation) : base(navigationService)
+        private IDictionary<K, V> GetDataPoints<K, V>(IDictionary<K, V> dictionary)
         {
-            Simulation = simulation;
-            GoToHomeCommand = new RelayCommand(() => SelectHomeAsCurrentPage());
+            int gap = (int)Math.Ceiling((double)dictionary.Count / MAX_AMOUNT_OF_DATAPOINTS);
+            return dictionary.Where((data, index) => index % gap == 0).ToDictionary(data => data.Key, data => data.Value);
         }
     }
 }

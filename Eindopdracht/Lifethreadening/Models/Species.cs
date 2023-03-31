@@ -92,6 +92,13 @@ namespace Lifethreadening.Models
             BaseStatistics = baseStatistics;
         }
 
+        public Species(int id, string name, string image)
+        {
+            Id = id;
+            Name = name;
+            Image = image;
+        }
+
         public override bool Equals(object obj)
         {
             if(obj == null || GetType() != obj.GetType())

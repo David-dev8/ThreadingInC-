@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Lifethreadening.DataAccess.Database
 {
@@ -15,18 +16,20 @@ namespace Lifethreadening.DataAccess.Database
     /// </summary>
     public class DatabaseSimulationReader : ISimulationReader
     {
-        private static readonly IDictionary<string, Diet> dietDatabaseMapping = new Dictionary<string, Diet>()
-        {
-            { "Herbivore", Diet.HERBIVORE },
-            { "Carnivore", Diet.CARNIVORE },
-            { "Omnivore", Diet.OMNIVORE }
-        };
-
+        private static readonly IDictionary<int, Species> speciesCache = new Dictionary<int, Species>();
+        
         private static readonly IDictionary<string, MutationType> mutationTypeDatabaseMapping = new Dictionary<string, MutationType>()
         {
             { "Addition", MutationType.ADDITION },
             { "Substitution", MutationType.SUBSTITUTION },
             { "Delocation", MutationType.DELOCATION },
+        };
+
+        private static readonly IDictionary<string, Diet> dietDatabaseMapping = new Dictionary<string, Diet>()
+        {
+            { "Omnivore", Diet.OMNIVORE },
+            { "Carnivore", Diet.CARNIVORE },
+            { "Herbivore", Diet.HERBIVORE }
         };
 
         public IEnumerable<Simulation> ReadAll() 
@@ -93,6 +96,7 @@ namespace Lifethreadening.DataAccess.Database
             {
                 new SqlParameter("@simulationId", simulation.Id),
             };
+
             return database.Read(CreatePopulationCount, query, CommandType.Text, parameters);
         }
 
@@ -140,20 +144,32 @@ namespace Lifethreadening.DataAccess.Database
 
         private PopulationCount CreatePopulationCount(SqlDataReader dataReader)
         {
+            Species species;
+            int id = dataReader.GetInt32("id");
+            if (speciesCache.ContainsKey(id))
+            {
+                species = speciesCache[id];
+            }
+            else
+            {
+                species = new Species(
+                        dataReader.GetInt32("id"),
+                        dataReader["name"].ToString(),
+                        dataReader["description"].ToString(),
+                        dataReader["scientificName"].ToString(),
+                        dataReader["image"].ToString(),
+                        dataReader.GetInt32("averageAge"),
+                        dataReader.GetInt32("maxAge"),
+                        dataReader.GetInt32("minBreedSize"),
+                        dataReader.GetInt32("maxBreedSize"),
+                        dietDatabaseMapping[dataReader.GetString("diet")]
+                    );
+                speciesCache.Add(id, species);
+            }
+            
             return new PopulationCount(
                 dataReader.GetDateTime("date"),
-                new Species(
-                    dataReader.GetInt32("id"),
-                    dataReader.GetString("name"),
-                    dataReader.GetString("description"),
-                    dataReader.GetString("scientificName"),
-                    dataReader.GetString("image"),
-                    dataReader.GetInt32("averageAge"),
-                    dataReader.GetInt32("maxAge"),
-                    dataReader.GetInt32("minBreedSize"),
-                    dataReader.GetInt32("maxBreedSize"),
-                    dietDatabaseMapping[dataReader.GetString("diet")]
-                ),
+                species,
                 dataReader.GetInt32("amountOfAnimals")
             );
         }
