@@ -44,30 +44,37 @@ namespace Lifethreadening.Models
         public void RegisterAnimals(IEnumerable<Animal> animals, DateTime currentDate)
         {
             // TODO already exists
-            if (!SpeciesCount.ContainsKey(currentDate))
+            try
             {
-                SpeciesCount.Add(currentDate, new Dictionary<Species, int>());
-            }
+                if(!SpeciesCount.ContainsKey(currentDate))
+                {
+                    SpeciesCount.Add(currentDate, new Dictionary<Species, int>());
+                }
 
-            IDictionary<Species, int> amountOfSpecies = SpeciesCount[currentDate];
-            foreach (Animal animal in animals)
-            {
-                if (amountOfSpecies.ContainsKey(animal.Species))
+                IDictionary<Species, int> amountOfSpecies = SpeciesCount[currentDate];
+                foreach(Animal animal in animals)
                 {
-                    amountOfSpecies[animal.Species]++;
+                    if(amountOfSpecies.ContainsKey(animal.Species))
+                    {
+                        amountOfSpecies[animal.Species]++;
+                    }
+                    else
+                    {
+                        amountOfSpecies.Add(animal.Species, 1);
+                    }
                 }
-                else
+
+                foreach(Species s in _species)
                 {
-                    amountOfSpecies.Add(animal.Species, 1);
+                    if(!amountOfSpecies.ContainsKey(s))
+                    {
+                        amountOfSpecies.Add(s, 0);
+                    }
                 }
             }
-
-            foreach (Species s in _species)
+            catch(Exception)
             {
-                if (!amountOfSpecies.ContainsKey(s))
-                {
-                    amountOfSpecies.Add(s, 0);
-                }
+                // Skip this date
             }
         }
 

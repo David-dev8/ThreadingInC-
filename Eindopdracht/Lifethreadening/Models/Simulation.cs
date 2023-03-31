@@ -28,6 +28,8 @@ namespace Lifethreadening.Models
         private const double INITIAL_SPAWN_CHANCE = 0.10;
         private const double RUNNING_SPAWN_CHANCE = 0.45;
         private const double DISASTER_CHANCE = 0.60;
+        private const int SCORE_PER_STEP = 3;
+        private const double GRADUAL_SCORE_INCREASE_FACTOR = 1.001;
         private Random _random = new Random();
         private World _world;
         private ISimulationElementFactory _elementFactory;
@@ -55,7 +57,19 @@ namespace Lifethreadening.Models
         public string Filename { get; set; }
         public int AmountOfDisasters { get; set; }
         public string Name { get; set; }
-        public int Score { get; set; }
+        private int _score;
+        public int Score
+        {
+            get
+            {
+                return _score;
+            }
+            set
+            {
+                _score = value;
+                NotifyPropertyChanged();
+            }
+        }
         public DateTime StartDate { get; set; }
         public bool Stopped 
         {
@@ -178,8 +192,9 @@ namespace Lifethreadening.Models
             {
                 IEnumerable<Animal> animals = GetAnimals();
                 PopulationManager.RegisterAnimals(animals, World.CurrentDate);
-                MutationManager.RegisterMutations(animals); // TODO moet het registreren voor of na een stap?
+                MutationManager.RegisterMutations(animals);
                 World.Step();
+                Score = (int)(Score * GRADUAL_SCORE_INCREASE_FACTOR + (SCORE_PER_STEP * World.Ecosystem.Difficulty));
 
                 // Check if the game has ended
                 if(!animals.Any())

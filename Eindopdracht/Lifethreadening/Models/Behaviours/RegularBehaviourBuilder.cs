@@ -93,10 +93,6 @@ namespace Lifethreadening.Models.Behaviours
         /// <returns>itself</returns>
         public IBehaviourBuilder AddEvade()
         {
-            if(_hasAnimal)
-            {
-                Add(new RunAwayBehaviour(_animal));
-            }
             return this;
         }
 
