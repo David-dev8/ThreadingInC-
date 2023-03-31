@@ -19,7 +19,7 @@ namespace Lifethreadening.Models.Behaviours
             int energyGainedForResting = Animal.Statistics.Resilience / RESILIENCE_PER_ENERGY_GAINED_FOR_RESTING;
             return new Incentive(() =>
             {
-                Animal.AddEnergy(energyGainedForResting); // TODO do we even rest?
+                Animal.AddEnergy(energyGainedForResting);
             }, GetMotivation());
         }
 

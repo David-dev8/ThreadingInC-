@@ -54,7 +54,6 @@ namespace Lifethreadening.ViewModels
         }
         private bool _saving;
 
-        // TODO show spinner
         public bool Saving
         {
             get 

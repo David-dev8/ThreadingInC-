@@ -74,32 +74,32 @@
                 <TextBlock Text="Self-defence" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TraitTitle}"></TextBlock>
                 <TextBlock Text="Metabolic rate" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource TraitTitle}"></TextBlock>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource StatDisp}" Text="{Binding creatingSpecies.BaseStatistics.Speed}"></TextBlock>
-                <Slider Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Speed, Mode=TwoWay}" Padding="25,0" />
+                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource StatDisp}" Text="{Binding CreatingSpecies.BaseStatistics.Speed}"></TextBlock>
+                <Slider Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom" Value="{Binding CreatingSpecies.BaseStatistics.Speed, Mode=TwoWay}" Padding="25,0" />
 
-                <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Weight}" Grid.Row="0" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
-                <Slider Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Weight, Mode=TwoWay}" Padding="25,0" />
+                <TextBlock Text="{Binding CreatingSpecies.BaseStatistics.Weight}" Grid.Row="0" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
+                <Slider Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom" Value="{Binding CreatingSpecies.BaseStatistics.Weight, Mode=TwoWay}" Padding="25,0" />
 
-                <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Size}" Grid.Row="0" Grid.Column="2" Style="{StaticResource StatDisp}"></TextBlock>
-                <Slider Grid.Row="0" Grid.Column="2" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Size, Mode=TwoWay}" Padding="25,0" />
+                <TextBlock Text="{Binding CreatingSpecies.BaseStatistics.Size}" Grid.Row="0" Grid.Column="2" Style="{StaticResource StatDisp}"></TextBlock>
+                <Slider Grid.Row="0" Grid.Column="2" VerticalAlignment="Bottom" Value="{Binding CreatingSpecies.BaseStatistics.Size, Mode=TwoWay}" Padding="25,0" />
 
-                <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Aggresion}" Grid.Row="1" Grid.Column="0" Style="{StaticResource StatDisp}"></TextBlock>
-                <Slider Grid.Row="1" Grid.Column="0" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Aggresion, Mode=TwoWay}" Padding="25,0" />
+                <TextBlock Text="{Binding CreatingSpecies.BaseStatistics.Aggresion}" Grid.Row="1" Grid.Column="0" Style="{StaticResource StatDisp}"></TextBlock>
+                <Slider Grid.Row="1" Grid.Column="0" VerticalAlignment="Bottom" Value="{Binding CreatingSpecies.BaseStatistics.Aggresion, Mode=TwoWay}" Padding="25,0" />
 
-                <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Detection}" Grid.Row="1" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
-                <Slider Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Detection, Mode=TwoWay}" Padding="25,0" />
+                <TextBlock Text="{Binding CreatingSpecies.BaseStatistics.Detection}" Grid.Row="1" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
+                <Slider Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom" Value="{Binding CreatingSpecies.BaseStatistics.Detection, Mode=TwoWay}" Padding="25,0" />
 
-                <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Resilience}" Grid.Row="1" Grid.Column="2" Style="{StaticResource StatDisp}"></TextBlock>
-                <Slider Grid.Row="1" Grid.Column="2" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Resilience, Mode=TwoWay}" Padding="25,0" />
+                <TextBlock Text="{Binding CreatingSpecies.BaseStatistics.Resilience}" Grid.Row="1" Grid.Column="2" Style="{StaticResource StatDisp}"></TextBlock>
+                <Slider Grid.Row="1" Grid.Column="2" VerticalAlignment="Bottom" Value="{Binding CreatingSpecies.BaseStatistics.Resilience, Mode=TwoWay}" Padding="25,0" />
 
-                <TextBlock Text="{Binding creatingSpecies.BaseStatistics.Intelligence}" Grid.Row="3" Grid.Column="0" Style="{StaticResource StatDisp}"></TextBlock>
-                <Slider Grid.Row="3" Grid.Column="0" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.Intelligence, Mode=TwoWay}" Padding="25,0" />
+                <TextBlock Text="{Binding CreatingSpecies.BaseStatistics.Intelligence}" Grid.Row="3" Grid.Column="0" Style="{StaticResource StatDisp}"></TextBlock>
+                <Slider Grid.Row="3" Grid.Column="0" VerticalAlignment="Bottom" Value="{Binding CreatingSpecies.BaseStatistics.Intelligence, Mode=TwoWay}" Padding="25,0" />
 
-                <TextBlock Text="{Binding creatingSpecies.BaseStatistics.SelfDefence}" Grid.Row="3" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
-                <Slider Grid.Row="3" Grid.Column="1" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.SelfDefence, Mode=TwoWay}" Padding="25,0" />
+                <TextBlock Text="{Binding CreatingSpecies.BaseStatistics.SelfDefence}" Grid.Row="3" Grid.Column="1" Style="{StaticResource StatDisp}"></TextBlock>
+                <Slider Grid.Row="3" Grid.Column="1" VerticalAlignment="Bottom" Value="{Binding CreatingSpecies.BaseStatistics.SelfDefence, Mode=TwoWay}" Padding="25,0" />
 
-                <TextBlock Text="{Binding creatingSpecies.BaseStatistics.MetabolicRate}" Grid.Row="3" Grid.Column="2" Style="{StaticResource StatDisp}"></TextBlock>
-                <Slider Grid.Row="3" Grid.Column="2" VerticalAlignment="Bottom" Value="{Binding creatingSpecies.BaseStatistics.MetabolicRate, Mode=TwoWay}" Padding="25,0" />
+                <TextBlock Text="{Binding CreatingSpecies.BaseStatistics.MetabolicRate}" Grid.Row="3" Grid.Column="2" Style="{StaticResource StatDisp}"></TextBlock>
+                <Slider Grid.Row="3" Grid.Column="2" VerticalAlignment="Bottom" Value="{Binding CreatingSpecies.BaseStatistics.MetabolicRate, Mode=TwoWay}" Padding="25,0" />
 
             </Grid>
 
@@ -108,17 +108,17 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBox BorderThickness="0, 0, 0, 2" Margin="10, 0" Background="Transparent"  VerticalAlignment="Bottom" PlaceholderText="Name ✏" HorizontalAlignment="Stretch" TextAlignment="Center" FontSize="18" Text="{Binding creatingSpecies.Name, Mode=TwoWay}"></TextBox>
-                <TextBox BorderThickness="0, 0, 0, 2" Margin="10, 0" Grid.Column="1" Background="Transparent"  VerticalAlignment="Bottom" PlaceholderText="Scientific name ✏" HorizontalAlignment="Stretch" TextAlignment="Center" FontSize="18" Text="{Binding creatingSpecies.ScientificName, Mode=TwoWay}"></TextBox>
+                <TextBox BorderThickness="0, 0, 0, 2" Margin="10, 0" Background="Transparent"  VerticalAlignment="Bottom" PlaceholderText="Name ✏" HorizontalAlignment="Stretch" TextAlignment="Center" FontSize="18" Text="{Binding CreatingSpecies.Name, Mode=TwoWay}"></TextBox>
+                <TextBox BorderThickness="0, 0, 0, 2" Margin="10, 0" Grid.Column="1" Background="Transparent"  VerticalAlignment="Bottom" PlaceholderText="Scientific name ✏" HorizontalAlignment="Stretch" TextAlignment="Center" FontSize="18" Text="{Binding CreatingSpecies.ScientificName, Mode=TwoWay}"></TextBox>
             </Grid>
 
             <StackPanel Background="White" BackgroundSizing="OuterBorderEdge" Margin="10" Grid.Row="2" Grid.RowSpan="2" Grid.Column="3" BorderThickness="5" BorderBrush="Black"></StackPanel>
 
             <customControls:IconButton Icon="Image" Command="{Binding OpenImagePickerCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, -150, 0, 0" Grid.Row="3" Grid.Column="3" Text="Upload photo"></customControls:IconButton>
-            <Image Source="{Binding creatingSpecies.Image, Converter={StaticResource StringToImageConverter}}" MaxHeight="300" MaxWidth="300" Margin="0, -150, 0, 0" Grid.Row="3" Grid.Column="3"></Image>
+            <Image Source="{Binding CreatingSpecies.Image, Converter={StaticResource StringToImageConverter}}" MaxHeight="300" MaxWidth="300" Margin="0, -150, 0, 0" Grid.Row="3" Grid.Column="3"></Image>
 
             <TextBlock Grid.Column="3" Grid.Row="4" VerticalAlignment="top" Margin="10, 20, 10, 0" Text="Diet:" Style="{StaticResource TraitTitle}"></TextBlock>
-            <ComboBox BorderThickness="0, 0, 0, 2" Background="Transparent" Grid.Column="3" Grid.Row="4" VerticalAlignment="top" Margin="200, 10, 10, 0" PlaceholderText="Select a value" HorizontalAlignment="Stretch" FontSize="18" SelectedItem="{Binding creatingSpecies.Diet, Mode=TwoWay}" ItemsSource="{Binding PossibleDiets}">
+            <ComboBox BorderThickness="0, 0, 0, 2" Background="Transparent" Grid.Column="3" Grid.Row="4" VerticalAlignment="top" Margin="200, 10, 10, 0" PlaceholderText="Select a value" HorizontalAlignment="Stretch" FontSize="18" SelectedItem="{Binding CreatingSpecies.Diet, Mode=TwoWay}" ItemsSource="{Binding PossibleDiets}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Converter={StaticResource EnumToStringConverter}}"></TextBlock>
@@ -127,12 +127,12 @@
             </ComboBox>
 
             <TextBlock Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Margin="10, 40, 10, 0" Text="Average lifespan:" Style="{StaticResource TraitTitle}"></TextBlock>
-            <Slider Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Margin="200, 60, 10, 0" Maximum="120" Value="{Binding creatingSpecies.AverageAge, Mode=TwoWay}"></Slider>
-            <TextBlock Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Margin="300, 15, 10, 0" Text="{Binding creatingSpecies.AverageAge}" Style="{StaticResource TraitTitle}"></TextBlock>
+            <Slider Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Margin="200, 60, 10, 0" Maximum="120" Value="{Binding CreatingSpecies.AverageAge, Mode=TwoWay}"></Slider>
+            <TextBlock Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Margin="300, 15, 10, 0" Text="{Binding CreatingSpecies.AverageAge}" Style="{StaticResource TraitTitle}"></TextBlock>
 
             <TextBlock Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="10, -5, 10, 0" Text="Breed size:" Style="{StaticResource TraitTitle}"></TextBlock>
-            <Slider Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="200, 0, 10, 0" Maximum="10" Value="{Binding creatingSpecies.BreedSize, Mode=TwoWay}"></Slider>
-            <TextBlock Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="300, -15, 10, 0" Text="{Binding creatingSpecies.BreedSize}" Style="{StaticResource TraitTitle}"></TextBlock>
+            <Slider Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="200, 0, 10, 0" Maximum="10" Value="{Binding CreatingSpecies.BreedSize, Mode=TwoWay}"></Slider>
+            <TextBlock Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="300, -15, 10, 0" Text="{Binding CreatingSpecies.BreedSize}" Style="{StaticResource TraitTitle}"></TextBlock>
 
             <TextBlock Grid.Column="3" Grid.Row="5" VerticalAlignment="Center" Margin="10, -5, 10, 0" Text="Ecosystem:" Style="{StaticResource TraitTitle}"></TextBlock>
             <ComboBox BorderThickness="0, 0, 0, 2" Background="Transparent" Grid.Column="3" Grid.Row="5" VerticalAlignment="Center" Margin="200, -5, 10, 0" PlaceholderText="Select a value" HorizontalAlignment="Stretch" FontSize="18" SelectedItem="{Binding ChosenEcosystem, Mode=TwoWay}" ItemsSource="{Binding PossibleEcosystems}" SelectedIndex="0">

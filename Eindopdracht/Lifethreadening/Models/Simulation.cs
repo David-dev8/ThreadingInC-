@@ -19,13 +19,12 @@ using Windows.UI.Composition;
 
 namespace Lifethreadening.Models
 {
-    // TODO dispose timers
     public class Simulation: Observable
     {
         private Disaster _mostRecentDisaster; 
         private const double INITIAL_SPAWN_CHANCE = 0.10;
         private const double RUNNING_SPAWN_CHANCE = 0.85;
-        private const double DISASTER_CHANCE = 1;
+        private const double DISASTER_CHANCE = 0.40;
         private Random _random = new Random();
         private World _world;
         private ISimulationElementFactory _elementFactory;
@@ -41,8 +40,8 @@ namespace Lifethreadening.Models
         private Timer _mutationTimer;
 
         // For in game things
-        private static readonly TimeSpan _stepInterval = new TimeSpan(1, 0, 0, 0); // TODO static conventions
-        private static readonly TimeSpan _disasterInterval = new TimeSpan(50, 0, 0, 0); // TODO change interval en kans op disaster and disaster intensity
+        private static readonly TimeSpan _stepInterval = new TimeSpan(1, 0, 0, 0);
+        private static readonly TimeSpan _disasterInterval = new TimeSpan(120, 0, 0, 0);
         private static readonly TimeSpan _mutationInterval = new TimeSpan(5, 0, 0, 0);
         private static readonly TimeSpan _spawnInterval = new TimeSpan(12, 0, 0, 0);
 
@@ -219,7 +218,7 @@ namespace Lifethreadening.Models
             if(!IsGameOver)
             {
                 Filename = await _worldStateWriter.Write(Name, World);
-                Stop(); // TODO
+                Stop();
                 await _simulationWriter.Write(this);
                 Start();
             }
@@ -301,7 +300,7 @@ namespace Lifethreadening.Models
                     {
                         location.AddSimulationElement(element);
                         element.Location = location;
-                    } // TODO Because this call is not awaited
+                    }
                 }
             }
         }

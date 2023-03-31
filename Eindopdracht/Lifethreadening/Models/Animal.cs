@@ -88,7 +88,6 @@ namespace Lifethreadening.Models
         public Statistics Statistics { get; set; }
         [JsonIgnore]
         public Behaviour Behaviour { get; set; }
-        // TODO
         [JsonInclude]
         public IList<Mutation> Mutations { get; set; } = new List<Mutation>();
 

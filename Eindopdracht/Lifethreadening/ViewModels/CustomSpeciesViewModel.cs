@@ -97,7 +97,7 @@ namespace Lifethreadening.ViewModels
 
         private void BaseStatistics_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            PointsLeft = MAX_POINTS - CreatingSpecies.BaseStatistics.GetSumOfStats(); //TODO GetSumOfStats verwerken
+            PointsLeft = MAX_POINTS - CreatingSpecies.BaseStatistics.GetSumOfStats();
         }
 
         private void CreateSpecies()

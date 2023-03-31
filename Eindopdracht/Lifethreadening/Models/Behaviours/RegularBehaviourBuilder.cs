@@ -74,7 +74,7 @@ namespace Lifethreadening.Models.Behaviours
         {
             if(_hasAnimal)
             {
-                // Add(new EvadeBehaviour(_animal));
+                Add(new RunAwayBehaviour(_animal));
             }
             return this;
         }

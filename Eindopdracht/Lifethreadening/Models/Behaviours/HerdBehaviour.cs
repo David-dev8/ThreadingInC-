@@ -36,7 +36,7 @@ namespace Lifethreadening.Models.Behaviours
 
         public override Incentive Guide()
         {
-            IDictionary<Location, Path> locations = Animal.DetectSurroundings(); // TODO cache?
+            IDictionary<Location, Path> locations = Animal.DetectSurroundings();
             Animal animalOfSameSpecies = FindAnimalsOfSameSpecies(locations).GetRandom();
             
             if(animalOfSameSpecies != null)
