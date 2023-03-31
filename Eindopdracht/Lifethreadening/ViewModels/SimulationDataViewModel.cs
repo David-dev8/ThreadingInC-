@@ -13,8 +13,8 @@ namespace Lifethreadening.ViewModels
 {
     public class SimulationDataViewModel : BaseViewModel
     {
-        private static readonly int MAX_AMOUNT_OF_DATAPOINTS = 100;
-
+        private static readonly int maxAmountOfDatapoints = 100;
+        
         public ICommand GoToHomeCommand { get; set; }
 
         public Simulation Simulation { get; set; }
@@ -138,7 +138,7 @@ namespace Lifethreadening.ViewModels
 
         private IDictionary<K, V> GetDataPoints<K, V>(IDictionary<K, V> dictionary)
         {
-            int gap = (int)Math.Ceiling((double)dictionary.Count / MAX_AMOUNT_OF_DATAPOINTS);
+            int gap = (int)Math.Ceiling((double)dictionary.Count / maxAmountOfDatapoints);
             return dictionary.Where((data, index) => index % gap == 0).ToDictionary(data => data.Key, data => data.Value);
         }
     }

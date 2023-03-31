@@ -17,7 +17,7 @@ namespace Lifethreadening.Models.Behaviours
             Animal = animal;
         }
 
-        public abstract Incentive guide();
+        public abstract Incentive Guide();
 
         protected bool CanReach(Location location)
         {

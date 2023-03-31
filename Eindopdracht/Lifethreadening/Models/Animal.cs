@@ -113,7 +113,7 @@ namespace Lifethreadening.Models
         {
             if(Behaviour != null)
             {
-                Incentive incentive = Behaviour.guide();
+                Incentive incentive = Behaviour.Guide();
                 if(incentive != null && incentive.Motivation > 0)
                 {
                     return incentive.Action;
@@ -190,7 +190,7 @@ namespace Lifethreadening.Models
 
         private int GetMaxMovementMagntitude()
         {
-            return 1;
+            return (int) Math.Ceiling(Statistics.Speed / 30.0);
         }
 
         public IDictionary<Location, Path> DetectSurroundings()

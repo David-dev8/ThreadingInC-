@@ -29,7 +29,7 @@ namespace Lifethreadening.Views.CustomControls
            DependencyProperty.Register("Items", typeof(IDictionary<ChartNamedEntity, IDictionary<DateTime, int>>), typeof(LineChartWithMultipleLines), 
                new PropertyMetadata(null, new PropertyChangedCallback(InitializeFill)));
 
-        private static readonly IList<string> COLOR_HEX_CODE = new List<string>() // TODO code conventies voor bijvoorbeeld static fields niet consistent
+        private static readonly IList<string> colorHexCode = new List<string>() // TODO code conventies voor bijvoorbeeld static fields niet consistent
         {
             "#f69284", "#95b8e3", "#c095e3", "#fff384", "#e3adb5", "#231f20", "#929195", "#95dfe3", "#3e2a1f", "#f0b892", 
             "#987d84", "#008080", "#665a72", "#a99887", "#d5ede6", "#3f2b44", "#587a8f", "#53af8b", "#454727", "#8b7355"
@@ -102,7 +102,7 @@ namespace Lifethreadening.Views.CustomControls
         {
             if(_colors.Count == 0)
             {
-                foreach (string hexCode in COLOR_HEX_CODE)
+                foreach (string hexCode in colorHexCode)
                 {
                     _colors.Enqueue(Microsoft.Toolkit.Uwp.Helpers.ColorHelper.ToColor(hexCode));
                 }

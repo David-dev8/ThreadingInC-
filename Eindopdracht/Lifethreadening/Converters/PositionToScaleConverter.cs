@@ -17,13 +17,13 @@ namespace Lifethreadening.Converters
     /// </summary>
     public class PositionToScaleConverter : IValueConverter
     {
-        private static readonly double MIN_SCALE = 0.7;
+        private static readonly double minScale = 0.7;
 
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             var currentSize = double.Parse(parameter.ToString());
             var index = double.Parse(value.ToString());
-            return index <= 3 ? ((1 - 0.1 * index) * currentSize) : MIN_SCALE * currentSize; 
+            return index <= 3 ? ((1 - 0.1 * index) * currentSize) : minScale * currentSize; 
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

@@ -19,12 +19,12 @@ namespace Lifethreadening.Models.Behaviours
             _behaviours.Add(behaviour);
         }
 
-        public override Incentive guide()
+        public override Incentive Guide()
         {
             IList<Incentive> incentives = new List<Incentive>();
             foreach(Behaviour behaviour in _behaviours)
             {
-                Incentive incentive = behaviour.guide();
+                Incentive incentive = behaviour.Guide();
                 if(incentive != null)
                 {
                     incentives.Add(incentive);

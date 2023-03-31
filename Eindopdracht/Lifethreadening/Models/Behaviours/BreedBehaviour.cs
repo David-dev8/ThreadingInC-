@@ -37,7 +37,7 @@ namespace Lifethreadening.Models.Behaviours
             return possiblePartners;
         }
 
-        public override Incentive guide()
+        public override Incentive Guide()
         {
             if(Animal.Sex == Sex.FEMALE)
             {

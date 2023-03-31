@@ -16,7 +16,7 @@ namespace Lifethreadening.Models.Behaviours
         {
         }
 
-        public override Incentive guide()
+        public override Incentive Guide()
         {
             IDictionary<Location, Path> locations = Animal.DetectSurroundings(MAX_WANDER_DISTANCE);
             Path pathToWander = locations.Values.GetRandom();

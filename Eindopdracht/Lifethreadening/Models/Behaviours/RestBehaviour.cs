@@ -14,7 +14,7 @@ namespace Lifethreadening.Models.Behaviours
         {
         }
 
-        public override Incentive guide()
+        public override Incentive Guide()
         {
             int energyGainedForResting = Animal.Statistics.Resilience / RESILIENCE_PER_ENERGY_GAINED_FOR_RESTING;
             return new Incentive(() =>

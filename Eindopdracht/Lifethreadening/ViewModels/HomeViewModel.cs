@@ -71,7 +71,7 @@ namespace Lifethreadening.ViewModels
                 _games = new DatabaseSimulationReader().ReadAll().ToList();
                 PastGames = _games.Where(s => !CanBeOpened(s)).ToList();
                 Queue<string> slotNames = new Queue<string>(new string[] { "A", "B", "C" });
-                Slots = _games.Where(CanBeOpened).PadUntilLength(3, null).Take(3).ToDictionary(simulation => slotNames.Dequeue(), simulation => simulation);
+                Slots = _games.Where(CanBeOpened).PadUntilLength(3, null).Take(AMOUNT_OF_SLOTS).ToDictionary(simulation => slotNames.Dequeue(), simulation => simulation);
             }
             catch (Exception) 
             {

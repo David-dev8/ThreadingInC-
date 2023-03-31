@@ -76,14 +76,14 @@ namespace Lifethreadening.ViewModels
             } 
         }
 
-        public Species creatingSpecies { get; set; }
+        public Species CreatingSpecies { get; set; }
 
         public CustomSpeciesViewModel(NavigationService navigationService) : base(navigationService)
         {
-            creatingSpecies = new Species(0, "", "", "", "", 0, 0, 0, 0, PossibleDiets.First(), new Statistics());
-            creatingSpecies.BaseStatistics.PropertyChanged += BaseStatistics_PropertyChanged; 
+            CreatingSpecies = new Species(0, "", "", "", "", 0, 0, 0, 0, PossibleDiets.First(), new Statistics());
+            CreatingSpecies.BaseStatistics.PropertyChanged += BaseStatistics_PropertyChanged; 
 
-            PointsLeft = MAX_POINTS - creatingSpecies.BaseStatistics.GetSumOfStats();
+            PointsLeft = MAX_POINTS - CreatingSpecies.BaseStatistics.GetSumOfStats();
             
             OpenImagePickerCommand = new AsyncRelayCommand(OpenImagePicker);
             SaveSpeciesCommand = new RelayCommand(CreateSpecies);
@@ -98,12 +98,12 @@ namespace Lifethreadening.ViewModels
 
         private void BaseStatistics_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            PointsLeft = MAX_POINTS - creatingSpecies.BaseStatistics.GetSumOfStats(); //TODO GetSumOfStats verwerken
+            PointsLeft = MAX_POINTS - CreatingSpecies.BaseStatistics.GetSumOfStats(); //TODO GetSumOfStats verwerken
         }
 
         private void CreateSpecies()
         {
-            List<string> errors = creatingSpecies.CheckIfValid();
+            List<string> errors = CreatingSpecies.CheckIfValid();
 
             if (PointsLeft < 0)
             {
@@ -112,10 +112,10 @@ namespace Lifethreadening.ViewModels
 
             if (errors.Count == 0) 
             {
-                creatingSpecies.MinBreedSize = (int)Math.Ceiling(creatingSpecies.BreedSize / 2d);
-                creatingSpecies.MaxBreedSize = (int)Math.Ceiling(creatingSpecies.BreedSize * 1.5d);
-                creatingSpecies.MaxAge = (int)Math.Ceiling(creatingSpecies.AverageAge * 1.25d);
-                creatingSpecies.Description = "This is a user created species";
+                CreatingSpecies.MinBreedSize = (int)Math.Ceiling(CreatingSpecies.BreedSize / 2d);
+                CreatingSpecies.MaxBreedSize = (int)Math.Ceiling(CreatingSpecies.BreedSize * 1.5d);
+                CreatingSpecies.MaxAge = (int)Math.Ceiling(CreatingSpecies.AverageAge * 1.25d);
+                CreatingSpecies.Description = "This is a user created species";
 
                 TrySave();
             }
@@ -131,7 +131,7 @@ namespace Lifethreadening.ViewModels
             try
             {
                 DatabaseSpeciesWriter databaseWriter = new DatabaseSpeciesWriter();
-                databaseWriter.Create(creatingSpecies, ChosenEcosystem.Id);
+                databaseWriter.Create(CreatingSpecies, ChosenEcosystem.Id);
                 _navigationService.CurrentViewModel = new HomeViewModel(_navigationService);
             }
             catch(Exception)
@@ -161,7 +161,7 @@ namespace Lifethreadening.ViewModels
 
                 await file.CopyAsync(saveFolder);
 
-                creatingSpecies.Image = newFileName;
+                CreatingSpecies.Image = newFileName;
             }
         }
 

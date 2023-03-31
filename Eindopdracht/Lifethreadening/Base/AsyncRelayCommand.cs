@@ -15,7 +15,7 @@ namespace Lifethreadening.Base
         private readonly Func<Task> execute;
         private bool _isExecuting;
 
-        private bool isExecuting
+        private bool IsExecuting
         {
             get
             {
@@ -41,7 +41,7 @@ namespace Lifethreadening.Base
 
         public bool CanExecute(object parameter)
         {
-            return !isExecuting;
+            return !IsExecuting;
         }
 
         public async void Execute(object parameter)
@@ -57,12 +57,12 @@ namespace Lifethreadening.Base
         {
             try
             {
-                isExecuting = true;
+                IsExecuting = true;
                 await execute();
             }
             finally
             {
-                isExecuting = false;
+                IsExecuting = false;
             }
         }
 

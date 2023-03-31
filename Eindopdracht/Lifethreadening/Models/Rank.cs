@@ -8,7 +8,7 @@ namespace Lifethreadening.Models
 {
     public class Rank
     {
-        private static readonly List<string> RANK_DESCRIPTION = new List<string>() 
+        private static readonly List<string> _rankDescription = new List<string>() 
         {
             "Thriving with an average of {0:0.00} living animals at any given time",
             "A solid average of {0:0.00} living animals at any given time",
@@ -23,7 +23,7 @@ namespace Lifethreadening.Models
         {
             get
             {
-                string description = Position <= 3 ? RANK_DESCRIPTION[Position - 1] : RANK_DESCRIPTION[3];
+                string description = Position <= 3 ? _rankDescription[Position - 1] : _rankDescription[3];
                 return string.Format(description, Average);
             }
         }

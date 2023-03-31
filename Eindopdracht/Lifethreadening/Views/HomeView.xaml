@@ -144,7 +144,7 @@
                                     <ColumnDefinition Width="2*"></ColumnDefinition>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0">
+                                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" FontWeight="SemiBold" FontSize="16">
                                     <Run Text="{Binding Name}"></Run>
                                 </TextBlock>
                                 <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">

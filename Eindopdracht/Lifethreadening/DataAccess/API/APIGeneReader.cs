@@ -17,7 +17,7 @@ namespace Lifethreadening.DataAccess.API
     {
         private const string GENE_API_BASE_URL = "https://rest.uniprot.org/uniprotkb/";
         private const string API_QUERY = "(organism_id%3A9606)";
-        private static readonly string[] FIELDS_TO_SELECT = new string[] { "protein_name", "gene_names", "sequence" };
+        private static readonly string[] fieldsToSelect = new string[] { "protein_name", "gene_names", "sequence" };
 
         private Queue<GenomeDetails> _cache = new Queue<GenomeDetails>();
         private IList<GenomeDetails> _backup = new List<GenomeDetails>()
@@ -82,7 +82,7 @@ namespace Lifethreadening.DataAccess.API
             {
                 {"query", API_QUERY},
                 {"size", amount },
-                {"fields", string.Join(",", FIELDS_TO_SELECT) },
+                {"fields", string.Join(",", fieldsToSelect) },
             };
             if(_nextPage != null)
             {

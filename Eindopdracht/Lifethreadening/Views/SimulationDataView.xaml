@@ -8,16 +8,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:dataVisual="using:WinRTXamlToolkit.Controls.DataVisualization"
     xmlns:customcontrols="using:Lifethreadening.Views.CustomControls"
-    xmlns:customConverters="using:Lifethreadening.Converters"
-    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
-        <Style TargetType="charts:Chart">
-            <Setter Property="Padding" Value="20,0" />
-        </Style>
-        <customConverters:PositionToScaleConverter  x:Key="PositionToScaleConverter"/>
+        <ResourceDictionary Source="../ResourceDictionaries/SimulationDataViewResources.xaml" />
     </Page.Resources>
     <Grid Background="{StaticResource PrimaryBackgroundBrush}">
         <Grid.ColumnDefinitions>

@@ -12,11 +12,11 @@ namespace Lifethreadening.DataAccess.Database
     /// </summary>
     public static class DatabaseConnectionManager
     {
-        private static readonly string CONNECTION_STRING = @"Server=.;Database=LifeThreadening;Integrated Security=true";
+        private static readonly string _connectionString = @"Server=.;Database=LifeThreadening;Integrated Security=true";
 
         public static SqlConnection GetSqlConnection()
         {
-            return new SqlConnection(CONNECTION_STRING);
+            return new SqlConnection(_connectionString);
         }
     }
 }

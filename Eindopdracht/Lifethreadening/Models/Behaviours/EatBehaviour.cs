@@ -52,7 +52,7 @@ namespace Lifethreadening.Models.Behaviours
             return mostRelevantTarget;
         }
 
-        protected Incentive guide(Func<SimulationElement, bool> filter)
+        protected Incentive Guide(Func<SimulationElement, bool> filter)
         {
             IDictionary<Location, Path> locations = Animal.DetectSurroundings();
             SimulationElement mostRelevantTarget = FindMostRelevantTarget(FindTargets(locations, filter));

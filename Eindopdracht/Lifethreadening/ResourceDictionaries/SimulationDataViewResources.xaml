@@ -1,0 +1,11 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:charts="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
+    xmlns:customConverters="using:Lifethreadening.Converters"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters">
+    <Style TargetType="charts:Chart">
+        <Setter Property="Padding" Value="20,0" />
+    </Style>
+    <customConverters:PositionToScaleConverter  x:Key="PositionToScaleConverter"/>
+</ResourceDictionary>

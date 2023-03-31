@@ -14,9 +14,9 @@ namespace Lifethreadening.Models.Behaviours
         {
         }
 
-        public override Incentive guide()
+        public override Incentive Guide()
         {
-            return guide((simulationElement) => simulationElement is Vegetation);
+            return Guide((simulationElement) => simulationElement is Vegetation);
         }
 
         protected override void Inflict(SimulationElement target)

@@ -33,7 +33,7 @@ namespace Lifethreadening.Models.Behaviours
             return threats;
         }
 
-        public override Incentive guide()
+        public override Incentive Guide()
         {
             IDictionary<Location, Path> locations = Animal.DetectSurroundings(); // TODO cache?
             IEnumerable<Animal> threats = FindThreats(locations);
