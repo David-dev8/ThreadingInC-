@@ -27,3 +27,9 @@ Bovendien zullen de volgende NuGet packages binnen het project aanwezig moeten z
 
 Wanneer alle bovenstaande stappen zijn doorlopen kan de applicatie worden opgestart binnen Visual Studio.
 
+<h2>Afbeeldingen</h2>
+Voor de applicatie zijn dieren, planten en obstructies gedefinieerd. Deze moeten echter nog geïmporteerd worden, anders kunnen de afbeeldingen van de elementen zoals dieren niet worden getoond. Om dat te doen, moet de map LocalState van de UWP-applicatie binnen de AppData opgezocht worden. Dat kan met een pad als <br><br>
+C:\Users\{hier komt de user}\AppData\Local\Packages\bc30e89e-4b64-44b3-930e-e481cea14ad0_yafgzg2e9pnha\LocalState\UserUploads
+<br>
+<br>
+Zoals duidelijk is uit het pad, moet er een UserUploads folder aangemaakt worden in de specifieke LocalState, als deze nog niet bestaat. Vervolgens moeten alle afbeeldingen (exlusief het mapje, dus selecteer alleen de inhoud van Assets/SimElements) uit de repo binnen de Assets/SimElements folder gekopieerd worden naar de UserUploads folder die te vinden is met het pad dat net genoemd is (als \UserUploads nog niet bestaat, moet dit natuurlijk uit het pad worden gehaald en moet eerst de \UserUploads aangemaakt worden, zoals net is gezegd)
