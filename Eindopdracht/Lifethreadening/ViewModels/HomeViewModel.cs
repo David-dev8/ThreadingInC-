@@ -89,7 +89,7 @@ namespace Lifethreadening.ViewModels
 
         private bool CanBeOpened(Simulation simulation)
         {
-            return simulation.Filename != "" && simulation.Filename != null;
+            return simulation.Filename != "";
         }
     }
 }

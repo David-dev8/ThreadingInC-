@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ColorCode.Compilation.Languages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,27 +15,39 @@ namespace Lifethreadening.Models
         private const int DEFAULT_PRIORITY = 2;
         private const int MAX_NUTRITION_RELEASED_PER_DEPLETION = 10;
 
-        private int _standardGrowth;
-        private int _maxNutrition;
+        public int StandardGrowth { get; set; }
+        public int MaxNutrition { get; set; }
+
         private int _currentNutrition = 20;
+        [JsonInclude]
+        public int CurrentNutrition
+        {
+            get
+            {
+                return _currentNutrition;
+            }
+            private set
+            {
+                _currentNutrition = Math.Min(Math.Max(0, value), MaxNutrition);
+            }
+        }
 
         public Vegetation(string image, int standardGrowth, int maxNutrition, WorldContextService service): base(DEFAULT_PRIORITY, image, service)
         {
-            _standardGrowth = standardGrowth;
-            _maxNutrition = maxNutrition;
+            StandardGrowth = standardGrowth;
+            MaxNutrition = maxNutrition;
         }
 
         [JsonConstructor]
-        public Vegetation(string image): base(DEFAULT_PRIORITY, image, null)
+        public Vegetation(string image, int standardGrowth, int maxNutrition) : this(image, standardGrowth, maxNutrition, null)
         {
-
         }
 
         private void Grow(int growth)
         {
             lock(_nutritionLocker)
             {
-                if(_currentNutrition + growth <= _maxNutrition)
+                if(_currentNutrition + growth <= MaxNutrition)
                 {
                     _currentNutrition += growth;
                 }
@@ -43,7 +56,7 @@ namespace Lifethreadening.Models
 
         private void Grow(Weather weather)
         {
-            Grow((int)(_standardGrowth * weather.RainFall + weather.Temperature));
+            Grow((int)(StandardGrowth * weather.RainFall + weather.Temperature));
         }
 
         public override bool StillExistsPhysically()

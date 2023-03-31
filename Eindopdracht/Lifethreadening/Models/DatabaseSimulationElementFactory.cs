@@ -59,7 +59,7 @@ namespace Lifethreadening.Models
             newAnimal.Behaviour = _behaviourBuilder
                 .ForAnimal(newAnimal)
                 .AddEat(species.Diet)
-                .AddBreed(_breedFactory) // TODO
+                .AddBreed(_breedFactory)
                 .AddWander(false)
                 .AddRest()
                 .AddEvade()

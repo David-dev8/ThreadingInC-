@@ -12,6 +12,9 @@ using Windows.UI.Xaml.Documents;
 using System.Collections;
 using Windows.UI.Xaml.Data;
 using WinRTXamlToolkit.Input;
+using Windows.UI.Xaml.Markup;
+using Lifethreadening.Models.Behaviours;
+using Lifethreadening.DataAccess.API;
 
 namespace Lifethreadening.DataAccess.JSON
 {
@@ -33,9 +36,25 @@ namespace Lifethreadening.DataAccess.JSON
                 world = await JsonSerializer.DeserializeAsync<World>(stream, options);
                 locationConverter.CompleteMapping(world.Locations);
             }
+
+            IBehaviourBuilder behaviourBuilder = new RegularBehaviourBuilder();
+            APINameReader nameReader = new APINameReader();
+            await nameReader.Initialize();
+            IBreedFactory breedFactory = new EvenlyDistributedParentsBreedFactory(behaviourBuilder, nameReader);
             foreach(SimulationElement element in world.SimulationElements)
             {
                 element.ContextService = world.ContextService;
+                if(element is Animal animal)
+                {
+                    animal.Behaviour = behaviourBuilder
+                        .ForAnimal(animal)
+                        .AddEat(animal.Species.Diet)
+                        .AddBreed(breedFactory)
+                        .AddWander(false)
+                        .AddRest()
+                        .AddEvade()
+                        .GetBehaviour();
+                }
             }
             return world;
         }

@@ -162,7 +162,6 @@
     <Compile Include="DataAccess\ISimulationWriter.cs" />
     <Compile Include="DataAccess\IVegetationReader.cs" />
     <Compile Include="DataAccess\IWeatherManager.cs" />
-    <Compile Include="DataAccess\JSON\JSONBehaviourConverter.cs" />
     <Compile Include="DataAccess\JSON\JSONLocation.cs" />
     <Compile Include="DataAccess\JSON\JSONLocationConverter.cs" />
     <Compile Include="DataAccess\JSON\JSONSimulationElementConverter.cs" />

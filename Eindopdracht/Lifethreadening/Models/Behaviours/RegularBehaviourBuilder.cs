@@ -42,7 +42,7 @@ namespace Lifethreadening.Models.Behaviours
         {
             if(_hasAnimal)
             {
-                //Add(new BreedBehaviour(_animal, breedFactory));
+                Add(new BreedBehaviour(_animal, breedFactory));
             }
             return this;
         }
@@ -74,7 +74,7 @@ namespace Lifethreadening.Models.Behaviours
         {
             if(_hasAnimal)
             {
-                //Add(new EvadeBehaviour(_animal));
+                // Add(new EvadeBehaviour(_animal));
             }
             return this;
         }

@@ -38,6 +38,7 @@ namespace Lifethreadening.ViewModels
         private ISimulationReader _simulationReader;
         private ISimulationWriter _simulationWriter;
         private IWorldStateReader _worldStateReader;
+        private IWorldStateWriter _worldStateWriter;
 
         public bool HasLoaded
         {
@@ -112,6 +113,7 @@ namespace Lifethreadening.ViewModels
             _simulationReader = new DatabaseSimulationReader();
             _simulationWriter = new DatabaseSimulationWriter();
             _worldStateReader = new JSONWorldStateReader();
+            _worldStateWriter = new JSONWorldStateWriter();
             QuitCommand = new RelayCommand(Quit);
             ResumeCommand = new RelayCommand(Start);
             PauseCommand = new RelayCommand(Stop);
@@ -134,6 +136,7 @@ namespace Lifethreadening.ViewModels
                 }
                 Simulation.PropertyChanged += Simulation_PropertyChanged;
                 Simulation.Start();
+                NotifyPropertyChanged(nameof(GridWorld));
                 HasLoaded = true;
             }
             catch(Exception ex)
@@ -185,9 +188,7 @@ namespace Lifethreadening.ViewModels
         {
             try
             {
-                Saving = true;
-                await Simulation.Save();
-                Saving = false;
+                await InitiateSave();
             }
             catch(Exception ex)
             {
@@ -196,9 +197,29 @@ namespace Lifethreadening.ViewModels
             }
         }
 
-        private void NavigateToSimulationData()
+        private async Task InitiateSave()
         {
-            _navigationService.CurrentViewModel = new SimulationDataViewModel(_navigationService, Simulation);
+            Saving = true;
+            await Simulation.Save();
+            Saving = false;
+        }
+
+        private async Task NavigateToSimulationData()
+        {
+            try
+            {
+                string fileName = Simulation.Filename;
+                Simulation.Filename = "";
+                await InitiateSave();
+                // Only if the save was succesful, we delete the save file
+                await _worldStateWriter.Delete(fileName);
+                _navigationService.CurrentViewModel = new SimulationDataViewModel(_navigationService, Simulation);
+            }
+            catch(Exception ex)
+            {
+                _navigationService.Error = new ErrorMessage("Something went wrong while wrapping up the simulation");
+                Quit();
+            }
         }
 
         public override void Dispose()

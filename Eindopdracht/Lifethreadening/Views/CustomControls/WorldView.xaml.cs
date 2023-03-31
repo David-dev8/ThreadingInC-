@@ -63,7 +63,7 @@ namespace Lifethreadening.Views.CustomControls
         {
             get
             {
-                return World.Grid;
+                return World?.Grid;
             }
         }
 
@@ -71,7 +71,7 @@ namespace Lifethreadening.Views.CustomControls
         {
             get
             {
-                return ActualWidth / Locations.Length;
+                return Locations != null ? ActualWidth / Locations.Length : 0;
             }
         }
 
@@ -79,7 +79,7 @@ namespace Lifethreadening.Views.CustomControls
         {
             get
             {
-                return ActualHeight / Locations[0].Length;
+                return Locations != null ? ActualHeight / Locations[0].Length : 0;
             }
         }
 
@@ -128,14 +128,17 @@ namespace Lifethreadening.Views.CustomControls
 
         private void Draw()
         {
-            Clear();
-            for(int i = 0; i < Locations.Length; i++)
+            if(Locations != null)
             {
-                Location[] row = Locations[i];
-                for(int j = 0; j < row.Length; j++)
+                Clear();
+                for(int i = 0; i < Locations.Length; i++)
                 {
-                    Location location = row[j];
-                    ShowAt(location, i, j);
+                    Location[] row = Locations[i];
+                    for(int j = 0; j < row.Length; j++)
+                    {
+                        Location location = row[j];
+                        ShowAt(location, i, j);
+                    }
                 }
             }
         }

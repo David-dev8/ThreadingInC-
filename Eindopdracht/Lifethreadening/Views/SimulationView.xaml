@@ -36,8 +36,8 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="320" />
                 </Grid.ColumnDefinitions>
-                <!--<customcontrols:WorldView Grid.Column="0" World="{Binding GridWorld}"
-                                  SelectedSimulationElement="{Binding SelectedSimulationElement, Mode=TwoWay}"/>-->
+                <customcontrols:WorldView Grid.Column="0" World="{Binding GridWorld}"
+                                  SelectedSimulationElement="{Binding SelectedSimulationElement, Mode=TwoWay}"/>
                 <Grid Grid.Column="1" Background="{StaticResource PrimaryBackgroundBrush}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="14*" />
@@ -220,7 +220,7 @@
                                     <TextBlock Grid.Column="0">Simulation speed</TextBlock>
                                     <StackPanel Grid.Column="1">
                                         <TextBlock Text="{Binding Simulation.SimulationSpeed, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:dd} days/step'}" />
-                                        <Slider Minimum="1" Maximum="7" Value="{Binding Simulation.SimulationSpeed, Converter={StaticResource TimeSpanToAmountOfDaysConverter}, Mode=TwoWay}" />
+                                        <Slider Minimum="1" Maximum="4" Value="{Binding Simulation.SimulationSpeed, Converter={StaticResource TimeSpanToAmountOfDaysConverter}, Mode=TwoWay}" />
                                     </StackPanel>
                                 </Grid>
                                 <Grid Margin="0,0,0,5">

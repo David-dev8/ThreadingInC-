@@ -7,6 +7,10 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Reflection.PortableExecutable;
+using System.Xml.Linq;
+using WinRTXamlToolkit.Controls.DataVisualization.Charting;
+using Lifethreadening.Models.Behaviours;
+using Windows.UI.Xaml.Markup;
 
 namespace Lifethreadening.DataAccess.JSON
 {
@@ -18,6 +22,7 @@ namespace Lifethreadening.DataAccess.JSON
             Animal = 1,
             Obstruction = 2
         }
+
 
         public override bool CanConvert(Type type)
         {
@@ -70,9 +75,7 @@ namespace Lifethreadening.DataAccess.JSON
                     {
                         throw new JsonException();
                     }
-                    JsonSerializerOptions newOptions = new JsonSerializerOptions();
-                    newOptions.Converters.Add(new JSONBehaviourConverter());
-                    baseClass = (Animal)JsonSerializer.Deserialize(ref reader, typeof(Animal), newOptions);
+                    baseClass = (Animal)JsonSerializer.Deserialize(ref reader, typeof(Animal));
                     break;
                 case TypeDiscriminator.Obstruction:
                     if(!reader.Read() || reader.GetString() != "TypeValue")
@@ -118,11 +121,9 @@ namespace Lifethreadening.DataAccess.JSON
             }
             else if(value is Animal derivedC)
             {
-                JsonSerializerOptions newOptions = new JsonSerializerOptions();
-                newOptions.Converters.Add(new JSONBehaviourConverter());
                 writer.WriteNumber("TypeDiscriminator", (int)TypeDiscriminator.Animal);
                 writer.WritePropertyName("TypeValue");
-                JsonSerializer.Serialize(writer, derivedC, newOptions);
+                JsonSerializer.Serialize(writer, derivedC);
             }
             else
             {

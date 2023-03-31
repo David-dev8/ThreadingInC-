@@ -218,8 +218,11 @@ namespace Lifethreadening.Models
 
         public async Task Save()
         {
-            // TODO prevent two threads from doing the save
-            Filename = await _worldStateWriter.Write(gameName, World);
+            if(!IsGameOver)
+            {
+                // TODO prevent two threads from doing the save
+                Filename = await _worldStateWriter.Write(gameName, World);
+            }
             await _simulationWriter.Write(this);
         }
 

@@ -16,7 +16,7 @@ namespace Lifethreadening.Models
         }
 
         [JsonConstructor]
-        public Obstruction(string image) : base(DEFAULT_PRIORITY, image, null)
+        public Obstruction(string image) : this(image, null)
         {
         }
 

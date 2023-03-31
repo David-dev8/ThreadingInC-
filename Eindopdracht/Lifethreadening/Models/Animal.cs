@@ -85,6 +85,7 @@ namespace Lifethreadening.Models
             }
         }
         public Statistics Statistics { get; set; }
+        [JsonIgnore]
         public Behaviour Behaviour { get; set; }
         public IList<Mutation> Mutations { get; set; } = new List<Mutation>();
 
@@ -96,13 +97,15 @@ namespace Lifethreadening.Models
             Sex = sex;
             Species = species;
             Statistics = statistics;
-            DateOfBirth = contextService.GetContext().Date;
+            if(contextService != null)
+            {
+                DateOfBirth = contextService.GetContext().Date;
+            }
         }
 
         [JsonConstructor]
-        public Animal(string name, Sex sex): base(DEFAULT_PRIORITY, null, null)
+        public Animal(string name, Sex sex, Species species, Statistics statistics) : this(name, sex, species, statistics, null)
         {
-
         }
 
         protected override Action GetNextAction()
