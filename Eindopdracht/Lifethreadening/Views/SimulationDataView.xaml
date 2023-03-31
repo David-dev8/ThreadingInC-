@@ -97,7 +97,7 @@
                             </Grid.ColumnDefinitions>
                             <Grid Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Image MaxHeight="{Binding Position, Converter={StaticResource PositionToScaleConverter}, ConverterParameter=60}" 
-                                       Source="{Binding Species.Image}" Opacity="{Binding Position, Converter={StaticResource PositionToScaleConverter}, ConverterParameter=1}" />
+                                       Source="{Binding Species.Image,Converter={StaticResource StringToImageConverter}}" Opacity="{Binding Position, Converter={StaticResource PositionToScaleConverter}, ConverterParameter=1}" />
                             </Grid>
                             <StackPanel Grid.Column="1">
                                 <StackPanel Orientation="Horizontal" >

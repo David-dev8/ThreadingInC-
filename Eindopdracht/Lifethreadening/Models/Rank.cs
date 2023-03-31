@@ -10,10 +10,10 @@ namespace Lifethreadening.Models
     {
         private static readonly List<string> RANK_DESCRIPTION = new List<string>() 
         {
-            "Thriving with an average of {0} living animals at any given time",
-            "A solid average of {0} living animals at any given time",
-            "Performing at {0} living animals at any given time",
-            "An average of {0} living animals at any given time"
+            "Thriving with an average of {0:0.00} living animals at any given time",
+            "A solid average of {0:0.00} living animals at any given time",
+            "Performing at {0:0.00} living animals at any given time",
+            "An average of {0:0.00} living animals at any given time"
         };
 
         public int Position { get; set; }
