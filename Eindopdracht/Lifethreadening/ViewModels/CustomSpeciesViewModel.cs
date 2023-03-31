@@ -1,7 +1,6 @@
 ﻿using Lifethreadening.Base;
 using Lifethreadening.DataAccess.Database;
 using Lifethreadening.Models;
-using SQLitePCL;
 using System;
 using System.Collections.Generic;
 using System.Linq;

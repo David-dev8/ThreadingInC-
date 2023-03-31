@@ -107,7 +107,7 @@
             </Grid>
         </Border>
         <Border BorderBrush="{StaticResource TertiaryBrush}" BorderThickness="5" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Stretch">
-            <Grid Background="{StaticResource PrimaryBackgroundBrush}">
+            <Grid Background="{StaticResource SecondaryBackgroundBrush}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="5*"></RowDefinition>
@@ -120,10 +120,10 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center">
-                    <TextBlock VerticalAlignment="Center" Style="{StaticResource BaseTextBlockStyle}" FontSize="20"  Text="Past games"></TextBlock>
+                    <TextBlock Foreground="White" VerticalAlignment="Center" Style="{StaticResource BaseTextBlockStyle}" FontSize="20"  Text="Past games"></TextBlock>
                 </Grid>
 
-                <ListView Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3" Background="Azure" ItemsSource="{Binding PastGames}" SelectedValue="{Binding SelectedPastGame, Mode=TwoWay}">
+                <ListView Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3" Background="{StaticResource PrimaryBackgroundBrush}" ItemsSource="{Binding PastGames}" SelectedValue="{Binding SelectedPastGame, Mode=TwoWay}">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
