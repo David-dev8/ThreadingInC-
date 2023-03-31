@@ -58,14 +58,25 @@ namespace Lifethreadening.ViewModels
 
         public HomeViewModel(NavigationService navigationService) : base(navigationService)
         {
-            _games = new DatabaseSimulationReader().ReadAll().ToList();
+            InitializeSlots();
 
-            PastGames = _games.Where(s => !CanBeOpened(s)).ToList();
-            Queue<string> slotNames = new Queue<string>(new string[] { "A", "B", "C" });
-            Slots = _games.Where(CanBeOpened).PadUntilLength(3, null).Take(3).ToDictionary(simulation => slotNames.Dequeue(), simulation => simulation);
-
-            CreateNewGameCommand = new RelayCommand(CreateNewGame, (_) => Slots.Any(s => s.Value == null));
+            CreateNewGameCommand = new RelayCommand(CreateNewGame, (_) => Slots != null && Slots.Any(s => s.Value == null));
             GoToCustomSpeciesCommand = new RelayCommand(NavigateToCustomSpiecies);
+        }
+
+        private void InitializeSlots()
+        {
+            try
+            {
+                _games = new DatabaseSimulationReader().ReadAll().ToList();
+                PastGames = _games.Where(s => !CanBeOpened(s)).ToList();
+                Queue<string> slotNames = new Queue<string>(new string[] { "A", "B", "C" });
+                Slots = _games.Where(CanBeOpened).PadUntilLength(3, null).Take(3).ToDictionary(simulation => slotNames.Dequeue(), simulation => simulation);
+            }
+            catch (Exception) 
+            {
+                _navigationService.Error = new ErrorMessage("The games could not be loaded.", "Load failed");
+            }
         }
 
         private void CreateNewGame()

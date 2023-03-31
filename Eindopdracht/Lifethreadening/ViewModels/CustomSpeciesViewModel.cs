@@ -117,14 +117,26 @@ namespace Lifethreadening.ViewModels
                 creatingSpecies.MaxAge = (int)Math.Ceiling(creatingSpecies.AverageAge * 1.25d);
                 creatingSpecies.Description = "This is a user created species";
 
-                DatabaseSpeciesWriter DatabaseWriter = new DatabaseSpeciesWriter();
-                DatabaseWriter.Create(creatingSpecies, ChosenEcosystem.Id);
-                _navigationService.CurrentViewModel = new HomeViewModel(_navigationService);
+                TrySave();
             }
             else
             {
                 _navigationService.Error = new ErrorMessage("Please fix the folowing errors to save this spiecies:\n" + 
                     string.Join("\n", errors), "There seem to be some errors with the data");
+            }
+        }
+
+        private void TrySave()
+        {
+            try
+            {
+                DatabaseSpeciesWriter databaseWriter = new DatabaseSpeciesWriter();
+                databaseWriter.Create(creatingSpecies, ChosenEcosystem.Id);
+                _navigationService.CurrentViewModel = new HomeViewModel(_navigationService);
+            }
+            catch(Exception)
+            {
+                _navigationService.Error = new ErrorMessage("The species could not be saved. Please try again.", "Save failed");
             }
         }
 

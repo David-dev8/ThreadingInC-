@@ -135,7 +135,7 @@ namespace Lifethreadening.DataAccess.Database
                 {
                     new StatisticInfo(
                         dataReader.GetString("statistic"),
-                        ColorHelper.ToColor("#" + dataReader.GetString("color")), // TODO # weghalen
+                        ColorHelper.ToColor(dataReader.GetString("color")),
                         dataReader.GetInt32("affection")
                     )
                 }
