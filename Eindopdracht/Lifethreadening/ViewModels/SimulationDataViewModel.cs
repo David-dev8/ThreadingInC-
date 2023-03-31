@@ -118,7 +118,7 @@ namespace Lifethreadening.ViewModels
                 await TryLoad();
                 DataLoaded = true;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 _navigationService.Error = new ErrorMessage("Data could not be fetched");
                 SelectHomeAsCurrentPage();

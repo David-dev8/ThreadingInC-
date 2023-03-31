@@ -151,7 +151,7 @@ namespace Lifethreadening.ViewModels
                 NotifyPropertyChanged(nameof(GridWorld));
                 HasLoaded = true;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 _navigationService.Error = new ErrorMessage("Something went wrong while initializing the simulation");
                 Quit();
@@ -210,7 +210,7 @@ namespace Lifethreadening.ViewModels
             {
                 await InitiateSave();
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 _navigationService.Error = new ErrorMessage("Something went wrong while trying to save the data");
                 Stop();
@@ -238,7 +238,7 @@ namespace Lifethreadening.ViewModels
                 await _worldStateWriter.Delete(fileName);
                 _navigationService.CurrentViewModel = new SimulationDataViewModel(_navigationService, Simulation);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 _navigationService.Error = new ErrorMessage("Something went wrong while wrapping up the simulation");
                 Quit();
