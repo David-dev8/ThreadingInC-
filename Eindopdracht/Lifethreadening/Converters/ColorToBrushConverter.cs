@@ -9,6 +9,9 @@ using Windows.UI.Xaml.Media;
 
 namespace Lifethreadening.Converters
 {
+    /// <summary>
+    /// Converts a windows UI color into a solid brush of the same color
+    /// </summary>
     public class ColorToBrushConverter: IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)

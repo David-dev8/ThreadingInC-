@@ -8,6 +8,9 @@ using Windows.UI.Xaml.Data;
 
 namespace Lifethreadening.Converters
 {
+    /// <summary>
+    /// Converts A timespan into the ammount of days within the timespan
+    /// </summary>
     public class TimeSpanToAmountOfDaysConverter: IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)

@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.DataAccess.Database
 {
+    /// <summary>
+    /// This class retrieves data about ecosystems from the database
+    /// </summary>
     public class DatabaseEcosystemReader : IEcosystemReader
     {
         private static readonly string DATABASE_TABLE_NAME = "Ecosystem";

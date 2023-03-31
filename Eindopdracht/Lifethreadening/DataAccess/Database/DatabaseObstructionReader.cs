@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.DataAccess.Database
 {
+    /// <summary>
+    /// This class retrieves data about obstructions from the database
+    /// </summary>
     public class DatabaseObstructionReader : IObstructionReader
     {
         private DatabaseHelper<Obstruction> _database;

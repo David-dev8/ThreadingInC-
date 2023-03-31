@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.DataAccess.JSON
 {
+    /// <summary>
+    /// This class stores data about the world locations used when saving to a JSON files
+    /// </summary>
     public class JSONLocation
     {
         public string Id { get; set; }

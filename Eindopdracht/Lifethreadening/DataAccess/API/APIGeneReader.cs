@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 namespace Lifethreadening.DataAccess.API
 {
     // TODO initialize? backup? Werkt deze eigenlijk nog wel?
+    /// <summary>
+    /// This class is used to read genes from an API
+    /// </summary>
     public class APIGeneReader : APICaller, IGeneReader
     {
         private const string GENE_API_BASE_URL = "https://rest.uniprot.org/uniprotk/";
@@ -56,6 +59,11 @@ namespace Lifethreadening.DataAccess.API
             return _cache.DequeueMultiple(amount).Select(genomeDetails => genomeDetails.Protein.Name.FullName.Value).ToList();
         }
 
+        /// <summary>
+        /// Checks if there are enough genes cashed, retrieves a new batch if not
+        /// </summary>
+        /// <param name="amount">The minimu ammount that should be pressent</param>
+        /// <returns></returns>
         private async Task MakeSureToHaveEnough(int amount = 1)
         {
             if(_cache.Count < amount)
@@ -64,6 +72,11 @@ namespace Lifethreadening.DataAccess.API
             }
         }
 
+        /// <summary>
+        /// Retrieves more random data from the API
+        /// </summary>
+        /// <param name="amount">The ammount of data to retrieve</param>
+        /// <returns>A task containing the executing API call</returns>
         private async Task RetrieveNextBatch(int amount)
         {
             Dictionary<string, object> queryParameters = new Dictionary<string, object>()

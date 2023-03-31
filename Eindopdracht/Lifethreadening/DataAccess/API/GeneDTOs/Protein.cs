@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.DataAccess.API.GeneDTOs
 {
+    /// <summary>
+    /// This class is used to store protiens
+    /// </summary>
     public class Protein
     {
         [JsonPropertyName("recommendedName")]

@@ -7,6 +7,9 @@ using Windows.UI.Xaml.Data;
 
 namespace Lifethreadening.Converters
 {
+    /// <summary>
+    /// Converts a parameter into a plural version based on if the given value is not 1
+    /// </summary>
     public class AmountToSingularOrPluralConverter: IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)

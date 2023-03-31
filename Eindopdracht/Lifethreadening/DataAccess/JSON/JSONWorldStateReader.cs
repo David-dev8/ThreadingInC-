@@ -18,6 +18,9 @@ using Lifethreadening.DataAccess.API;
 
 namespace Lifethreadening.DataAccess.JSON
 {
+    /// <summary>
+    /// This class is used to retrieve the world state from a JSON file
+    /// </summary>
     public class JSONWorldStateReader: JSONWorldStateProcessor, IWorldStateReader
     {
         public async Task<World> Read(string gameName)

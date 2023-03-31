@@ -7,6 +7,9 @@ using System.Windows.Input;
 
 namespace Lifethreadening.Base
 {
+    /// <summary>
+    /// This class stores a async command to be executed as a command
+    /// </summary>
     public class AsyncRelayCommand : ICommand
     {
         private readonly Func<Task> execute;
@@ -25,6 +28,10 @@ namespace Lifethreadening.Base
             }
         }
 
+        /// <summary>
+        /// Creates an async relay command
+        /// </summary>
+        /// <param name="execute">The function to use as the command</param>
         public AsyncRelayCommand(Func<Task> execute)
         {
             this.execute = execute;
@@ -42,6 +49,10 @@ namespace Lifethreadening.Base
             await ExecuteAsync();
         }
         
+        /// <summary>
+        /// Executes the command
+        /// </summary>
+        /// <returns>The task that executes the command</returns>
         public async Task ExecuteAsync()
         {
             try
@@ -55,6 +66,9 @@ namespace Lifethreadening.Base
             }
         }
 
+        /// <summary>
+        /// Changes the status of the invokability of this command
+        /// </summary>
         private void InvokeCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);

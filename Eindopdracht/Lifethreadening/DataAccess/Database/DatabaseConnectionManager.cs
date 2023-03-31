@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.DataAccess.Database
 {
+    /// <summary>
+    /// This class stores data partaining to how to set up the connection to the database
+    /// </summary>
     public static class DatabaseConnectionManager
     {
         private static readonly string CONNECTION_STRING = @"Server=.;Database=LifeThreadening;Integrated Security=true";

@@ -4,6 +4,10 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Lifethreadening.Converters
 {
+
+    /// <summary>
+    /// Converts a filename as string into a bitmapImage
+    /// </summary>
     public class StringToImageConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)

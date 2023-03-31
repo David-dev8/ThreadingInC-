@@ -8,6 +8,9 @@ using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace Lifethreadening.Converters
 {
+    /// <summary>
+    /// Converts an int to a color depending on the value, Negative values return red, neutral values return black and positive values return dark green
+    /// </summary>
     public class IntPositivityToColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
