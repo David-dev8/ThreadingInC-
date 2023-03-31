@@ -118,7 +118,7 @@
             <Image Source="{Binding creatingSpecies.Image, Converter={StaticResource StringToImageConverter}}" MaxHeight="300" MaxWidth="300" Margin="0, -150, 0, 0" Grid.Row="3" Grid.Column="3"></Image>
 
             <TextBlock Grid.Column="3" Grid.Row="4" VerticalAlignment="top" Margin="10, 20, 10, 0" Text="Diet:" Style="{StaticResource TraitTitle}"></TextBlock>
-            <ComboBox BorderThickness="0, 0, 0, 2" Background="Transparent" Grid.Column="3" Grid.Row="4" VerticalAlignment="top" Margin="200, 10, 10, 0" PlaceholderText="Select a value" HorizontalAlignment="Center" Width="225" FontSize="18" SelectedItem="{Binding creatingSpecies.Diet, Mode=TwoWay}" ItemsSource="{Binding PossibleDiets}">
+            <ComboBox BorderThickness="0, 0, 0, 2" Background="Transparent" Grid.Column="3" Grid.Row="4" VerticalAlignment="top" Margin="200, 10, 10, 0" PlaceholderText="Select a value" HorizontalAlignment="Stretch" FontSize="18" SelectedItem="{Binding creatingSpecies.Diet, Mode=TwoWay}" ItemsSource="{Binding PossibleDiets}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Converter={StaticResource EnumToStringConverter}}"></TextBlock>
@@ -128,14 +128,14 @@
 
             <TextBlock Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Margin="10, 40, 10, 0" Text="Average lifespan:" Style="{StaticResource TraitTitle}"></TextBlock>
             <Slider Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Margin="200, 60, 10, 0" Maximum="120" Value="{Binding creatingSpecies.AverageAge, Mode=TwoWay}"></Slider>
-            <TextBlock Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Margin="350, 15, 10, 0" Text="{Binding creatingSpecies.AverageAge}" Style="{StaticResource TraitTitle}"></TextBlock>
+            <TextBlock Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Margin="300, 15, 10, 0" Text="{Binding creatingSpecies.AverageAge}" Style="{StaticResource TraitTitle}"></TextBlock>
 
             <TextBlock Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="10, -5, 10, 0" Text="Breed size:" Style="{StaticResource TraitTitle}"></TextBlock>
-            <Slider Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="200, 0, 20, 0" Maximum="10" Value="{Binding creatingSpecies.BreedSize, Mode=TwoWay}"></Slider>
-            <TextBlock Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="350, -10, 10, 0" Text="{Binding creatingSpecies.BreedSize}" Style="{StaticResource TraitTitle}"></TextBlock>
+            <Slider Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="200, 0, 10, 0" Maximum="10" Value="{Binding creatingSpecies.BreedSize, Mode=TwoWay}"></Slider>
+            <TextBlock Grid.Column="3" Grid.Row="5" VerticalAlignment="top" Margin="300, -15, 10, 0" Text="{Binding creatingSpecies.BreedSize}" Style="{StaticResource TraitTitle}"></TextBlock>
 
             <TextBlock Grid.Column="3" Grid.Row="5" VerticalAlignment="Center" Margin="10, -5, 10, 0" Text="Ecosystem:" Style="{StaticResource TraitTitle}"></TextBlock>
-            <ComboBox BorderThickness="0, 0, 0, 2" Background="Transparent" Grid.Column="3" Grid.Row="5" VerticalAlignment="Center" Margin="200, -5, 10, 0" PlaceholderText="Select a value" HorizontalAlignment="Center" Width="225" FontSize="18" SelectedItem="{Binding ChosenEcosystem, Mode=TwoWay}" ItemsSource="{Binding PossibleEcosystems}" SelectedIndex="0">
+            <ComboBox BorderThickness="0, 0, 0, 2" Background="Transparent" Grid.Column="3" Grid.Row="5" VerticalAlignment="Center" Margin="200, -5, 10, 0" PlaceholderText="Select a value" HorizontalAlignment="Stretch" FontSize="18" SelectedItem="{Binding ChosenEcosystem, Mode=TwoWay}" ItemsSource="{Binding PossibleEcosystems}" SelectedIndex="0">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}"></TextBlock>
