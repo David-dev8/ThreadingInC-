@@ -9,6 +9,9 @@ using System.Windows.Input;
 
 namespace Lifethreadening.ViewModels
 {
+    /// <summary>
+    /// This viewmodel is used for the simulation data view
+    /// </summary>
     public class SimulationDataViewModel : BaseViewModel
     {
         public ICommand GoToHomeCommand { get; set; }
@@ -47,11 +50,19 @@ namespace Lifethreadening.ViewModels
             }
         }
 
+        /// <summary>
+        /// This function is used to navigate to the home view
+        /// </summary>
         private void SelectHomeAsCurrentPage()
         {
             _navigationService.CurrentViewModel = new HomeViewModel(_navigationService);
         }
 
+        /// <summary>
+        /// Creates a new simulation data view model
+        /// </summary>
+        /// <param name="navigationService">The navigation service to use when navigating</param>
+        /// <param name="simulation">The simulation that will get its data displayed</param>
         public SimulationDataViewModel(NavigationService navigationService, Simulation simulation) : base(navigationService)
         {
             Simulation = simulation;

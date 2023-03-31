@@ -10,6 +10,9 @@ using System.Windows.Input;
 
 namespace Lifethreadening.ViewModels
 {
+    /// <summary>
+    /// This is the viewmoddel that is used for the simulation view
+    /// </summary>
     public class SimulationViewModel : BaseViewModel
     {
         private Animal _selectedAnimal;
@@ -81,6 +84,11 @@ namespace Lifethreadening.ViewModels
             }
         }
 
+        /// <summary>
+        /// Creates a new simulation view model
+        /// </summary>
+        /// <param name="navigationService">Tha navigation service to use for navigating</param>
+        /// <param name="simulation">The simulation that needs to be played out</param>
         public SimulationViewModel(NavigationService navigationService, Simulation simulation) : base(navigationService)
         {
             Simulation = simulation;
@@ -95,6 +103,9 @@ namespace Lifethreadening.ViewModels
             Initialize();
         }
 
+        /// <summary>
+        /// This function intializes the simulation
+        /// </summary>
         private async void Initialize()
         {
             // TODO try catch stop simulation
@@ -112,6 +123,11 @@ namespace Lifethreadening.ViewModels
             }
         }
 
+        /// <summary>
+        /// This function navigates the aplication to the simulation screen once the game is completed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Simulation_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if(e.PropertyName == nameof(Simulation.IsGameOver))
@@ -120,25 +136,39 @@ namespace Lifethreadening.ViewModels
             }
         }
 
+        /// <summary>
+        /// This function navigates the player to the home view
+        /// </summary>
         private void Quit()
         {
             _navigationService.CurrentViewModel = new HomeViewModel(_navigationService);
         }
 
+
+        /// <summary>
+        /// This function navigates the player to the Simulation data view
+        /// </summary>
         private void NavigateToSimulationData()
         {
             _navigationService.CurrentViewModel = new SimulationDataViewModel(_navigationService, Simulation);
         }
 
+
+        /// <summary>
+        /// This function disposes this viewmodel and stops the simulation
+        /// </summary>
         public override void Dispose()
         {
             base.Dispose();
             Simulation.End();
         }
 
+        /// <summary>
+        /// This function opens the gene inspector popup
+        /// </summary>
         private void OpenGeneInspector() 
         {
-            Mutation testter = new Mutation(MutationType.ADDITION, "test", "test", "terst", DateTime.Now, (s) => s.Weight = s.Weight - 5);
+            Mutation testter = new Mutation(MutationType.ADDITION, "test", "test", "terst", DateTime.Now, (s) => s.Weight = s.Weight - 5); //TODO Remove
             testter.Affect(SelectedAnimal);
             PopupVisible = true;
         }

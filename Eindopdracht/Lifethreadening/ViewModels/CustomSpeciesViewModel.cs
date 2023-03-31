@@ -18,6 +18,9 @@ using Windows.UI.Xaml.Controls;
 
 namespace Lifethreadening.ViewModels
 {
+    /// <summary>
+    /// This is the viewmodel for the custom spiecies view
+    /// </summary>
     public class CustomSpeciesViewModel : BaseViewModel
     {
 
@@ -108,6 +111,10 @@ namespace Lifethreadening.ViewModels
 
         public Species creatingSpecies { get; set; }
 
+        /// <summary>
+        /// Creates a new custom species view model
+        /// </summary>
+        /// <param name="navigationService">The navigation service to use while navigating</param>
         public CustomSpeciesViewModel(NavigationService navigationService) : base(navigationService)
         {
             creatingSpecies = new Species();
@@ -121,16 +128,28 @@ namespace Lifethreadening.ViewModels
             ChosenEcosystem = PossibleEcosystems.First();
         }
 
+        /// <summary>
+        /// This funcion is used to navigate to the home view
+        /// </summary>
         private void Quit()
         {
             _navigationService.CurrentViewModel = new HomeViewModel(_navigationService);
         }
 
+        /// <summary>
+        /// This function is used to update the available stat point at the top of the screen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BaseStatistics_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            PointsLeft = MAX_POINTS - creatingSpecies.BaseStatistics.GetSumOfStats(); //TODO GetSumOfStats verwerken
+            PointsLeft = MAX_POINTS - creatingSpecies.BaseStatistics.GetSumOfStats(); 
         }
 
+
+        /// <summary>
+        /// This function is used to create a species and save it to the database
+        /// </summary>
         private void CreateSpecies()
         {
             List<string> errors = creatingSpecies.CheckIfValid();
@@ -158,6 +177,10 @@ namespace Lifethreadening.ViewModels
             }
         }
 
+        /// <summary>
+        /// This function is used to open the windows file picker to pick an image
+        /// </summary>
+        /// <returns>nothing</returns>
         private async Task OpenImagePicker()
         {
             FileOpenPicker openPicker = new FileOpenPicker();

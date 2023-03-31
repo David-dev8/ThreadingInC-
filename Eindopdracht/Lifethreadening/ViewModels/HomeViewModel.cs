@@ -12,6 +12,9 @@ using Windows.Networking.NetworkOperators;
 
 namespace Lifethreadening.ViewModels
 {
+    /// <summary>
+    /// This is the viewmodel for the home view
+    /// </summary>
     public class HomeViewModel : BaseViewModel
     {
         private const int AMOUNT_OF_SLOTS = 3;
@@ -58,6 +61,10 @@ namespace Lifethreadening.ViewModels
             }
         }
 
+        /// <summary>
+        /// Creates a new home view model
+        /// </summary>
+        /// <param name="navigationService">The navigation service to be used when navigating</param>
         public HomeViewModel(NavigationService navigationService) : base(navigationService)
         {
             CreateNewGameCommand = new RelayCommand(CreateNewGame);
@@ -73,16 +80,26 @@ namespace Lifethreadening.ViewModels
             SelectedSlot = Slots.First();
         }
 
+        /// <summary>
+        /// This method creates a new game / simulation
+        /// </summary>
         private void CreateNewGame()
         {
             _navigationService.CurrentViewModel = new EcosystemSelectViewModel(_navigationService);
         }
 
+        /// <summary>
+        /// This method navigates the player to the statistics and data of a previously finished game
+        /// </summary>
+        /// <param name="sim">The finished simulation to get the data for</param>
         public void NavigateToStats(Simulation sim)
         {
             _navigationService.CurrentViewModel = new SimulationDataViewModel(_navigationService, sim);
         }
 
+        /// <summary>
+        /// This method is used to navigate to the create a new species view
+        /// </summary>
         public void NavigateToCustomSpiecies()
         {
             _navigationService.CurrentViewModel = new CustomSpeciesViewModel(_navigationService);

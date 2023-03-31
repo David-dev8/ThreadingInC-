@@ -10,6 +10,9 @@ using System.Windows.Input;
 
 namespace Lifethreadening.ViewModels
 {
+    /// <summary>
+    /// This is the view model for the ecosystem select view
+    /// </summary>
     public class EcosystemSelectViewModel : BaseViewModel
     {
         private readonly IEcosystemReader _ecosystemReader;
@@ -35,7 +38,10 @@ namespace Lifethreadening.ViewModels
         public ICommand SelectEcosystemCommand { get; set; }
         public ICommand GoBackCommand { get; set; }
 
-
+        /// <summary>
+        /// Creates a new ecosystem select view model
+        /// </summary>
+        /// <param name="navigationService">The navigation service to use when navigation</param>
         public EcosystemSelectViewModel(NavigationService navigationService) : base(navigationService)
         {
             _ecosystemReader = new DatabaseEcosystemReader();
@@ -46,6 +52,9 @@ namespace Lifethreadening.ViewModels
             GoBackCommand = new RelayCommand(GoBack);
         }
 
+        /// <summary>
+        /// This function is used to navigate to a new simulation view
+        /// </summary>
         private void SelectEcosystem()
         {
             // Set the current view model to a new instance of SimulationViewModel with the selected ecosystem
@@ -53,6 +62,9 @@ namespace Lifethreadening.ViewModels
                 0, 0, DateTime.Now, 0, "n", "name", new GridWorld(SelectedEcosystem,new RandomWeatherManager())));
         }
 
+        /// <summary>
+        /// This function is used to navigate to the home page
+        /// </summary>
         private void GoBack()
         {
             _navigationService.CurrentViewModel = new HomeViewModel(_navigationService);
