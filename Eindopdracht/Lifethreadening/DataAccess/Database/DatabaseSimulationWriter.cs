@@ -15,7 +15,6 @@ namespace Lifethreadening.DataAccess.Database
     /// </summary>
     public class DatabaseSimulationWriter : ISimulationWriter
     {
-        private static int c = 0;
         private DatabaseHelper<Simulation> _database;
 
         public DatabaseSimulationWriter()
@@ -161,12 +160,12 @@ namespace Lifethreadening.DataAccess.Database
         private DataTable CreateDataTableForAffectedStatistics(IEnumerable<Mutation> mutations, int simulationId)
         {
             DataTable newAffectedStatisticsTable = new DataTable();
-            newAffectedStatisticsTable.Columns.Add(new DataColumn("id"));
+            newAffectedStatisticsTable.Columns.Add(new DataColumn("id", typeof(int)));
             newAffectedStatisticsTable.Columns.Add(new DataColumn("statistic"));
             newAffectedStatisticsTable.Columns.Add(new DataColumn("affection"));
-            newAffectedStatisticsTable.Columns.Add(new DataColumn("mutationAllel"));
             newAffectedStatisticsTable.Columns.Add(new DataColumn("simulationId"));
             newAffectedStatisticsTable.Columns.Add(new DataColumn("mutationDate"));
+            newAffectedStatisticsTable.Columns.Add(new DataColumn("mutationAllel"));
             newAffectedStatisticsTable.Columns.Add(new DataColumn("color"));
 
             foreach (Mutation newMutation in mutations)
@@ -184,7 +183,6 @@ namespace Lifethreadening.DataAccess.Database
         {
             DataRow row = affectedStatisticsTable.NewRow();
 
-            row["id"] = c++;
             row["statistic"] = statistic.Name;
             row["affection"] = statistic.Value;
             row["mutationAllel"] = mutation.Allel;

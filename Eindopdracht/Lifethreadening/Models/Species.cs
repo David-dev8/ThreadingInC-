@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -77,6 +78,7 @@ namespace Lifethreadening.Models
         public int MaxBreedSize { get; set; }
         public int MinBreedSize { get; set; }
 
+        [JsonConstructor]
         public Species(int id, string name, string description, string scientificName, string image, int averageAge, int maxAge, int maxBreedSize, int minBreedSize, Diet diet, Statistics baseStatistics = null)
         {
             Id = id;

@@ -149,18 +149,6 @@ namespace Lifethreadening.Models
         {
         }
 
-        private TimerCallback Run(Action action)
-        {
-            // TODO werkt niet met async
-            return (state) =>
-            {
-                if(!Stopped)
-                {
-                    action();
-                }
-            };
-        }
-
         private void Step()
         {
             if(!Stopped)

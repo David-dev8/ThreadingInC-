@@ -230,8 +230,6 @@ namespace Lifethreadening.ViewModels
 
         private void OpenGeneInspector() 
         {
-            Mutation testter = new Mutation(MutationType.ADDITION, "test", "test", "terst", DateTime.Now, (s) => s.Weight = s.Weight - 5);
-            testter.Affect(SelectedAnimal);
             PopupVisible = true;
         }
     }

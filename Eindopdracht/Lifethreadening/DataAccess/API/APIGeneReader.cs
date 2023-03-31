@@ -10,13 +10,12 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.DataAccess.API
 {
-    // TODO initialize? backup? Werkt deze eigenlijk nog wel?
     /// <summary>
     /// This class is used to read genes from an API
     /// </summary>
     public class APIGeneReader : APICaller, IGeneReader
     {
-        private const string GENE_API_BASE_URL = "https://rest.uniprot.org/uniprotk/";
+        private const string GENE_API_BASE_URL = "https://rest.uniprot.org/uniprotkb/";
         private const string API_QUERY = "(organism_id%3A9606)";
         private static readonly string[] FIELDS_TO_SELECT = new string[] { "protein_name", "gene_names", "sequence" };
 

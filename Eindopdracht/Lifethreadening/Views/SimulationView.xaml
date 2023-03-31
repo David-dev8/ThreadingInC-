@@ -333,7 +333,7 @@
                                         <ColumnDefinition Width="15*"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
 
-                                    <Grid Background="{StaticResource AccentBrush}" MaxHeight="225" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
+                                    <Grid Background="{StaticResource AccentBrush}" MaxHeight="250" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"></RowDefinition>
                                             <RowDefinition Height="2*"></RowDefinition>
@@ -350,10 +350,10 @@
                                             <Run Text=" days ago"></Run>
                                         </TextBlock>
                                         <TextBlock Grid.Row="2" Grid.Column="1" FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Left">
-                                            <Run Text="{Binding Type}"></Run>
-                                            <Run Text="In gene HTTC, allel"></Run>
-                                            <Run Text="{Binding Allel}"></Run>
-                                            <Run Text=", A > C, protein"></Run>
+                                            <Run Text="{Binding Type, Converter={StaticResource EnumToStringConverter}}"></Run>
+                                            <Run Text="in allel"></Run>
+                                            <Run Text="{Binding Allel}"></Run>,
+                                            <Run Text="protein"></Run>
                                             <Run Text="{Binding ProteinBefore}"></Run>
                                             <Run Text="transformed into"></Run>
                                             <Run Text="{Binding ProteinAfter}"></Run>
