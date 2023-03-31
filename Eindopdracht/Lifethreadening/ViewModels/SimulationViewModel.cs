@@ -102,7 +102,7 @@ namespace Lifethreadening.ViewModels
         {
             get
             {
-                return Simulation.World as GridWorld;
+                return Simulation?.World as GridWorld;
             }
         }
 
@@ -136,6 +136,7 @@ namespace Lifethreadening.ViewModels
                 }
                 Simulation.PropertyChanged += Simulation_PropertyChanged;
                 Simulation.Start();
+                NotifyPropertyChanged(nameof(Simulation));
                 NotifyPropertyChanged(nameof(GridWorld));
                 HasLoaded = true;
             }

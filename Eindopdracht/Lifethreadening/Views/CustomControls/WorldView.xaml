@@ -8,14 +8,20 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
-    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters">
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    x:Name="CurrentWorldView">
     <UserControl.Resources>
         <converters:CollectionVisibilityConverter x:Key="CollectionSizeToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.Background>
-            <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/worldBackground.png" />
+            <ImageBrush ImageSource="{Binding World.Ecosystem.Image,ElementName=CurrentWorldView}" />
         </Grid.Background>
-        <Grid x:Name="Space" />
+        <Grid>
+            <Grid.Background>
+                <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/worldBackground.png" />
+            </Grid.Background>
+            <Grid x:Name="Space" />
+        </Grid>
     </Grid>
 </UserControl>

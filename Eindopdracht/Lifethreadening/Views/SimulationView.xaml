@@ -112,7 +112,7 @@
                                                 <ColumnDefinition Width="30" />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
-                                            <Image Source="/Assets/fox.png" />
+                                            <Image Source="{Binding Image,Converter={StaticResource StringToImageConverter}}" />
                                             <TextBlock Grid.Column="1" Width="Auto" TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" MaxLines="2" 
                                                ToolTipService.ToolTip="{Binding Description}" Text="{Binding Description}">
                                             </TextBlock>
@@ -124,7 +124,7 @@
                                                     <ColumnDefinition />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock Grid.Column="0">Scientific name</TextBlock>
-                                                <TextBlock Grid.Column="1" Text="{Binding ScientificName}" />
+                                                <TextBlock Grid.Column="1" TextTrimming="CharacterEllipsis" Text="{Binding ScientificName}" />
                                             </Grid>
                                             <Grid Margin="0,0,0,5">
                                                 <Grid.ColumnDefinitions>
@@ -281,14 +281,15 @@
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <TextBlock x:Name="animalName" FontSize="{StaticResource FontsizeGenetics}" FontWeight="Bold" Grid.Row="1" Grid.Column="1" Text="{Binding SelectedAnimal.Name}"></TextBlock>
+                    <TextBlock x:Name="animalName" FontSize="{StaticResource FontsizeGenetics}" FontWeight="Bold" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding SelectedAnimal.Name}"></TextBlock>
                     <TextBlock x:Name="animalAge" FontSize="{StaticResource FontsizeGenetics}" Grid.Row="2" Grid.Column="1">
                         <Run Text="Age: "></Run>
                         <Run Text="{Binding SelectedAnimal.Age}"></Run>
                         <Run Text=" Years"></Run>
                     </TextBlock>
 
-                    <ItemsControl Grid.Row="5" ItemsSource="{Binding SelectedAnimal.Statistics.Data}" Grid.Column="1" Grid.ColumnSpan="3">
+                    <TextBlock x:Name="animalStats" FontSize="{StaticResource FontsizeGenetics}" FontWeight="Bold" Grid.Row="3" Grid.Column="1">Statistics</TextBlock>
+                    <ItemsControl Grid.Row="4" ItemsSource="{Binding SelectedAnimal.Statistics.Data}" Grid.Column="1" Grid.RowSpan="2"  Grid.ColumnSpan="3">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -303,7 +304,6 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <TextBlock x:Name="animalStats" FontSize="{StaticResource FontsizeGenetics}" FontWeight="Bold" Grid.Row="4" Grid.Column="1">Statistics</TextBlock>
 
                     <ListView Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="7" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemsSource="{Binding SelectedAnimal.Mutations}">
                         <ListView.ItemContainerStyle>
@@ -368,7 +368,7 @@
                                                         <Run Text="    • "></Run>
                                                         <Run Text="{Binding Name}"></Run>
                                                         <Run Text="("></Run>
-                                                        <Run Text="{Binding Value, Converter={StaticResource StringFormatter}, ConverterParameter='+0;-#' }"></Run>
+                                                        <Run Text="{Binding Value, Converter={StaticResource StringFormatter}, ConverterParameter='{}{0:+0;-#}' }"></Run>
                                                         <Run Text=")"></Run>
                                                     </TextBlock>
                                                 </DataTemplate>

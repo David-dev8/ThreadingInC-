@@ -74,12 +74,7 @@ namespace Lifethreadening
                     // configuring the new page by passing required information as a navigation
                     // parameter
                     var navigationService = new NavigationService(rootFrame);
-                    DatabaseSimulationReader database = new DatabaseSimulationReader();
-                    Simulation s = database.ReadAll().First();
-
-                    s = database.ReadFullDetails(s);
-
-                    navigationService.CurrentViewModel = new SimulationDataViewModel(navigationService, s);
+                    navigationService.CurrentViewModel = new HomeViewModel(navigationService);
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();

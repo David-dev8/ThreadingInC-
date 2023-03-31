@@ -14,8 +14,8 @@ namespace Lifethreadening.Models
 {
     public class DatabaseSimulationElementFactory : ISimulationElementFactory
     {
-        private const double ANIMAL_CHANCE = 0.10;
-        private const double VEGETATION_CHANCE = 0.35;
+        private const double ANIMAL_CHANCE = 0.15;
+        private const double VEGETATION_CHANCE = 0.45;
         private const int STATISTICS_DEVIATION = 5;
 
         private readonly IBehaviourBuilder _behaviourBuilder;

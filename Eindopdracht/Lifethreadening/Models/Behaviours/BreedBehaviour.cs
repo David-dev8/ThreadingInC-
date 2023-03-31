@@ -67,8 +67,10 @@ namespace Lifethreadening.Models.Behaviours
                 if(_random.NextDouble() < BREED_CHANCE)
                 {
                     IEnumerable<Animal> children = _breedFactory.CreateAnimals(Animal, partner, Animal.ContextService);
+                    Location currentLocation = Animal.Location;
                     foreach(Animal child in children)
                     {
+                        child.Location = currentLocation;
                         Animal.Location.AddSimulationElement(child);
                     }
                 }

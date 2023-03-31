@@ -19,7 +19,6 @@ namespace Lifethreadening.DataAccess.Database
     /// <typeparam name="T"></typeparam>
     public class DatabaseHelper<T>
     {
-        // TODO try-catch voor elke methode toevoegen
         /// <summary>
         /// This methods executes the given query
         /// </summary>

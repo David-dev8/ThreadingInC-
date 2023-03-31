@@ -10,6 +10,7 @@ namespace Lifethreadening.Models
 {
     public class Vegetation : SimulationElement
     {
+        // Locking object for updating nutrition to prevent race conditions (for operations += and -= for example)
         private object _nutritionLocker = new object();
 
         private const int DEFAULT_PRIORITY = 2;

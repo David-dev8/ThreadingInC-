@@ -13,7 +13,8 @@ namespace Lifethreadening.Models
 {
     public class Location : Observable
     {
-        // There is no native concurrent list in C#
+        // There is no native concurrent list in C# (remove at random index, by specifying an object, is needed (.Remove))
+        // Therefore using a lock
         private object _simulationElementsLocker = new object();
         private IList<SimulationElement> _simulationElements;
 

@@ -80,7 +80,7 @@ namespace Lifethreadening.DataAccess.API
                     { "separator", SEPARATOR },
                     { "nameOptions", _options[sex] }
                 });
-            return new KeyValuePair<Sex, Queue<string>>(sex, new Queue<string>(result.Value));
+            return new KeyValuePair<Sex, Queue<string>>(sex, new Queue<string>(result.Value.Select(name => name.Split(" ")[0])));
         }
     }
 }

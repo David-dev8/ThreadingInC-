@@ -99,11 +99,8 @@ namespace Lifethreadening.ViewModels
             DataLoaded = false;
             Simulation = simulation;
             GoToHomeCommand = new RelayCommand(() => SelectHomeAsCurrentPage());
-
-            if(Simulation.PopulationManager.SpeciesCount.Count == 0)
-            {
-                InitializeData();
-            }
+            
+            InitializeData();
         }
 
         private async Task InitializeData()
@@ -122,8 +119,11 @@ namespace Lifethreadening.ViewModels
 
         private async Task TryLoad()
         {
-            ISimulationReader simulationReader = new DatabaseSimulationReader();
-            Simulation = await simulationReader.ReadFullDetails(Simulation);
+            if(Simulation.PopulationManager.SpeciesCount.Count == 0)
+            {
+                ISimulationReader simulationReader = new DatabaseSimulationReader();
+                Simulation = await simulationReader.ReadFullDetails(Simulation);
+            }
             IDictionary<Species, IDictionary<DateTime, int>> speciesCount = Simulation.PopulationManager.GetSpeciesCountPerSpecies();
             SpeciesCount = speciesCount.ToDictionary(currentSpeciesCount => currentSpeciesCount.Key, currentSpeciesCount => GetDataPoints(currentSpeciesCount.Value));
             ShannonWeaverIndices = GetDataPoints(Simulation.PopulationManager.GetShannonWeaverData());

@@ -18,6 +18,6 @@ namespace Lifethreadening.DataAccess
         /// <param name="ecosystemId">The ecosystem to get the vegitation data for</param>
         /// <param name="contextService">The contaxtservices</param>
         /// <returns>A list with all the vegitation data</returns>
-        IEnumerable<Vegetation> ReadByEcosystem(int ecosystemId, WorldContextService contextService); // TODO id is technisch gezien onnodig
+        IEnumerable<Vegetation> ReadByEcosystem(int ecosystemId, WorldContextService contextService);
     }
 }

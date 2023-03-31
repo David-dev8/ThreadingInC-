@@ -11,7 +11,6 @@ namespace Lifethreadening.Models.Disasters
     {
         private const double FIRE_DISASTER_CHANCE = 0.25;
         private const double FLOODING_DISASTER_CHANCE = 0.35;
-        private const double EARTHQUAKE_DISASTER_CHANCE = 0.55;
 
         private Random _random = new Random();
 
@@ -27,11 +26,10 @@ namespace Lifethreadening.Models.Disasters
             {
                 return new FloodingDisaster(worldContextService);
             }
-            else if(randomNumber < (total += EARTHQUAKE_DISASTER_CHANCE))
+            else
             {
                 return new EarthquakeDisaster(worldContextService);
             }
-            return null; // TODO throw exception? ook bij animal?
         }
     }
 }

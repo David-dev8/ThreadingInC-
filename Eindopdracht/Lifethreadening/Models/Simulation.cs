@@ -20,11 +20,11 @@ using Windows.UI.Composition;
 namespace Lifethreadening.Models
 {
     // TODO dispose timers
-    // TODO lock mutations
     public class Simulation: Observable
     {
         private Disaster _mostRecentDisaster; 
-        private const double SPAWN_CHANCE = 0.10;
+        private const double INITIAL_SPAWN_CHANCE = 0.10;
+        private const double RUNNING_SPAWN_CHANCE = 0.85;
         private const double DISASTER_CHANCE = 1;
         private Random _random = new Random();
         private World _world;
@@ -44,7 +44,7 @@ namespace Lifethreadening.Models
         private static readonly TimeSpan _stepInterval = new TimeSpan(1, 0, 0, 0); // TODO static conventions
         private static readonly TimeSpan _disasterInterval = new TimeSpan(50, 0, 0, 0); // TODO change interval en kans op disaster and disaster intensity
         private static readonly TimeSpan _mutationInterval = new TimeSpan(5, 0, 0, 0);
-        private static readonly TimeSpan _spawnInterval = new TimeSpan(20, 0, 0, 0);
+        private static readonly TimeSpan _spawnInterval = new TimeSpan(12, 0, 0, 0);
 
 
         private TimeSpan _simulationSpeed = new TimeSpan(1, 0, 0, 0);
@@ -141,7 +141,6 @@ namespace Lifethreadening.Models
             _mutationFactory = new RandomMutationFactory();
             _worldStateWriter = new JSONWorldStateWriter();
             _simulationWriter = new DatabaseSimulationWriter();
-            // TODO exceptions tijdens timer
             SetUpTimers();
         }
 
@@ -183,10 +182,12 @@ namespace Lifethreadening.Models
         {
             if(!Stopped)
             { 
-                if(_random.NextDouble() < SPAWN_CHANCE)
+                if(_random.NextDouble() < RUNNING_SPAWN_CHANCE)
                 {
-                    SimulationElement element = _elementFactory.CreateRandomElement(World.ContextService);
-                    World.GetLocations().GetRandom().AddSimulationElement(element);
+                    SimulationElement element = _elementFactory.CreateAnimal(World.ContextService);
+                    Location randomLocation = World.GetLocations().GetRandom();
+                    element.Location = randomLocation;
+                    randomLocation.AddSimulationElement(element);
                 }
             }
         }
@@ -218,9 +219,9 @@ namespace Lifethreadening.Models
             if(!IsGameOver)
             {
                 Filename = await _worldStateWriter.Write(Name, World);
-                //Stop(); // TODO
+                Stop(); // TODO
                 await _simulationWriter.Write(this);
-                //Start();
+                Start();
             }
             else
             {
@@ -258,7 +259,6 @@ namespace Lifethreadening.Models
 
         private void SetTimerIntervals()
         {
-            // TODO
             ChangeTimer(_stepTimer, _stepInterval);
             ChangeTimer(_disasterTimer, _disasterInterval);
             ChangeTimer(_spawnTimer, _spawnInterval);
@@ -294,7 +294,7 @@ namespace Lifethreadening.Models
         {
             foreach(Location location in World.GetLocations())
             {
-                if(_random.NextDouble() < SPAWN_CHANCE)
+                if(_random.NextDouble() < INITIAL_SPAWN_CHANCE)
                 {
                     SimulationElement element = _elementFactory.CreateRandomElement(World.ContextService);
                     if(element != null)

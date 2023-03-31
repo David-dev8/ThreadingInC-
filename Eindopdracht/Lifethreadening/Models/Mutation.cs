@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
@@ -30,6 +31,7 @@ namespace Lifethreadening.Models
             _hasAffected = false;
         }
 
+        [JsonConstructor]
         public Mutation(MutationType type, string allel, string proteinBefore, string proteinAfter, DateTime mutationDate, IList<StatisticInfo> affected)
         {
             Type = type;

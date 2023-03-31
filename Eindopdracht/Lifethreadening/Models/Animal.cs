@@ -12,7 +12,8 @@ namespace Lifethreadening.Models
 {
     public class Animal: SimulationElement
     {
-        private object _hpLocker = new object(); // TODO
+        // Locking objects for updating energy and hp to prevent race conditions (for operations += and -= for example)
+        private object _hpLocker = new object();
         private object _energyLocker = new object();
 
         private Random _random = new Random();
@@ -87,7 +88,8 @@ namespace Lifethreadening.Models
         public Statistics Statistics { get; set; }
         [JsonIgnore]
         public Behaviour Behaviour { get; set; }
-        [JsonIgnore] // TODO
+        // TODO
+        [JsonInclude]
         public IList<Mutation> Mutations { get; set; } = new List<Mutation>();
 
         public Animal(string name, Sex sex, Species species, Statistics statistics, WorldContextService contextService) : base(DEFAULT_PRIORITY, species.Image, contextService)
@@ -184,7 +186,6 @@ namespace Lifethreadening.Models
                 Location.RemoveSimulationElement(this);
                 Location = path.GetLocationAt(Math.Min(GetMaxMovementMagntitude(), path.Length));
                 Location.AddSimulationElement(this);
-                // TODO levert dit problemen op met saven omdat het niet gelockt is?
             }
         }
 
