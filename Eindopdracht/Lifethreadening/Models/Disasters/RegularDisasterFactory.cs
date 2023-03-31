@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models.Disasters
 {
+    /// <summary>
+    /// This class is used to create regular disasters
+    /// </summary>
     public class RegularDisasterFactory : IDisasterFactory
     {
         private const double FIRE_DISASTER_CHANCE = 0.25;
@@ -15,6 +18,11 @@ namespace Lifethreadening.Models.Disasters
 
         private Random _random = new Random();
 
+        /// <summary>
+        /// This method tandomly creates a new disaster
+        /// </summary>
+        /// <param name="worldContextService">Rhe context service</param>
+        /// <returns>A random diaster for the world</returns>
         public Disaster CreateDisaster(WorldContextService worldContextService)
         {
             double randomNumber = _random.NextDouble();

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models.Disasters
 {
+    /// <summary>
+    /// This class is used to contain data about flooding disasters
+    /// </summary>
     public class FloodingDisaster : Disaster
     {
         private const string DESCRIPTION = "Flooding";
@@ -20,6 +23,10 @@ namespace Lifethreadening.Models.Disasters
         private Random _random = new Random();
         private int _totalPushes;
 
+        /// <summary>
+        /// Creates a new flooding disaster
+        /// </summary>
+        /// <param name="contextService">The contextservice</param>
         public FloodingDisaster(WorldContextService contextService) : base(DESCRIPTION, contextService)
         {
             _totalPushes = _random.Next(MIN_TOTAL_WAVE_PUSHES, MAX_TOTAL_WAVE_PUSHES);
@@ -59,6 +66,11 @@ namespace Lifethreadening.Models.Disasters
             }
         }
 
+        /// <summary>
+        /// This method damages game elements based on the given damage 
+        /// </summary>
+        /// <param name="simulationElement">A list of aplicable game elements</param>
+        /// <param name="damage">The damage that the flooding causes</param>
         private void Damage(SimulationElement simulationElement, int damage)
         {
             if(simulationElement is Animal animal)
@@ -71,6 +83,10 @@ namespace Lifethreadening.Models.Disasters
             }
         }
 
+        /// <summary>
+        /// This method calculates how fast the flood is dissapating
+        /// </summary>
+        /// <returns>A value showing how much of the flood has dissapated</returns>
         private double CalculateRunOff()
         {
             return Math.Sqrt(_totalPushes);

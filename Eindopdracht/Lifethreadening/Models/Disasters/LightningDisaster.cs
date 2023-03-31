@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models.Disasters
 {
+    /// <summary>
+    /// This class is used to contain data about lightning disasters
+    /// </summary>
     public class LightningDisaster : Disaster
     {
         private const string DESCRIPTION = "Thunderstorm";
@@ -19,6 +22,10 @@ namespace Lifethreadening.Models.Disasters
         private Random _random = new Random();
         private int _sparks;
 
+        /// <summary>
+        /// Creates a new lightning disaster
+        /// </summary>
+        /// <param name="contextService">The data context</param>
         public LightningDisaster(WorldContextService contextService) : base(DESCRIPTION, contextService)
         {
             _sparks = _random.Next(MIN_SPARKS, MAX_SPARKS);
@@ -36,6 +43,11 @@ namespace Lifethreadening.Models.Disasters
             }
         }
 
+        /// <summary>
+        /// This method damages lightningstruck animals and vegitation
+        /// </summary>
+        /// <param name="simulationElement">The element to damage</param>
+        /// <param name="damage">The amount of damage</param>
         private void Damage(SimulationElement simulationElement, int damage)
         {
             if(simulationElement is Animal animal)
@@ -53,6 +65,10 @@ namespace Lifethreadening.Models.Disasters
             return $"LightningDisaster. Initated at: {DateInitiated:d}. Lightning activity level: {CalculateActivityLevel():0.00}.";
         }
 
+        /// <summary>
+        /// this method calculates how active the storm is
+        /// </summary>
+        /// <returns>A double indicating how active the storm is</returns>
         private double CalculateActivityLevel()
         {
             return Math.Log(_sparks, ACTIVITY_LEVEL_LOG_BASE);
