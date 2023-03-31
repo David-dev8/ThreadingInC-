@@ -21,6 +21,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Threading.Tasks;
+using Windows.UI.ViewManagement;
 
 namespace Lifethreadening
 {
@@ -52,6 +53,10 @@ namespace Lifethreadening
             // just ensure that the window is active
             if (rootFrame == null)
             {
+            
+                ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.FullScreen;
+            
+
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
 

@@ -45,8 +45,8 @@ namespace Lifethreadening.DataAccess.Database
 
             IEnumerable<SqlParameter> parameters = new List<SqlParameter>
             {
-                new SqlParameter("@dateStarted", simulation.StartDate.ToString()),
-                new SqlParameter("@dateEnded", simulation.World.CurrentDate.ToString()),
+                new SqlParameter("@dateStarted", simulation.StartDate),
+                new SqlParameter("@dateEnded", simulation.World.CurrentDate),
                 new SqlParameter("@ecosystemId", simulation.World.Ecosystem.Id),
                 new SqlParameter("@name", simulation.Name),
                 new SqlParameter("@fileNameSaveSlot", simulation.Filename)
