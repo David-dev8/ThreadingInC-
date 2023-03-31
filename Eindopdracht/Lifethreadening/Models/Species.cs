@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace Lifethreadening.Models
 {
-    public class Species: NamedEntity
+    public class Species: ChartNamedEntity
     {
         public int Id { get; set; }
 
@@ -79,10 +79,9 @@ namespace Lifethreadening.Models
         public int MinBreedSize { get; set; }
 
         [JsonConstructor]
-        public Species(int id, string name, string description, string scientificName, string image, int averageAge, int maxAge, int maxBreedSize, int minBreedSize, Diet diet, Statistics baseStatistics = null)
+        public Species(int id, string name, string description, string scientificName, string image, int averageAge, int maxAge, int maxBreedSize, int minBreedSize, Diet diet, Statistics baseStatistics = null) : base(name)
         {
             Id = id;
-            Name = name;
             Description = description;
             ScientificName = scientificName;
             Image = image;
@@ -92,13 +91,6 @@ namespace Lifethreadening.Models
             MinBreedSize = minBreedSize;
             Diet = diet;
             BaseStatistics = baseStatistics;
-        }
-
-        public Species(int id, string name, string image)
-        {
-            Id = id;
-            Name = name;
-            Image = image;
         }
 
         public override bool Equals(object obj)

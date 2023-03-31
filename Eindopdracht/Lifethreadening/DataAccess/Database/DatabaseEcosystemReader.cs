@@ -14,7 +14,6 @@ namespace Lifethreadening.DataAccess.Database
     /// </summary>
     public class DatabaseEcosystemReader : IEcosystemReader
     {
-        private static readonly string DATABASE_TABLE_NAME = "Ecosystem";
         private DatabaseHelper<Ecosystem> _database;
 
         public DatabaseEcosystemReader()
@@ -24,7 +23,7 @@ namespace Lifethreadening.DataAccess.Database
 
         public IEnumerable<Ecosystem> ReadAll()
         {
-            string query = "SELECT * FROM " + DATABASE_TABLE_NAME;
+            string query = "SELECT * FROM Ecosystem";
             return _database.Read(CreateEcosystem, query, System.Data.CommandType.Text);
         }
 

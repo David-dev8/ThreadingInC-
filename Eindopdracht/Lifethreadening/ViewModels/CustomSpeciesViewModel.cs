@@ -62,37 +62,6 @@ namespace Lifethreadening.ViewModels
             }
         }
 
-
-
-        private List<string> _errors;
-        public List<string> Errors
-        {
-            get 
-            {
-                return _errors;
-            }
-            set 
-            {
-                _errors = value; 
-                NotifyPropertyChanged();
-            }
-        }
-
-
-        private bool _hasErrors = false;
-        public bool HasErrors 
-        {
-            get 
-            {
-                return _hasErrors;
-            }
-            set 
-            {
-                _hasErrors = value; 
-                NotifyPropertyChanged();
-            }
-        }
-
         private int _pointsLeft;
         public int PointsLeft 
         {

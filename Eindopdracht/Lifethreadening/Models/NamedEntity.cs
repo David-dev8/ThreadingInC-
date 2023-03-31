@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lifethreadening.Models
 {
-    // TODO elke klasse constructor bekijken
-    public class NamedEntity : Observable // TODO elke klasse met een name property moet hiervan overerven
+    public class ChartNamedEntity : Observable
     {
         private string _name;
 
@@ -25,5 +24,9 @@ namespace Lifethreadening.Models
             }
         }
 
+        public ChartNamedEntity(string name)
+        {
+            Name = name;
+        }
     }
 }

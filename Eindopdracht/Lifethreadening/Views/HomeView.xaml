@@ -121,7 +121,9 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Style="{StaticResource BaseTextBlockStyle}" FontSize="20" Grid.Column="1" Text="Past games"></TextBlock>
+                <Grid Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center">
+                    <TextBlock VerticalAlignment="Center" Style="{StaticResource BaseTextBlockStyle}" FontSize="20"  Text="Past games"></TextBlock>
+                </Grid>
 
                 <ListView Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3" Background="Azure" ItemsSource="{Binding PastGames}" SelectedValue="{Binding SelectedPastGame, Mode=TwoWay}">
                     <ListView.ItemContainerStyle>

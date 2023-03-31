@@ -22,7 +22,6 @@ namespace Lifethreadening.DataAccess.Database
             { "Carnivore", Diet.CARNIVORE },
             { "Omnivore", Diet.OMNIVORE }
         };
-        private static readonly string DATABASE_TABLE_NAME = "Species";
         private DatabaseHelper<Species> _database;
 
         public DatabaseSpeciesReader()
@@ -32,7 +31,7 @@ namespace Lifethreadening.DataAccess.Database
 
         public IEnumerable<Species> ReadAll()
         {
-            string query = "SELECT * FROM " + DATABASE_TABLE_NAME;
+            string query = "SELECT * FROM Species";
             return _database.Read(CreateSpecies, query, CommandType.Text);
         }
 

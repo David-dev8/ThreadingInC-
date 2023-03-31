@@ -12,9 +12,8 @@ namespace Lifethreadening.DataAccess.Database
     /// <summary>
     /// This class saves data about species using the database as storage
     /// </summary>
-    public class DatabaseSpeciesWriter : ISpeciesWriter // TODO alle constante db namen moeten weg en gwn in de query genoemd worden
+    public class DatabaseSpeciesWriter : ISpeciesWriter
     {
-        private static readonly string DATABASE_TABLE_NAME = "Species";
         private DatabaseHelper<Species> _database;
 
         public DatabaseSpeciesWriter()
@@ -24,7 +23,7 @@ namespace Lifethreadening.DataAccess.Database
 
         public void Create(Species species, int ecosystemId)
         {
-            string query = "INSERT INTO " + DATABASE_TABLE_NAME + "(name, image, description, scientificName, averageAge, maxAge, maxBreedSize, minBreedSize, diet, aggression, detection, selfDefence, intelligence, metabolicRate, resilience, size, weight, speed) OUTPUT INSERTED.ID VALUES (@name, @image, @description, @scientificName, @averageAge, @maxAge, @maxBreedSize, @minBreedSize, @diet, @aggression, @detection, @selfDefence, @intelligence, @metabolicRate, @resilience, @size, @weight, @speed)";
+            string query = "INSERT INTO Species(name, image, description, scientificName, averageAge, maxAge, maxBreedSize, minBreedSize, diet, aggression, detection, selfDefence, intelligence, metabolicRate, resilience, size, weight, speed) OUTPUT INSERTED.ID VALUES (@name, @image, @description, @scientificName, @averageAge, @maxAge, @maxBreedSize, @minBreedSize, @diet, @aggression, @detection, @selfDefence, @intelligence, @metabolicRate, @resilience, @size, @weight, @speed)";
             
             IEnumerable<SqlParameter> parameters = new List<SqlParameter>
             {
@@ -49,11 +48,11 @@ namespace Lifethreadening.DataAccess.Database
             };
             int speciesId = (int)_database.ExecuteQueryScalar(query, CommandType.Text, parameters);
 
-            query = "INSERT INTO [EcosystemSpecies] (ecosystemId, speciesId) VALUES (@eco, @spec)";
+            query = "INSERT INTO [EcosystemSpecies] (ecosystemId, speciesId) VALUES (@ecosystemId, @speciesId)";
             parameters = new List<SqlParameter>
             {
-                new SqlParameter("@eco", ecosystemId),
-                new SqlParameter("@spec", speciesId)
+                new SqlParameter("@ecosystemId", ecosystemId),
+                new SqlParameter("@speciesId", speciesId)
             };
 
             _database.ExecuteQuery(query, CommandType.Text, parameters);

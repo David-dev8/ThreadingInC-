@@ -1,4 +1,5 @@
 ﻿using Lifethreadening.Base;
+using Lifethreadening.DataAccess;
 using Lifethreadening.DataAccess.Database;
 using Lifethreadening.ExtensionMethods;
 using Lifethreadening.Models;
@@ -84,6 +85,8 @@ namespace Lifethreadening.ViewModels
 
         public void NavigateToStats(Simulation simulation)
         {
+            ISimulationReader simulationReader = new DatabaseSimulationReader();
+            simulation = simulationReader.ReadFullDetails(simulation);
             _navigationService.CurrentViewModel = new SimulationDataViewModel(_navigationService, simulation);
         }
 

@@ -21,7 +21,7 @@ namespace Lifethreadening.ViewModels
         {
             get
             {
-                return new Dictionary<StatisticInfo, int>();
+                return Simulation.MutationManager.Analyze();
             }
         }
 

@@ -37,7 +37,6 @@ namespace Lifethreadening.DataAccess.Database
             await UpdatePopulationCount(simulation);
         }
 
-        // TODO ASYNC of SYNC
         private void CreateSimulation(Simulation simulation)
         {
             string query = "INSERT INTO Simulation(dateStarted, dateEnded, ecosystemId, name, fileNameSaveSlot) OUTPUT INSERTED.ID " + 
@@ -77,7 +76,7 @@ namespace Lifethreadening.DataAccess.Database
             await UpdateAffectedStatistics(simulation);
         }
 
-        private void DeleteMutations(Simulation simulation) // TODO deze wel async?
+        private void DeleteMutations(Simulation simulation)
         {
             string query = "DELETE FROM Mutation WHERE simulationId = @simulationId";
 
@@ -140,7 +139,7 @@ namespace Lifethreadening.DataAccess.Database
             await CreateAffectedStatistics(simulation);
         }
 
-        private void DeleteAffectedStatistics(Simulation simulation) // TODO deze wel async?
+        private void DeleteAffectedStatistics(Simulation simulation)
         {
             string query = "DELETE FROM MutationAffectedStatistic WHERE simulationId = @simulationId";
 
@@ -199,7 +198,7 @@ namespace Lifethreadening.DataAccess.Database
             await CreatePopulationCount(simulation);
         }
 
-        private void DeletePopulationCount(Simulation simulation) // TODO deze wel async?
+        private void DeletePopulationCount(Simulation simulation)
         {
             string query = "DELETE FROM SimulationPopulation WHERE simulationId = @simulationId";
 

@@ -26,7 +26,7 @@ namespace Lifethreadening.Views.CustomControls
     public sealed partial class LineChartWithMultipleLines : UserControl
     {
         public static readonly DependencyProperty ItemsProperty =
-           DependencyProperty.Register("Items", typeof(IDictionary<NamedEntity, IDictionary<DateTime, int>>), typeof(LineChartWithMultipleLines), 
+           DependencyProperty.Register("Items", typeof(IDictionary<ChartNamedEntity, IDictionary<DateTime, int>>), typeof(LineChartWithMultipleLines), 
                new PropertyMetadata(null, new PropertyChangedCallback(InitializeFill)));
 
         private static readonly IList<string> COLOR_HEX_CODE = new List<string>() // TODO code conventies voor bijvoorbeeld static fields niet consistent
@@ -37,12 +37,12 @@ namespace Lifethreadening.Views.CustomControls
 
         private Queue<Color> _colors;
 
-        public IDictionary<NamedEntity, IDictionary<DateTime, int>> Items
+        public IDictionary<ChartNamedEntity, IDictionary<DateTime, int>> Items
         {
             get 
             { 
                 var dictionary = (IDictionary<Species, IDictionary<DateTime, int>>)GetValue(ItemsProperty);
-                return dictionary.ToDictionary(k => (NamedEntity)k.Key, v => v.Value);
+                return dictionary.ToDictionary(k => (ChartNamedEntity)k.Key, v => v.Value);
             }
             set 
             { 
@@ -65,7 +65,7 @@ namespace Lifethreadening.Views.CustomControls
         private void FillLineChart()
         {
             lineChart.Series.Clear();
-            foreach (KeyValuePair<NamedEntity, IDictionary<DateTime, int>> item in Items)
+            foreach (KeyValuePair<ChartNamedEntity, IDictionary<DateTime, int>> item in Items)
             {
                 LineSeries lineSeries = new LineSeries();
                 lineSeries.DependentValuePath = "Value";
