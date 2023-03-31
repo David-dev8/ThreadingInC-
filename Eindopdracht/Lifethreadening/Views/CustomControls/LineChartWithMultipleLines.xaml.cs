@@ -102,7 +102,7 @@ namespace Lifethreadening.Views.CustomControls
         {
             if(_colors.Count == 0)
             {
-                foreach (string hexCode in colorHexCode)
+                foreach (string hexCode in _colorHexCode)
                 {
                     _colors.Enqueue(Microsoft.Toolkit.Uwp.Helpers.ColorHelper.ToColor(hexCode));
                 }
