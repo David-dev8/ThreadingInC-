@@ -43,7 +43,6 @@ namespace Lifethreadening.Models
         /// <param name="currentDate">The date of the animal collection gathering</param>
         public void RegisterAnimals(IEnumerable<Animal> animals, DateTime currentDate)
         {
-            // TODO already exists
             try
             {
                 if(!SpeciesCount.ContainsKey(currentDate))

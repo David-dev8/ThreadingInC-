@@ -170,7 +170,6 @@ namespace Lifethreadening.ViewModels
             Simulation = await _simulationReader.ReadFullDetails(simulation);
             Simulation.World = await _worldStateReader.Read(Simulation.Filename);
             await Simulation.Setup(false);
-            // TODO try catch stop simulation
         }
 
         /// <summary>

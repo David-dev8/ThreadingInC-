@@ -50,7 +50,6 @@ namespace Lifethreadening.Models
         private static readonly TimeSpan _mutationInterval = new TimeSpan(5, 0, 0, 0);
         private static readonly TimeSpan _spawnInterval = new TimeSpan(12, 0, 0, 0);
 
-
         private TimeSpan _simulationSpeed = new TimeSpan(1, 0, 0, 0);
 
         public int Id { get; set; }
